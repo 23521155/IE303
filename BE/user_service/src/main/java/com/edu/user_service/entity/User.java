@@ -7,19 +7,13 @@ import lombok.*;
 @Table(name = "users")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    private String username;
 
-    @Column(unique = true, nullable = false)
-    private String email;
-
-    private String password;
 }

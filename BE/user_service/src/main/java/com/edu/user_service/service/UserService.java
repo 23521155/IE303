@@ -14,16 +14,13 @@ public class UserService {
 
     public User createUser(CreateUserRequest request) {
 
-        if(userRepository.existsByEmail(request.getEmail())){
-            throw new RuntimeException("Email already exists");
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new RuntimeException("Người dùng đã tồn tại");
         }
 
-        User user = User.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .build();
-
+        User user = new User();
+        user.setUsername(request.getUsername());
         return userRepository.save(user);
+
     }
 }
