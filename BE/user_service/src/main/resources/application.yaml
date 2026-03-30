@@ -1,6 +1,10 @@
+server:
+    port: 8081
+
 spring:
     application:
         name: user_service
+
     datasource:
         url: jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/user_db?sslmode=require
         username: neondb_owner

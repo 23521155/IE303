@@ -1,3 +1,5 @@
+server:
+  port: 8080
 spring:
   application:
     name: auth_service
@@ -10,7 +12,6 @@ spring:
       maximum-pool-size: 5
       minimum-idle: 1
       idle-timeout: 30000
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,3 +20,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+jwt:
+  secret: FizzCoConCaFizzCoConCaFizzCoConCa
+  expiration: 86400000

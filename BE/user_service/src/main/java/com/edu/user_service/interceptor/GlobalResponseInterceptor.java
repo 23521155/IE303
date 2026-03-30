@@ -63,7 +63,6 @@ public class GlobalResponseInterceptor implements ResponseBodyAdvice<Object> {
 
 
         if(body instanceof ApiResponse<?> apiResponse){
-
             result.put("statusCode", apiResponse.getStatusCode());
             result.put("message", apiResponse.getMessage());
             result.put("data", apiResponse.getData());

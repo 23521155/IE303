@@ -51,6 +51,7 @@ public class GlobalResponseInterceptor implements ResponseBodyAdvice<Object> {
 
         if(body instanceof  ErrorResponse errorResponse)
         {
+            result.put("Success", false);
             result.put("statusCode", errorResponse.getStatusCode());
             result.put("message", errorResponse.getMessage());
             result.put("path", servletRequest.getRequestURI());
@@ -72,6 +73,7 @@ public class GlobalResponseInterceptor implements ResponseBodyAdvice<Object> {
             result.put("data", body);
 
         }
+        result.put("success", true);
         result.put("path", servletRequest.getRequestURI());
         result.put("timestamp", Instant.now());
         result.put("responseTime", duration + " ms");
