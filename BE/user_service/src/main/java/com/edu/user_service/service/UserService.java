@@ -14,12 +14,15 @@ public class UserService {
 
     public User createUser(CreateUserRequest request) {
 
-        if (userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByName(request.getName())) {
             throw new RuntimeException("Người dùng đã tồn tại");
         }
 
         User user = new User();
-        user.setUsername(request.getUsername());
+        user.setName(request.getName());
+        System.out.println(request.getCurrent());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setCurrentStatus(request.getCurrent());
         return userRepository.save(user);
 
     }
@@ -28,4 +31,6 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
     }
+
+
 }
