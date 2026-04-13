@@ -206,7 +206,8 @@ export default function Header() {
                                                 {t('loggedInAs')}
                                             </p>
                                             <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
-                                                {user?.email}
+                                                {/*{user?.email}*/}
+                                                Phi
                                             </p>
                                         </div>
                                         <div className="py-1">
