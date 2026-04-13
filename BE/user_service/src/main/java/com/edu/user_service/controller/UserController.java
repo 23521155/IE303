@@ -34,9 +34,7 @@ public class UserController {
         String userId = authentication.getName();
         log.info(userId);
         Long id = Long.parseLong(userId);
-        User user = userService.getUserById(id);
-        return user;
-
+        return userService.getUserById(id);
     }
 
 }

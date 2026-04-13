@@ -1,9 +1,9 @@
 server:
-    port: 8081
+    port: 8082
 
 spring:
     application:
-        name: user_service
+        name: user-service
 
     datasource:
         url: jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/user_db?sslmode=require
@@ -23,3 +23,8 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
                 format_sql: true
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://localhost:8761/eureka

@@ -2,6 +2,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/src/store/authStore';
+import { BE_URL } from '@/src/utils/constans';
 
 export function useMe() {
     const { user, setUser } = useAuthStore();
@@ -10,7 +11,7 @@ export function useMe() {
         console.log('userMe ', user);
         if (user) return; // đã có rồi thì không gọi lại
 
-        fetch('http://localhost:8081/api/users/me', {
+        fetch(`${BE_URL}/api/users/me`, {
             credentials: 'include', // ← quan trọng để gửi cookie!
         })
             .then((res) => res.json())

@@ -6,6 +6,7 @@ import { Mail, Lock, LogIn, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { loginAction } from '@/src/actions/authActions';
 import { useAuthStore } from '@/src/store/authStore';
+import { BE_URL } from '@/src/utils/constans';
 
 export function Login() {
     const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ export function Login() {
         e.preventDefault();
         const res = await loginAction({ email, password });
         if (res.success) {
-            const meRes = await fetch('http://localhost:8081/api/users/me', {
+            const meRes = await fetch(`${BE_URL}/api/users/me`, {
                 credentials: 'include',
             });
             const user = await meRes.json().then((data) => data.data);

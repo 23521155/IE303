@@ -1,1 +1,1 @@
-export const BE_AUTH_URL = 'http://localhost:8080'
+export const BE_URL = 'http://localhost:8080';
