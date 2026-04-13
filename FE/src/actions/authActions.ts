@@ -1,11 +1,11 @@
 'use server';
 
-import { BE_AUTH_URL } from '@/src/utils/constans';
 import { cookies } from 'next/headers';
+import { BE_URL } from '@/src/utils/constans';
 
 export const loginAction = async (data: { email: string; password: string }) => {
     try {
-        const res = await fetch(`${BE_AUTH_URL}/api/auth/login`, {
+        const res = await fetch(`${BE_URL}/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ export const registerAction = async (data: {
     password: string;
 }) => {
     try {
-        const res = await fetch(`${BE_AUTH_URL}/api/auth/register`, {
+        const res = await fetch(`${BE_URL}/api/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
