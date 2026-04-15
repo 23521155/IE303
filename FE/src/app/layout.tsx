@@ -10,16 +10,16 @@ export const metadata: Metadata = {
     },
     description: 'Nền tảng thi thử online miễn phí đa môn với hệ thống luyện đề trắc nghiệm, chấm điểm tự động và phân tích kết quả giúp bạn cải thiện điểm số nhanh chóng.',
     keywords: [
-        "thi thử online",
-        "luyện đề trắc nghiệm",
-        "thi thử miễn phí",
-        "ôn thi online",
-        "đề thi trắc nghiệm",
-        "thi thử đa môn",
-        "luyện đề THPT",
-        "thi thử tiếng Nhật",
-        "luyện thi JLPT",
-        "đề thi JLPT online"
+        "luyện thi IT Passport",
+        "đề thi IT Passport tiếng Việt",
+        "luyện thi FE",
+        "đề thi FE tiếng Việt",
+        "thi thử IT Passport online",
+        "thi thử FE online",
+        "chứng chỉ IT Nhật Bản",
+        "sát hạch VITEC",
+        "giải đề FE có lời giải",
+        "từ vựng IT Passport"
     ],
     openGraph: {
         title: 'Thi thử online free & Luyện đề, chấm điểm tự động | ITShiken',
