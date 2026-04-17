@@ -25,7 +25,30 @@ export interface Category {
     name: string;
 }
 
-export const examService = {
+class ExamService {
+    private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
+        const url = `${BE_URL}${endpoint}`;
+
+        try {
+            const response = await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...options?.headers,
+                },
+                ...options,
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error(`API request failed for ${endpoint}:`, error);
+            throw error;
+        }
+    }
+
     async getAllExams(): Promise<Exam[]> {
         const response = await fetch(`${BE_URL}/api/exams`);
 
@@ -34,7 +57,7 @@ export const examService = {
         }
 
         return response.json();
-    },
+    }
 
     async getAllCategories(): Promise<Category[]> {
         const response = await fetch(`${BE_URL}/api/categories`);
@@ -45,4 +68,15 @@ export const examService = {
 
         return response.json();
     }
+
+    async getExamById(id: string): Promise<Exam | null> {
+        try {
+            return await this.request<Exam>(`/api/exams/${id}`);
+        } catch (error) {
+            console.error(`Exam with id ${id} not found:`, error);
+            return null;
+        }
+    }
 }
+
+export const examService = new ExamService();
