@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Search, Filter, Clock, Users, Star, BookOpen, ArrowRight } from 'lucide-react';
 import { exams, categories } from '../data/mockData';
+import type {Locale} from '@/src/utils/i18n'
 
 export function ExamList({ t, lang }: { t: any; lang: string }) {
     const [activeCategory, setActiveCategory] = useState('all');
@@ -12,8 +13,8 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
     const filteredExams = exams.filter((exam) => {
         const matchesCategory = activeCategory === 'all' || exam.category === activeCategory;
 
-        const title = typeof exam.title === 'string' ? exam.title : exam.title[language];
-        const desc = typeof exam.description === 'string' ? exam.description : exam.description[language];
+        const title = typeof exam.title === 'string' ? exam.title : exam.title[language as Locale];
+        const desc = typeof exam.description === 'string' ? exam.description : exam.description[language as Locale];
 
         const matchesSearch =
             title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -90,7 +91,7 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
                                     <div className="absolute inset-0 bg-blue-900/10 group-hover:bg-transparent transition-colors z-10"></div>
                                     <img
                                         src={exam.image}
-                                        alt={typeof exam.title === 'string' ? exam.title : exam.title[lang]}
+                                        alt={typeof exam.title === 'string' ? exam.title : exam.title[language as Locale]}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                     <div className="absolute top-3 left-3 z-20">
@@ -104,7 +105,7 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
                                 <div className="p-5 flex flex-col flex-grow">
                                     <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                                         <Link href={`/exams/${exam.id}`}>
-                                            {typeof exam.title === 'string' ? exam.title : exam.title[language]}
+                                            {typeof exam.title === 'string' ? exam.title : exam.title[language as Locale]}
                                         </Link>
                                     </h3>
 
