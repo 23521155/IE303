@@ -64,28 +64,6 @@
     <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/blogs"/>
   </url>
 
-  <!-- EXAM DETAIL 1 -->
-  <url>
-    <loc>https://itshiken.io.vn/vi/exams/jlpt-n2-choukai-test-1</loc>
-    <lastmod>2026-04-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
 
-    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi/exams/jlpt-n2-choukai-test-1"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en/exams/jlpt-n2-choukai-test-1"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/exams/jlpt-n2-choukai-test-1"/>
-  </url>
-
-  <!-- EXAM DETAIL 2 -->
-  <url>
-    <loc>https://itshiken.io.vn/vi/exams/fundamental-information-technology-engineer-fe</loc>
-    <lastmod>2026-04-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-
-    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi/exams/fundamental-information-technology-engineer-fe"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en/exams/fundamental-information-technology-engineer-fe"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/exams/fundamental-information-technology-engineer-fe"/>
-  </url>
 
 </urlset>
