@@ -1,33 +1,65 @@
 "use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { Clock, Users, Star, BookOpen, AlertCircle, FileText, CheckCircle2, ChevronLeft, ArrowRight } from "lucide-react";
-import { exams, categories } from "../data/mockData";
+import { examService, Exam } from "../services/examService";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function ExamDetail() {
   const { id } = useParams();
   const router = useRouter();
   const { t, language } = useLanguage();
-  const exam = exams.find(e => e.id === id);
+  const [exam, setExam] = useState<Exam | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!exam) {
+  useEffect(() => {
+    const fetchExam = async () => {
+      try {
+        setLoading(true);
+        const examData = await examService.getExamById(id as string);
+        setExam(examData);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch exam');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchExam();
+    }
+  }, [id]);
+
+  if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-[#121212] transition-colors duration-300">
-        <AlertCircle className="h-16 w-16 text-blue-500 mb-4" />
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t('notFoundExam')}</h2>
-        <p className="text-slate-600 dark:text-slate-400 mb-6">{t('examNotFoundDesc')}</p>
-        <button onClick={() => router.push("/exams")} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl font-medium transition-colors">
-          {t('backToList')}
-        </button>
-      </div>
+        <div className="flex flex-col items-center justify-center min-h-[400px]">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-4"></div>
+          <p className="text-slate-500">{t('loading') || 'Đang tải dữ liệu...'}</p>
+        </div>
+    );
+  }
+
+  if (error || !exam) {
+    return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-[#121212] p-6 text-center">
+          <AlertCircle className="h-16 w-16 text-red-500 mb-4" />
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t('notFoundExam') || "Không tìm thấy đề thi"}</h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md">
+            {error ? "Có lỗi xảy ra khi kết nối tới máy chủ. Vui lòng thử lại sau." : (t('examNotFoundDesc') || "Đề thi này không tồn tại hoặc đã bị gỡ bỏ.")}
+          </p>
+          <button onClick={() => router.push("/exams")} className="bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition-all">
+            {t('backToList') || "Quay lại danh sách"}
+          </button>
+        </div>
     );
   }
 
   return (
     <div className="bg-slate-50 dark:bg-[#121212] min-h-screen py-10 transition-colors duration-300">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <button onClick={() => router.back()} className="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium mb-6 transition-colors group">
           <ChevronLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" /> {t('back')}
         </button>
@@ -43,7 +75,7 @@ export function ExamDetail() {
               <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 leading-tight">{typeof exam.title === 'string' ? exam.title : exam.title[language as keyof typeof exam.title]}</h1>
             </div>
           </div>
-          
+
           <div className="p-6 sm:p-10">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10 border-b border-slate-100 dark:border-slate-800 pb-10">
               <div className="flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-[#222] rounded-2xl transition-colors duration-300">
@@ -101,14 +133,14 @@ export function ExamDetail() {
             </div>
 
             <div className="flex justify-center">
-              <Link 
+              <Link
                 href={`/take-exam/${exam.id}`}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-5 rounded-2xl font-bold text-xl transition-all shadow-lg shadow-blue-200 dark:shadow-none hover:shadow-xl hover:-translate-y-1 w-full sm:w-auto text-center flex items-center justify-center gap-3"
               >
                 {t('startDoingExam')} <ArrowRight className="h-6 w-6" />
               </Link>
             </div>
-            
+
           </div>
         </div>
       </div>
