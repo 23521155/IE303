@@ -1,14 +1,39 @@
 'use client';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import Link from 'next/link';
-import { Search, Filter, Clock, Users, Star, BookOpen, ArrowRight } from 'lucide-react';
-import { exams, categories } from '../data/mockData';
+import {ArrowRight, BookOpen, Clock, Filter, Search, Star, Users} from 'lucide-react';
+import {Category, Exam, examService} from '../services/examService';
 import type {Locale} from '@/src/utils/i18n'
 
-export function ExamList({ t, lang }: { t: any; lang: string }) {
+export function ExamList({t, lang}: { t: any; lang: string }) {
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
+    const [exams, setExams] = useState<Exam[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const language = lang;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const [examsData, categoriesData] = await Promise.all([
+                    examService.getAllExams(),
+                    examService.getAllCategories()
+                ]);
+                setExams(examsData);
+                setCategories([{id: "all", name: "Tất cả"}, ...categoriesData]);
+            } catch (err) {
+                setError("Failed to load exam data");
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
 
     const filteredExams = exams.filter((exam) => {
         const matchesCategory = activeCategory === 'all' || exam.category === activeCategory;
@@ -21,6 +46,29 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
             desc.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
     });
+
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-4"></div>
+                <p className="text-slate-500">{t.loading || 'Đang tải dữ liệu...'}</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="p-10 text-center">
+                <p className="text-red-500 mb-4">❌ Không thể tải danh sách đề thi.</p>
+                <button
+                    onClick={() => window.location.reload()}
+                    className="bg-slate-800 text-white px-4 py-2 rounded-lg"
+                >
+                    Tải lại trang
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-slate-50 dark:bg-[#121212] min-h-screen pt-10 pb-20 transition-colors duration-300">
@@ -60,8 +108,7 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
                                             : 'bg-slate-50 dark:bg-[#2a2a2a] text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#333] border border-slate-200 dark:border-slate-700'
                                     }`}
                                 >
-                                    {/*{t(`cat_${category.id}`)}*/}
-                                    hi
+                                    {t[`cat_${category.id}`] || category.name || 'Danh mục'}
                                 </button>
                             ))}
                         </div>
@@ -96,8 +143,7 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
                                     />
                                     <div className="absolute top-3 left-3 z-20">
                                         <span className="bg-white/95 dark:bg-black/80 backdrop-blur-sm text-blue-700 dark:text-blue-400 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
-                                            {/*{t(`cat_${exam.category}`)}*/}
-                                            hi
+                                            {t[`cat_${exam.category}`] || exam.category || 'Mới'}
                                         </span>
                                     </div>
                                 </div>
@@ -146,9 +192,9 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
                         <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
                             <Search className="h-10 w-10 text-blue-400 dark:text-blue-500" />
                         </div>
-                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t('noResults')}</h3>
+                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t.noResults}</h3>
                         <p className="text-slate-500 dark:text-slate-400 mb-6">
-                            {t('noResultsDesc')} "{searchQuery}".
+                            {t.noResultsDesc} "{searchQuery}".
                         </p>
                         <button
                             onClick={() => {
@@ -157,7 +203,7 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
                             }}
                             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-medium transition-colors"
                         >
-                            {t('clearFilter')}
+                            {t.clearFilter}
                         </button>
                     </div>
                 )}
