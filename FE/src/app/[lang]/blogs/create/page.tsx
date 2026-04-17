@@ -1,5 +1,5 @@
-import { CreateBlog } from "../../../views/CreateBlog";
+import { CreateBlog } from '@/src/views/CreateBlog';
 
 export default function Page() {
-  return <CreateBlog />;
+    return <CreateBlog />;
 }

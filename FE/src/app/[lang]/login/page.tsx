@@ -1,5 +1,5 @@
-import { Login } from "../../views/Login";
+import { Login } from '@/src/views/Login';
 
 export default function Page() {
-  return <Login />;
+    return <Login />;
 }
