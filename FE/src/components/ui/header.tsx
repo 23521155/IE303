@@ -2,19 +2,43 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/src/contexts/LanguageContext';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useMe } from '@/src/hooks/useMe';
 import { logoutAction } from '@/src/actions/authActions';
 import Link from 'next/link';
-import { BookOpen, ChevronDown, Globe, LogOut, Menu, Moon, Settings, Sun, User, X } from 'lucide-react';
+import { ChevronDown, Globe, LogOut, Menu, Moon, Settings, Sun, User, X } from 'lucide-react';
 import { ImageWithFallback } from '@/src/components/figma/ImageWithFallback';
+import Image from 'next/image';
+import { Button } from '@/src/components/ui/button';
 
-export default function Header() {
+const NAV_ITEMS = [
+    {
+        label: 'home',
+        path: '/',
+    },
+    {
+        label: 'exams',
+        path: '/exams',
+    },
+    {
+        label: 'materials',
+        path: '/materials',
+    },
+    {
+        label: 'flashcards',
+        path: '/flashcards',
+    },
+    {
+        label: 'blog',
+        path: '/blogs',
+    },
+];
+
+export default function Header({ t, lang }: { t: any; lang: string }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
-    const { language, setLanguage, t } = useLanguage();
     const langDropdownRef = useRef<HTMLDivElement>(null);
 
     // Theme state
@@ -64,87 +88,92 @@ export default function Header() {
     ];
 
     const { user, setUser } = useMe();
-    console.log('header ', user);
     const handleLogout = async () => {
         await logoutAction();
         setUser(null);
     };
+
+    const router = useRouter();
+    const handleChangeLang = (newLang: string) => {
+        const segments = pathname.split('/');
+
+        // segments = ["", "vi", "exams"]
+        segments[1] = newLang;
+
+        const newPath = segments.join('/');
+        router.push(newPath);
+    };
+
     return (
-        <header className="bg-white dark:bg-[#1a1a1a] border-b border-blue-100 dark:border-slate-800 sticky top-0 z-50 shadow-sm transition-colors duration-300">
+        <header className="bg-background border-b border-border sticky top-0 z-50 shadow-sm transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
-                    <Link
-                        href="/"
-                        className="flex items-center gap-2 text-blue-700 dark:text-blue-500 hover:text-blue-800 dark:hover:text-blue-400 transition-colors"
-                    >
-                        <BookOpen className="h-8 w-8" />
-                        <span className="font-bold text-2xl tracking-tight">
-                            ThiThu<span className="text-blue-500 dark:text-blue-400">Pro</span>
-                        </span>
+                    {/* Logo */}
+                    <Link href="/">
+                        <Image src={'/itShikenLogo.png'} alt={'logo của ITShiken'} height={65} width={200} />
                     </Link>
 
-                    <nav className="hidden md:flex items-center gap-8">
-                        <Link
-                            href="/"
-                            className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-                        >
-                            {t('home')}
-                        </Link>
-                        <Link
-                            href="/exams"
-                            className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-                        >
-                            {t('exams')}
-                        </Link>
-                        <Link
-                            href="/materials"
-                            className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-                        >
-                            {t('materials')}
-                        </Link>
-                        <Link
-                            href="/flashcards"
-                            className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-                        >
-                            {t('flashcards')}
-                        </Link>
-                        <Link
-                            href="/blogs"
-                            className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-                        >
-                            {t('blog')}
-                        </Link>
+                    {/* Nav items */}
+
+                    <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+                        {NAV_ITEMS.map((item) => (
+                            <Link
+                                key={item.label}
+                                href={`/${lang}/${item.path}`}
+                                className=" text-secondary
+                                                cursor-pointer
+                                                dark:text-foreground
+                                                hover:text-primary
+                                                relative
+                                                font-medium
+                                                transition-colors
+                                                after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0
+                                                after:bg-primary after:transition-all hover:after:w-full"
+                            >
+                                {t[item.label as keyof typeof t]}
+                            </Link>
+                        ))}
                     </nav>
 
-                    <div className="hidden md:flex items-center gap-2 relative">
+                    {/* Setting buttons */}
+
+                    <div className="hidden lg:flex items-center gap-2 relative">
                         {/* Language Switcher */}
                         <div className="relative" ref={langDropdownRef}>
-                            <button
+                            <Button
+                                variant={'ghost'}
                                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                                className="flex items-center gap-1 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300 font-medium text-sm"
+                                className="flex items-center gap-1 p-2 rounded-full
+                                               hover:bg-muted
+                                               transition-colors
+                                               text-secondary
+                                               dark:text-foreground
+                                               font-medium text-sm"
                             >
                                 <Globe className="w-5 h-5" />
-                                <span className="uppercase">{language}</span>
-                            </button>
+                                <span className="uppercase">{t.language}</span>
+                            </Button>
 
                             {isLangDropdownOpen && (
                                 <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden z-50">
                                     <div className="py-1">
-                                        {languages.map((lang) => (
-                                            <button
-                                                key={lang.code}
+                                        {languages.map((language) => (
+                                            <p
+                                                key={language.code}
                                                 onClick={() => {
-                                                    setLanguage(lang.code as any);
+                                                    handleChangeLang(language.code);
                                                     setIsLangDropdownOpen(false);
                                                 }}
-                                                className={`w-full text-left px-4 py-2 text-sm ${
-                                                    language === lang.code
-                                                        ? 'text-blue-600 dark:text-blue-400 font-semibold bg-blue-50 dark:bg-blue-900/20'
-                                                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-                                                }`}
+                                                className={`w-full text-center px-4 py-2 text-sm cursor-pointer
+                                                    ${
+                                                        lang === language.code
+                                                            ? 'text-primary dark:text-blue-400 font-semibold bg-blue-50 dark:bg-blue-900/20'
+                                                            : 'text-secondary dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                                    }
+                                                `}
                                             >
-                                                {lang.label}
-                                            </button>
+                                                {t[language.code as keyof typeof t]}
+                                            </p>
                                         ))}
                                     </div>
                                 </div>
@@ -152,27 +181,22 @@ export default function Header() {
                         </div>
 
                         {/* Theme Toggle */}
-                        <button
+                        <Button
+                            variant={'ghost'}
                             onClick={() => setIsDarkMode(!isDarkMode)}
                             className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300 mr-2"
                             aria-label="Toggle dark mode"
                         >
                             {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                        </button>
+                        </Button>
 
                         {!user ? (
                             <>
-                                <Link
-                                    href="/login"
-                                    className="text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 px-4 py-2 rounded-lg font-medium transition-colors inline-block text-center"
-                                >
-                                    {t('login')}
+                                <Link href="/login">
+                                    <Button variant={'outline'}>{t.login}</Button>
                                 </Link>
-                                <Link
-                                    href="/register"
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition-colors shadow-md shadow-blue-200 dark:shadow-none inline-block text-center"
-                                >
-                                    {t('register')}
+                                <Link href="/register">
+                                    <Button>{t.register}</Button>
                                 </Link>
                             </>
                         ) : (
@@ -202,9 +226,7 @@ export default function Header() {
                                 {isDropdownOpen && (
                                     <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden z-50">
                                         <div className="px-4 py-3 border-b border-slate-50 dark:border-slate-800">
-                                            <p className="text-sm text-slate-500 dark:text-slate-400">
-                                                {t('loggedInAs')}
-                                            </p>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">{t.loggedInAs}</p>
                                             <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
                                                 {/*{user?.email}*/}
                                                 Phi
@@ -215,7 +237,7 @@ export default function Header() {
                                                 href="/profile"
                                                 className="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400"
                                             >
-                                                <User className="w-4 h-4 mr-2" /> {t('profile')}
+                                                <User className="w-4 h-4 mr-2" /> {t.profile}
                                             </Link>
                                             <Link
                                                 href="/settings"
@@ -229,7 +251,7 @@ export default function Header() {
                                                 onClick={handleLogout}
                                                 className="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-left"
                                             >
-                                                <LogOut className="w-4 h-4 mr-2" /> {t('logout')}
+                                                <LogOut className="w-4 h-4 mr-2" /> {t.logout}
                                             </button>
                                         </div>
                                     </div>
@@ -238,28 +260,28 @@ export default function Header() {
                         )}
                     </div>
 
-                    <div className="flex items-center gap-2 md:hidden">
-                        <button
-                            onClick={() => {
-                                const nextLang = language === 'vi' ? 'en' : language === 'en' ? 'ja' : 'vi';
-                                setLanguage(nextLang);
-                            }}
+                    <div className="flex items-center gap-2 lg:hidden">
+                        <Button
+                            variant={'ghost'}
+                            onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
                             className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300 font-medium text-xs uppercase"
                         >
-                            {language}
-                        </button>
-                        <button
+                            {t.language}
+                        </Button>
+                        <Button
+                            variant="ghost"
                             onClick={() => setIsDarkMode(!isDarkMode)}
                             className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300"
                         >
                             {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                            variant="ghost"
                             className="text-slate-600 dark:text-slate-300 p-2"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                         >
                             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -272,35 +294,35 @@ export default function Header() {
                         className="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
-                        {t('home')}
+                        {t.home}
                     </Link>
                     <Link
                         href="/exams"
                         className="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
-                        {t('exams')}
+                        {t.exams}
                     </Link>
                     <Link
                         href="/materials"
                         className="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
-                        {t('materials')}
+                        {t.materials}
                     </Link>
                     <Link
                         href="/flashcards"
                         className="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
-                        {t('flashcards')}
+                        {t.flashcards}
                     </Link>
                     <Link
                         href="/blogs"
                         className="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
-                        {t('blog')}
+                        {t.blog}
                     </Link>
                     <div className="pt-4 border-t border-blue-50 dark:border-slate-800 flex flex-col gap-3">
                         {!user ? (
@@ -310,14 +332,14 @@ export default function Header() {
                                     className="text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 px-4 py-2 rounded-lg font-medium w-full text-center block"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
-                                    {t('login')}
+                                    {t.login}
                                 </Link>
                                 <Link
                                     href="/register"
                                     className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium w-full text-center shadow-sm block"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
-                                    {t('register')}
+                                    {t.register}
                                 </Link>
                             </>
                         ) : (
@@ -344,13 +366,13 @@ export default function Header() {
                                     className="flex items-center px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
-                                    <User className="w-5 h-5 mr-3 text-slate-400" /> {t('profile')}
+                                    <User className="w-5 h-5 mr-3 text-slate-400" /> {t.profile}
                                 </Link>
                                 <button
                                     onClick={handleLogout}
                                     className="flex items-center px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-medium text-left"
                                 >
-                                    <LogOut className="w-5 h-5 mr-3 text-red-400" /> {t('logout')}
+                                    <LogOut className="w-5 h-5 mr-3 text-red-400" /> {t.logout}
                                 </button>
                             </>
                         )}

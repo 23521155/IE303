@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import { LanguageProvider } from '../contexts/LanguageContext';
-import { Layout } from '../components/Layout';
-import '../styles/index.css';
+
+import '@/src/styles/index.css';
+import {Inter } from "next/font/google";
+import Header from '@/src/components/ui/header';
+import Footer from '@/src/components/ui/footer';
+import type {Locale} from '@/src/utils/i18n'
+import { getDictionary } from '@/src/utils/dictionaries';
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 export const metadata: Metadata = {
     title: {
@@ -41,7 +45,7 @@ export const metadata: Metadata = {
     alternates: {
         canonical: `${baseUrl}`,
     },
-    metadataBase: new URL(`${baseUrl}`),
+    metadataBase: new URL(baseUrl || 'http://localhost:3000'),
 };
 
 export const viewport : Viewport = {
@@ -49,17 +53,26 @@ export const viewport : Viewport = {
     initialScale: 1,
 }
 
-export default function RootLayout({
-  children,
+const inter = Inter({
+    subsets: ["latin", "vietnamese"],
+    weight: ["300", "400", "500", "600", "700"],
+});
+
+
+export default async function RootLayout({
+  children, params,
 }: Readonly<{
   children: React.ReactNode;
+    params: { lang: string };
 }>) {
+    const { lang } = await params;
+ const t = await getDictionary(lang as Locale)
   return (
     <html lang="en">
-      <body>
-        <LanguageProvider>
-          <Layout>{children}</Layout>
-        </LanguageProvider>
+      <body className={`${inter.className} antialiased`}>
+      <Header t={t} lang={lang}/>
+      {children}
+      <Footer t={t} lang={lang}/>
       </body>
     </html>
   );
