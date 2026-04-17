@@ -1,11 +1,14 @@
+server:
+  port: 8084
+
 spring:
   application:
     name: exam-service
 
   datasource:
     url: jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech/exam_db?sslmode=require&channelBinding=require
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: ${DB_USERNAME:neondb_owner}
+    password: ${DB_PASSWORD:npg_kFcsqpABNu18}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 5
