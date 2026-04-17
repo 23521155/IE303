@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+
+  <!-- HOME -->
+  <url>
+    <loc>https://itshiken.io.vn/vi</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+
+    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja"/>
+  </url>
+
+  <!-- EXAMS -->
+  <url>
+    <loc>https://itshiken.io.vn/vi/exams</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+
+    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi/exams"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en/exams"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/exams"/>
+  </url>
+
+  <!-- MATERIALS -->
+  <url>
+    <loc>https://itshiken.io.vn/vi/materials</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+
+    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi/materials"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en/materials"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/materials"/>
+  </url>
+
+  <!-- FLASHCARDS -->
+  <url>
+    <loc>https://itshiken.io.vn/vi/flashcards</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+
+    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi/flashcards"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en/flashcards"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/flashcards"/>
+  </url>
+
+  <!-- BLOGS -->
+  <url>
+    <loc>https://itshiken.io.vn/vi/blogs</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+
+    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi/blogs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en/blogs"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/blogs"/>
+  </url>
+
+  <!-- EXAM DETAIL 1 -->
+  <url>
+    <loc>https://itshiken.io.vn/vi/exams/jlpt-n2-choukai-test-1</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+
+    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi/exams/jlpt-n2-choukai-test-1"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en/exams/jlpt-n2-choukai-test-1"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/exams/jlpt-n2-choukai-test-1"/>
+  </url>
+
+  <!-- EXAM DETAIL 2 -->
+  <url>
+    <loc>https://itshiken.io.vn/vi/exams/fundamental-information-technology-engineer-fe</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+
+    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi/exams/fundamental-information-technology-engineer-fe"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en/exams/fundamental-information-technology-engineer-fe"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/exams/fundamental-information-technology-engineer-fe"/>
+  </url>
+
+</urlset>
