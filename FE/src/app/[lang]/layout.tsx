@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-
+import { LanguageProvider } from '@/src/contexts/LanguageContext';
 import '@/src/styles/index.css';
 import {Inter } from "next/font/google";
 import Header from '@/src/components/ui/header';
@@ -70,9 +70,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-      <Header t={t} lang={lang}/>
-      {children}
-      <Footer t={t} lang={lang}/>
+          <LanguageProvider>
+              <Header t={t} lang={lang}/>
+              {children}
+              <Footer t={t} lang={lang}/>
+          </LanguageProvider>
       </body>
     </html>
   );
