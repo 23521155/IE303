@@ -4,7 +4,7 @@ import { BlogList } from '@/src/views/BlogList';
 
 
 export default async function Page({params}:{params:{lang: string}})  {
-    const {lang} = await params;
+    const {lang} =  params;
     const t = getDictionary(lang as Locale)
   return <BlogList t={t} lang={lang} />;
 }
