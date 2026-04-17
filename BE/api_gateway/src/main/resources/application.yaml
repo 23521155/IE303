@@ -25,6 +25,19 @@ spring:
               predicates:
                 - Path=/api/exams/**, /api/categories/**
 
+          globalcors:
+            corsConfigurations:
+              '[/**]':
+                allowedOrigins: "http://localhost:3000"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders: "*"
+                allowCredentials: true
+
 eureka:
   client:
     service-url:
