@@ -1,5 +1,5 @@
-import { ForgotPassword } from "../../views/ForgotPassword";
+import { ForgotPassword } from '@/src/views/ForgotPassword';
 
 export default function Page() {
-  return <ForgotPassword />;
+    return <ForgotPassword />;
 }

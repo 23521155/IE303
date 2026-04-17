@@ -1,5 +1,5 @@
-import { Register } from "../../views/Register";
+import { Register } from '@/src/views/Register';
 
 export default function Page() {
-  return <Register />;
+    return <Register />;
 }
