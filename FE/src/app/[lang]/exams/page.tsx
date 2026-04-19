@@ -4,7 +4,7 @@ import type {Locale} from '@/src/utils/i18n'
 
 export default async function Page({params}:{params: Promise<{lang: string}>}) {
     const {lang} = await params;
-    const t = getDictionary(lang as Locale)
+    const t = await getDictionary(lang as Locale)
 
     return <ExamList t={t} lang={lang}  />;
 }

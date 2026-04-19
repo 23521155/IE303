@@ -109,7 +109,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
-                    <Link href="/">
+                    <Link href={`/${lang}/`}>
                         <Image src={'/itShikenLogo.png'} alt={'logo của ITShiken'} height={65} width={200} />
                     </Link>
 
@@ -192,10 +192,10 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
 
                         {!user ? (
                             <>
-                                <Link href="/login">
+                                <Link href={`/${lang}/login`}>
                                     <Button variant={'outline'}>{t.login}</Button>
                                 </Link>
-                                <Link href="/register">
+                                <Link href={`/${lang}/register`}>
                                     <Button>{t.register}</Button>
                                 </Link>
                             </>
