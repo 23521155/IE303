@@ -1,34 +1,74 @@
 "use client";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle2, XCircle, Award, BarChart3, Clock, RotateCcw, Home, FileText } from "lucide-react";
-import { exams, getExamQuestions } from "../data/mockData";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function ExamResult() {
   const { id } = useParams();
   const { t, language } = useLanguage();
-  const exam = exams.find(e => e.id === id);
-  const questions = getExamQuestions((id as string) || "");
-  
-  // Provide mock data if accessed directly without state
-  const mockAnswers = Array.from({ length: 10 }).reduce<Record<string, number>>((acc, _, i) => ({ ...acc, [`q${i + 1}`]: Math.floor(Math.random() * 4) }), {});
-  
-  // In Next.js App Router, passing state via router isn't available. We mock or load it.
-  const answers = typeof window !== 'undefined' && window.sessionStorage.getItem('examAnswers') 
-    ? JSON.parse(window.sessionStorage.getItem('examAnswers')!) 
-    : mockAnswers;
+  const [exam, setExam] = useState<any>(null);
+  const [score, setScore] = useState(0);
+  const [combinedResults, setCombinedResults] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  let correctCount = 0;
-  const detailedResults = questions.map(q => {
-    const isCorrect = answers[q.id] === q.correctAnswer;
-    if (isCorrect) correctCount++;
-    return { ...q, isCorrect, userAnswer: answers[q.id] };
-  });
+  useEffect(() => {
+    const fetchResultAndQuestions = async () => {
+      try {
+        setLoading(true);
 
-  const score = Math.round((correctCount / questions.length) * 100);
-  
-  if (!exam) return <div className="p-8 text-center text-slate-700 dark:text-slate-300">{t('examResultNotFound')}</div>;
+        const resultRes = await fetch(`http://localhost:8080/api/attempts/${id}`, {
+          credentials: 'include'
+        });
+
+        if (!resultRes.ok) throw new Error("Không tìm thấy kết quả thi");
+        const attemptData = await resultRes.json();
+
+        const examId = attemptData.exam.id;
+
+        const questionsRes = await fetch(`http://localhost:8080/api/exams/${examId}/questions`, {
+          credentials: 'include'
+        });
+
+        if (!questionsRes.ok) throw new Error("Không tải được chi tiết câu hỏi");
+        const questionsData = await questionsRes.json();
+
+        const userAnswers = attemptData.answers;
+
+        const mergedData = questionsData.map((originalQuestion: any) => {
+          const matchedAnswer = userAnswers.find((ans: any) => ans.questionId === originalQuestion.id);
+
+          return {
+            ...originalQuestion,
+            userAnswer: matchedAnswer ? matchedAnswer.selectedOption : null,
+            isCorrect: matchedAnswer ? matchedAnswer.isCorrect : false
+          };
+        });
+
+        setExam(attemptData.exam);
+        setScore(attemptData.score);
+        setCombinedResults(mergedData);
+
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchResultAndQuestions();
+    }
+  }, [id]);
+
+  if (loading) return <div className="p-8 text-center text-slate-700 dark:text-slate-300">Đang tải kết quả...</div>;
+  if (error || !exam) return <div className="p-8 text-center text-red-500">{error || t('examResultNotFound')}</div>;
+
+  const totalQuestions = combinedResults.length;
+  const correctCount = combinedResults.filter(q => q.isCorrect).length;
+  const wrongCount = totalQuestions - correctCount;
 
   return (
     <div className="bg-slate-50 dark:bg-[#121212] min-h-screen py-10 transition-colors duration-300">
@@ -73,7 +113,7 @@ export function ExamResult() {
                 </div>
                 <div className="bg-slate-50 dark:bg-[#222] p-6 rounded-2xl flex flex-col items-center justify-center border border-slate-100 dark:border-slate-800 transition-colors duration-300">
                   <XCircle className="h-10 w-10 text-red-500 mb-3" />
-                  <span className="text-3xl font-bold text-slate-900 dark:text-white">{questions.length - correctCount}</span>
+                  <span className="text-3xl font-bold text-slate-900 dark:text-white">{wrongCount}</span>
                   <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{t('wrongAnswers')}</span>
                 </div>
               </div>
@@ -107,7 +147,7 @@ export function ExamResult() {
           </div>
           
           <div className="p-6 sm:p-8 space-y-10">
-            {detailedResults.map((q, index) => (
+            {combinedResults.map((q, index) => (
               <div key={q.id} className="border-b border-slate-100 dark:border-slate-800 pb-10 last:border-0 last:pb-0">
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex gap-3 items-start">
                   <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
@@ -119,7 +159,7 @@ export function ExamResult() {
                 </h3>
                 
                 <div className="space-y-3 pl-11">
-                  {q.options.map((option, optIndex) => {
+                  {q.options.map((option: string, optIndex: number) => {
                     const isSelected = q.userAnswer === optIndex;
                     const isCorrectOption = q.correctAnswer === optIndex;
                     

@@ -25,12 +25,29 @@ export interface Category {
     name: string;
 }
 
+export interface Question {
+    id: string;
+    text: string;
+    options: string[];
+    correctAnswer: number;
+    questionOrder?: number;
+}
+
+export interface Question {
+    id: string;
+    text: string;
+    options: string[];
+    correctAnswer: number;
+    questionOrder?: number;
+}
+
 class ExamService {
     private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
         const url = `${BE_URL}${endpoint}`;
 
         try {
             const response = await fetch(url, {
+                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                     ...options?.headers,
@@ -76,6 +93,17 @@ class ExamService {
             console.error(`Exam with id ${id} not found:`, error);
             return null;
         }
+    }
+
+    async getExamQuestions(examId: string): Promise<Question[]> {
+        return this.request<Question[]>(`/api/exams/${examId}/questions`);
+    }
+
+    async submitExam(examId: string, payload: any) {
+        return this.request<{attemptId: string}>(`/api/exams/${examId}/submit`, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+        });
     }
 }
 
