@@ -68,9 +68,14 @@ public class LearningMaterialService {
         materialRepository.deleteById(id);
     }
 
-    public Page<LearningMaterialDto> searchByTitle(String title, Pageable pageable) {
-        return materialRepository.findByTitleContainingIgnoreCase(title, pageable)
-                .map(LearningMaterialDto::fromEntity);
+    public Page<LearningMaterialDto> searchByTitle(String title, String category, Pageable pageable) {
+        if (category == null || category.isBlank() || "all".equalsIgnoreCase(category)) {
+            return materialRepository.findByTitleContainingIgnoreCase(title, pageable)
+                    .map(LearningMaterialDto::fromEntity);
+        } else {
+            return materialRepository.findByTitleContainingIgnoreCaseAndCategory(title, category, pageable)
+                    .map(LearningMaterialDto::fromEntity);
+        }
     }
 
     public Page<LearningMaterialDto> findByType(String type, Pageable pageable) {

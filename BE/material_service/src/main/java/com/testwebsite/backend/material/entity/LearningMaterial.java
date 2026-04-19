@@ -27,8 +27,7 @@ public class LearningMaterial {
     @Column(length = 500)
     private String imageUrl;
 
-    @Lob
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(length = 500)

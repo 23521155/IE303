@@ -48,8 +48,9 @@ public class LearningMaterialController {
     @GetMapping("/search")
     public ResponseEntity<Page<LearningMaterialDto>> search(
             @RequestParam String title,
+            @RequestParam(required = false) String category,
             Pageable pageable) {
-        return ResponseEntity.ok(materialService.searchByTitle(title, pageable));
+        return ResponseEntity.ok(materialService.searchByTitle(title, category, pageable));
     }
 
     @GetMapping("/type/{type}")

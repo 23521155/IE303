@@ -1,0 +1,12 @@
+com\testwebsite\backend\material\entity\LearningMaterial$LearningMaterialBuilder.class
+com\testwebsite\backend\material\entity\LearningMaterial.class
+com\testwebsite\backend\material\repository\LearningMaterialRepository.class
+com\testwebsite\backend\material\dto\LearningMaterialDto$LearningMaterialDtoBuilder.class
+com\testwebsite\backend\material\controller\MaterialFileController.class
+com\testwebsite\backend\material\MaterialApplication.class
+com\testwebsite\backend\material\exception\ResourceNotFoundException.class
+com\testwebsite\backend\material\controller\LearningMaterialController.class
+com\testwebsite\backend\material\config\CorsConfig$1.class
+com\testwebsite\backend\material\dto\LearningMaterialDto.class
+com\testwebsite\backend\material\config\CorsConfig.class
+com\testwebsite\backend\material\service\LearningMaterialService.class

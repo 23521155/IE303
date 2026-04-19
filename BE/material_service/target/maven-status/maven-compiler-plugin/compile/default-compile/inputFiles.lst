@@ -1,7 +1,9 @@
-E:\DoAn\Java\TestWEB\IE303-develop\BE\material_service\src\main\java\com\testwebsite\backend\material\controller\LearningMaterialController.java
-E:\DoAn\Java\TestWEB\IE303-develop\BE\material_service\src\main\java\com\testwebsite\backend\material\dto\LearningMaterialDto.java
-E:\DoAn\Java\TestWEB\IE303-develop\BE\material_service\src\main\java\com\testwebsite\backend\material\entity\LearningMaterial.java
-E:\DoAn\Java\TestWEB\IE303-develop\BE\material_service\src\main\java\com\testwebsite\backend\material\exception\ResourceNotFoundException.java
-E:\DoAn\Java\TestWEB\IE303-develop\BE\material_service\src\main\java\com\testwebsite\backend\material\MaterialApplication.java
-E:\DoAn\Java\TestWEB\IE303-develop\BE\material_service\src\main\java\com\testwebsite\backend\material\repository\LearningMaterialRepository.java
-E:\DoAn\Java\TestWEB\IE303-develop\BE\material_service\src\main\java\com\testwebsite\backend\material\service\LearningMaterialService.java
+E:\DoAn\SEO\PJ\IE303\BE\material_service\src\main\java\com\testwebsite\backend\material\config\CorsConfig.java
+E:\DoAn\SEO\PJ\IE303\BE\material_service\src\main\java\com\testwebsite\backend\material\controller\LearningMaterialController.java
+E:\DoAn\SEO\PJ\IE303\BE\material_service\src\main\java\com\testwebsite\backend\material\controller\MaterialFileController.java
+E:\DoAn\SEO\PJ\IE303\BE\material_service\src\main\java\com\testwebsite\backend\material\dto\LearningMaterialDto.java
+E:\DoAn\SEO\PJ\IE303\BE\material_service\src\main\java\com\testwebsite\backend\material\entity\LearningMaterial.java
+E:\DoAn\SEO\PJ\IE303\BE\material_service\src\main\java\com\testwebsite\backend\material\exception\ResourceNotFoundException.java
+E:\DoAn\SEO\PJ\IE303\BE\material_service\src\main\java\com\testwebsite\backend\material\MaterialApplication.java
+E:\DoAn\SEO\PJ\IE303\BE\material_service\src\main\java\com\testwebsite\backend\material\repository\LearningMaterialRepository.java
+E:\DoAn\SEO\PJ\IE303\BE\material_service\src\main\java\com\testwebsite\backend\material\service\LearningMaterialService.java
