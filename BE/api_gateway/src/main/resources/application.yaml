@@ -23,7 +23,7 @@ spring:
             - id: exam_service
               uri: lb://exam-service
               predicates:
-                - Path=/api/exams/**, /api/categories/**
+                - Path=/api/exams/**, /api/categories/**, /api/attempts/**
 
           globalcors:
             corsConfigurations:
