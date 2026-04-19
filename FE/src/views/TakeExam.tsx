@@ -2,69 +2,134 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Clock, AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Check } from "lucide-react";
-import { exams, getExamQuestions } from "../data/mockData";
+import { examService } from "../services/examService";
+import type { Exam, Question } from "../services/examService";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function TakeExam() {
   const { id } = useParams();
   const router = useRouter();
   const { t, language } = useLanguage();
-  const exam = exams.find(e => e.id === id);
-  const questions = getExamQuestions((id as string) || "");
+
+  const [exam, setExam] = useState<Exam | null>(null);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
-  const [timeLeft, setTimeLeft] = useState((exam?.duration || 60) * 60);
+  const [timeLeft, setTimeLeft] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const examId = Array.isArray(id) ? id[0] : id;
+  const draftKey = `exam_draft_${examId}`;
+
   useEffect(() => {
-    if (!exam) return;
-    
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        if (!examId) return;
+
+        const [examData, questionsData] = await Promise.all([
+          examService.getExamById(examId),
+          examService.getExamQuestions(examId)
+        ]);
+
+        if (examData) {
+          setExam(examData);
+          setQuestions(questionsData);
+
+          const savedTime = localStorage.getItem(`timer_${examId}`);
+          if (savedTime) {
+            setTimeLeft(parseInt(savedTime, 10));
+          } else {
+            setTimeLeft(examData.duration * 60);
+          }
+
+          const savedDraft = localStorage.getItem(draftKey);
+          if (savedDraft) {
+            try {
+              setAnswers(JSON.parse(savedDraft));
+            } catch (e) {
+              console.error("Lỗi khi đọc dữ liệu nháp", e);
+            }
+          }
+        } else {
+          setError("Exam not found");
+        }
+      } catch (err) {
+        setError("Failed to load exam data");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [examId, draftKey]);
+
+  useEffect(() => {
+    if (!exam || loading || timeLeft <= 0 || isSubmitting) return;
+
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
+      setTimeLeft((prevTime) => {
+        const newTime = prevTime - 1;
+        localStorage.setItem(`timer_${examId}`, newTime.toString());
+
+        if (newTime <= 0) {
           clearInterval(timer);
           handleSubmit();
-          return 0;
         }
-        return prev - 1;
+
+        return newTime;
       });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [exam]);
+  }, [exam, loading, isSubmitting]);
 
-  // Anti-exit warning
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (Object.keys(answers).length > 0 && !isSubmitting) {
-        e.preventDefault();
-        e.returnValue = ''; // Required for some browsers to show prompt
-      }
-    };
-    
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [answers, isSubmitting]);
+  // // Anti-exit warning
+  // useEffect(() => {
+  //   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+  //     if (Object.keys(answers).length > 0 && !isSubmitting) {
+  //       e.preventDefault();
+  //       e.returnValue = ''; // Required for some browsers to show prompt
+  //     }
+  //   };
+  //
+  //   window.addEventListener('beforeunload', handleBeforeUnload);
+  //   return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  // }, [answers, isSubmitting]);
 
   const handleAnswer = (questionId: string, optionIndex: number) => {
-    setAnswers(prev => ({
-      ...prev,
+    const newAnswers = {
+      ...answers,
       [questionId]: optionIndex
-    }));
+    };
+    setAnswers(newAnswers);
+    localStorage.setItem(draftKey, JSON.stringify(newAnswers));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      router.push(`/results/${id}`);
-      // Note: Passing state directly via router in Next.js App Router is not supported the same way.
-      // We'll rely on global state/local storage or adjust if needed.
-      if (typeof window !== 'undefined') {
-        window.sessionStorage.setItem('examAnswers', JSON.stringify(answers));
-      }
-    }, 1500);
+
+    try {
+      if (!exam || !examId) throw new Error("Dữ liệu đề thi không hợp lệ");
+
+      const timeSpent = (exam.duration * 60) - Math.max(0, timeLeft);
+      const responseData = await examService.submitExam(examId, { answers, timeSpent });
+
+      localStorage.removeItem(draftKey);
+      localStorage.removeItem(`timer_${examId}`);
+
+      router.push(`/results/${responseData.attemptId}`);
+
+    } catch (err) {
+      alert("Có lỗi khi nộp bài. Hệ thống đã lưu nháp, vui lòng thử lại!");
+      console.error(err);
+      setIsSubmitting(false); // Cho phép nộp lại nếu lỗi mạng
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -75,7 +140,9 @@ export function TakeExam() {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  if (!exam) return <div className="p-8 text-center text-slate-700 dark:text-slate-300">{t('notFoundExam')}</div>;
+  if (loading) return <div className="p-8 text-center text-slate-700">{t('loading')}...</div>;
+  if (error || !exam) return <div className="p-8 text-center text-red-500">{t('notFoundExam')}</div>;
+  if (questions.length === 0) return <div className="p-8 text-center">{t('noQuestions')}</div>;
 
   const currentQuestion = questions[currentQuestionIndex];
   const answeredCount = Object.keys(answers).length;
@@ -92,13 +159,13 @@ export function TakeExam() {
               {t('question')} {currentQuestionIndex + 1}/{questions.length}
             </span>
           </div>
-          
+
           <div className="flex items-center gap-6">
             <div className={`flex items-center gap-2 font-mono text-xl font-bold px-4 py-2 rounded-lg transition-colors duration-300 ${timeLeft < 300 ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 animate-pulse' : 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50'}`}>
               <Clock className="h-5 w-5" />
               {formatTime(timeLeft)}
             </div>
-            <button 
+            <button
               onClick={() => {
                 if (window.confirm(t('confirmSubmit'))) {
                   handleSubmit();
@@ -124,7 +191,7 @@ export function TakeExam() {
       </header>
 
       <main className="flex-grow max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8 relative">
-        
+
         {/* Main Content Area */}
         <div className="flex-grow lg:w-3/4 flex flex-col">
           <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-8 flex-grow transition-colors duration-300">
@@ -136,12 +203,12 @@ export function TakeExam() {
                 <span className="pt-1 leading-relaxed text-slate-800 dark:text-slate-200">{currentQuestion.text}</span>
               </h2>
             </div>
-            
+
             <div className="space-y-4">
               {currentQuestion.options.map((option, index) => {
                 const isSelected = answers[currentQuestion.id] === index;
                 return (
-                  <label 
+                  <label
                     key={index}
                     className={`block w-full p-5 rounded-xl border-2 cursor-pointer transition-all duration-200 flex items-center gap-4 ${
                       isSelected 
@@ -154,8 +221,8 @@ export function TakeExam() {
                     }`}>
                       {isSelected && <div className="w-2.5 h-2.5 bg-white rounded-full"></div>}
                     </div>
-                    <input 
-                      type="radio" 
+                    <input
+                      type="radio"
                       name={`question-${currentQuestion.id}`}
                       value={index}
                       checked={isSelected}
@@ -180,7 +247,7 @@ export function TakeExam() {
             >
               <ChevronLeft className="h-5 w-5" /> {t('prevQuestion')}
             </button>
-            
+
             <button
               onClick={() => setCurrentQuestionIndex(prev => Math.min(questions.length - 1, prev + 1))}
               disabled={currentQuestionIndex === questions.length - 1}
@@ -200,12 +267,12 @@ export function TakeExam() {
                 {answeredCount}/{questions.length}
               </span>
             </h3>
-            
+
             <div className="grid grid-cols-5 gap-3 max-h-[60vh] overflow-y-auto pr-2 pb-2 hide-scrollbar">
               {questions.map((q, index) => {
                 const isAnswered = answers[q.id] !== undefined;
                 const isCurrent = currentQuestionIndex === index;
-                
+
                 return (
                   <button
                     key={q.id}
@@ -223,7 +290,7 @@ export function TakeExam() {
                 );
               })}
             </div>
-            
+
             <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-3 mb-3 text-sm text-slate-600 dark:text-slate-400">
                 <div className="w-4 h-4 bg-blue-600 rounded"></div> {t('answered')}
