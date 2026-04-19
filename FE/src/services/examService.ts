@@ -7,7 +7,7 @@ export interface Exam {
         en: string;
         ja: string;
     };
-    category: string;
+    category: Category;
     image: string;
     duration: number;
     questionCount: number;
@@ -18,6 +18,10 @@ export interface Exam {
     };
     participants: number;
     rating: number;
+}
+
+export interface ExamDetail extends Exam {
+    questions: Question[];
 }
 
 export interface Category {
@@ -78,9 +82,9 @@ class ExamService {
         return response.json();
     }
 
-    async getExamById(id: string): Promise<Exam | null> {
+    async getExamById(id: string): Promise<ExamDetail | null> {
         try {
-            return await this.request<Exam>(`/api/exams/${id}`);
+            return await this.request<ExamDetail>(`/api/exams/${id}`);
         } catch (error) {
             console.error(`Exam with id ${id} not found:`, error);
             return null;

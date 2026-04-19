@@ -37,7 +37,7 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
     }, []);
 
     const filteredExams = exams.filter((exam) => {
-        const matchesCategory = activeCategory === 'all' || exam.category === activeCategory;
+        const matchesCategory = activeCategory === 'all' || exam.category.id === activeCategory;
 
         const title = typeof exam.title === 'string' ? exam.title : exam.title[language as Locale];
         const desc = typeof exam.description === 'string' ? exam.description : exam.description[language as Locale];
@@ -163,7 +163,7 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
                                 {/* Category badge */}
                                 <div className="absolute top-4 left-4 z-20">
                 <span className="bg-primary/90 text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full backdrop-blur">
-                    {t[`cat_${exam.category}`]}
+                    {t[`cat_${exam.category.id}`]}
                 </span>
                                 </div>
 

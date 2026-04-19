@@ -6,6 +6,7 @@ import com.edu.exam.exceptions.ResourceNotFoundException;
 import com.edu.exam.mappers.AttemptMapper;
 import com.edu.exam.repositories.ExamAttemptRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,7 @@ public class AttemptService {
     private final ExamAttemptRepository examAttemptRepository;
     private final AttemptMapper attemptMapper;
 
+    @Cacheable(value = "attempts", key = "#id")
     public AttemptDto getAttemptById(String id) {
         return attemptMapper.toDto(examAttemptRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Attempt not found")));

@@ -7,6 +7,5 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface AttemptMapper {
-    @Mapping(source = "exam.category.id", target = "exam.category")
     AttemptDto toDto(Attempt attempt);
 }

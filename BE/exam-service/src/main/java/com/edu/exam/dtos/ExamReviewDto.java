@@ -1,17 +1,13 @@
 package com.edu.exam.dtos;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Set;
 
-@AllArgsConstructor
-@Getter
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ExamDto {
+@Data
+public class ExamReviewDto {
     private String id;
     private Map<String, String> title;
     private CategoryDto category;
@@ -21,5 +17,5 @@ public class ExamDto {
     private Map<String, String> description;
     private Integer participants;
     private BigDecimal rating;
-    private Set<QuestionDto> questions;
+    private Set<QuestionReviewDto> questions;
 }

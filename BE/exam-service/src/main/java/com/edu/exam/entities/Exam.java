@@ -8,6 +8,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -48,5 +49,7 @@ public class Exam {
     @Column(name = "rating", precision = 3, scale = 2)
     private BigDecimal rating = BigDecimal.ZERO;
 
-
+    @OneToMany(mappedBy = "exam")
+    @OrderBy("questionOrder ASC")
+    private List<Question> questions;
 }

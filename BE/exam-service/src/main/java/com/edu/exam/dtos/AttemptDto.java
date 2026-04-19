@@ -10,7 +10,7 @@ import java.util.List;
 public class AttemptDto {
     private String id;
     private String userId;
-    private ExamDto exam;
+    private ExamReviewDto exam;
     private Double score;
     private Integer totalCorrect;
     private Integer timeSpent;
