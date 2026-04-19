@@ -9,8 +9,8 @@ export default function Footer({ t, lang }: { t: any; lang: string }) {
         <footer className="bg-slate-900 dark:bg-black text-slate-300 py-12 border-t border-slate-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div className="col-span-1 md:col-span-2">
-                    <Link href="/" className="flex items-center gap-2 text-white mb-4">
-                        <Image src={'/itShikenLogo-darkMode.jpg'} alt={'logo'} height={100} width={100} />
+                    <Link href={`/${lang}/`} className="flex items-center gap-2  mb-4">
+                        <Image src={'/itShikenLogo-darkMode.png'} alt={'logo'} height={100} width={100} />
                     </Link>
                     <p className="text-sm max-w-sm mb-6 text-slate-400">{t.footerDesc}</p>
                 </div>

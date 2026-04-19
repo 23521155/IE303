@@ -3,16 +3,14 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, LogIn, ArrowRight } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
 import { loginAction } from '@/src/actions/authActions';
 import { useAuthStore } from '@/src/store/authStore';
 import { BE_URL } from '@/src/utils/constans';
-
-export function Login() {
+import { Button } from '@/src/components/ui/button';
+export function Login({ t, lang }: { t: any; lang: string }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
-    const { t } = useLanguage();
     const { setUser } = useAuthStore();
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,9 +31,9 @@ export function Login() {
             <div className="max-w-md w-full space-y-8 bg-white dark:bg-[#1a1a1a] p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors duration-300">
                 <div>
                     <h2 className="mt-2 text-center text-3xl font-extrabold text-slate-900 dark:text-white">
-                        {t('login')}
+                        {t.login}
                     </h2>
-                    <p className="mt-2 text-center text-sm text-slate-500 dark:text-slate-400">{t('welcomeBack')}</p>
+                    <p className="mt-2 text-center text-sm text-slate-500 dark:text-slate-400">{t.welcomeBack}</p>
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleLogin}>
                     <div className="space-y-4">
@@ -44,7 +42,7 @@ export function Login() {
                                 className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
                                 htmlFor="email"
                             >
-                                {t('emailAddress')}
+                                {t.emailAddress}
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -68,7 +66,7 @@ export function Login() {
                                 className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
                                 htmlFor="password"
                             >
-                                {t('password')}
+                                {t.password}
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -101,7 +99,7 @@ export function Login() {
                                 htmlFor="remember-me"
                                 className="ml-2 block text-sm text-slate-900 dark:text-slate-300"
                             >
-                                {t('rememberMe')}
+                                {t.rememberMe}
                             </label>
                         </div>
 
@@ -110,21 +108,18 @@ export function Login() {
                                 href="/forgot-password"
                                 className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 transition-colors"
                             >
-                                {t('forgotPassword')}
+                                {t.forgotPassword}
                             </Link>
                         </div>
                     </div>
 
                     <div>
-                        <button
-                            type="submit"
-                            className="group relative w-full flex justify-center py-3 px-4 rounded-xl text-white bg-blue-600 hover:bg-blue-700 font-medium transition-colors shadow-md shadow-blue-200 dark:shadow-none"
-                        >
+                        <Button type="submit" className="w-full py-5">
                             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                                 <LogIn className="h-5 w-5 text-blue-300 group-hover:text-blue-200 transition-colors" />
                             </span>
-                            {t('login')}
-                        </button>
+                            {t.login}
+                        </Button>
                     </div>
 
                     <div className="relative my-6">
@@ -133,16 +128,13 @@ export function Login() {
                         </div>
                         <div className="relative flex justify-center text-sm">
                             <span className="px-2 bg-white dark:bg-[#1a1a1a] text-slate-500 dark:text-slate-400 transition-colors">
-                                {t('orContinueWith')}
+                                {t.orContinueWith}
                             </span>
                         </div>
                     </div>
 
                     <div>
-                        <button
-                            type="button"
-                            className="w-full flex justify-center items-center py-3 px-4 border border-slate-300 dark:border-slate-700 rounded-xl bg-white dark:bg-[#222] text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#2a2a2a] transition-colors"
-                        >
+                        <Button variant={'outline'} className="w-full py-5">
                             <svg
                                 className="h-5 w-5 mr-2"
                                 viewBox="0 0 24 24"
@@ -166,18 +158,17 @@ export function Login() {
                                     fill="#EA4335"
                                 />
                             </svg>
-                            {t('loginWithGoogle')}
-                        </button>
+                            {t.loginWithGoogle}
+                        </Button>
                     </div>
                 </form>
 
                 <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
-                    {t('noAccount')}{' '}
-                    <Link
-                        href="/register"
-                        className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 inline-flex items-center transition-colors"
-                    >
-                        {t('registerNow')} <ArrowRight className="ml-1 h-4 w-4" />
+                    {t.noAccount}{' '}
+                    <Link href={`/${lang}/register`}>
+                        <Button variant={'link'}>
+                            {t.registerNow} <ArrowRight className="ml-1 h-4 w-4" />
+                        </Button>
                     </Link>
                 </div>
             </div>

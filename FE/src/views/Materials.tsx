@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { BookOpen, FileText, Video, Download, PlayCircle, Search, Filter } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-import { useLanguage } from '../contexts/LanguageContext';
 
 const MOCK_MATERIALS = [
     {
