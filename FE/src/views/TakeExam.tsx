@@ -30,14 +30,11 @@ export function TakeExam() {
         setLoading(true);
         if (!examId) return;
 
-        const [examData, questionsData] = await Promise.all([
-          examService.getExamById(examId),
-          examService.getExamQuestions(examId)
-        ]);
+        const examData = await examService.getExamById(examId);
 
         if (examData) {
           setExam(examData);
-          setQuestions(questionsData);
+          setQuestions(examData.questions);
 
           const savedTime = localStorage.getItem(`timer_${examId}`);
           if (savedTime) {
@@ -126,9 +123,9 @@ export function TakeExam() {
       router.push(`/results/${responseData.attemptId}`);
 
     } catch (err) {
-      alert("Có lỗi khi nộp bài. Hệ thống đã lưu nháp, vui lòng thử lại!");
+      alert("Vui lòng đăng nhập để nộp bài. Nếu bạn đã đăng nhập thì hệ thống đang lỗi, vui lòng thử lại sau.");
       console.error(err);
-      setIsSubmitting(false); // Cho phép nộp lại nếu lỗi mạng
+      setIsSubmitting(false);
     }
   };
 

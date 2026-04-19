@@ -13,6 +13,7 @@ import com.edu.exam.mappers.ExamMapper;
 import com.edu.exam.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,9 +46,10 @@ public class ExamService {
         } else {
             exams = examRepository.findAll();
         }
-        return exams.stream().map(examMapper::toExamDto).toList();
+        return exams.stream().map(examMapper::toSimpleDto).toList();
     }
 
+    @Cacheable(value = "exams", key = "#id")
     public ExamDto getExamById(String id) {
         return examMapper.toExamDto(examRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Exam", id)));
@@ -86,7 +88,7 @@ public class ExamService {
     @Transactional
     public String submitExam(String id, SubmitExamRequest request, String userId) {
         Exam exam = getExam(id);
-        List<Question> questions = getQuestions(id);
+        List<Question> questions = exam.getQuestions();
         Map<String, Integer> correctAnswersMap = questions.stream()
                 .collect(Collectors.toMap(Question::getId, Question::getCorrectAnswer));
 
@@ -131,9 +133,5 @@ public class ExamService {
     private Exam getExam(String id) {
         return examRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Exam", id));
-    }
-
-    private List<Question> getQuestions(String examId) {
-        return questionRepository.findByExamIdOrderByQuestionOrder(examId);
     }
 }

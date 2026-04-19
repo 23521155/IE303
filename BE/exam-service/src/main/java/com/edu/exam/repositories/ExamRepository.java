@@ -1,10 +1,12 @@
 package com.edu.exam.repositories;
 
 import com.edu.exam.entities.Exam;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ExamRepository extends JpaRepository<Exam, String> {
     @Query(value = """
@@ -27,4 +29,10 @@ public interface ExamRepository extends JpaRepository<Exam, String> {
     List<Exam> findBySearch(String search);
 
     List<Exam> findByCategory_Id(String category);
+
+    @EntityGraph(attributePaths = {"category"})
+    List<Exam> findAll();
+
+    @EntityGraph(attributePaths = {"category", "questions"})
+    Optional<Exam> findById(String id);
 }

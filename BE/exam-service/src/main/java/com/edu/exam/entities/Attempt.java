@@ -13,8 +13,9 @@ import java.util.UUID;
 @Table(name = "exam_attempts")
 public class Attempt {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false, length = 50)
-    private String id = UUID.randomUUID().toString();
+    private String id;
 
     @Column(name = "user_id", nullable = false, length = 50)
     private String userId;

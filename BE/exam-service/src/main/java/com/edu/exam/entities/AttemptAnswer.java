@@ -11,8 +11,9 @@ import java.util.UUID;
 @Table(name = "attempt_answers")
 public class AttemptAnswer {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false, length = 50)
-    private String id = UUID.randomUUID().toString();
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "attempt_id", nullable = false)

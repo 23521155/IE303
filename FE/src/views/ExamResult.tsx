@@ -26,14 +26,7 @@ export function ExamResult() {
         if (!resultRes.ok) throw new Error("Không tìm thấy kết quả thi");
         const attemptData = await resultRes.json();
 
-        const examId = attemptData.exam.id;
-
-        const questionsRes = await fetch(`http://localhost:8080/api/exams/${examId}/questions`, {
-          credentials: 'include'
-        });
-
-        if (!questionsRes.ok) throw new Error("Không tải được chi tiết câu hỏi");
-        const questionsData = await questionsRes.json();
+        const questionsData = attemptData.exam.questions;
 
         const userAnswers = attemptData.answers;
 
