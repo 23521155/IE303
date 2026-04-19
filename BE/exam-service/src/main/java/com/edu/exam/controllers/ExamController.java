@@ -1,17 +1,17 @@
 package com.edu.exam.controllers;
 
-import com.edu.exam.dtos.CreateExamRequest;
-import com.edu.exam.dtos.ExamDto;
-import com.edu.exam.dtos.QuestionDto;
-import com.edu.exam.dtos.UpdateExamRequest;
+import com.edu.exam.dtos.*;
 import com.edu.exam.services.ExamService;
 import com.edu.exam.services.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/exams")
@@ -53,5 +53,13 @@ public class ExamController {
     public ResponseEntity<Void> deleteExam(@PathVariable String id) {
         examService.deleteExam(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/submit")
+    public ResponseEntity<Map<String, String>> submitExam(
+            @PathVariable String id, @RequestBody SubmitExamRequest request, Principal principal) {
+        String userId = principal.getName();
+        String attemptId = examService.submitExam(id, request, userId);
+        return ResponseEntity.ok(Map.of("attemptId", attemptId));
     }
 }

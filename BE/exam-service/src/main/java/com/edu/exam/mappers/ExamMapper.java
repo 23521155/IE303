@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface ExamMapper {
-    @Mapping(source = "category.id", target = "category")
+    @Mapping(source = "category.name", target = "category")
     ExamDto toExamDto(Exam exam);
 
     @Mapping(target = "category.id", source = "category")
