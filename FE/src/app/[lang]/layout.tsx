@@ -59,6 +59,7 @@ const inter = Inter({
 });
 
 
+
 export default async function RootLayout({
   children, params,
 }: Readonly<{
@@ -68,7 +69,7 @@ export default async function RootLayout({
     const { lang } = await params;
  const t = await getDictionary(lang as Locale)
   return (
-    <html lang="en">
+    <html lang={lang}>
       <body className={`${inter.className} antialiased`}>
       <Header t={t} lang={lang}/>
       {children}
