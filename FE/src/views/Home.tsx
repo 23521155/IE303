@@ -2,8 +2,9 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2, BrainCircuit, Globe, Code } from 'lucide-react';
 import { exams } from '../data/mockData';
 import { Button } from '@/src/components/ui/button';
-import { Badge } from '@/src/components/ui/badge';
+
 import Image from 'next/image';
+
 export default function Home({ t, lang }: { t: any; lang: string }) {
     const featuredExams = exams.slice(0, 3);
 
