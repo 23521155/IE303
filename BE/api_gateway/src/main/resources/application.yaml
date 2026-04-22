@@ -28,7 +28,9 @@ spring:
           globalcors:
             corsConfigurations:
               '[/**]':
-                allowedOrigins: "http://localhost:3000"
+                allowedOrigins:
+                  - "http://localhost:3000"
+                  - "https://itshiken.io.vn"
                 allowedMethods:
                   - GET
                   - POST
@@ -41,4 +43,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka/
