@@ -20,6 +20,8 @@
     <modules>
         <module>auth_service</module>
         <module>user_service</module>
+        <module>discovery_server</module>
+        <module>exam-service</module>
     </modules>
 
     <properties>
