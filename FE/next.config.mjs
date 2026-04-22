@@ -1,7 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Support importing raw SVGs and CSVs if needed, though Webpack loaders might be required.
-  // Next.js has built-in support for most modern features.
+    // Support importing raw SVGs and CSVs if needed, though Webpack loaders might be required.
+    // Next.js has built-in support for most modern features.
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+            },
+        ],
+    },
 };
 
 export default nextConfig;
