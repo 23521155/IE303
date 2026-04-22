@@ -9,8 +9,8 @@ import { getDictionary } from '@/src/utils/dictionaries';
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 export const metadata: Metadata = {
     title: {
-        template: '%s | ITShiken',
-        default: 'Thi thử online free & Luyện đề, chấm điểm tự động | ITShiken'
+        template: '%s | IT Shiken',
+        default: 'Thi thử online free & Luyện đề, chấm điểm tự động | IT Shiken'
     },
     description: 'Nền tảng thi thử online miễn phí đa môn với hệ thống luyện đề trắc nghiệm, chấm điểm tự động và phân tích kết quả giúp bạn cải thiện điểm số nhanh chóng.',
     keywords: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
         "từ vựng IT Passport"
     ],
     openGraph: {
-        title: 'Thi thử online free & Luyện đề, chấm điểm tự động | ITShiken',
+        title: 'Thi thử online free & Luyện đề, chấm điểm tự động | IT Shiken',
         description: 'Nền tảng thi thử online miễn phí đa môn với hệ thống luyện đề trắc nghiệm, chấm điểm tự động và phân tích kết quả giúp bạn cải thiện điểm số nhanh chóng.',
         url: `${baseUrl}`,
         siteName: "ITShiken",

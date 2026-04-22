@@ -56,7 +56,7 @@ export default function Footer({ t, lang }: { t: any; lang: string }) {
                 </div>
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 text-sm text-slate-500 text-center">
-                &copy; {new Date().getFullYear()} ITShiken. {t.allRightsReserved}
+                &copy; {new Date().getFullYear()} IT Shiken. {t.allRightsReserved}
             </div>
         </footer>
     );
