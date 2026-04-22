@@ -1,15 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Clock, AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { examService } from "../services/examService";
 import type { Exam, Question } from "../services/examService";
-import { useLanguage } from "../contexts/LanguageContext";
+import {Button} from '@/src/components/ui/button';
 
-export function TakeExam() {
+export function TakeExam({t, lang} : {t: any; lang: string}) {
   const { id } = useParams();
   const router = useRouter();
-  const { t, language } = useLanguage();
 
   const [exam, setExam] = useState<Exam | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -137,7 +136,7 @@ export function TakeExam() {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  if (loading) return <div className="p-8 text-center text-slate-700">{t('loading')}...</div>;
+  if (loading) return <div className="p-8 text-center text-slate-700">{t.loading}...</div>;
   if (error || !exam) return <div className="p-8 text-center text-red-500">{t('notFoundExam')}</div>;
   if (questions.length === 0) return <div className="p-8 text-center">{t('noQuestions')}</div>;
 
@@ -151,39 +150,39 @@ export function TakeExam() {
       <header className="bg-white dark:bg-[#1a1a1a] border-b border-blue-100 dark:border-slate-800 shadow-sm sticky top-0 z-50 transition-colors duration-300">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h1 className="text-xl font-bold text-slate-800 dark:text-white line-clamp-1">{typeof exam.title === 'string' ? exam.title : exam.title[language as keyof typeof exam.title]}</h1>
-            <span className="hidden sm:inline-block bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-bold px-3 py-1 rounded-full border border-blue-100 dark:border-blue-800">
-              {t('question')} {currentQuestionIndex + 1}/{questions.length}
+            <h1 className="text-xl font-bold text-slate-800 dark:text-white line-clamp-1">{typeof exam.title === 'string' ? exam.title : exam.title[lang as keyof typeof exam.title]}</h1>
+            <span className="hidden sm:inline-block bg-blue-50 dark:bg-blue-900/30 text-secondary dark:text-blue-400 text-xs font-bold px-3 py-1 rounded-full border border-blue-100 dark:border-blue-800">
+              {t.question} {currentQuestionIndex + 1}/{questions.length}
             </span>
           </div>
 
           <div className="flex items-center gap-6">
-            <div className={`flex items-center gap-2 font-mono text-xl font-bold px-4 py-2 rounded-lg transition-colors duration-300 ${timeLeft < 300 ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 animate-pulse' : 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50'}`}>
+            <div className={`flex items-center gap-2 font-mono text-xl font-bold px-4 py-2 rounded-lg transition-colors duration-300 ${timeLeft < 300 ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 animate-pulse' : 'bg-blue-50 dark:bg-blue-900/20 text-primary dark:text-blue-400 border border-blue-200 dark:border-blue-800/50'}`}>
               <Clock className="h-5 w-5" />
               {formatTime(timeLeft)}
             </div>
-            <button
+            <Button
+                variant={"outline"}
               onClick={() => {
-                if (window.confirm(t('confirmSubmit'))) {
+                if (window.confirm(t.confirmSubmit)) {
                   handleSubmit();
                 }
               }}
               disabled={isSubmitting}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl font-bold transition-colors shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {isSubmitting ? (
                 <span className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  {t('submitting')}
+                  {t.submitting}
                 </span>
               ) : (
-                <span className="flex items-center gap-2"><Check className="h-5 w-5"/> {t('submitExam')}</span>
+                <span className="flex items-center gap-2">{t.submitExam}</span>
               )}
-            </button>
+            </Button>
           </div>
         </div>
         <div className="h-1 bg-slate-100 dark:bg-slate-800 w-full transition-colors duration-300">
-          <div className="h-full bg-blue-500 transition-all duration-300" style={{ width: `${progressPercent}%` }}></div>
+          <div className="h-full bg-primary transition-all duration-300" style={{ width: `${progressPercent}%` }}></div>
         </div>
       </header>
 
@@ -194,8 +193,8 @@ export function TakeExam() {
           <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-8 flex-grow transition-colors duration-300">
             <div className="mb-8">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-start gap-3">
-                <span className="text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-lg text-lg flex-shrink-0 border border-blue-100 dark:border-blue-800">
-                  {t('question')} {currentQuestionIndex + 1}
+                <span className="text-primary dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-lg text-lg flex-shrink-0 border border-blue-100 dark:border-blue-800">
+                  {t.question} {currentQuestionIndex + 1}
                 </span>
                 <span className="pt-1 leading-relaxed text-slate-800 dark:text-slate-200">{currentQuestion.text}</span>
               </h2>
@@ -242,7 +241,7 @@ export function TakeExam() {
               disabled={currentQuestionIndex === 0}
               className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-[#1a1a1a] text-slate-700 dark:text-slate-300 font-medium rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
             >
-              <ChevronLeft className="h-5 w-5" /> {t('prevQuestion')}
+              <ChevronLeft className="h-5 w-5" /> {t.prevQuestion}
             </button>
 
             <button
@@ -250,7 +249,7 @@ export function TakeExam() {
               disabled={currentQuestionIndex === questions.length - 1}
               className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-[#1a1a1a] text-slate-700 dark:text-slate-300 font-medium rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
             >
-              {t('nextQuestion')} <ChevronRight className="h-5 w-5" />
+              {t.nextQuestion} <ChevronRight className="h-5 w-5" />
             </button>
           </div>
         </div>
@@ -258,8 +257,8 @@ export function TakeExam() {
         {/* Sidebar */}
         <div className="lg:w-1/4 flex-shrink-0">
           <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sticky top-24 transition-colors duration-300">
-            <h3 className="font-bold text-slate-900 dark:text-white mb-6 text-lg flex justify-between items-center">
-              <span>{t('questionList')}</span>
+            <h3 className="font-bold text-secondary dark:text-white mb-6 text-lg flex justify-between items-center">
+              <span>{t.questionList}</span>
               <span className="text-sm font-normal text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
                 {answeredCount}/{questions.length}
               </span>
@@ -290,13 +289,13 @@ export function TakeExam() {
 
             <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-3 mb-3 text-sm text-slate-600 dark:text-slate-400">
-                <div className="w-4 h-4 bg-blue-600 rounded"></div> {t('answered')}
+                <div className="w-4 h-4 bg-blue-600 rounded"></div> {t.answered}
               </div>
               <div className="flex items-center gap-3 mb-3 text-sm text-slate-600 dark:text-slate-400">
-                <div className="w-4 h-4 bg-white dark:bg-[#1a1a1a] border-2 border-slate-200 dark:border-slate-700 rounded"></div> {t('unanswered')}
+                <div className="w-4 h-4 bg-white dark:bg-[#1a1a1a] border-2 border-slate-200 dark:border-slate-700 rounded"></div> {t.unanswered}
               </div>
               <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
-                <div className="w-4 h-4 bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-500 dark:border-blue-400 rounded"></div> {t('currentQuestion')}
+                <div className="w-4 h-4 bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-500 dark:border-blue-400 rounded"></div> {t.currentQuestion}
               </div>
             </div>
           </div>
