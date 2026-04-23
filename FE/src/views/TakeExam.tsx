@@ -242,6 +242,13 @@ export function TakeExam({
                                         td: ({ node, ...props }) => (
                                             <td className="border border-slate-200 dark:border-slate-700 px-4 py-3" {...props} />
                                         ),
+                                        img: ({ node, ...props }) => (
+                                            <img
+                                                className="max-w-full h-auto rounded-xl border border-slate-200 dark:border-slate-800 my-4 shadow-sm mx-auto"
+                                                {...props}
+                                                alt={props.alt || "Question Image"}
+                                            />
+                                        ),
                                     }}
                                 >
                                     {currentQuestion.text}
