@@ -136,9 +136,9 @@ export function TakeExam({t, lang} : {t: any; lang: string}) {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  if (loading) return <div className="p-8 text-center text-slate-700">{t.loading}...</div>;
-  if (error || !exam) return <div className="p-8 text-center text-red-500">{t('notFoundExam')}</div>;
-  if (questions.length === 0) return <div className="p-8 text-center">{t('noQuestions')}</div>;
+  if (loading) return <div className="p-8 text-center text-slate-700">{t.loading}</div>;
+  if (error || !exam) return <div className="p-8 text-center text-red-500">{t.notFoundExam}</div>;
+  if (questions.length === 0) return <div className="p-8 text-center">{t.noQuestions}</div>;
 
   const currentQuestion = questions[currentQuestionIndex];
   const answeredCount = Object.keys(answers).length;
