@@ -13,6 +13,8 @@ public interface LearningMaterialRepository extends JpaRepository<LearningMateri
 
     Page<LearningMaterial> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 
+    Page<LearningMaterial> findByTitleContainingIgnoreCaseAndCategory(String title, String category, Pageable pageable);
+
     Page<LearningMaterial> findByType(String type, Pageable pageable);
 
     List<LearningMaterial> findTop10ByOrderByCreatedAtDesc();
