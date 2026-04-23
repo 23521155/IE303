@@ -87,7 +87,7 @@ services:
     build:
       context: .
       dockerfile: material_service/Dockerfile
-    container_name: material_service
+    container_name: material-service
     ports:
       - "8083:8083"
     depends_on:
