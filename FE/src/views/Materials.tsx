@@ -1,11 +1,8 @@
 'use client';
 import React, { useState, useEffect, useCallback } from 'react';
-import { BookOpen, FileText, Video, Download, PlayCircle, Search, Filter, Loader2, ChevronDown } from 'lucide-react';
+import { BookOpen, FileText, Video, Download, PlayCircle, Search, Loader2, ChevronDown } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-<<<<<<< HEAD
-=======
 import { BE_URL } from '@/src/utils/constans';
->>>>>>> 3a89c7abf75d19ecb78bff343b86942050425409
 
 interface LearningMaterial {
     id: number;
@@ -23,7 +20,7 @@ export function Materials({ t, lang }: { t: any; lang: string }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
     const [categorySelect, setCategorySelect] = useState('all');
-    
+
     const [materials, setMaterials] = useState<LearningMaterial[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -41,7 +38,7 @@ export function Materials({ t, lang }: { t: any; lang: string }) {
         setError('');
         try {
             let url = `${BE_URL}/api/materials?`;
-            
+
             if (debouncedSearchQuery.trim()) {
                 url = `${BE_URL}/api/materials/search?title=${encodeURIComponent(debouncedSearchQuery)}&`;
             }
@@ -49,16 +46,16 @@ export function Materials({ t, lang }: { t: any; lang: string }) {
             if (categorySelect !== 'all') {
                 url += `category=${encodeURIComponent(categorySelect)}&`;
             }
-            
+
             url += `size=50`;
 
             const response = await fetch(url);
             if (!response.ok) throw new Error('Failed to fetch materials');
-            
+
             const data = await response.json();
-         
+
             setMaterials(data.content || data.value || []);
-        } catch (err: any) {
+        } catch (err) {
             setError(err.message || 'An error occurred');
         } finally {
             setLoading(false);
@@ -167,7 +164,10 @@ export function Materials({ t, lang }: { t: any; lang: string }) {
                         >
                             <div className="relative h-48 overflow-hidden">
                                 <ImageWithFallback
-                                    src={material.imageUrl || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1080'}
+                                    src={
+                                        material.imageUrl ||
+                                        'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1080'
+                                    }
                                     alt={material.title}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
