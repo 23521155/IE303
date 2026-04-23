@@ -56,7 +56,7 @@ export function Materials({ t, lang }: { t: any; lang: string }) {
 
             setMaterials(data.content || data.value || []);
         } catch (err) {
-            setError(err.message || 'An error occurred');
+            setError('An error occurred');
         } finally {
             setLoading(false);
         }
