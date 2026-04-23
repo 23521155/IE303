@@ -28,6 +28,9 @@ spring:
           order_inserts: true
           order_updates: true
 
+  cache:
+    type: none
+
 jwt:
   secret: ${JWT_SECRET:FizzCoConCaFizzCoConCaFizzCoConCa}
 
