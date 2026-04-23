@@ -22,6 +22,7 @@
         <module>user_service</module>
         <module>discovery_server</module>
         <module>exam-service</module>
+        <module>material_service</module>
     </modules>
 
     <properties>

@@ -1,0 +1,25 @@
+name: Deploy Backend to Contabo
+
+on:
+  push:
+    branches: [ main ] # Khi ông push vào nhánh main thì nó mới chạy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Đây là nơi ra lệnh cho VPS làm việc
+          script: |
+            cd /app/IE303/BE
+            git pull origin main
+            docker compose up -d --build
+            docker image prune -f # Xóa mấy cái image cũ cho nhẹ máy
