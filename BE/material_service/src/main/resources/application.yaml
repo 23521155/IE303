@@ -2,14 +2,14 @@ server:
   port: 8083
 
 file:
-  base-path: E:/DoAn/SEO/PJ
+  base-path: /app/uploads
 
 spring:
   sql:
     init:
       mode: always
   application:
-    name: material_service
+    name: material-service
   datasource:
     url: jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/material_db?sslmode=require
     username: neondb_owner
