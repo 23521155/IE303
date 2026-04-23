@@ -2,8 +2,10 @@
 import { getDictionary } from '@/src/utils/dictionaries';
 import type { Locale } from '@/src/utils/i18n';
 import { Materials } from '@/src/views/Materials';
+import { Metadata } from 'next';
+import { BE_URL } from '@/src/utils/constans';
 
-export async function generateMetadata({params}: { params: Promise<{ lang: string }>}) {
+export async function generateMetadata({params}: { params: Promise<{ lang: string }>}) : Promise<Metadata> {
     const { lang } = await  params;
 
     return {
@@ -20,5 +22,8 @@ export async function generateMetadata({params}: { params: Promise<{ lang: strin
 export default async function Page({params}:{params:Promise<{lang: string}> }) {
     const {lang} = await params;
     const t = await getDictionary(lang as Locale)
+    let url = `${BE_URL}/api/materials`;
+    const response = await fetch(url);
+    console.log(response)
   return <Materials t={t} lang={lang} />;
 }
