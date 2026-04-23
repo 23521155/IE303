@@ -45,7 +45,7 @@ export function ExamResult() {
                 setScore(attemptData.score);
                 setCombinedResults(mergedData);
             } catch (err) {
-                setError(err.message);
+                setError('lỗi');
             } finally {
                 setLoading(false);
             }
