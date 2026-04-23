@@ -115,9 +115,6 @@ export function Login({ t, lang }: { t: any; lang: string }) {
 
                     <div>
                         <Button type="submit" className="w-full py-5">
-                            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                                <LogIn className="h-5 w-5 text-blue-300 group-hover:text-blue-200 transition-colors" />
-                            </span>
                             {t.login}
                         </Button>
                     </div>

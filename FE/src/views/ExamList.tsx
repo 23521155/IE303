@@ -1,40 +1,19 @@
 'use client';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import Link from 'next/link';
-import {ArrowRight, BookOpen, Clock, Filter, Search, Star, Users} from 'lucide-react';
-import {Category, Exam, examService} from '../services/examService';
+import { BookOpen, Clock, Filter, Search, Users} from 'lucide-react';
+import {Category, Exam} from '../services/examService';
 import type {Locale} from '@/src/utils/i18n'
 import { Button }  from '@/src/components/ui/button'
 import Image from 'next/image';
-export function ExamList({ t, lang }: { t: any; lang: string }) {
+export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang: string; examsData: Exam[]; categoriesData: Category[] }) {
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
-    const [exams, setExams] = useState<Exam[]>([]);
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+
     const language = lang;
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                setError(null);
-                const [examsData, categoriesData] = await Promise.all([
-                    examService.getAllExams(),
-                    examService.getAllCategories()
-                ]);
-                setExams(examsData);
-                setCategories([{id: "all", name: "Tất cả"}, ...categoriesData]);
-            } catch (err) {
-                setError("Failed to load exam data");
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchData();
-    }, []);
+    const exams = examsData;
+    const categories = [{id: "all", name: "Tất cả"}, ...categoriesData]
 
     const filteredExams = exams.filter((exam) => {
         const matchesCategory = activeCategory === 'all' || exam.category.id === activeCategory;
@@ -48,28 +27,6 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
         return matchesCategory && matchesSearch;
     });
 
-    if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-4"></div>
-                <p className="text-slate-500">{t.loading || 'Đang tải dữ liệu...'}</p>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="p-10 text-center">
-                <p className="text-red-500 mb-4">❌ Không thể tải danh sách đề thi.</p>
-                <button
-                    onClick={() => window.location.reload()}
-                    className="bg-slate-800 text-white px-4 py-2 rounded-lg"
-                >
-                    Tải lại trang
-                </button>
-            </div>
-        );
-    }
 
     return (
         <div className="bg-slate-50 dark:bg-[#121212] min-h-screen pt-10 pb-20 transition-colors duration-300">
@@ -206,7 +163,7 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
                                     </div>
 
                                     {/* CTA */}
-                                    <Link href={`/exams/${exam.id}`}>
+                                    <Link href={`/${lang}/exams/${exam.id}`}>
                                         <Button
                                             variant="secondary"
                                             className="w-full rounded-full font-semibold backdrop-blur bg-white/90 text-black hover:bg-white cursor-pointer"

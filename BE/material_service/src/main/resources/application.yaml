@@ -1,7 +1,13 @@
 server:
   port: 8083
 
+file:
+  base-path: E:/DoAn/SEO/PJ
+
 spring:
+  sql:
+    init:
+      mode: always
   application:
     name: material_service
   datasource:
@@ -14,6 +20,7 @@ spring:
       minimum-idle: 1
       idle-timeout: 30000
   jpa:
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
     show-sql: true

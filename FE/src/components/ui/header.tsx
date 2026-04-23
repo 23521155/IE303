@@ -268,6 +268,30 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                         >
                             {t.language}
                         </Button>
+                        {isLangDropdownOpen && (
+                            <div className="absolute right-0 top-0 mt-2 w-32 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden z-50">
+                                <div className="py-1">
+                                    {languages.map((language) => (
+                                        <p
+                                            key={language.code}
+                                            onClick={() => {
+                                                handleChangeLang(language.code);
+                                                setIsLangDropdownOpen(false);
+                                            }}
+                                            className={`w-full text-center px-4 py-2 text-sm cursor-pointer
+                                                    ${
+                                                        lang === language.code
+                                                            ? 'text-primary dark:text-blue-400 font-semibold bg-blue-50 dark:bg-blue-900/20'
+                                                            : 'text-secondary dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                                    }
+                                                `}
+                                        >
+                                            {t[language.code as keyof typeof t]}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                         <Button
                             variant="ghost"
                             onClick={() => setIsDarkMode(!isDarkMode)}
