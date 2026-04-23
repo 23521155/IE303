@@ -74,7 +74,7 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                                     onClick={() => setActiveCategory(category.id)}
                                     variant={activeCategory === category.id ? 'default' : 'outline'}
                                 >
-                                    {t[`cat_${category.id}`]}
+                                    {t[`cat_${category.id}`] || category.name}
                                 </Button>
                             ))}
                         </div>
@@ -120,7 +120,7 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                                 {/* Category badge */}
                                 <div className="absolute top-4 left-4 z-20">
                 <span className="bg-primary/90 text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full backdrop-blur">
-                    {t[`cat_${exam.category.id}`]}
+                    {t[`cat_${exam.category.id}`] || exam.category.name}
                 </span>
                                 </div>
 

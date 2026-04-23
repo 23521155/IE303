@@ -9,6 +9,11 @@ import {
     CheckCircle2,
 } from "lucide-react";
 
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
+import rehypeRaw from "rehype-raw";
+
 import { examService } from "../services/examService";
 import type { ExamDetail, Question } from "../services/examService";
 import { Button } from "@/src/components/ui/button";
@@ -220,9 +225,28 @@ export function TakeExam({
                                 {t.question} {currentQuestionIndex + 1}
                             </div>
 
-                            <h2 className="text-2xl font-bold leading-relaxed text-secondary dark:text-white">
-                                {currentQuestion.text}
-                            </h2>
+                            <div className="text-2xl font-bold leading-relaxed text-secondary dark:text-white">
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm, remarkBreaks]}
+                                    rehypePlugins={[rehypeRaw]}
+                                    components={{
+                                        p: ({ node, ...props }) => <p className="mb-4 last:mb-0" {...props} />,
+                                        table: ({ node, ...props }) => (
+                                            <div className="overflow-x-auto my-6 font-medium text-lg">
+                                                <table className="w-full text-left border-collapse border border-slate-200 dark:border-slate-700" {...props} />
+                                            </div>
+                                        ),
+                                        th: ({ node, ...props }) => (
+                                            <th className="border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 font-bold" {...props} />
+                                        ),
+                                        td: ({ node, ...props }) => (
+                                            <td className="border border-slate-200 dark:border-slate-700 px-4 py-3" {...props} />
+                                        ),
+                                    }}
+                                >
+                                    {currentQuestion.text}
+                                </ReactMarkdown>
+                            </div>
                         </div>
 
                         <div className="space-y-4">
