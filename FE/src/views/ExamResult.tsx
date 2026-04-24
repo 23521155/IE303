@@ -6,6 +6,11 @@ import { CheckCircle2, XCircle, Award, BarChart3, Clock, RotateCcw, Home, FileTe
 import { useLanguage } from '../contexts/LanguageContext';
 import { BE_URL } from '@/src/utils/constans';
 
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
+import rehypeRaw from "rehype-raw";
+
 export function ExamResult() {
     const { id } = useParams();
     const { t, language } = useLanguage();
@@ -179,7 +184,7 @@ export function ExamResult() {
                                 key={q.id}
                                 className="border-b border-slate-100 dark:border-slate-800 pb-10 last:border-0 last:pb-0"
                             >
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex gap-3 items-start">
+                                <div className="mb-6 flex gap-3 items-start">
                                     <span
                                         className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
                                             q.isCorrect ? 'bg-green-500' : 'bg-red-500'
@@ -187,8 +192,36 @@ export function ExamResult() {
                                     >
                                         {index + 1}
                                     </span>
-                                    <span className="pt-1">{q.text}</span>
-                                </h3>
+                                    <div className="pt-1 text-lg font-bold text-slate-900 dark:text-white w-full overflow-hidden">
+                                        <ReactMarkdown
+                                            remarkPlugins={[remarkGfm, remarkBreaks]}
+                                            rehypePlugins={[rehypeRaw]}
+                                            components={{
+                                                p: ({ node, ...props }) => <p className="mb-4 last:mb-0" {...props} />,
+                                                table: ({ node, ...props }) => (
+                                                    <div className="overflow-x-auto my-6 font-medium text-lg">
+                                                        <table className="w-full text-left border-collapse border border-slate-200 dark:border-slate-700" {...props} />
+                                                    </div>
+                                                ),
+                                                th: ({ node, ...props }) => (
+                                                    <th className="border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 font-bold" {...props} />
+                                                ),
+                                                td: ({ node, ...props }) => (
+                                                    <td className="border border-slate-200 dark:border-slate-700 px-4 py-3" {...props} />
+                                                ),
+                                                img: ({ node, ...props }) => (
+                                                    <img
+                                                        className="max-w-full h-auto rounded-xl border border-slate-200 dark:border-slate-800 my-4 shadow-sm mx-auto"
+                                                        {...props}
+                                                        alt={props.alt || "Question Image"}
+                                                    />
+                                                ),
+                                            }}
+                                        >
+                                            {q.text}
+                                        </ReactMarkdown>
+                                    </div>
+                                </div>
 
                                 <div className="space-y-3 pl-11">
                                     {q.options.map((option: string, optIndex: number) => {
