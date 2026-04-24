@@ -10,6 +10,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import rehypeRaw from "rehype-raw";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 export function ExamResult() {
     const { id } = useParams();
@@ -194,8 +197,8 @@ export function ExamResult() {
                                     </span>
                                     <div className="pt-1 text-lg font-bold text-slate-900 dark:text-white w-full overflow-hidden">
                                         <ReactMarkdown
-                                            remarkPlugins={[remarkGfm, remarkBreaks]}
-                                            rehypePlugins={[rehypeRaw]}
+                                            remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
+                                            rehypePlugins={[rehypeRaw, rehypeKatex]}
                                             components={{
                                                 p: ({ node, ...props }) => <p className="mb-4 last:mb-0" {...props} />,
                                                 table: ({ node, ...props }) => (
@@ -266,7 +269,20 @@ export function ExamResult() {
                                                         <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
                                                     )}
                                                 </div>
-                                                <span className={textClass}>{option}</span>
+                                                <span className={`${textClass} flex-1`}>
+                                                    <ReactMarkdown
+                                                        remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
+                                                        rehypePlugins={[rehypeRaw, rehypeKatex]}
+                                                        components={{
+                                                            p: ({ node, ...props }) => <span {...props} />,
+                                                            img: ({ node, ...props }) => (
+                                                                <img className="max-w-full h-auto rounded-lg" {...props} alt="Option Image" />
+                                                            )
+                                                        }}
+                                                    >
+                                                        {option}
+                                                    </ReactMarkdown>
+                                                </span>
                                                 {icon}
                                             </div>
                                         );

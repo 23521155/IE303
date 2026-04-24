@@ -13,6 +13,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import rehypeRaw from "rehype-raw";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 import { examService } from "../services/examService";
 import type { ExamDetail, Question } from "../services/examService";
@@ -227,8 +230,8 @@ export function TakeExam({
 
                             <div className="text-2xl font-bold leading-relaxed text-secondary dark:text-white">
                                 <ReactMarkdown
-                                    remarkPlugins={[remarkGfm, remarkBreaks]}
-                                    rehypePlugins={[rehypeRaw]}
+                                    remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
+                                    rehypePlugins={[rehypeRaw, rehypeKatex]}
                                     components={{
                                         p: ({ node, ...props }) => <p className="mb-4 last:mb-0" {...props} />,
                                         table: ({ node, ...props }) => (
@@ -296,14 +299,25 @@ export function TakeExam({
                                             />
 
                                             <span
-                                                className={`text-lg leading-relaxed ${
+                                                className={`text-lg leading-relaxed flex-1 ${
                                                     isSelected
                                                         ? "font-medium text-secondary dark:text-white"
                                                         : "text-slate-700 dark:text-slate-300"
                                                 }`}
                                             >
-                        {option}
-                      </span>
+                                                <ReactMarkdown
+                                                    remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
+                                                    rehypePlugins={[rehypeRaw, rehypeKatex]}
+                                                    components={{
+                                                        p: ({ node, ...props }) => <span {...props} />,
+                                                        img: ({ node, ...props }) => (
+                                                            <img className="max-w-full h-auto rounded-lg" {...props} alt={props.alt || "Option Image"} />
+                                                        )
+                                                    }}
+                                                >
+                                                    {option}
+                                                </ReactMarkdown>
+                                            </span>
                                         </label>
                                     );
                                 }
