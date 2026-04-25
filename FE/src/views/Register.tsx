@@ -243,12 +243,12 @@ export function Register({ t, lang }: { t: any; lang: string }) {
 
                 <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400 transition-colors">
                     {t.alreadyHaveAccount}{' '}
-                    <Link href={`/${lang}/login`}>
-                        <Button variant="link">
+                    <Button asChild variant="link">
+                        <Link href={`/${lang}/login`}>
                             <ArrowLeft className="mr-1 h-4 w-4" />
                             {t.backToLogin}
-                        </Button>
-                    </Link>
+                        </Link>
+                    </Button>
                 </div>
             </div>
         </div>

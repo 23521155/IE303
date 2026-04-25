@@ -1,18 +1,20 @@
 import Home from '@/src/views/Home';
 import { getDictionary } from '@/src/utils/dictionaries';
 import type { Locale } from '@/src/utils/i18n';
+import { Metadata } from 'next';
 
-
-export async function generateMetadata({params}: { params: Promise<{ lang: string }>}) {
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
+export async function generateMetadata({params}: { params: Promise<{ lang: string }>}): Promise<Metadata> {
     const { lang } = await  params;
 
     return {
         alternates: {
-            canonical: `https://itshiken.io.vn/${lang}`,
+            canonical: `${baseUrl}/${lang}`,
             languages: {
-                vi: 'https://itshiken.io.vn/vi',
-                en: 'https://itshiken.io.vn/en',
-                ja: 'https://itshiken.io.vn/ja',
+                'x-default': `${baseUrl}/en`,
+                vi: `${baseUrl}/vi`,
+                en: `${baseUrl}/en`,
+                ja: `${baseUrl}/ja`,
             },
         },
     };

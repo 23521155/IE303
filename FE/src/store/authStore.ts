@@ -16,3 +16,13 @@ export const useAuthStore = create<AuthStore>((set) => ({
     user: null,
     setUser: (user) => set({ user }),
 }));
+
+interface PathStore {
+    path: string;
+    setPath: (path: string) => void;
+}
+
+export const usePathStore = create<PathStore>((set) => ({
+    path: '',
+    setPath: (path) => set({ path }),
+}));

@@ -24,27 +24,26 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                     {t('notFoundExam') || 'Không tìm thấy đề thi'}
                 </h2>
-                <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md"></p>
-                <Link href={`/${lang}/exams`}>
-                    <button className="bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition-all">
-                        {t('backToList') || 'Quay lại danh sách'}
-                    </button>
-                </Link>
+
+                <Button asChild variant={'link'} className="flex items-center gap-2">
+                    <Link href={`/${lang}/exams`}>{t('backToList') || 'Quay lại danh sách'}</Link>
+                </Button>
             </div>
         );
     }
 
     return (
-        <div className="bg-slate-50 dark:bg-[#121212] min-h-screen py-10 transition-colors duration-300">
+        <main className="bg-slate-50 dark:bg-[#121212] min-h-screen py-10 transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <Link href={`/${lang}/exams`}>
-                    <button className="flex items-center gap-1 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-blue-400 font-medium mb-6 transition-colors group">
+                <Button asChild variant={'link'} className="p-0 group">
+                    <Link href={`/${lang}/exams`} className="flex items-center gap-2">
                         <ChevronLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" /> {t.back}
-                    </button>
-                </Link>
-                <div className="bg-white dark:bg-[#1a1a1a] rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden mb-10 transition-colors duration-300">
+                    </Link>
+                </Button>
+                <article className="bg-white dark:bg-[#1a1a1a] rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden mb-10 transition-colors duration-300">
                     <div className="relative h-64 sm:h-84 w-full">
                         <Image
+                            priority
                             src={exam.image}
                             alt={
                                 typeof exam.title === 'string'
@@ -100,9 +99,9 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                         </div>
 
                         <div className="mb-10">
-                            <h3 className="text-2xl font-bold text-secondary dark:text-white mb-4 flex items-center gap-2">
+                            <h2 className="text-2xl font-bold text-secondary dark:text-white mb-4 flex items-center gap-2">
                                 <BookOpen className="h-6 w-6 text-primary dark:text-blue-500" /> {t.intro}
-                            </h3>
+                            </h2>
                             <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
                                 {typeof exam.description === 'string'
                                     ? exam.description
@@ -114,9 +113,9 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                         </div>
 
                         <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30 rounded-2xl p-6 sm:p-8 mb-10 transition-colors duration-300">
-                            <h3 className="text-xl font-bold text-secondary dark:text-white mb-4 flex items-center gap-2">
+                            <h2 className="text-xl font-bold text-secondary dark:text-white mb-4 flex items-center gap-2">
                                 <AlertCircle className="h-6 w-6 text-primary dark:text-blue-500" /> {t.examNotice}
-                            </h3>
+                            </h2>
                             <ul className="space-y-4">
                                 <li className="flex gap-3">
                                     <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0" />
@@ -134,15 +133,15 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                         </div>
 
                         <div className="flex justify-center">
-                            <Link href={`/take-exam/${exam.id}`}>
-                                <Button className="rounded-full py-6.5 px-5 font-semibold text-lg ">
+                            <Button asChild className="rounded-full py-6.5 px-5 font-semibold text-lg ">
+                                <Link href={`/${lang}/take-exam/${exam.id}`}>
                                     {t.startDoingExam} <ArrowRight className="h-6 w-6" />
-                                </Button>
-                            </Link>
+                                </Link>
+                            </Button>
                         </div>
                     </div>
-                </div>
+                </article>
             </div>
-        </div>
+        </main>
     );
 }

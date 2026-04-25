@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, LogIn, ArrowRight } from 'lucide-react';
 import { loginAction } from '@/src/actions/authActions';
-import { useAuthStore } from '@/src/store/authStore';
+import { useAuthStore, usePathStore } from '@/src/store/authStore';
 import { BE_URL } from '@/src/utils/constans';
 import { Button } from '@/src/components/ui/button';
 export function Login({ t, lang }: { t: any; lang: string }) {
@@ -12,6 +12,10 @@ export function Login({ t, lang }: { t: any; lang: string }) {
     const [password, setPassword] = useState('');
     const router = useRouter();
     const { setUser } = useAuthStore();
+
+    const { path } = usePathStore();
+    console.log('login ', path);
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         const res = await loginAction({ email, password });
@@ -21,7 +25,7 @@ export function Login({ t, lang }: { t: any; lang: string }) {
             });
             const user = await meRes.json().then((data) => data.data);
             setUser(user);
-            router.push('/');
+            router.push(path);
         }
         alert(res.message);
     };
@@ -162,11 +166,11 @@ export function Login({ t, lang }: { t: any; lang: string }) {
 
                 <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
                     {t.noAccount}{' '}
-                    <Link href={`/${lang}/register`}>
-                        <Button variant={'link'}>
+                    <Button asChild variant={'link'}>
+                        <Link href={`/${lang}/register`}>
                             {t.registerNow} <ArrowRight className="ml-1 h-4 w-4" />
-                        </Button>
-                    </Link>
+                        </Link>
+                    </Button>
                 </div>
             </div>
         </div>
