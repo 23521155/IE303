@@ -2,12 +2,12 @@ server:
   port: 8083
 
 file:
-  base-path: /app/uploads
+  base-path: ${FILE_BASE_PATH:.}
 
 spring:
   sql:
     init:
-      mode: always
+      mode: never
   application:
     name: material-service
   datasource:
