@@ -11,6 +11,6 @@ public class QuestionDto {
     private String id;
     private String text;
     private List<String> options;
-    private Integer correctAnswer;
+//    private Integer correctAnswer;
     private Integer questionOrder;
 }

@@ -1,0 +1,107 @@
+version: '3.8'
+
+services:
+  # 1. Discovery Server (Eureka)
+  discovery_server:
+    build:
+      context: .
+      dockerfile: discovery_server/Dockerfile
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - be-network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8761/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # 2. API Gateway
+  api_gateway:
+    build:
+      context: .
+      dockerfile: api_gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      discovery_server:
+        condition: service_healthy
+    networks:
+      - be-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
+
+  # 3. Auth Service
+  auth_service:
+    build:
+      context: .
+      dockerfile: auth_service/Dockerfile
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      discovery_server:
+        condition: service_healthy
+    networks:
+      - be-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
+
+  # 4. User Service (Có kèm cấu hình Database Neon)
+  user_service:
+    build:
+      context: .
+      dockerfile: user_service/Dockerfile
+    container_name: user-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      discovery_server:
+        condition: service_healthy
+    networks:
+      - be-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
+      # Nạp thông tin Database từ đây để không bị lộ trong code
+      - DB_URL=jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/user_db?sslmode=require
+      - DB_USERNAME=neondb_owner
+      - DB_PASSWORD=npg_kFcsqpABNu18
+  exam-service:
+    build:
+      context: .
+      dockerfile: exam-service/Dockerfile
+    container_name: exam-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      discovery_server:
+        condition: service_healthy
+    networks:
+      - be-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
+#  6. material_service
+  material_service:
+    build:
+      context: .
+      dockerfile: material_service/Dockerfile
+    container_name: material-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      discovery_server:
+        condition: service_healthy
+    networks:
+      - be-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
+      # Nạp thông tin Database từ đây để không bị lộ trong code
+      - DB_URL=jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/user_db?sslmode=require
+      - DB_USERNAME=neondb_owner
+      - DB_PASSWORD=npg_kFcsqpABNu18
+
+networks:
+  be-network:
+    driver: bridge

@@ -10,6 +10,7 @@ import { ChevronDown, Globe, LogOut, Menu, Moon, Settings, Sun, User, X } from '
 import { ImageWithFallback } from '@/src/components/figma/ImageWithFallback';
 import Image from 'next/image';
 import { Button } from '@/src/components/ui/button';
+import { usePathStore } from '@/src/store/authStore';
 
 const NAV_ITEMS = [
     {
@@ -54,6 +55,15 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
     }, []);
 
     const pathname = usePathname();
+    console.log('header ', pathname);
+
+    const { setPath } = usePathStore();
+
+    useEffect(() => {
+        if (pathname && !pathname.includes('/login') && !pathname.includes('/register')) {
+            setPath(pathname);
+        }
+    }, [pathname, setPath]);
 
     // Apply dark mode class to html element
     useEffect(() => {
@@ -109,7 +119,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
-                    <Link href="/">
+                    <Link href={`/${lang}/`}>
                         <Image src={'/itShikenLogo.png'} alt={'logo của ITShiken'} height={65} width={200} />
                     </Link>
 
@@ -192,12 +202,13 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
 
                         {!user ? (
                             <>
-                                <Link href="/login">
-                                    <Button variant={'outline'}>{t.login}</Button>
-                                </Link>
-                                <Link href="/register">
-                                    <Button>{t.register}</Button>
-                                </Link>
+                                <Button asChild variant={'outline'}>
+                                    <Link href={`/${lang}/login`}>{t.login}</Link>
+                                </Button>
+
+                                <Button asChild>
+                                    <Link href={`/${lang}/register`}>{t.register}</Link>
+                                </Button>
                             </>
                         ) : (
                             <div className="relative">
@@ -268,6 +279,30 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                         >
                             {t.language}
                         </Button>
+                        {isLangDropdownOpen && (
+                            <div className="absolute right-0 top-0 mt-2 w-32 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden z-50">
+                                <div className="py-1">
+                                    {languages.map((language) => (
+                                        <p
+                                            key={language.code}
+                                            onClick={() => {
+                                                handleChangeLang(language.code);
+                                                setIsLangDropdownOpen(false);
+                                            }}
+                                            className={`w-full text-center px-4 py-2 text-sm cursor-pointer
+                                                    ${
+                                                        lang === language.code
+                                                            ? 'text-primary dark:text-blue-400 font-semibold bg-blue-50 dark:bg-blue-900/20'
+                                                            : 'text-secondary dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                                    }
+                                                `}
+                                        >
+                                            {t[language.code as keyof typeof t]}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                         <Button
                             variant="ghost"
                             onClick={() => setIsDarkMode(!isDarkMode)}

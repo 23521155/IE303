@@ -5,6 +5,7 @@ import com.edu.exam.exceptions.ResourceNotFoundException;
 import com.edu.exam.mappers.CategoryMapper;
 import com.edu.exam.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
+    @Cacheable("categories")
     public List<CategoryDto> getAllCategories() {
         return categoryRepository.findAll()
                 .stream()

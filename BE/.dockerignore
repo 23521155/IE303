@@ -1,0 +1,6 @@
+# Bỏ qua các thư mục build
+**/target/
+!discovery_server/target/
+.idea/
+*.iml
+.git/

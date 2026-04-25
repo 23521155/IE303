@@ -1,17 +1,22 @@
 'use client';
-import { useState } from 'react';
+import {useState} from 'react';
 import Link from 'next/link';
-import { Search, Filter, Clock, Users, Star, BookOpen, ArrowRight } from 'lucide-react';
-import { exams, categories } from '../data/mockData';
+import { BookOpen, Clock, Filter, Search, Users} from 'lucide-react';
+import {Category, Exam} from '../services/examService';
 import type {Locale} from '@/src/utils/i18n'
-
-export function ExamList({ t, lang }: { t: any; lang: string }) {
+import { Button }  from '@/src/components/ui/button'
+import Image from 'next/image';
+export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang: string; examsData: Exam[]; categoriesData: Category[] }) {
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
+
     const language = lang;
 
+    const exams = examsData;
+    const categories = [{id: "all", name: "Tất cả"}, ...categoriesData]
+
     const filteredExams = exams.filter((exam) => {
-        const matchesCategory = activeCategory === 'all' || exam.category === activeCategory;
+        const matchesCategory = activeCategory === 'all' || exam.category.id === activeCategory;
 
         const title = typeof exam.title === 'string' ? exam.title : exam.title[language as Locale];
         const desc = typeof exam.description === 'string' ? exam.description : exam.description[language as Locale];
@@ -22,60 +27,71 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
         return matchesCategory && matchesSearch;
     });
 
+
     return (
-        <div className="bg-slate-50 dark:bg-[#121212] min-h-screen pt-10 pb-20 transition-colors duration-300">
+        <main className="bg-slate-50 dark:bg-[#121212] min-h-screen pt-10 pb-20 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header Section */}
                 <div className="mb-10 text-center">
-                    <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
+                    <h1 className="text-4xl font-extrabold text-secondary dark:text-white mb-4 tracking-tight">
                         {t.examLibrary}
                     </h1>
-                    <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">{t.examLibDesc}</p>
+                    <p className="text-lg text-secondary dark:text-slate-400 max-w-2xl mx-auto">{t.examLibDesc}</p>
                 </div>
 
                 {/* Search and Filter */}
-                <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 p-6 mb-10 transition-colors duration-300">
-                    <div className="flex flex-col md:flex-row gap-6 items-center">
-                        <div className="relative flex-grow w-full">
-                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                                <Search className="h-5 w-5" />
-                            </div>
+                <div className="bg-background border border-border rounded-2xl p-4 mb-8 shadow-sm">
+                    <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
+
+                        {/* Search */}
+                        <div className="relative flex-1">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+
                             <input
                                 type="text"
+                                aria-label={t.searchExams}
                                 placeholder={t.searchExams}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-12 pr-4 py-3.5 w-full bg-slate-50 dark:bg-[#2a2a2a] border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
+                                className="
+          w-full pl-10 pr-4 py-2.5
+          bg-muted/40
+          border border-border
+          rounded-xl
+          text-sm
+          focus:outline-none
+          focus:ring-2 focus:ring-primary/40
+          focus:border-primary
+          transition
+        "
                             />
                         </div>
 
-                        <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+                        {/* Categories */}
+                        <div className="flex gap-2 overflow-x-auto no-scrollbar">
                             {categories.map((category) => (
-                                <button
+                                <Button
                                     key={category.id}
                                     onClick={() => setActiveCategory(category.id)}
-                                    className={`px-5 py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
-                                        activeCategory === category.id
-                                            ? 'bg-blue-600 text-white shadow-md shadow-blue-200 dark:shadow-none'
-                                            : 'bg-slate-50 dark:bg-[#2a2a2a] text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#333] border border-slate-200 dark:border-slate-700'
-                                    }`}
+                                    variant={activeCategory === category.id ? 'default' : 'outline'}
+                                    aria-pressed={activeCategory === category.id}
                                 >
-                                    {/*{t(`cat_${category.id}`)}*/}
-                                    hi
-                                </button>
+                                    {t[`cat_${category.id}`] || category.name}
+                                </Button>
                             ))}
                         </div>
+
                     </div>
                 </div>
 
                 {/* Results */}
-                <div className="mb-6 flex justify-between items-center text-slate-600 dark:text-slate-400 font-medium">
+                <div className="mb-6 flex justify-between items-center text-secondary dark:text-slate-400 font-medium">
                     <span>
                         {t.found}
-                        <strong className="text-blue-600 dark:text-blue-400">{filteredExams.length}</strong>{' '}
+                        <strong className="text-primary dark:text-blue-400 mx-1">{filteredExams.length}</strong>
                         {t.examsCount}
                     </span>
-                    <button className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white dark:bg-[#1a1a1a] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm text-sm">
+                    <button className="flex items-center gap-2 hover:text-primary dark:hover:text-blue-400 transition-colors bg-white dark:bg-[#1a1a1a] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm text-sm">
                         <Filter className="h-4 w-4" /> {t.latest}
                     </button>
                 </div>
@@ -83,85 +99,119 @@ export function ExamList({ t, lang }: { t: any; lang: string }) {
                 {filteredExams.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                         {filteredExams.map((exam) => (
-                            <div
+                            <article
                                 key={exam.id}
-                                className="bg-white dark:bg-[#1a1a1a] rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-blue-100 dark:hover:border-slate-700 transition-all duration-300 group overflow-hidden flex flex-col h-full"
+                                className="relative h-[420px] rounded-md overflow-hidden group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-500"
                             >
-                                <div className="relative h-40 overflow-hidden">
-                                    <div className="absolute inset-0 bg-blue-900/10 group-hover:bg-transparent transition-colors z-10"></div>
-                                    <img
-                                        src={exam.image}
-                                        alt={typeof exam.title === 'string' ? exam.title : exam.title[language as Locale]}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                    <div className="absolute top-3 left-3 z-20">
-                                        <span className="bg-white/95 dark:bg-black/80 backdrop-blur-sm text-blue-700 dark:text-blue-400 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
-                                            {/*{t(`cat_${exam.category}`)}*/}
-                                            hi
-                                        </span>
-                                    </div>
+                                {/* Image */}
+                                <Image
+                                    src={exam.image}
+                                    alt={
+                                        typeof exam.title === 'string'
+                                            ? exam.title
+                                            : exam.title[language as Locale]
+                                    }
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                />
+
+                                {/* Gradient overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+
+                                {/* Category badge */}
+                                <div className="absolute top-4 left-4 z-20">
+                <span className="bg-primary/90 text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full backdrop-blur">
+                    {t[`cat_${exam.category.id}`] || exam.category.name}
+                </span>
                                 </div>
 
-                                <div className="p-5 flex flex-col flex-grow">
-                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
-                                        <Link href={`/exams/${exam.id}`}>
-                                            {typeof exam.title === 'string' ? exam.title : exam.title[language as Locale]}
-                                        </Link>
-                                    </h3>
+                                {/* Content */}
+                                <div className="absolute bottom-0 p-5 w-full text-white">
+                                    {/* Title */}
+                                    <h2 className="text-xl font-bold mb-2 line-clamp-2">
+                                        {typeof exam.title === 'string'
+                                            ? exam.title
+                                            : exam.title[language as Locale]}
+                                    </h2>
 
-                                    <div className="mt-auto">
-                                        <div className="flex flex-col gap-2 mb-5 pb-5 border-b border-slate-50 dark:border-slate-800">
-                                            <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                                                <BookOpen className="h-4 w-4 text-blue-500" /> {exam.questionCount}{' '}
-                                                {t.questions}
-                                            </div>
-                                            <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                                                <Clock className="h-4 w-4 text-blue-500" /> {exam.duration} {t.minutes}
-                                            </div>
-                                            <div className="flex justify-between items-center text-sm text-slate-500 dark:text-slate-400">
-                                                <div className="flex items-center gap-1.5">
-                                                    <Users className="h-4 w-4 text-blue-500" />{' '}
-                                                    {exam.participants.toLocaleString()}
-                                                </div>
-                                                <div className="flex items-center gap-1.5">
-                                                    <Star className="h-4 w-4 text-amber-400" /> {exam.rating}
-                                                </div>
-                                            </div>
-                                        </div>
+                                    {/* Description */}
+                                    <p className="text-sm text-white/80 mb-4 line-clamp-2">
+                                        {typeof exam.description === 'string'
+                                            ? exam.description
+                                            : exam.description[language as Locale]}
+                                    </p>
 
-                                        <Link
-                                            href={`/exams/${exam.id}`}
-                                            className="flex justify-between items-center w-full py-2.5 px-4 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-600 dark:hover:bg-blue-600 hover:text-white text-blue-700 dark:text-blue-400 font-semibold rounded-xl transition-colors group/btn text-sm"
+                                    {/* Info */}
+                                    <div className="flex flex-wrap items-center gap-2 mb-5 text-xs">
+                    <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+                        ⭐ {exam.rating}
+                    </span>
+
+                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" />
+                                            {exam.duration} {t.minutes}
+                    </span>
+
+                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+                        <Users className="w-3.5 h-3.5" />
+                                            {exam.participants.toLocaleString()}
+                    </span>
+
+                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+                        <BookOpen className="w-3.5 h-3.5" />
+                                            {exam.questionCount} {t.questions}
+                    </span>
+                                    </div>
+
+                                    {/* CTA */}
+
+                                        <Button
+                                            asChild
+                                            variant="secondary"
+                                            className="w-full rounded-full font-semibold backdrop-blur bg-white/90 text-black hover:bg-white cursor-pointer"
                                         >
-                                            <span>{t.takeExamNow}</span>
-                                            <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                                        </Link>
-                                    </div>
+                                            <Link href={`/${lang}/exams/${exam.id}`}>
+                                            {t.takeExamNow}
+                                            </Link>
+                                        </Button>
+
                                 </div>
-                            </div>
+                            </article>
                         ))}
                     </div>
                 ) : (
-                    <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl border border-slate-200 dark:border-slate-800 p-12 text-center shadow-sm">
-                        <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Search className="h-10 w-10 text-blue-400 dark:text-blue-500" />
+                    <div className="bg-background border border-border rounded-2xl p-12 text-center shadow-sm">
+
+                        {/* Icon */}
+                        <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <Search className="h-10 w-10 text-primary" />
                         </div>
-                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t('noResults')}</h3>
-                        <p className="text-slate-500 dark:text-slate-400 mb-6">
-                            {t('noResultsDesc')} "{searchQuery}".
+
+                        {/* Title */}
+                        <h2 className="text-2xl text-secondary font-bold mb-2">
+                            {t.noResults}
+                        </h2>
+
+                        {/* Desc */}
+                        <p className="text-secondary mb-6">
+                            {t.noResultsDesc} <span className="text-primary font-medium">{searchQuery}</span>
                         </p>
-                        <button
+
+                        {/* Button */}
+                        <Button
+                            variant="default"
                             onClick={() => {
                                 setSearchQuery('');
                                 setActiveCategory('all');
                             }}
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-medium transition-colors"
+                            className="px-6 py-2.5 rounded-xl"
                         >
-                            {t('clearFilter')}
-                        </button>
+                            {t.clearFilter}
+                        </Button>
                     </div>
                 )}
             </div>
-        </div>
+        </main>
     );
 }
