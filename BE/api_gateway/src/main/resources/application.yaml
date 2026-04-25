@@ -20,6 +20,11 @@ spring:
               predicates:
                 - Path=/api/users/**
 
+            - id: material_service
+              uri: lb://material_service
+              predicates:
+                - Path=/api/materials/**
+
 eureka:
   client:
     service-url:

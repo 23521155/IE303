@@ -32,14 +32,16 @@ public class MaterialFileController {
      * GET /api/materials/{id}/file?download=true  → attachment (download)
      */
     @GetMapping("/{id}/file")
-    public ResponseEntity<Resource> serveFile(
+    public ResponseEntity<?> serveFile(
             @PathVariable Long id,
             @RequestParam(defaultValue = "false") boolean download) {
 
         LearningMaterial material = materialRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Material not found: " + id));
 
-        String relativePath = material.getFileUrl(); // e.g. /Test_Data/FE/2025A_FE/2025A_FE-A.pdf
+        String fileUrl = material.getFileUrl();
+
+        String relativePath = fileUrl;
         Path filePath = Paths.get(basePath + relativePath).normalize();
         File file = filePath.toFile();
 
