@@ -4,14 +4,20 @@ import type {Locale} from '@/src/utils/i18n'
 import { examService } from '@/src/services/examService';
 import {notFound} from "next/navigation";
 import type { Metadata } from 'next';
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+import { cache } from 'react';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
+
+
+const getExamsCached = cache(async () => await examService.getAllExams());
+const getCategoriesCached = cache(async () => await examService.getAllCategories());
+
 
 export async function generateMetadata({params}: { params: Promise<{ lang: string }>}) : Promise<Metadata> {
     const { lang } = await  params;
     const t = await getDictionary(lang as Locale)
     const [examsData, categoriesData] = await Promise.all([
-        examService.getAllExams(),
-        examService.getAllCategories()
+        getExamsCached(),
+        getCategoriesCached()
     ]);
 
     if(!examsData || !categoriesData) {
@@ -62,11 +68,12 @@ export async function generateMetadata({params}: { params: Promise<{ lang: strin
             countryName: "Việt Nam"
         },
         alternates: {
-            canonical: `https://itshiken.io.vn/${lang}/exams`,
+            canonical: `${baseUrl}/${lang}/exams`,
             languages: {
-                vi: 'https://itshiken.io.vn/vi/exams',
-                en: 'https://itshiken.io.vn/en/exams',
-                ja: 'https://itshiken.io.vn/ja/exams',
+                'x-default': '${baseUrl}/en/exams',
+                vi: `${baseUrl}/vi/exams`,
+                en: `${baseUrl}/en/exams`,
+                ja: `${baseUrl}/ja/exams`,
             },
         },
     };
@@ -77,8 +84,8 @@ export default async function Page({params}:{params: Promise<{lang: string}>}) {
 
 
     const [examsData, categoriesData] = await Promise.all([
-        examService.getAllExams(),
-        examService.getAllCategories()
+        getExamsCached(),
+        getCategoriesCached()
     ]);
 
 

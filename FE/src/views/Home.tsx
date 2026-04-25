@@ -9,7 +9,7 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
     const featuredExams = exams.slice(0, 3);
 
     return (
-        <div className="w-full">
+        <main className="w-full">
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-background transition-colors">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32">
@@ -23,16 +23,15 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             {/* Primary Button */}
-                            <Link href="/exams">
-                                <Button className="text-lg py-6.5 px-5 rounded-full">{t.startExam}</Button>
-                            </Link>
+                            <Button asChild className="text-lg py-6.5 px-5 rounded-full">
+                                <Link href="/exams">{t.startExam}</Link>
+                            </Button>
 
                             {/* Secondary Button */}
-                            <a href="#features">
-                                <Button variant="outline" className="rounded-full py-6.5 px-5 text-lg">
-                                    {t.learnMore}
-                                </Button>
-                            </a>
+
+                            <Button asChild variant="outline" className="rounded-full py-6.5 px-5 text-lg">
+                                <a href="#features">{t.learnMore}</a>
+                            </Button>
                         </div>
 
                         <div className="mt-12 flex items-center justify-center gap-6 text-sm text-slate-500 dark:text-slate-400 font-medium">
@@ -60,12 +59,13 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                             </h2>
                             <p className="text-secondary dark:text-slate-400 max-w-2xl text-lg">{t.featuredDesc}</p>
                         </div>
-                        <Link href="/exams">
-                            <Button variant={'link'} className="group">
+
+                        <Button asChild variant={'link'} className="group">
+                            <Link href="/exams">
                                 {t.viewAllExams}
                                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                            </Button>
-                        </Link>
+                            </Link>
+                        </Button>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -77,7 +77,11 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                                 {/* Image */}
                                 <Image
                                     src={exam.image}
-                                    alt="Kỳ thi"
+                                    alt={
+                                        typeof exam.title === 'string'
+                                            ? exam.title
+                                            : exam.title[lang as keyof typeof exam.title]
+                                    }
                                     fill
                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                     className="object-cover group-hover:scale-110 transition-transform duration-700"
@@ -109,12 +113,9 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                                             {exam.duration} {t.minutes}
                                         </span>
                                     </div>
-
-                                    <Link href={`/exams/${exam.id}`}>
-                                        <Button variant={'outline'} className={'hover:bg-accent'}>
-                                            {t.viewDetails}
-                                        </Button>
-                                    </Link>
+                                    <Button asChild variant={'outline'} className={'hover:bg-accent'}>
+                                        <Link href={`/exams/${exam.id}`}>{t.viewDetails}</Link>
+                                    </Button>
                                 </div>
                             </div>
                         ))}
@@ -205,27 +206,27 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                     {/* Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         {/* Primary CTA */}
-                        <Link href="/register">
-                            <Button
-                                variant={'outline'}
-                                className="rounded-full py-6.5 px-5 font-semibold text-lg hover:bg-accent"
-                            >
-                                {t.createAccount}
-                            </Button>
-                        </Link>
+
+                        <Button
+                            asChild
+                            variant={'outline'}
+                            className="rounded-full py-6.5 px-5 font-semibold text-lg hover:bg-accent"
+                        >
+                            <Link href="/register">{t.createAccount}</Link>
+                        </Button>
 
                         {/* Secondary CTA */}
-                        <Link href="/exams">
-                            <Button
-                                variant="outline"
-                                className="rounded-full py-6.5 px-5 font-semibold text-lg hover:bg-accent"
-                            >
-                                {t.exploreExams}
-                            </Button>
-                        </Link>
+
+                        <Button
+                            asChild
+                            variant="outline"
+                            className="rounded-full py-6.5 px-5 font-semibold text-lg hover:bg-accent"
+                        >
+                            <Link href="/exams">{t.exploreExams}</Link>
+                        </Button>
                     </div>
                 </div>
             </section>
-        </div>
+        </main>
     );
 }

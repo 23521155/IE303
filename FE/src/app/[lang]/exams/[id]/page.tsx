@@ -4,11 +4,15 @@ import { notFound } from 'next/navigation';
 import { getDictionary } from '@/src/utils/dictionaries';
 import type { Locale } from '@/src/utils/i18n';
 import type { Metadata } from 'next';
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+import { cache } from 'react';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
+
+const getExamCached = cache(async (id: string) => await  examService.getExamById(id))
+
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; id: string }> }) : Promise<Metadata> {
     const { id, lang } = await params;
-    const exam: Exam | null = await examService.getExamById(id as string);
+    const exam: Exam | null = await getExamCached(id as string);
 
     if (!exam) return { title: 'Không tìm thấy đề thi' };
 
@@ -16,8 +20,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     const examTitle = typeof exam.title === 'string' ? exam.title : exam.title[lang as Locale];
     const examDesc = typeof exam.description === 'string' ? exam.description : exam.description[lang as Locale];
     const categoryName = exam.category?.name || '';
+
+    const ogImageUrl = exam.image.startsWith('http') ? exam.image : `${baseUrl}${exam.image}`;
     return {
-        title: `Thư viện đề thi - ${examTitle}`,
+        title: examTitle,
         description: examDesc,
         keywords: [
             "luyện thi IT Passport",
@@ -34,15 +40,15 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
             examTitle
         ],
         openGraph: {
-            title: `Thư viện đề thi - ${examTitle}`,
+            title: examTitle,
             description: examDesc,
             url: `${baseUrl}/${lang}/exams/${id}`,
             siteName: "IT Shiken",
             images: {
-                url: exam.image,
+                url: ogImageUrl,
                 width: 1200,
                 height: 630,
-                alt: "IT Shiken",
+                alt: examTitle,
             },
             locale: lang === 'vi' ? 'vi_VN' : lang === 'ja' ? 'ja_JP' : 'en_US',
             phoneNumbers: "0903571094",
@@ -53,6 +59,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
         alternates: {
             canonical: `${baseUrl}/${lang}/exams/${id}`,
             languages: {
+                'x-default': `${baseUrl}/en/exams/${id}`,
                 vi: `${baseUrl}/vi/exams/${id}`,
                 en: `${baseUrl}/en/exams/${id}`,
                 ja: `${baseUrl}/ja/exams/${id}`,
@@ -65,7 +72,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     const { id, lang } = await params;
 
     const [examData, t] = await Promise.all([
-        examService.getExamById(id as string),
+        getExamCached(id as string),
         getDictionary(lang as Locale)
     ]);
 

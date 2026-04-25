@@ -10,6 +10,7 @@ import { ChevronDown, Globe, LogOut, Menu, Moon, Settings, Sun, User, X } from '
 import { ImageWithFallback } from '@/src/components/figma/ImageWithFallback';
 import Image from 'next/image';
 import { Button } from '@/src/components/ui/button';
+import { usePathStore } from '@/src/store/authStore';
 
 const NAV_ITEMS = [
     {
@@ -54,6 +55,15 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
     }, []);
 
     const pathname = usePathname();
+    console.log('header ', pathname);
+
+    const { setPath } = usePathStore();
+
+    useEffect(() => {
+        if (pathname && !pathname.includes('/login') && !pathname.includes('/register')) {
+            setPath(pathname);
+        }
+    }, [pathname, setPath]);
 
     // Apply dark mode class to html element
     useEffect(() => {
@@ -192,12 +202,13 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
 
                         {!user ? (
                             <>
-                                <Link href={`/${lang}/login`}>
-                                    <Button variant={'outline'}>{t.login}</Button>
-                                </Link>
-                                <Link href={`/${lang}/register`}>
-                                    <Button>{t.register}</Button>
-                                </Link>
+                                <Button asChild variant={'outline'}>
+                                    <Link href={`/${lang}/login`}>{t.login}</Link>
+                                </Button>
+
+                                <Button asChild>
+                                    <Link href={`/${lang}/register`}>{t.register}</Link>
+                                </Button>
                             </>
                         ) : (
                             <div className="relative">

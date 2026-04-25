@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from "next/navigation";
 import {
     Clock,
@@ -146,6 +146,17 @@ export function TakeExam({
     const progressPercent =
         (answeredCount / questions.length) * 100;
 
+    const questionTopRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        if (questionTopRef.current) {
+            questionTopRef.current.scrollIntoView({
+                behavior: 'smooth', // Cuộn mượt mà
+                block: 'start'      // Cuộn lên mép trên cùng
+            });
+        }
+    }, [currentQuestionIndex]);
+
     return (
         <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0b0f19]">
             {/* Header */}
@@ -213,7 +224,7 @@ export function TakeExam({
             {/* Body */}
             <main className="max-w-[1600px] mx-auto px-6 py-8 grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-8">
                 {/* Question Area */}
-                <section className="space-y-6">
+                <section ref={questionTopRef} className="space-y-6 scroll-mt-28">
                     <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111827] p-8 shadow-sm">
                         <div className="mb-8">
                             <div className="inline-flex px-4 py-2 rounded-xl bg-primary/10 text-primary font-semibold mb-5">
@@ -254,7 +265,7 @@ export function TakeExam({
 
                                             <input
                                                 type="radio"
-                                                className="hidden"
+                                                className="sr-only"
                                                 checked={isSelected}
                                                 onChange={() =>
                                                     handleAnswer(
@@ -339,25 +350,20 @@ export function TakeExam({
                                     currentQuestionIndex === index;
 
                                 return (
-                                    <button
+                                    <Button
                                         key={q.id}
                                         onClick={() =>
                                             setCurrentQuestionIndex(index)
                                         }
-                                        className={`aspect-square rounded-xl text-sm font-semibold transition-all ${
-                                            isCurrent
-                                                ? "bg-primary text-white shadow-md"
-                                                : isAnswered
-                                                    ? "bg-primary/10 text-primary border border-primary/20"
-                                                    : "bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-700 text-slate-500"
-                                        }`}
+                                        variant={isAnswered || isCurrent ? 'default' : 'outline'}
+                                        className={'rounded-full'}
                                     >
                                         {isAnswered && !isCurrent ? (
                                             <CheckCircle2 className="h-5 w-5 mx-auto" />
                                         ) : (
                                             index + 1
                                         )}
-                                    </button>
+                                    </Button>
                                 );
                             })}
                         </div>

@@ -29,7 +29,7 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
 
 
     return (
-        <div className="bg-slate-50 dark:bg-[#121212] min-h-screen pt-10 pb-20 transition-colors duration-300">
+        <main className="bg-slate-50 dark:bg-[#121212] min-h-screen pt-10 pb-20 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header Section */}
                 <div className="mb-10 text-center">
@@ -49,6 +49,7 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
 
                             <input
                                 type="text"
+                                aria-label={t.searchExams}
                                 placeholder={t.searchExams}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -73,6 +74,7 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                                     key={category.id}
                                     onClick={() => setActiveCategory(category.id)}
                                     variant={activeCategory === category.id ? 'default' : 'outline'}
+                                    aria-pressed={activeCategory === category.id}
                                 >
                                     {t[`cat_${category.id}`]}
                                 </Button>
@@ -97,7 +99,7 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                 {filteredExams.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                         {filteredExams.map((exam) => (
-                            <div
+                            <article
                                 key={exam.id}
                                 className="relative h-[420px] rounded-md overflow-hidden group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-500"
                             >
@@ -127,11 +129,11 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                                 {/* Content */}
                                 <div className="absolute bottom-0 p-5 w-full text-white">
                                     {/* Title */}
-                                    <h3 className="text-xl font-bold mb-2 line-clamp-2">
+                                    <h2 className="text-xl font-bold mb-2 line-clamp-2">
                                         {typeof exam.title === 'string'
                                             ? exam.title
                                             : exam.title[language as Locale]}
-                                    </h3>
+                                    </h2>
 
                                     {/* Description */}
                                     <p className="text-sm text-white/80 mb-4 line-clamp-2">
@@ -163,16 +165,19 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                                     </div>
 
                                     {/* CTA */}
-                                    <Link href={`/${lang}/exams/${exam.id}`}>
+
                                         <Button
+                                            asChild
                                             variant="secondary"
                                             className="w-full rounded-full font-semibold backdrop-blur bg-white/90 text-black hover:bg-white cursor-pointer"
                                         >
+                                            <Link href={`/${lang}/exams/${exam.id}`}>
                                             {t.takeExamNow}
+                                            </Link>
                                         </Button>
-                                    </Link>
+
                                 </div>
-                            </div>
+                            </article>
                         ))}
                     </div>
                 ) : (
@@ -184,13 +189,13 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-2xl text-secondary font-bold text-foreground mb-2">
+                        <h2 className="text-2xl text-secondary font-bold mb-2">
                             {t.noResults}
-                        </h3>
+                        </h2>
 
                         {/* Desc */}
-                        <p className="text-secondary text-secondary mb-6">
-                            {t.noResultsDesc} "<span className="text-primary font-medium">{searchQuery}</span>"
+                        <p className="text-secondary mb-6">
+                            {t.noResultsDesc} <span className="text-primary font-medium">{searchQuery}</span>
                         </p>
 
                         {/* Button */}
@@ -207,6 +212,6 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                     </div>
                 )}
             </div>
-        </div>
+        </main>
     );
 }
