@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { CheckCircle2, XCircle, Award, BarChart3, Clock, RotateCcw, Home, FileText } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { BE_URL } from '@/src/utils/constans';
+import { ExamRatingStars } from '@/src/components/ExamRatingStars';
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -168,6 +169,10 @@ export function ExamResult() {
                             </Link>
                         </div>
                     </div>
+                </div>
+
+                <div className="mb-10">
+                    <ExamRatingStars examId={exam.id} t={t} />
                 </div>
 
                 {/* Review Answers */}

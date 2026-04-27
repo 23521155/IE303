@@ -94,7 +94,9 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                             <div className="flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-[#222] rounded-2xl transition-colors duration-300">
                                 <Star className="h-8 w-8 text-amber-400 mb-2" />
                                 <span className="text-sm text-slate-500 dark:text-slate-400 mb-1">{t.rating}</span>
-                                <span className="font-bold text-slate-900 dark:text-white">{exam.rating} / 5</span>
+                                <span className="font-bold text-slate-900 dark:text-white">
+                                    {exam.rating} ({exam.ratingCount})
+                                </span>
                             </div>
                         </div>
 
