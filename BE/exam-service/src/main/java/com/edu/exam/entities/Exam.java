@@ -49,6 +49,10 @@ public class Exam {
     @Column(name = "rating", precision = 3, scale = 2)
     private BigDecimal rating = BigDecimal.ZERO;
 
+    @ColumnDefault("0")
+    @Column(name = "rating_count")
+    private Integer ratingCount = 0;
+
     @OneToMany(mappedBy = "exam")
     @OrderBy("questionOrder ASC")
     private List<Question> questions;
