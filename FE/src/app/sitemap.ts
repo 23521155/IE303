@@ -5,7 +5,7 @@ import { examService } from '@/src/services/examService';
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const lastModified = new Date('2026-04-25');
+    const lastModified = new Date();
 
     const routes = [
         { path: '', priority: 1.0 },

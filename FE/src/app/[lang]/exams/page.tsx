@@ -90,7 +90,6 @@ export default async function Page({params}:{params: Promise<{lang: string}>}) {
 
 
 
-
     if(!examsData || !categoriesData) {
         notFound();
     }

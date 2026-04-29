@@ -1,4 +1,4 @@
-import {BE_URL} from '@/src/utils/constans';
+import { BE_URL } from '@/src/utils/constans';
 
 export interface Exam {
     id: string;
@@ -43,7 +43,7 @@ class ExamService {
 
         try {
             const response = await fetch(url, {
-                credentials: "include",
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     ...options?.headers,
@@ -64,6 +64,7 @@ class ExamService {
 
     async getAllExams(): Promise<Exam[]> {
         const response = await fetch(`${BE_URL}/api/exams`);
+        console.log(response);
 
         if (!response.ok) {
             throw new Error('Không thể tải danh sách đề thi');
@@ -96,7 +97,7 @@ class ExamService {
     }
 
     async submitExam(examId: string, payload: any) {
-        return this.request<{attemptId: string}>(`/api/exams/${examId}/submit`, {
+        return this.request<{ attemptId: string }>(`/api/exams/${examId}/submit`, {
             method: 'POST',
             body: JSON.stringify(payload),
         });
