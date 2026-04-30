@@ -20,6 +20,7 @@ import "katex/dist/katex.min.css";
 import { examService } from "../services/examService";
 import type { ExamDetail, Question } from "../services/examService";
 import { Button } from "@/src/components/ui/button";
+import { toast } from 'sonner';
 
 interface TakeExamProps {
     t: any;
@@ -118,9 +119,7 @@ export function TakeExam({
             router.push(`/${lang}/results/${responseData.attemptId}`);
         } catch (error) {
             console.error(error);
-            alert(
-                "Vui lòng đăng nhập để nộp bài. Nếu đã đăng nhập thì vui lòng thử lại sau."
-            );
+            toast.error(t.requireLoginSubmit)
             setIsSubmitting(false);
         }
     };

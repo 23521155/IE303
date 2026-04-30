@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/src/contexts/LanguageContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMe } from '@/src/hooks/useMe';
@@ -153,7 +153,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                             <Button
                                 variant={'ghost'}
                                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                                className="flex items-center gap-1 p-2 rounded-full
+                                className="flex items-center gap-1 p-2 rounded-ml
                                                hover:bg-muted
                                                transition-colors
                                                text-secondary
@@ -194,7 +194,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                         <Button
                             variant={'ghost'}
                             onClick={() => setIsDarkMode(!isDarkMode)}
-                            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300 mr-2"
+                            className="p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300 mr-2"
                             aria-label="Toggle dark mode"
                         >
                             {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -326,35 +326,35 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                 <div className="md:hidden bg-white dark:bg-[#1a1a1a] border-t border-blue-50 dark:border-slate-800 px-4 py-4 space-y-4">
                     <Link
                         href="/"
-                        className="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium py-2"
+                        className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.home}
                     </Link>
                     <Link
                         href="/exams"
-                        className="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium py-2"
+                        className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.exams}
                     </Link>
                     <Link
                         href="/materials"
-                        className="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium py-2"
+                        className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.materials}
                     </Link>
                     <Link
                         href="/flashcards"
-                        className="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium py-2"
+                        className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.flashcards}
                     </Link>
                     <Link
                         href="/blogs"
-                        className="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium py-2"
+                        className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.blog}
@@ -362,20 +362,17 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                     <div className="pt-4 border-t border-blue-50 dark:border-slate-800 flex flex-col gap-3">
                         {!user ? (
                             <>
-                                <Link
-                                    href="/login"
-                                    className="text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-900/30 px-4 py-2 rounded-lg font-medium w-full text-center block"
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    {t.login}
-                                </Link>
-                                <Link
-                                    href="/register"
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium w-full text-center shadow-sm block"
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    {t.register}
-                                </Link>
+                                <Button asChild>
+                                    <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                                        {t.login}
+                                    </Link>
+                                </Button>
+
+                                <Button asChild variant={'outline'}>
+                                    <Link href="/register" onClick={() => setIsMenuOpen(false)}>
+                                        {t.register}
+                                    </Link>
+                                </Button>
                             </>
                         ) : (
                             <>
