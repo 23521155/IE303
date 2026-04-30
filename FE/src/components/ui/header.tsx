@@ -31,7 +31,7 @@ const NAV_ITEMS = [
     },
     {
         label: 'blog',
-        path: '/blogs',
+        path: '/community',
     },
 ];
 
@@ -353,7 +353,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                         {t.flashcards}
                     </Link>
                     <Link
-                        href="/blogs"
+                        href="/community"
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >

@@ -14,13 +14,13 @@ export function CreateBlog() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     alert('Đăng bài thành công! (Dữ liệu chưa được lưu vì chưa có backend)');
-    router.push('/blogs');
+    router.push('/community');
   };
 
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <Link href="/blogs" className="inline-flex items-center text-slate-500 hover:text-blue-600 mb-6 transition-colors">
+        <Link href="/community" className="inline-flex items-center text-slate-500 hover:text-blue-600 mb-6 transition-colors">
           <ArrowLeft className="w-4 h-4 mr-2" /> Quay lại Blog
         </Link>
 

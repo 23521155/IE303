@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         { path: 'exams', priority: 0.9 },
         { path: 'materials', priority: 0.8 },
         { path: 'flashcards', priority: 0.7 },
-        { path: 'blogs', priority: 0.9 },
+        { path: 'community', priority: 0.9 },
     ];
 
     const locales = ['vi', 'en', 'ja'];

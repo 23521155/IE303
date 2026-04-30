@@ -77,15 +77,15 @@
 
   <!-- BLOGS -->
   <url>
-    <loc>https://itshiken.io.vn/vi/blogs</loc>
+    <loc>https://itshiken.io.vn/vi/community</loc>
     <lastmod>2026-04-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
 
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://itshiken.io.vn/en/blogs"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi/blogs"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en/blogs"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/blogs"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itshiken.io.vn/en/community"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://itshiken.io.vn/vi/community"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://itshiken.io.vn/en/community"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://itshiken.io.vn/ja/community"/>
   </url>
 
 

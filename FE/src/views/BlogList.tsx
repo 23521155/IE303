@@ -344,7 +344,7 @@ export function BlogList({ t, lang }: { t: any; lang: string }) {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <Link href={`/blogs/${post.id}`} className="mt-1.5 block group/content outline-none rounded-md">
+                                            <Link href={`/community/${post.id}`} className="mt-1.5 block group/content outline-none rounded-md">
                                                 <p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-line break-words group-hover/content:opacity-75 transition-opacity">
                                                     {post.content}
                                                 </p>
@@ -353,7 +353,7 @@ export function BlogList({ t, lang }: { t: any; lang: string }) {
 
                                         {/* Post Image */}
                                         {!isEditing && post.mediaUrls && post.mediaUrls.length > 0 && (
-                                            <Link href={`/blogs/${post.id}`} className="mt-3.5 block rounded-2xl overflow-hidden border border-gray-100 dark:border-[#222] shadow-[0_2px_8px_rgb(0,0,0,0.04)] dark:shadow-none hover:opacity-95 transition-all">
+                                            <Link href={`/community/${post.id}`} className="mt-3.5 block rounded-2xl overflow-hidden border border-gray-100 dark:border-[#222] shadow-[0_2px_8px_rgb(0,0,0,0.04)] dark:shadow-none hover:opacity-95 transition-all">
                                                 <ImageWithFallback src={post.mediaUrls[0]} alt="Post image" className="w-full h-auto max-h-[500px] object-cover bg-gray-50 dark:bg-[#111]" />
                                             </Link>
                                         )}
@@ -364,7 +364,7 @@ export function BlogList({ t, lang }: { t: any; lang: string }) {
                                                 <button onClick={() => toggleLike(post.id)} className="group p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-all active:scale-90 flex items-center justify-center">
                                                     <Heart className={`w-[20px] h-[20px] transition-colors ${post.isLiked ? 'fill-red-500 text-red-500' : 'text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'}`} />
                                                 </button>
-                                                <Link href={`/blogs/${post.id}`} className="group p-2 rounded-full hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-all active:scale-90 flex items-center justify-center">
+                                                <Link href={`/community/${post.id}`} className="group p-2 rounded-full hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-all active:scale-90 flex items-center justify-center">
                                                     <MessageCircle className="w-[20px] h-[20px] text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                                                 </Link>
                                                 <button className="group p-2 rounded-full hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-all active:scale-90 flex items-center justify-center">

@@ -144,7 +144,7 @@ export function BlogPost({ t, lang }: { t: any; lang: string }) {
     if (!thread || !confirm('Xóa bài viết này?')) return;
     try {
       const res = await fetch(`${BLOG_API_URL}/${thread.id}?requesterId=${MOCK_USER_ID}`, { method: 'DELETE' });
-      if (res.ok) { window.location.href = '/blogs'; }
+      if (res.ok) { window.location.href = '/community'; }
       else { alert('Không có quyền xóa!'); }
     } catch (error) { console.error(error); }
   };
@@ -184,7 +184,7 @@ export function BlogPost({ t, lang }: { t: any; lang: string }) {
 
         {/* Header */}
         <div className="sticky top-[64px] bg-white/70 dark:bg-[#121212]/70 sm:rounded-t-3xl backdrop-blur-xl z-10 p-4 border-b border-gray-100/50 dark:border-[#222]/50 flex items-center transition-all duration-500">
-          <Link href="/blogs" className="p-2.5 -ml-2.5 mr-2 hover:bg-gray-100 dark:hover:bg-[#222] rounded-full transition-all active:scale-90">
+          <Link href="/community" className="p-2.5 -ml-2.5 mr-2 hover:bg-gray-100 dark:hover:bg-[#222] rounded-full transition-all active:scale-90">
             <ArrowLeft className="w-[20px] h-[20px] text-gray-900 dark:text-gray-100" />
           </Link>
           <h1 className="font-bold text-gray-900 dark:text-gray-100 text-[17px] tracking-tight flex-1 text-center pr-8">{t?.thread || 'Thread'}</h1>
