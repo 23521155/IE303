@@ -14,16 +14,16 @@ export const metadata: Metadata = {
     },
     description: 'Nền tảng thi thử online miễn phí đa môn với hệ thống luyện đề trắc nghiệm, chấm điểm tự động và phân tích kết quả giúp bạn cải thiện điểm số nhanh chóng.',
     keywords: [
+        "ITShiken",
         "luyện thi IT Passport",
-        "đề thi IT Passport tiếng Việt",
-        "luyện thi FE",
-        "đề thi FE tiếng Việt",
+        "Web thi thử chứng chỉ IT",
         "thi thử IT Passport online",
-        "thi thử FE online",
+        "Lộ trình tự học IT Passport",
+        "Đề thi IT Passport tiếng Việt",
+        "Cấu trúc đề thi IT Passport",
         "chứng chỉ IT Nhật Bản",
-        "sát hạch VITEC",
-        "giải đề FE có lời giải",
-        "từ vựng IT Passport"
+        "Tài liệu ôn thi IT Passport PDF",
+        "Thi thử IT Passport trên điện thoại"
     ],
     openGraph: {
         title: 'Thi thử online free & Luyện đề, chấm điểm tự động | ITShiken',
@@ -68,7 +68,7 @@ export default async function RootLayout({
     const { lang } = await params;
  const t = await getDictionary(lang as Locale)
   return (
-    <html lang="en">
+    <html lang={lang}>
       <body className={`${inter.className} antialiased`}>
       <Header t={t} lang={lang}/>
       {children}
