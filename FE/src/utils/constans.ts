@@ -1,1 +1,2 @@
-export const BE_URL = process.env.NEXT_PUBLIC_BE_URL || 'http://localhost:8083';
+export const BE_URL =
+    typeof window === 'undefined' ? (process.env.BE_URL ?? 'http://62.72.46.7:8080') : '';

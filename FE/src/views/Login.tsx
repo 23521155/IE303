@@ -3,39 +3,57 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, LogIn, ArrowRight } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
 import { loginAction } from '@/src/actions/authActions';
-import { useAuthStore } from '@/src/store/authStore';
+import { useAuthStore, usePathStore } from '@/src/store/authStore';
 import { BE_URL } from '@/src/utils/constans';
-
-export function Login() {
+import { Button } from '@/src/components/ui/button';
+import { toast } from 'sonner';
+export function Login({ t, lang }: { t: any; lang: string }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
-    const { t } = useLanguage();
     const { setUser } = useAuthStore();
+
+    const { path } = usePathStore();
+    console.log('login ', path);
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        const res = await loginAction({ email, password });
-        if (res.success) {
+
+        const loginPromise = (async () => {
+            const res = await loginAction({ email, password });
+
+            if (!res.success) {
+                throw new Error(res.message);
+            }
+
             const meRes = await fetch(`${BE_URL}/api/users/me`, {
                 credentials: 'include',
             });
+
             const user = await meRes.json().then((data) => data.data);
+
             setUser(user);
-            router.push('/');
-        }
-        alert(res.message);
+            router.push(path);
+
+            return res.message; // dùng cho success message
+        })();
+
+        toast.promise(loginPromise, {
+            loading: `${t.logging}...`,
+            success: `${t.loginSuccess}`,
+            error: `${t.loginFail}`,
+        });
     };
 
     return (
-        <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-[#121212] transition-colors duration-300">
-            <div className="max-w-md w-full space-y-8 bg-white dark:bg-[#1a1a1a] p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <div className="min-h-[80vh] flex items-center justify-center p-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-[#121212] transition-colors duration-300">
+            <div className="max-w-md w-full space-y-8 bg-white dark:bg-[#1a1a1a] p-8 rounded-md shadow-sm border border-slate-200 dark:border-slate-800 transition-colors duration-300">
                 <div>
                     <h2 className="mt-2 text-center text-3xl font-extrabold text-slate-900 dark:text-white">
-                        {t('login')}
+                        {t.login}
                     </h2>
-                    <p className="mt-2 text-center text-sm text-slate-500 dark:text-slate-400">{t('welcomeBack')}</p>
+                    <p className="mt-2 text-center text-sm text-slate-500 dark:text-slate-400">{t.welcomeBack}</p>
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleLogin}>
                     <div className="space-y-4">
@@ -44,7 +62,7 @@ export function Login() {
                                 className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
                                 htmlFor="email"
                             >
-                                {t('emailAddress')}
+                                {t.emailAddress}
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -58,7 +76,7 @@ export function Login() {
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-[#222] border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-[#222] border border-slate-200 dark:border-slate-700 rounded-md text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent transition-all"
                                     placeholder="nguyenvana@example.com"
                                 />
                             </div>
@@ -68,7 +86,7 @@ export function Login() {
                                 className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
                                 htmlFor="password"
                             >
-                                {t('password')}
+                                {t.password}
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -82,7 +100,7 @@ export function Login() {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-[#222] border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-[#222] border border-slate-200 dark:border-slate-700 rounded-md text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent transition-all"
                                     placeholder="••••••••"
                                 />
                             </div>
@@ -95,36 +113,25 @@ export function Login() {
                                 id="remember-me"
                                 name="remember-me"
                                 type="checkbox"
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-slate-600 rounded dark:bg-[#222]"
+                                className="h-4 w-4 text-secondary focus:ring-secondary border-slate-300 dark:border-slate-600 rounded dark:bg-[#222]"
                             />
                             <label
                                 htmlFor="remember-me"
                                 className="ml-2 block text-sm text-slate-900 dark:text-slate-300"
                             >
-                                {t('rememberMe')}
+                                {t.rememberMe}
                             </label>
                         </div>
 
-                        <div className="text-sm">
-                            <Link
-                                href="/forgot-password"
-                                className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 transition-colors"
-                            >
-                                {t('forgotPassword')}
-                            </Link>
-                        </div>
+                        <Button asChild variant={'link'} className="p-1">
+                            <Link href="/forgot-password">{t.forgotPassword}</Link>
+                        </Button>
                     </div>
 
                     <div>
-                        <button
-                            type="submit"
-                            className="group relative w-full flex justify-center py-3 px-4 rounded-xl text-white bg-blue-600 hover:bg-blue-700 font-medium transition-colors shadow-md shadow-blue-200 dark:shadow-none"
-                        >
-                            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                                <LogIn className="h-5 w-5 text-blue-300 group-hover:text-blue-200 transition-colors" />
-                            </span>
-                            {t('login')}
-                        </button>
+                        <Button type="submit" className="w-full py-5">
+                            {t.login}
+                        </Button>
                     </div>
 
                     <div className="relative my-6">
@@ -133,16 +140,13 @@ export function Login() {
                         </div>
                         <div className="relative flex justify-center text-sm">
                             <span className="px-2 bg-white dark:bg-[#1a1a1a] text-slate-500 dark:text-slate-400 transition-colors">
-                                {t('orContinueWith')}
+                                {t.orContinueWith}
                             </span>
                         </div>
                     </div>
 
                     <div>
-                        <button
-                            type="button"
-                            className="w-full flex justify-center items-center py-3 px-4 border border-slate-300 dark:border-slate-700 rounded-xl bg-white dark:bg-[#222] text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#2a2a2a] transition-colors"
-                        >
+                        <Button variant={'outline'} className="w-full py-5">
                             <svg
                                 className="h-5 w-5 mr-2"
                                 viewBox="0 0 24 24"
@@ -166,19 +170,16 @@ export function Login() {
                                     fill="#EA4335"
                                 />
                             </svg>
-                            {t('loginWithGoogle')}
-                        </button>
+                            {t.loginWithGoogle}
+                        </Button>
                     </div>
                 </form>
 
                 <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
-                    {t('noAccount')}{' '}
-                    <Link
-                        href="/register"
-                        className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 inline-flex items-center transition-colors"
-                    >
-                        {t('registerNow')} <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
+                    {t.noAccount}
+                    <Button asChild variant={'link'} className="p-1">
+                        <Link href={`/${lang}/register`}>{t.registerNow}</Link>
+                    </Button>
                 </div>
             </div>
         </div>

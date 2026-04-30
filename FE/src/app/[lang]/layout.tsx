@@ -1,18 +1,20 @@
 import type { Metadata, Viewport } from 'next';
-
+import { LanguageProvider } from '@/src/contexts/LanguageContext';
 import '@/src/styles/index.css';
 import {Inter } from "next/font/google";
 import Header from '@/src/components/ui/header';
 import Footer from '@/src/components/ui/footer';
 import type {Locale} from '@/src/utils/i18n'
 import { getDictionary } from '@/src/utils/dictionaries';
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+import {Toaster} from '@/src/components/ui/sonner';
+
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 export const metadata: Metadata = {
     title: {
-        template: '%s | ITShiken',
-        default: 'Thi thử online free & Luyện đề, chấm điểm tự động | ITShiken'
+        template: '%s | IT Shiken',
+        default: 'Thi thử online free & Luyện đề, chấm điểm tự động | IT Shiken'
     },
-    description: 'Nền tảng thi thử online miễn phí đa môn với hệ thống luyện đề trắc nghiệm, chấm điểm tự động và phân tích kết quả giúp bạn cải thiện điểm số nhanh chóng.',
+    description: 'Nền tảng luyện thi IT Passport, FE & các chứng chỉ IT Nhật khác. Tự tin đỗ ngay lần đầu với đề thi thật, chấm tự động. Thi thử miễn phí ngay!',
     keywords: [
         "ITShiken",
         "luyện thi IT Passport",
@@ -26,9 +28,9 @@ export const metadata: Metadata = {
         "Thi thử IT Passport trên điện thoại"
     ],
     openGraph: {
-        title: 'Thi thử online free & Luyện đề, chấm điểm tự động | ITShiken',
+        title: 'Thi thử online free & Luyện đề, chấm điểm tự động | IT Shiken',
         description: 'Nền tảng thi thử online miễn phí đa môn với hệ thống luyện đề trắc nghiệm, chấm điểm tự động và phân tích kết quả giúp bạn cải thiện điểm số nhanh chóng.',
-        url: `${baseUrl}`,
+        url: baseUrl,
         siteName: "ITShiken",
         images: {
             url: `/thumbnail.jpg`,
@@ -41,9 +43,6 @@ export const metadata: Metadata = {
         emails: "nguyenletuanphi910.2019@gmail.com",
         type: "website",
         countryName: "Việt Nam"
-    },
-    alternates: {
-        canonical: `${baseUrl}`,
     },
     metadataBase: new URL(baseUrl || 'http://localhost:3000'),
 };
@@ -59,6 +58,7 @@ const inter = Inter({
 });
 
 
+
 export default async function RootLayout({
   children, params,
 }: Readonly<{
@@ -70,9 +70,10 @@ export default async function RootLayout({
   return (
     <html lang={lang}>
       <body className={`${inter.className} antialiased`}>
-      <Header t={t} lang={lang}/>
-      {children}
-      <Footer t={t} lang={lang}/>
+              <Header t={t} lang={lang}/>
+              {children}
+              <Footer t={t} lang={lang}/>
+              <Toaster className={'bg-primary'} />
       </body>
     </html>
   );

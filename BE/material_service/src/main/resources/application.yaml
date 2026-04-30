@@ -9,7 +9,7 @@ spring:
     init:
       mode: never
   application:
-    name: material_service
+    name: material-service
   datasource:
     url: jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/material_db?sslmode=require
     username: neondb_owner
@@ -28,3 +28,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
+  instance:
+    prefer-ip-address: true

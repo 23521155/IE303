@@ -20,6 +20,11 @@ spring:
               predicates:
                 - Path=/api/users/**
 
+            - id: exam_service
+              uri: lb://exam-service
+              predicates:
+                - Path=/api/exams/**, /api/categories/**, /api/attempts/**
+
             - id: material_service
               uri: lb://material_service
               predicates:
@@ -28,4 +33,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka/

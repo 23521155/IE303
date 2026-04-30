@@ -6,6 +6,7 @@
         <groupId>com.edu</groupId>
         <artifactId>BE</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>material_service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
