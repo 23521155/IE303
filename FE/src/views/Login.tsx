@@ -7,6 +7,7 @@ import { loginAction } from '@/src/actions/authActions';
 import { useAuthStore, usePathStore } from '@/src/store/authStore';
 import { BE_URL } from '@/src/utils/constans';
 import { Button } from '@/src/components/ui/button';
+import { toast } from 'sonner';
 export function Login({ t, lang }: { t: any; lang: string }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,21 +19,36 @@ export function Login({ t, lang }: { t: any; lang: string }) {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        const res = await loginAction({ email, password });
-        if (res.success) {
+
+        const loginPromise = (async () => {
+            const res = await loginAction({ email, password });
+
+            if (!res.success) {
+                throw new Error(res.message);
+            }
+
             const meRes = await fetch(`${BE_URL}/api/users/me`, {
                 credentials: 'include',
             });
+
             const user = await meRes.json().then((data) => data.data);
+
             setUser(user);
             router.push(path);
-        }
-        alert(res.message);
+
+            return res.message; // dùng cho success message
+        })();
+
+        toast.promise(loginPromise, {
+            loading: `${t.logging}...`,
+            success: `${t.loginSuccess}`,
+            error: `${t.loginFail}`,
+        });
     };
 
     return (
-        <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-[#121212] transition-colors duration-300">
-            <div className="max-w-md w-full space-y-8 bg-white dark:bg-[#1a1a1a] p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <div className="min-h-[80vh] flex items-center justify-center p-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-[#121212] transition-colors duration-300">
+            <div className="max-w-md w-full space-y-8 bg-white dark:bg-[#1a1a1a] p-8 rounded-md shadow-sm border border-slate-200 dark:border-slate-800 transition-colors duration-300">
                 <div>
                     <h2 className="mt-2 text-center text-3xl font-extrabold text-slate-900 dark:text-white">
                         {t.login}
@@ -60,7 +76,7 @@ export function Login({ t, lang }: { t: any; lang: string }) {
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-[#222] border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-[#222] border border-slate-200 dark:border-slate-700 rounded-md text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent transition-all"
                                     placeholder="nguyenvana@example.com"
                                 />
                             </div>
@@ -84,7 +100,7 @@ export function Login({ t, lang }: { t: any; lang: string }) {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-[#222] border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-[#222] border border-slate-200 dark:border-slate-700 rounded-md text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-secondary focus:border-transparent transition-all"
                                     placeholder="••••••••"
                                 />
                             </div>
@@ -97,7 +113,7 @@ export function Login({ t, lang }: { t: any; lang: string }) {
                                 id="remember-me"
                                 name="remember-me"
                                 type="checkbox"
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-slate-600 rounded dark:bg-[#222]"
+                                className="h-4 w-4 text-secondary focus:ring-secondary border-slate-300 dark:border-slate-600 rounded dark:bg-[#222]"
                             />
                             <label
                                 htmlFor="remember-me"
@@ -107,14 +123,9 @@ export function Login({ t, lang }: { t: any; lang: string }) {
                             </label>
                         </div>
 
-                        <div className="text-sm">
-                            <Link
-                                href="/forgot-password"
-                                className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 transition-colors"
-                            >
-                                {t.forgotPassword}
-                            </Link>
-                        </div>
+                        <Button asChild variant={'link'} className="p-1">
+                            <Link href="/forgot-password">{t.forgotPassword}</Link>
+                        </Button>
                     </div>
 
                     <div>
@@ -165,11 +176,9 @@ export function Login({ t, lang }: { t: any; lang: string }) {
                 </form>
 
                 <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
-                    {t.noAccount}{' '}
-                    <Button asChild variant={'link'}>
-                        <Link href={`/${lang}/register`}>
-                            {t.registerNow} <ArrowRight className="ml-1 h-4 w-4" />
-                        </Link>
+                    {t.noAccount}
+                    <Button asChild variant={'link'} className="p-1">
+                        <Link href={`/${lang}/register`}>{t.registerNow}</Link>
                     </Button>
                 </div>
             </div>

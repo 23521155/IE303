@@ -126,6 +126,7 @@ public class ExamService {
 
         attempt = examAttemptRepository.save(attempt);
         attemptAnswerRepository.saveAll(attemptAnswers);
+        examRepository.incrementParticipants(id);
 
         return attempt.getId();
     }

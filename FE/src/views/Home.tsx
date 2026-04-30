@@ -1,56 +1,97 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, BrainCircuit, Globe, Code } from 'lucide-react';
 import { exams } from '../data/mockData';
 import { Button } from '@/src/components/ui/button';
 
 import Image from 'next/image';
-
+import ParallaxScroll from '@/src/animation/parallaxScroll';
+import ScrollReveal from '@/src/animation/scrollReveal';
+import SmoothScroll from '@/src/animation/smoothScroll';
+import AnimateInView from '@/src/animation/AnimateInView';
+import { useLenisScroll } from '@/src/animation/useLenisScroll';
+import { motion } from 'framer-motion';
 export default function Home({ t, lang }: { t: any; lang: string }) {
     const featuredExams = exams.slice(0, 3);
+    const { scrollTo } = useLenisScroll();
 
     return (
         <main className="w-full">
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-background transition-colors">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32">
+            <section className=" relative overflow-hidden bg-background transition-colors min-h-[calc(100vh-64px)] sm:border-b sm:border-b-secondary">
+                {/* Thêm z-10 và relative để văn bản nằm trên hình ảnh */}
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32 relative z-10">
                     <div className="text-center max-w-3xl mx-auto">
-                        <h1 className="text-5xl md:text-6xl font-extrabold text-secondary dark:text-white tracking-tight leading-tight mb-6">
-                            {t.heroTitle1} <br className="hidden sm:block" />
-                            <span className="text-primary">{t.heroTitle2}</span>
-                        </h1>
-                        <p className="text-xl text-secondary dark:text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                            {t.heroDesc}
-                        </p>
+                        <AnimateInView>
+                            <h1 className="text-5xl md:text-6xl font-extrabold text-secondary dark:text-white tracking-tight leading-tight mb-6">
+                                {t.heroTitle1} <br className="hidden sm:block" />
+                                <span className="text-primary">{t.heroTitle2}</span>
+                            </h1>
+                        </AnimateInView>
+
+                        <AnimateInView delay={0.2}>
+                            <p className="text-xl text-secondary dark:text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                                {t.heroDesc}
+                            </p>
+                        </AnimateInView>
+
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             {/* Primary Button */}
-                            <Button asChild className="text-lg py-6.5 px-5 rounded-full">
-                                <Link href="/exams">{t.startExam}</Link>
-                            </Button>
+                            <AnimateInView delay={0.4}>
+                                <Button asChild className="text-lg py-6.5 px-5">
+                                    <Link href={`/${lang}/exams`}>{t.startExam}</Link>
+                                </Button>
+                            </AnimateInView>
 
+                            <AnimateInView delay={0.6}>
+                                <Button
+                                    variant="outline"
+                                    className="py-6.5 px-5 text-lg"
+                                    onClick={() => scrollTo('#features')}
+                                >
+                                    {t.learnMore}
+                                </Button>
+                            </AnimateInView>
                             {/* Secondary Button */}
-
-                            <Button asChild variant="outline" className="rounded-full py-6.5 px-5 text-lg">
-                                <a href="#features">{t.learnMore}</a>
-                            </Button>
                         </div>
 
                         <div className="mt-12 flex items-center justify-center gap-6 text-sm text-slate-500 dark:text-slate-400 font-medium">
-                            <div className="flex items-center gap-2 text-primary">
-                                <CheckCircle2 className="h-5 w-5" />
-
-                                <p>{t.freeToUse}</p>
-                            </div>
-                            <div className="flex items-center gap-2 text-primary">
-                                <CheckCircle2 className="h-5 w-5" />
-                                <p> {t.updatedExams}</p>
-                            </div>
+                            <AnimateInView delay={0.5}>
+                                <div className="flex items-center gap-2 text-primary">
+                                    <CheckCircle2 className="h-5 w-5" />
+                                    <p>{t.freeToUse}</p>
+                                </div>
+                            </AnimateInView>
+                            <AnimateInView delay={0.7}>
+                                <div className="flex items-center gap-2 text-primary">
+                                    <CheckCircle2 className="h-5 w-5" />
+                                    <p>{t.updatedExams}</p>
+                                </div>
+                            </AnimateInView>
                         </div>
                     </div>
                 </div>
+
+                {/* Sửa đổi ở đây */}
+                <motion.div
+                    className="absolute right-0 bottom-1/3 sm:bottom-0 lg:-bottom-1/8 z-0 m-0 p-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1.2, delay: 0.2, ease: 'easeOut' }}
+                >
+                    <Image
+                        src={'/Học.png'}
+                        alt={'học'}
+                        height={600}
+                        width={600}
+                        className="opacity-20 sm:opacity-40 lg:opacity-60"
+                    />
+                </motion.div>
             </section>
 
             {/* Featured Exams Section */}
-            <section className="py-20 bg-white dark:bg-[#121212] border-t border-slate-100 dark:border-slate-800 transition-colors duration-300">
+            <section className=" py-20 bg-white dark:bg-[#121212] border-t border-slate-100  dark:border-slate-800 transition-colors duration-300 min-h-[calc(100vh-64px)]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
                         <div>
@@ -124,7 +165,10 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
             </section>
 
             {/* Features Section */}
-            <section id="features" className="py-20 bg-secondary/2 dark:bg-[#0f0f0f] transition-colors duration-300">
+            <section
+                id="features"
+                className="py-20 bg-secondary/2 dark:bg-[#0f0f0f] transition-colors duration-300 min-h-[100vh]"
+            >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl font-bold text-secondary dark:text-white mb-4">{t.whyChooseUs}</h2>
@@ -187,7 +231,7 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
             </section>
 
             {/* CTA Section */}
-            <section className="relative py-24 overflow-hidden">
+            <section className="relative py-24 overflow-hidden min-h-[calc(100vh-64px-350px)]">
                 {/* Background gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-secondary" />
 
@@ -210,7 +254,7 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                         <Button
                             asChild
                             variant={'outline'}
-                            className="rounded-full py-6.5 px-5 font-semibold text-lg hover:bg-accent"
+                            className=" py-6.5 px-5 font-semibold text-lg hover:bg-accent"
                         >
                             <Link href="/register">{t.createAccount}</Link>
                         </Button>
@@ -220,7 +264,7 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                         <Button
                             asChild
                             variant="outline"
-                            className="rounded-full py-6.5 px-5 font-semibold text-lg hover:bg-accent"
+                            className=" py-6.5 px-5 font-semibold text-lg hover:bg-accent"
                         >
                             <Link href="/exams">{t.exploreExams}</Link>
                         </Button>
