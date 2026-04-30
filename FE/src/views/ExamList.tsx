@@ -121,7 +121,7 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
 
                                 {/* Category badge */}
                                 <div className="absolute top-4 left-4 z-20">
-                <span className="bg-primary/90 text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full backdrop-blur">
+                <span className="bg-primary/90 text-primary-foreground text-xs font-semibold px-3 py-1 rounded-sm backdrop-blur">
                     {t[`cat_${exam.category.id}`] || exam.category.name}
                 </span>
                                 </div>
@@ -144,21 +144,21 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
 
                                     {/* Info */}
                                     <div className="flex flex-wrap items-center gap-2 mb-5 text-xs">
-                    <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+                    <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-sm flex items-center gap-1">
                         ⭐ {exam.rating}
                     </span>
 
-                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-sm flex items-center gap-1">
                         <Clock className="w-3.5 h-3.5" />
                                             {exam.duration} {t.minutes}
                     </span>
 
-                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-sm flex items-center gap-1">
                         <Users className="w-3.5 h-3.5" />
                                             {exam.participants.toLocaleString()}
                     </span>
 
-                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-sm flex items-center gap-1">
                         <BookOpen className="w-3.5 h-3.5" />
                                             {exam.questionCount} {t.questions}
                     </span>
@@ -169,7 +169,7 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                                         <Button
                                             asChild
                                             variant="secondary"
-                                            className="w-full rounded-full font-semibold backdrop-blur bg-white/90 text-black hover:bg-white cursor-pointer"
+                                            className="w-full font-semibold backdrop-blur bg-white/90 text-black hover:bg-white cursor-pointer"
                                         >
                                             <Link href={`/${lang}/exams/${exam.id}`}>
                                             {t.takeExamNow}

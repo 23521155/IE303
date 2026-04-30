@@ -133,7 +133,7 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                         </div>
 
                         <div className="flex justify-center">
-                            <Button asChild className="rounded-full py-6.5 px-5 font-semibold text-lg ">
+                            <Button asChild className=" py-6.5 px-5 font-semibold text-lg ">
                                 <Link href={`/${lang}/take-exam/${exam.id}`}>
                                     {t.startDoingExam} <ArrowRight className="h-6 w-6" />
                                 </Link>

@@ -175,5 +175,12 @@
   "language": "言語",
   "vi": "ベトナム語",
   "en": "英語",
-  "ja": "日本語"
+  "ja": "日本語",
+  "logging": "ログイン中",
+  "loginSuccess": "ログインに成功しました",
+  "loginFail": "ログインに失敗しました",
+  "registering": "登録中",
+  "registerSuccess": "登録に成功しました",
+  "registerFail": "登録に失敗しました",
+  "requireLoginSubmit": "提出するにはログインしてください。すでにログインしている場合は、もう一度お試しください。"
 }

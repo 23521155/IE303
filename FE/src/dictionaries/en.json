@@ -175,5 +175,12 @@
   "language": "Language",
   "vi": "Vietnamese",
   "en": "English",
-  "ja": "Japanese"
+  "ja": "Japanese",
+  "logging": "Logging in",
+  "loginSuccess": "Login successful",
+  "loginFail": "Login failed",
+  "registering": "Registering",
+  "registerSuccess": "Registration successful",
+  "registerFail": "Registration failed",
+  "requireLoginSubmit": "Please log in to submit. If you are already logged in, please try again."
 }

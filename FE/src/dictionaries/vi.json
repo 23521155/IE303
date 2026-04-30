@@ -175,5 +175,12 @@
   "language": "Ngôn ngữ",
   "vi": "Tiếng Việt",
   "en": "Tiếng Anh",
-  "ja": "Tiếng Nhật"
+  "ja": "Tiếng Nhật",
+  "logging": "Đang đăng nhập",
+  "loginSuccess": "Đăng nhập thành công",
+  "loginFail": "Đăng nhập thất bại",
+  "registering": "Đang đăng ký",
+  "registerSuccess": "Đăng ký thành công",
+  "registerFail": "Đăng ký thất bại",
+  "requireLoginSubmit": "Vui lòng đăng nhập để nộp bài. Nếu đã đăng nhập thì vui lòng thử lại sau."
 }
