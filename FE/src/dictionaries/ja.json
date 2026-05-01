@@ -3,7 +3,7 @@
   "exams": "試験",
   "materials": "資料",
   "flashcards": "単語帳",
-  "blog": "コミュニティ",
+  "blog": "ブログ",
   "login": "ログイン",
   "register": "登録",
   "logout": "ログアウト",
@@ -182,5 +182,6 @@
   "registering": "登録中",
   "registerSuccess": "登録に成功しました",
   "registerFail": "登録に失敗しました",
-  "requireLoginSubmit": "提出するにはログインしてください。すでにログインしている場合は、もう一度お試しください。"
+  "requireLoginSubmit": "提出するにはログインしてください。すでにログインしている場合は、もう一度お試しください。",
+  "realisticExam": "本番に近い形式"
 }
