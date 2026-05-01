@@ -65,6 +65,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             });
         });
     });
-
+    sitemapEntries.push({
+        url: `${baseUrl}/vi/blogs/ky-thi-it-passport`,
+        changeFrequency: 'weekly',
+        priority: 0.9,
+    });
+    sitemapEntries.push({
+        url: `${baseUrl}/vi/blogs/ky-thi-fe`,
+        changeFrequency: 'weekly',
+        priority: 0.9,
+    });
     return sitemapEntries;
 }

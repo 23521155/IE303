@@ -3,7 +3,7 @@
   "exams": "Exams",
   "materials": "Materials",
   "flashcards": "Flashcards",
-  "blog": "Community",
+  "blog": "Blogs",
   "login": "Login",
   "register": "Register",
   "logout": "Logout",
@@ -187,5 +187,6 @@
   "registering": "Registering",
   "registerSuccess": "Registration successful",
   "registerFail": "Registration failed",
-  "requireLoginSubmit": "Please log in to submit. If you are already logged in, please try again."
+  "requireLoginSubmit": "Please log in to submit. If you are already logged in, please try again.",
+  "realisticExam": "Realistic simulation"
 }
