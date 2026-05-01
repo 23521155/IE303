@@ -3,7 +3,7 @@
   "exams": "Đề Thi",
   "materials": "Tài Liệu",
   "flashcards": "Flashcard",
-  "blog": "Cộng đồng",
+  "blog": "Bài viết",
   "login": "Đăng Nhập",
   "register": "Đăng Ký",
   "logout": "Đăng xuất",
@@ -182,5 +182,6 @@
   "registering": "Đang đăng ký",
   "registerSuccess": "Đăng ký thành công",
   "registerFail": "Đăng ký thất bại",
-  "requireLoginSubmit": "Vui lòng đăng nhập để nộp bài. Nếu đã đăng nhập thì vui lòng thử lại sau."
+  "requireLoginSubmit": "Vui lòng đăng nhập để nộp bài. Nếu đã đăng nhập thì vui lòng thử lại sau.",
+  "realisticExam": "Bám sát thực tế"
 }
