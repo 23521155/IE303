@@ -57,6 +57,9 @@ function formatDurationSeconds(seconds: number, lang: string): string {
   if (lang === 'en') {
     return m > 0 ? `${m} min${s ? ` ${s}s` : ''}` : `${s}s`;
   }
+  if (lang === 'ja') {
+    return m > 0 ? `${m}分${s ? `${s}秒` : ''}` : `${s}秒`;
+  }
   return m > 0 ? `${m} phút${s ? ` ${s}s` : ''}` : `${s} giây`;
 }
 
@@ -69,13 +72,14 @@ function getExamMaxScore(examId: string): number {
   return 100;
 }
 
-export function Profile() {
-  const params = useParams<{ id?: string | string[] }>();
+export function Profile({ t, lang }: { t: any; lang: string }) {
+  const params = useParams<{ lang?: string; id?: string | string[] }>();
   const router = useRouter();
   const { setUser } = useMe();
   const rawId = params?.id;
   const id = Array.isArray(rawId) ? rawId[0] : rawId;
-  const { t, language } = useLanguage();
+  const language = lang;
+
   const [activeTab, setActiveTab] = useState('history');
   const [summary, setSummary] = useState<ProfileSummary | null>(null);
   const [summaryLoading, setSummaryLoading] = useState(true);
@@ -212,7 +216,7 @@ export function Profile() {
                 ) : (
                     <ImageWithFallback
                         src={avatarSrc}
-                        alt="Avatar"
+                        alt={t.profileAvatarAlt}
                         className="w-full h-full object-cover"
                     />
                 )}
@@ -224,14 +228,12 @@ export function Profile() {
             </h2>
             {profileError === 'invalid-id' && (
               <p className="text-sm text-amber-600 dark:text-amber-500 mb-4">
-                {language === 'en'
-                  ? 'Use a numeric user id in the URL (e.g. /profile/5).'
-                  : 'Dùng id người dùng dạng số trong URL (vd: /profile/5).'}
+                {t.profileInvalidIdHint}
               </p>
             )}
             {profileError === 'failed' && !profileLoading && (
               <p className="text-sm text-red-500 dark:text-red-400 mb-4">
-                {language === 'en' ? 'Could not load profile.' : 'Không tải được hồ sơ.'}
+                {t.profileLoadFailed}
               </p>
             )}
             
@@ -250,14 +252,14 @@ export function Profile() {
               )}
               <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                 <Calendar className="w-4 h-4 mr-3 text-gray-400 dark:text-gray-500" />
-                <span>{t('joined')} {joinedStr}</span>
+                <span>{t.joined} {joinedStr}</span>
               </div>
             </div>
 
             {isMyProfile && (
               <div className="w-full mt-8 space-y-2">
-                <Link href="/settings" className="w-full flex items-center justify-between px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors group">
-                  <span className="flex items-center"><Settings className="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500" /> Cài đặt</span>
+                <Link href={`/${language}/settings`} className="w-full flex items-center justify-between px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors group">
+                  <span className="flex items-center"><Settings className="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500" /> {t.settings}</span>
                 </Link>
                 <button
                   type="button"
@@ -265,7 +267,7 @@ export function Profile() {
                   className="w-full flex items-center justify-between px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors group"
                 >
                   <span className="flex items-center">
-                    <LogOut className="w-4 h-4 mr-2 text-red-400 group-hover:text-red-500" /> {t('logout')}
+                    <LogOut className="w-4 h-4 mr-2 text-red-400 group-hover:text-red-500" /> {t.logout}
                   </span>
                 </button>
               </div>
@@ -283,7 +285,7 @@ export function Profile() {
                 <FileText className="w-6 h-6" />
               </div>
               <div className="min-w-0">
-                <p className="text-sm text-gray-500 dark:text-gray-400">{t('completedExams')}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{t.completedExams}</p>
                 <p className="text-xl font-bold text-gray-900 dark:text-white">{completedDisplay}</p>
               </div>
             </div>
@@ -292,7 +294,7 @@ export function Profile() {
                 <Clock className="w-6 h-6" />
               </div>
               <div className="min-w-0">
-                <p className="text-sm text-gray-500 dark:text-gray-400">{t('studyHours')}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{t.studyHours}</p>
                 <p className="text-xl font-bold text-gray-900 dark:text-white">{hoursDisplay}</p>
               </div>
             </div>
@@ -307,7 +309,7 @@ export function Profile() {
                   activeTab === 'history' ? 'border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
-                <Activity className="w-4 h-4 mr-2" /> Hoạt động gần đây
+                <Activity className="w-4 h-4 mr-2" /> {t.recentActivity}
               </button>
               {isMyProfile && (
                 <button 
@@ -316,7 +318,7 @@ export function Profile() {
                     activeTab === 'saved' ? 'border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                   }`}
                 >
-                  <BookOpen className="w-4 h-4 mr-2" /> {t('savedMaterials')}
+                  <BookOpen className="w-4 h-4 mr-2" /> {t.savedMaterials}
                 </button>
               )}
             </div>
@@ -326,12 +328,12 @@ export function Profile() {
                 <div className="space-y-4">
                   {summaryLoading && (
                     <p className="text-center text-sm text-gray-500 dark:text-gray-400 py-8">
-                      {language === 'en' ? 'Loading…' : language === 'ja' ? '読み込み中…' : 'Đang tải…'}
+                      {t.loading}
                     </p>
                   )}
                   {!summaryLoading && summaryError && (
                     <p className="text-center text-sm text-red-500 dark:text-red-400 py-4">
-                      {language === 'en' ? 'Could not load activity.' : 'Không tải được hoạt động.'}
+                      {t.activityLoadFailed}
                     </p>
                   )}
                   {!summaryLoading &&
@@ -359,21 +361,21 @@ export function Profile() {
                                 <Clock className="w-3 h-3 mr-1 shrink-0" /> {timeStr}
                               </span>
                               <span className="flex items-center text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-full">
-                                <CheckCircle className="w-3 h-3 mr-1 shrink-0" /> {t('statusCompleted')}
+                                <CheckCircle className="w-3 h-3 mr-1 shrink-0" /> {t.statusCompleted}
                               </span>
                             </div>
                           </div>
 
                           <div className="flex items-center w-full sm:w-auto justify-between sm:justify-end gap-6 border-t sm:border-t-0 border-gray-100 dark:border-gray-800 pt-3 sm:pt-0">
                             <div className="text-left sm:text-right">
-                              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('result')}</p>
+                              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t.result}</p>
                               <p className="font-bold text-gray-900 dark:text-gray-100">
                                 {exam.score}{' '}
                                 <span className="text-xs text-gray-400 font-normal">/ {maxScore}</span>
                               </p>
                             </div>
                             <div className="text-left sm:text-right">
-                              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('correctCount')}</p>
+                              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t.correctCount}</p>
                               <p className="font-bold text-gray-900 dark:text-gray-100">
                                 {exam.totalCorrect}{' '}
                                 <span className="text-xs text-gray-400 font-normal">/ {exam.questionCount}</span>
@@ -394,7 +396,7 @@ export function Profile() {
                               href={`/${language}/results/${exam.id}`}
                               className="mt-3 w-full sm:hidden text-center text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 py-2 rounded-lg"
                             >
-                              {t('viewDetailsBtn')}
+                              {t.viewDetailsBtn}
                             </Link>
                           )}
                         </div>
@@ -402,7 +404,7 @@ export function Profile() {
                     })}
                   {!summaryLoading && !summaryError && recentAttempts.length === 0 && (
                     <p className="text-center text-sm text-gray-500 dark:text-gray-400 py-8">
-                      {language === 'en' ? 'No exams completed yet.' : 'Chưa có bài thi đã hoàn thành.'}
+                      {t.noCompletedExamsYet}
                     </p>
                   )}
                 </div>
@@ -411,10 +413,10 @@ export function Profile() {
               {activeTab === 'saved' && isMyProfile && (
                 <div className="text-center py-12">
                   <BookOpen className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">{t('noSavedMaterials')}</h3>
-                  <p className="text-gray-500 dark:text-gray-400 mt-1 mb-4">{t('noSavedMaterialsDesc')}</p>
-                  <Link href="/materials" className="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
-                    {t('exploreMaterials')}
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">{t.noSavedMaterials}</h3>
+                  <p className="text-gray-500 dark:text-gray-400 mt-1 mb-4">{t.noSavedMaterialsDesc}</p>
+                  <Link href={`/${language}/materials`} className="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
+                    {t.exploreMaterials}
                   </Link>
                 </div>
               )}

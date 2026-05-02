@@ -256,16 +256,16 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                         </div>
                                         <div className="py-1">
                                             <Link
-                                                href="/profile"
+                                                href={`/${lang}/profile`}
                                                 className="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400"
                                             >
                                                 <User className="w-4 h-4 mr-2" /> {t.profile}
                                             </Link>
                                             <Link
-                                                href="/settings"
+                                                href={`/${lang}/settings`}
                                                 className="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400"
                                             >
-                                                <Settings className="w-4 h-4 mr-2" /> Cài đặt
+                                                <Settings className="w-4 h-4 mr-2" /> {t.settings}
                                             </Link>
                                         </div>
                                         <div className="py-1 border-t border-slate-50 dark:border-slate-800">
@@ -405,7 +405,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                     </div>
                                 </div>
                                 <Link
-                                    href="/profile"
+                                    href={`/${lang}/profile`}
                                     className="flex items-center px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
