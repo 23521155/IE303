@@ -1,26 +1,70 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Mail, Phone, Calendar, Clock, CheckCircle, ChevronRight, Settings, LogOut, FileText, Activity, BookOpen, ShieldCheck } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useLanguage } from '../contexts/LanguageContext';
+import { BE_URL } from '../utils/constans';
 
-// Dữ liệu giả định cho lịch sử thi
-const EXAM_HISTORY = [
-  { id: '1', name: 'Đề thi thử TOEIC Format 2024 - Test 1', date: '12/03/2026', score: 850, maxScore: 990, correct: 170, total: 200, time: '115 phút', status: 'Hoàn thành' },
-  { id: '2', name: 'Đề thi THPT Quốc Gia môn Toán 2023', date: '10/03/2026', score: 8.5, maxScore: 10, correct: 42, total: 50, time: '90 phút', status: 'Hoàn thành' },
-  { id: '3', name: 'Bài kiểm tra JLPT N3 - Từ vựng & Ngữ pháp', date: '05/03/2026', score: 45, maxScore: 60, correct: 30, total: 40, time: '25 phút', status: 'Hoàn thành' },
-  { id: '4', name: 'Đề thi IELTS Reading - Cambridge 18', date: '01/03/2026', score: 7.5, maxScore: 9.0, correct: 34, total: 40, time: '60 phút', status: 'Hoàn thành' }
-];
+type AttemptListItem = {
+  id: string;
+  examId: string;
+  examTitle: Record<string, string> | null;
+  score: number;
+  totalCorrect: number;
+  questionCount: number;
+  timeSpentSeconds: number;
+  createdAt: string;
+};
+
+type ProfileSummary = {
+  completedCount: number;
+  totalPracticeSeconds: number;
+  recentAttempts: AttemptListItem[];
+};
+
+function pickExamTitle(title: Record<string, string> | null | undefined, lang: string): string {
+  if (!title) return '';
+  const key = lang in title ? lang : 'vi';
+  return title[key] || title.vi || title.en || Object.values(title)[0] || '';
+}
+
+function formatPracticeHours(totalSeconds: number): string {
+  const h = Math.round((totalSeconds / 3600) * 10) / 10;
+  return `${h}h`;
+}
+
+function formatDurationSeconds(seconds: number, lang: string): string {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  if (lang === 'en') {
+    return m > 0 ? `${m} min${s ? ` ${s}s` : ''}` : `${s}s`;
+  }
+  return m > 0 ? `${m} phút${s ? ` ${s}s` : ''}` : `${s} giây`;
+}
+
+function getExamMaxScore(examId: string): number {
+  if (!examId) return 100;
+  const lowerId = examId.toLowerCase();
+  if (lowerId.includes('it-passport') || lowerId.includes('fe') || lowerId.includes('sg')) {
+    return 1000;
+  }
+  return 100;
+}
 
 export function Profile() {
-  const { id } = useParams();
-  const { t } = useLanguage();
+  const params = useParams<{ id?: string | string[] }>();
+  const rawId = params?.id;
+  const id = Array.isArray(rawId) ? rawId[0] : rawId;
+  const { t, language } = useLanguage();
   const [activeTab, setActiveTab] = useState('history');
+  const [summary, setSummary] = useState<ProfileSummary | null>(null);
+  const [summaryLoading, setSummaryLoading] = useState(true);
+  const [summaryError, setSummaryError] = useState<string | null>(null);
 
   // Kiểm tra xem có đang xem trang của mình hay người khác
-  const isMyProfile = (!id || id === 'me' || (Array.isArray(id) && id[0] === 'me'));
+  const isMyProfile = !id || id === 'me';
   
   // Fake dữ liệu User dựa trên ID (nếu có)
   const user = isMyProfile ? {
@@ -36,6 +80,47 @@ export function Profile() {
       : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
     role: id === 'admin' ? 'Quản trị viên' : 'Thành viên'
   };
+
+  useEffect(() => {
+    let cancelled = false;
+    const path = isMyProfile
+      ? '/api/attempts/me/summary'
+      : `/api/attempts/users/${encodeURIComponent(id!)}/summary`;
+    const url = `${BE_URL}${path}`;
+
+    async function load() {
+      setSummaryLoading(true);
+      setSummaryError(null);
+      try {
+        const res = await fetch(url, { credentials: 'include' });
+        if (cancelled) return;
+        if (isMyProfile && res.status === 401) {
+          setSummary({ completedCount: 0, totalPracticeSeconds: 0, recentAttempts: [] });
+          return;
+        }
+        if (!res.ok) throw new Error(String(res.status));
+        const data: ProfileSummary = await res.json();
+        setSummary(data);
+      } catch {
+        if (!cancelled) {
+          setSummaryError('failed');
+          setSummary({ completedCount: 0, totalPracticeSeconds: 0, recentAttempts: [] });
+        }
+      } finally {
+        if (!cancelled) setSummaryLoading(false);
+      }
+    }
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [isMyProfile, id]);
+
+  const completedDisplay = summaryLoading ? '…' : String(summary?.completedCount ?? 0);
+  const hoursDisplay = summaryLoading ? '…' : formatPracticeHours(summary?.totalPracticeSeconds ?? 0);
+  const recentAttempts = summary?.recentAttempts ?? [];
+
+  const localeTag = language === 'vi' ? 'vi-VN' : language === 'ja' ? 'ja-JP' : 'en-US';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-colors duration-300 min-h-screen">
@@ -106,7 +191,7 @@ export function Profile() {
               </div>
               <div className="min-w-0">
                 <p className="text-sm text-gray-500 dark:text-gray-400">{t('completedExams')}</p>
-                <p className="text-xl font-bold text-gray-900 dark:text-white">12</p>
+                <p className="text-xl font-bold text-gray-900 dark:text-white">{completedDisplay}</p>
               </div>
             </div>
             <div className="bg-white dark:bg-[#1a1a1a] p-5 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-4 transition-colors duration-300">
@@ -115,7 +200,7 @@ export function Profile() {
               </div>
               <div className="min-w-0">
                 <p className="text-sm text-gray-500 dark:text-gray-400">{t('studyHours')}</p>
-                <p className="text-xl font-bold text-gray-900 dark:text-white">45h</p>
+                <p className="text-xl font-bold text-gray-900 dark:text-white">{hoursDisplay}</p>
               </div>
             </div>
           </div>
@@ -146,53 +231,87 @@ export function Profile() {
             <div className="p-6">
               {activeTab === 'history' && (
                 <div className="space-y-4">
-                  {EXAM_HISTORY.map((exam) => (
-                    <div key={exam.id} className="group flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-blue-100 dark:hover:border-blue-900/50 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-all">
-                      <div className="mb-4 sm:mb-0 flex-1">
-                        <h4 className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors">
-                          {exam.name}
-                        </h4>
-                        <div className="mt-1 flex flex-wrap items-center text-xs text-gray-500 dark:text-gray-400 gap-3">
-                          <span className="flex items-center"><Calendar className="w-3 h-3 mr-1" /> {exam.date}</span>
-                          <span className="flex items-center"><Clock className="w-3 h-3 mr-1" /> {exam.time}</span>
-                          <span className="flex items-center text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-full"><CheckCircle className="w-3 h-3 mr-1" /> {t('statusCompleted')}</span>
+                  {summaryLoading && (
+                    <p className="text-center text-sm text-gray-500 dark:text-gray-400 py-8">
+                      {language === 'en' ? 'Loading…' : language === 'ja' ? '読み込み中…' : 'Đang tải…'}
+                    </p>
+                  )}
+                  {!summaryLoading && summaryError && (
+                    <p className="text-center text-sm text-red-500 dark:text-red-400 py-4">
+                      {language === 'en' ? 'Could not load activity.' : 'Không tải được hoạt động.'}
+                    </p>
+                  )}
+                  {!summaryLoading &&
+                    recentAttempts.map((exam) => {
+                      const dateStr = exam.createdAt
+                        ? new Date(exam.createdAt).toLocaleDateString(localeTag)
+                        : '';
+                      const timeStr = formatDurationSeconds(exam.timeSpentSeconds ?? 0, language);
+                      const title = pickExamTitle(exam.examTitle, language);
+                      const maxScore = getExamMaxScore(exam.examId);
+                      return (
+                        <div
+                          key={exam.id}
+                          className="group flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-blue-100 dark:hover:border-blue-900/50 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-all"
+                        >
+                          <div className="mb-4 sm:mb-0 flex-1 min-w-0">
+                            <h4 className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors">
+                              {title || exam.examId}
+                            </h4>
+                            <div className="mt-1 flex flex-wrap items-center text-xs text-gray-500 dark:text-gray-400 gap-3">
+                              <span className="flex items-center">
+                                <Calendar className="w-3 h-3 mr-1 shrink-0" /> {dateStr}
+                              </span>
+                              <span className="flex items-center">
+                                <Clock className="w-3 h-3 mr-1 shrink-0" /> {timeStr}
+                              </span>
+                              <span className="flex items-center text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-full">
+                                <CheckCircle className="w-3 h-3 mr-1 shrink-0" /> {t('statusCompleted')}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center w-full sm:w-auto justify-between sm:justify-end gap-6 border-t sm:border-t-0 border-gray-100 dark:border-gray-800 pt-3 sm:pt-0">
+                            <div className="text-left sm:text-right">
+                              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('result')}</p>
+                              <p className="font-bold text-gray-900 dark:text-gray-100">
+                                {exam.score}{' '}
+                                <span className="text-xs text-gray-400 font-normal">/ {maxScore}</span>
+                              </p>
+                            </div>
+                            <div className="text-left sm:text-right">
+                              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('correctCount')}</p>
+                              <p className="font-bold text-gray-900 dark:text-gray-100">
+                                {exam.totalCorrect}{' '}
+                                <span className="text-xs text-gray-400 font-normal">/ {exam.questionCount}</span>
+                              </p>
+                            </div>
+                            {isMyProfile && (
+                              <Link
+                                href={`/${language}/results/${exam.id}`}
+                                className="p-2 text-gray-400 hover:text-blue-600 hover:bg-white dark:hover:bg-gray-800 rounded-full transition-colors hidden sm:block"
+                              >
+                                <ChevronRight className="w-5 h-5" />
+                              </Link>
+                            )}
+                          </div>
+
+                          {isMyProfile && (
+                            <Link
+                              href={`/${language}/results/${exam.id}`}
+                              className="mt-3 w-full sm:hidden text-center text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 py-2 rounded-lg"
+                            >
+                              {t('viewDetailsBtn')}
+                            </Link>
+                          )}
                         </div>
-                      </div>
-                      
-                      <div className="flex items-center w-full sm:w-auto justify-between sm:justify-end gap-6 border-t sm:border-t-0 border-gray-100 dark:border-gray-800 pt-3 sm:pt-0">
-                        <div className="text-left sm:text-right">
-                          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('result')}</p>
-                          <p className="font-bold text-gray-900 dark:text-gray-100">
-                            {exam.score} <span className="text-xs text-gray-400 font-normal">/ {exam.maxScore}</span>
-                          </p>
-                        </div>
-                        <div className="text-left sm:text-right">
-                          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('correctCount')}</p>
-                          <p className="font-bold text-gray-900 dark:text-gray-100">
-                            {exam.correct} <span className="text-xs text-gray-400 font-normal">/ {exam.total}</span>
-                          </p>
-                        </div>
-                        {isMyProfile && (
-                          <Link href={`/results/${exam.id}`} className="p-2 text-gray-400 hover:text-blue-600 hover:bg-white dark:hover:bg-gray-800 rounded-full transition-colors hidden sm:block">
-                            <ChevronRight className="w-5 h-5" />
-                          </Link>
-                        )}
-                      </div>
-                      
-                      {/* Mobile view details button */}
-                      {isMyProfile && (
-                        <Link href={`/results/${exam.id}`} className="mt-3 w-full sm:hidden text-center text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 py-2 rounded-lg">
-                          {t('viewDetailsBtn')}
-                        </Link>
-                      )}
-                    </div>
-                  ))}
-                  
-                  <div className="text-center pt-4">
-                    <button className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline">
-                      {t('viewAllHistory')}
-                    </button>
-                  </div>
+                      );
+                    })}
+                  {!summaryLoading && !summaryError && recentAttempts.length === 0 && (
+                    <p className="text-center text-sm text-gray-500 dark:text-gray-400 py-8">
+                      {language === 'en' ? 'No exams completed yet.' : 'Chưa có bài thi đã hoàn thành.'}
+                    </p>
+                  )}
                 </div>
               )}
               

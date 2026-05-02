@@ -13,6 +13,15 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 
+function getExamMaxScore(examId: string): number {
+    if (!examId) return 100;
+    const lowerId = examId.toLowerCase();
+    if (lowerId.includes('it-passport') || lowerId.includes('fe') || lowerId.includes('sg')) {
+        return 1000;
+    }
+    return 100;
+}
+
 export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }) {
     const [exam, setExam] = useState<any>(null);
     const [score, setScore] = useState(0);
@@ -68,6 +77,9 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
     const correctCount = combinedResults.filter((q) => q.isCorrect).length;
     const wrongCount = totalQuestions - correctCount;
 
+    const maxScore = getExamMaxScore(exam.id);
+    const scorePercentage = (score / maxScore) * 100;
+
     return (
         <div className="bg-slate-50 dark:bg-[#121212] min-h-screen py-10 transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -103,20 +115,26 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
                                         cy="50"
                                         r="45"
                                         fill="none"
-                                        stroke={score >= 80 ? '#22c55e' : score >= 50 ? '#eab308' : '#ef4444'}
+                                        stroke={scorePercentage >= 80 ? '#22c55e' : scorePercentage >= 50 ? '#eab308' : '#ef4444'}
                                         strokeWidth="10"
                                         strokeDasharray="283"
-                                        strokeDashoffset={283 - (283 * score) / 100}
+                                        strokeDashoffset={283 - (283 * scorePercentage) / 100}
                                         className="transition-all duration-1000 ease-out"
                                     />
                                 </svg>
                                 <div className="absolute text-center flex flex-col items-center justify-center inset-0">
-                                    <span className="text-5xl font-extrabold text-slate-800 dark:text-white tracking-tighter">
+                                    <span className={`${score.toString().length >= 4 ? 'text-4xl' : 'text-5xl'} font-extrabold text-slate-800 dark:text-white tracking-tighter leading-none mt-2 transition-all`}>
                                         {score}
                                     </span>
-                                    <span className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1">
-                                        {t.scoreLabel}
-                                    </span>
+
+                                    <div className="flex items-center gap-1.5 mt-1.5">
+                                        <span className="text-sm font-semibold text-slate-400 dark:text-slate-500">
+                                            / {maxScore}
+                                        </span>
+                                        <span className="text-[10px] font-bold text-slate-500 dark:text-slate-500/70 uppercase tracking-widest mt-0.5">
+                                            {t.scoreLabel}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
