@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useLanguage } from '@/src/contexts/LanguageContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMe } from '@/src/hooks/useMe';
@@ -34,6 +34,11 @@ const NAV_ITEMS = [
         path: '/blogs',
     },
 ];
+
+function avatarFromName(name: string): string {
+    const seed = encodeURIComponent(name?.trim() || '?');
+    return `https://api.dicebear.com/7.x/shapes/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9`;
+}
 
 export default function Header({ t, lang }: { t: any; lang: string }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -99,6 +104,10 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
 
     const { user, setUser } = useMe();
     const router = useRouter();
+
+    const avatarSrc = useMemo(() => {
+        return avatarFromName(user?.name || '?');
+    }, [user?.name]);
 
     const handleLogout = async () => {
         await logoutAction();
@@ -221,7 +230,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                 >
                                     <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-blue-100 dark:border-slate-700">
                                         <ImageWithFallback
-                                            src="https://images.unsplash.com/photo-1706025090996-63717544be2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbiUyMGFzaWFufGVufDF8fHx8MTc3MzMwOTcwN3ww&ixlib=rb-4.1.0&q=80&w=1080"
+                                            src={avatarSrc}
                                             alt="User Avatar"
                                             className="w-full h-full object-cover"
                                         />
@@ -381,7 +390,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                 <div className="flex items-center p-3 bg-blue-50 dark:bg-slate-800/50 rounded-lg">
                                     <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white dark:border-slate-700 shadow-sm mr-3">
                                         <ImageWithFallback
-                                            src="https://images.unsplash.com/photo-1706025090996-63717544be2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbiUyMGFzaWFufGVufDF8fHx8MTc3MzMwOTcwN3ww&ixlib=rb-4.1.0&q=80&w=1080"
+                                            src={avatarSrc}
                                             alt="User Avatar"
                                             className="w-full h-full object-cover"
                                         />
