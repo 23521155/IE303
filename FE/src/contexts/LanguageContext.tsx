@@ -277,6 +277,38 @@ const translations: Translations = {
         ja: 'リストに学習資料を保存していません。',
     },
     exploreMaterials: { vi: 'Khám phá tài liệu', en: 'Explore Materials', ja: '資料を探索する' },
+    loading: { vi: 'Đang tải…', en: 'Loading…', ja: '読み込み中…' },
+    profileInvalidIdHint: {
+        vi: 'Dùng id người dùng dạng số trong URL (vd: /profile/5).',
+        en: 'Use a numeric user id in the URL (e.g. /profile/5).',
+        ja: 'URLには数値のユーザーIDを指定してください（例: /profile/5）。',
+    },
+    profileLoadFailed: {
+        vi: 'Không tải được hồ sơ.',
+        en: 'Could not load profile.',
+        ja: 'プロフィールを読み込めませんでした。',
+    },
+    recentActivity: {
+        vi: 'Hoạt động gần đây',
+        en: 'Recent activity',
+        ja: '最近のアクティビティ',
+    },
+    activityLoadFailed: {
+        vi: 'Không tải được hoạt động.',
+        en: 'Could not load activity.',
+        ja: 'アクティビティを読み込めませんでした。',
+    },
+    noCompletedExamsYet: {
+        vi: 'Chưa có bài thi đã hoàn thành.',
+        en: 'No exams completed yet.',
+        ja: '完了した試験はまだありません。',
+    },
+    noCompletedExamsYetDesc: {
+        vi: 'Hãy thử sức với một đề thi ngay hôm nay!',
+        en: 'Try taking an exam today!',
+        ja: '今日さっそく試験に挑戦しましょう！',
+    },
+    profileAvatarAlt: { vi: 'Ảnh đại diện', en: 'Profile picture', ja: 'プロフィール画像' },
 
     // Auth (Login / Register)
     welcomeBack: {
