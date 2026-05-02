@@ -98,12 +98,15 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
     ];
 
     const { user, setUser } = useMe();
+    const router = useRouter();
+
     const handleLogout = async () => {
         await logoutAction();
         setUser(null);
+        if (pathname?.includes('/profile')) {
+            router.push(`/${lang}/`);
+        }
     };
-
-    const router = useRouter();
     const handleChangeLang = (newLang: string) => {
         const segments = pathname.split('/');
 
@@ -239,8 +242,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                         <div className="px-4 py-3 border-b border-slate-50 dark:border-slate-800">
                                             <p className="text-sm text-slate-500 dark:text-slate-400">{t.loggedInAs}</p>
                                             <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
-                                                {/*{user?.email}*/}
-                                                Phi
+                                                {user?.name}
                                             </p>
                                         </div>
                                         <div className="py-1">
