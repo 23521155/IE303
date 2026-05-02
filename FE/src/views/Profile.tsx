@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Mail, Phone, Calendar, Clock, CheckCircle, ChevronRight, Settings, LogOut, FileText, Activity, BookOpen, ShieldCheck } from 'lucide-react';
+import { Mail, Phone, Calendar, Clock, CheckCircle, ChevronRight, Settings, LogOut, FileText, Activity, BookOpen } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
@@ -25,6 +25,20 @@ type ProfileSummary = {
   totalPracticeSeconds: number;
   recentAttempts: AttemptListItem[];
 };
+
+type ProfileApiUser = {
+  id: number;
+  name: string;
+  phoneNumber?: string | null;
+  currentStatus?: string | null;
+  email?: string | null;
+  createdAt?: string | null;
+};
+
+function avatarFromName(name: string): string {
+  const seed = encodeURIComponent(name.trim() || '?');
+  return `https://api.dicebear.com/7.x/shapes/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9`;
+}
 
 function pickExamTitle(title: Record<string, string> | null | undefined, lang: string): string {
   if (!title) return '';
@@ -66,24 +80,61 @@ export function Profile() {
   const [summary, setSummary] = useState<ProfileSummary | null>(null);
   const [summaryLoading, setSummaryLoading] = useState(true);
   const [summaryError, setSummaryError] = useState<string | null>(null);
+  const [profileUser, setProfileUser] = useState<ProfileApiUser | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
+  const [profileError, setProfileError] = useState<string | null>(null);
 
   // Kiểm tra xem có đang xem trang của mình hay người khác
   const isMyProfile = !id || id === 'me';
-  
-  // Fake dữ liệu User dựa trên ID (nếu có)
-  const user = isMyProfile ? {
-    name: 'Nguyễn Văn A',
-    email: 'nguyenvana@example.com',
-    avatar: 'https://images.unsplash.com/photo-1706025090996-63717544be2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbiUyMGFzaWFufGVufDF8fHx8MTc3MzMwOTcwN3ww&ixlib=rb-4.1.0&q=80&w=1080',
-    role: 'Học viên xuất sắc'
-  } : {
-    name: id === 'admin' ? 'Trần Văn B' : 'Lê Thị C',
-    email: id === 'admin' ? 'admin@thithupro.com' : 'user@example.com',
-    avatar: id === 'admin' 
-      ? 'https://images.unsplash.com/photo-1706025090996-63717544be2d?w=150' 
-      : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-    role: id === 'admin' ? 'Quản trị viên' : 'Thành viên'
-  };
+  const numericUserId =
+    typeof id === 'string' && /^\d+$/.test(id) ? Number.parseInt(id, 10) : null;
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadProfile() {
+      setProfileLoading(true);
+      setProfileError(null);
+      try {
+        if (isMyProfile) {
+          const res = await fetch(`${BE_URL}/api/users/me`, { credentials: 'include' });
+          const json = (await res.json().catch(() => ({}))) as { data?: ProfileApiUser };
+          if (cancelled) return;
+          if (res.status === 401) {
+            setProfileUser(null);
+            setProfileError('unauthorized');
+            return;
+          }
+          if (!res.ok) throw new Error(String(res.status));
+          setProfileUser(json.data ?? null);
+          if (json.data) setUser(json.data);
+          return;
+        }
+        if (numericUserId === null) {
+          setProfileUser(null);
+          setProfileError('invalid-id');
+          return;
+        }
+        const res = await fetch(`${BE_URL}/api/users/${numericUserId}`, {
+          credentials: 'include',
+        });
+        const json = (await res.json().catch(() => ({}))) as { data?: ProfileApiUser };
+        if (cancelled) return;
+        if (!res.ok) throw new Error(String(res.status));
+        setProfileUser(json.data ?? null);
+      } catch {
+        if (!cancelled) {
+          setProfileError('failed');
+          setProfileUser(null);
+        }
+      } finally {
+        if (!cancelled) setProfileLoading(false);
+      }
+    }
+    void loadProfile();
+    return () => {
+      cancelled = true;
+    };
+  }, [isMyProfile, id, numericUserId, setUser]);
 
   useEffect(() => {
     let cancelled = false;
@@ -120,11 +171,26 @@ export function Profile() {
     };
   }, [isMyProfile, id]);
 
+  const localeTag = language === 'vi' ? 'vi-VN' : language === 'ja' ? 'ja-JP' : 'en-US';
+
+  const displayName = profileLoading ? '…' : profileUser?.name ?? '—';
+  const displayEmail =
+    profileLoading ? '…' : profileUser?.email?.trim() || (isMyProfile ? '—' : '');
+  const displayPhone =
+    profileLoading ? '…' : profileUser?.phoneNumber?.trim() || (isMyProfile ? '—' : '');
+  const joinedStr =
+    profileLoading
+      ? '…'
+      : profileUser?.createdAt
+        ? new Date(profileUser.createdAt).toLocaleDateString(localeTag)
+        : '—';
+  const avatarSrc = avatarFromName(
+    profileLoading && !profileUser ? '?' : (profileUser?.name?.trim() || '?')
+  );
+
   const completedDisplay = summaryLoading ? '…' : String(summary?.completedCount ?? 0);
   const hoursDisplay = summaryLoading ? '…' : formatPracticeHours(summary?.totalPracticeSeconds ?? 0);
   const recentAttempts = summary?.recentAttempts ?? [];
-
-  const localeTag = language === 'vi' ? 'vi-VN' : language === 'ja' ? 'ja-JP' : 'en-US';
 
   const handleLogout = async () => {
     await logoutAction();
@@ -141,34 +207,50 @@ export function Profile() {
           <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 flex flex-col items-center text-center transition-colors duration-300">
             <div className="relative mb-4">
               <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-blue-50 dark:border-gray-800 shadow-md">
-                <ImageWithFallback 
-                  src={user.avatar} 
-                  alt="Avatar"
-                  className="w-full h-full object-cover"
-                />
+                {profileLoading && !profileUser ? (
+                    <div className="w-full h-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
+                ) : (
+                    <ImageWithFallback
+                        src={avatarSrc}
+                        alt="Avatar"
+                        className="w-full h-full object-cover"
+                    />
+                )}
               </div>
             </div>
             
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center justify-center gap-2">
-              {user.name}
-              {id === 'admin' && <ShieldCheck className="w-5 h-5 text-blue-500" />}
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center justify-center gap-2 mb-6">
+              {displayName}
             </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">{isMyProfile ? t('excellentStudent') : user.role}</p>
+            {profileError === 'invalid-id' && (
+              <p className="text-sm text-amber-600 dark:text-amber-500 mb-4">
+                {language === 'en'
+                  ? 'Use a numeric user id in the URL (e.g. /profile/5).'
+                  : 'Dùng id người dùng dạng số trong URL (vd: /profile/5).'}
+              </p>
+            )}
+            {profileError === 'failed' && !profileLoading && (
+              <p className="text-sm text-red-500 dark:text-red-400 mb-4">
+                {language === 'en' ? 'Could not load profile.' : 'Không tải được hồ sơ.'}
+              </p>
+            )}
             
             <div className="w-full space-y-4 text-left border-t border-gray-100 dark:border-gray-800 pt-6">
-              <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                <Mail className="w-4 h-4 mr-3 text-gray-400 dark:text-gray-500" />
-                <span className="truncate">{user.email}</span>
-              </div>
+              {isMyProfile && (
+                <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                  <Mail className="w-4 h-4 mr-3 text-gray-400 dark:text-gray-500" />
+                  <span className="truncate">{displayEmail}</span>
+                </div>
+              )}
               {isMyProfile && (
                 <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                   <Phone className="w-4 h-4 mr-3 text-gray-400 dark:text-gray-500" />
-                  <span>0987 654 321</span>
+                  <span>{displayPhone}</span>
                 </div>
               )}
               <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                 <Calendar className="w-4 h-4 mr-3 text-gray-400 dark:text-gray-500" />
-                <span>{t('joined')} 01/01/2026</span>
+                <span>{t('joined')} {joinedStr}</span>
               </div>
             </div>
 

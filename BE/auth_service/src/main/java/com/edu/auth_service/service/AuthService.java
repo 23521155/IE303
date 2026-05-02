@@ -22,7 +22,7 @@ public class AuthService {
     public RegisterResponse register(RegisterRequest request){
 
         UserResponse userResponse = userServiceClient.createUser(
-                new CreateUserRequest(request.getName(), request.getPhoneNumber(), request.getStatus())
+                new CreateUserRequest(request.getName(), request.getPhoneNumber(), request.getStatus(), request.getEmail())
         );
 
         if(!userResponse.isSuccess()) throw new RuntimeException(userResponse.getMessage());
