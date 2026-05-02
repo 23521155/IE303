@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { User, Mail, Phone, Calendar, Clock, Award, CheckCircle, ChevronRight, Settings, LogOut, FileText, Activity, BookOpen, ShieldCheck } from 'lucide-react';
+import { Mail, Phone, Calendar, Clock, CheckCircle, ChevronRight, Settings, LogOut, FileText, Activity, BookOpen, ShieldCheck } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -12,30 +12,6 @@ const EXAM_HISTORY = [
   { id: '2', name: 'Đề thi THPT Quốc Gia môn Toán 2023', date: '10/03/2026', score: 8.5, maxScore: 10, correct: 42, total: 50, time: '90 phút', status: 'Hoàn thành' },
   { id: '3', name: 'Bài kiểm tra JLPT N3 - Từ vựng & Ngữ pháp', date: '05/03/2026', score: 45, maxScore: 60, correct: 30, total: 40, time: '25 phút', status: 'Hoàn thành' },
   { id: '4', name: 'Đề thi IELTS Reading - Cambridge 18', date: '01/03/2026', score: 7.5, maxScore: 9.0, correct: 34, total: 40, time: '60 phút', status: 'Hoàn thành' }
-];
-
-// Dữ liệu giả định cho chứng chỉ
-const CERTIFICATES = [
-  {
-    id: 'cert1',
-    name: 'Chứng chỉ IT Passport',
-    issuer: 'IPA Nhật Bản',
-    issueDate: '15/01/2026',
-    score: '850/1000',
-    logo: 'https://images.unsplash.com/photo-1544396821-4dd40b938ad3?w=150',
-    color: 'bg-blue-50 dark:bg-blue-900/10 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-900/30',
-    iconColor: 'text-blue-500'
-  },
-  {
-    id: 'cert2',
-    name: 'JLPT N3',
-    issuer: 'The Japan Foundation',
-    issueDate: '10/12/2025',
-    score: '145/180',
-    logo: 'https://images.unsplash.com/photo-1528164344705-47542687000d?w=150',
-    color: 'bg-red-50 dark:bg-red-900/10 text-red-700 dark:text-red-400 border-red-100 dark:border-red-900/30',
-    iconColor: 'text-red-500'
-  }
 ];
 
 export function Profile() {
@@ -123,67 +99,24 @@ export function Profile() {
         <div className="w-full md:w-2/3 lg:w-3/4 flex flex-col gap-6">
           
           {/* Thống kê nhanh */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white dark:bg-[#1a1a1a] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-4 transition-colors duration-300">
-              <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg text-blue-600 dark:text-blue-400">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="bg-white dark:bg-[#1a1a1a] p-5 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-4 transition-colors duration-300">
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg text-blue-600 dark:text-blue-400 shrink-0">
                 <FileText className="w-6 h-6" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm text-gray-500 dark:text-gray-400">{t('completedExams')}</p>
                 <p className="text-xl font-bold text-gray-900 dark:text-white">12</p>
               </div>
             </div>
-            <div className="bg-white dark:bg-[#1a1a1a] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-4 transition-colors duration-300">
-              <div className="bg-emerald-50 dark:bg-emerald-900/20 p-3 rounded-lg text-emerald-600 dark:text-emerald-400">
-                <CheckCircle className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">{t('accuracyRate')}</p>
-                <p className="text-xl font-bold text-gray-900 dark:text-white">78%</p>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-[#1a1a1a] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-4 transition-colors duration-300">
-              <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg text-purple-600 dark:text-purple-400">
+            <div className="bg-white dark:bg-[#1a1a1a] p-5 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-4 transition-colors duration-300">
+              <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg text-purple-600 dark:text-purple-400 shrink-0">
                 <Clock className="w-6 h-6" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm text-gray-500 dark:text-gray-400">{t('studyHours')}</p>
                 <p className="text-xl font-bold text-gray-900 dark:text-white">45h</p>
               </div>
-            </div>
-            <div className="bg-white dark:bg-[#1a1a1a] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-4 transition-colors duration-300">
-              <div className="bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg text-amber-600 dark:text-amber-400">
-                <Award className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">{t('avgScore')}</p>
-                <p className="text-xl font-bold text-gray-900 dark:text-white">8.2</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Phần Chứng Chỉ (Certificates) */}
-          <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors duration-300 p-6">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <Award className="w-5 h-5 text-amber-500" /> Chứng chỉ & Thành tích
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {CERTIFICATES.map(cert => (
-                <div key={cert.id} className={`p-4 rounded-xl border flex items-start gap-4 transition-all hover:shadow-md ${cert.color}`}>
-                  <div className="w-12 h-12 rounded-lg bg-white dark:bg-white/90 overflow-hidden shadow-sm flex-shrink-0 flex items-center justify-center p-2">
-                     <Award className={`w-8 h-8 ${cert.iconColor}`} />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-bold text-[15px]">{cert.name}</h4>
-                    <p className="text-sm opacity-80 mt-0.5">{cert.issuer}</p>
-                    <div className="flex justify-between items-center mt-3 text-xs font-medium">
-                      <span className="bg-white/50 dark:bg-black/20 px-2 py-1 rounded-md">Điểm: {cert.score}</span>
-                      <span className="opacity-70">{cert.issueDate}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
 
