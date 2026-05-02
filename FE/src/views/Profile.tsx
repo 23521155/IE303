@@ -403,9 +403,21 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
                       );
                     })}
                   {!summaryLoading && !summaryError && recentAttempts.length === 0 && (
-                    <p className="text-center text-sm text-gray-500 dark:text-gray-400 py-8">
-                      {t.noCompletedExamsYet}
-                    </p>
+                      <div className="text-center py-12">
+                        <FileText className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                          {t.noCompletedExamsYet}
+                        </h3>
+                        <p className="text-gray-500 dark:text-gray-400 mt-1 mb-4">
+                          {t.noCompletedExamsYetDesc ?? 'Hãy thử sức với một đề thi ngay hôm nay!'}
+                        </p>
+                        <Link
+                            href={`/${language}/exams`}
+                            className="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors"
+                        >
+                          {t.exploreExams ?? 'Khám phá đề thi'} <ChevronRight className="w-4 h-4 ml-1" />
+                        </Link>
+                      </div>
                   )}
                 </div>
               )}

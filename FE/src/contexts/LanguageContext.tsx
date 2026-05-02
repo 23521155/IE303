@@ -303,6 +303,11 @@ const translations: Translations = {
         en: 'No exams completed yet.',
         ja: '完了した試験はまだありません。',
     },
+    noCompletedExamsYetDesc: {
+        vi: 'Hãy thử sức với một đề thi ngay hôm nay!',
+        en: 'Try taking an exam today!',
+        ja: '今日さっそく試験に挑戦しましょう！',
+    },
     profileAvatarAlt: { vi: 'Ảnh đại diện', en: 'Profile picture', ja: 'プロフィール画像' },
 
     // Auth (Login / Register)

@@ -146,6 +146,7 @@
   "recentActivity": "Recent activity",
   "activityLoadFailed": "Could not load activity.",
   "noCompletedExamsYet": "No exams completed yet.",
+  "noCompletedExamsYetDesc": "Try taking an exam today",
   "profileAvatarAlt": "Profile picture",
   "welcomeBack": "Welcome back to the exam platform",
   "emailAddress": "Email Address",

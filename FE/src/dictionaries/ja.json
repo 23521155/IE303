@@ -146,6 +146,7 @@
   "recentActivity": "最近のアクティビティ",
   "activityLoadFailed": "アクティビティを読み込めませんでした。",
   "noCompletedExamsYet": "完了した試験はまだありません。",
+  "noCompletedExamsYetDesc": "今日さっそく試験に挑戦しましょう！",
   "profileAvatarAlt": "プロフィール画像",
   "welcomeBack": "試験システムへお帰りなさい",
   "emailAddress": "メールアドレス",
