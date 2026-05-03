@@ -204,5 +204,6 @@
     "share": "Share",
     "shareTitle": "Check out this article",
     "copySuccess": "Link copied!"
-  }
+  },
+  "loadingResults": "Loading results..."
 }

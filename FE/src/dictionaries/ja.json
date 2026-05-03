@@ -204,5 +204,6 @@
     "share": "共有",
     "shareTitle": "この記事を見る",
     "copySuccess": "リンクをコピーしました！"
-  }
+  },
+  "loadingResults": "結果を読み込み中..."
 }
