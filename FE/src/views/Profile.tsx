@@ -383,7 +383,7 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
                             </div>
                             {isMyProfile && (
                               <Link
-                                href={`/${language}/results/${exam.id}`}
+                                href={`/${language}/exams/${exam.examId}/results/${exam.id}`}
                                 className="p-2 text-gray-400 hover:text-blue-600 hover:bg-white dark:hover:bg-gray-800 rounded-full transition-colors hidden sm:block"
                               >
                                 <ChevronRight className="w-5 h-5" />
@@ -393,7 +393,7 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
 
                           {isMyProfile && (
                             <Link
-                              href={`/${language}/results/${exam.id}`}
+                              href={`/${language}/exams/${exam.examId}/results/${exam.id}`}
                               className="mt-3 w-full sm:hidden text-center text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 py-2 rounded-lg"
                             >
                               {t.viewDetailsBtn}
