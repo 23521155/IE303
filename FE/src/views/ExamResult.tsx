@@ -1,10 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle2, XCircle, Award, BarChart3, Clock, RotateCcw, Home, FileText } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
 import { BE_URL } from '@/src/utils/constans';
+import { ExamRatingStars } from '@/src/components/ExamRatingStars';
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -14,9 +13,16 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 
-export function ExamResult() {
-    const { id } = useParams();
-    const { t, language } = useLanguage();
+function getExamMaxScore(examId: string): number {
+    if (!examId) return 100;
+    const lowerId = examId.toLowerCase();
+    if (lowerId.includes('it-passport') || lowerId.includes('fe') || lowerId.includes('sg')) {
+        return 1000;
+    }
+    return 100;
+}
+
+export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }) {
     const [exam, setExam] = useState<any>(null);
     const [score, setScore] = useState(0);
     const [combinedResults, setCombinedResults] = useState<any[]>([]);
@@ -71,6 +77,9 @@ export function ExamResult() {
     const correctCount = combinedResults.filter((q) => q.isCorrect).length;
     const wrongCount = totalQuestions - correctCount;
 
+    const maxScore = getExamMaxScore(exam.id);
+    const scorePercentage = (score / maxScore) * 100;
+
     return (
         <div className="bg-slate-50 dark:bg-[#121212] min-h-screen py-10 transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,11 +90,11 @@ export function ExamResult() {
                         <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-blue-700 rounded-full opacity-50 blur-2xl"></div>
 
                         <Award className="h-20 w-20 text-yellow-300 mx-auto mb-4 relative z-10 drop-shadow-md" />
-                        <h1 className="text-3xl font-bold text-white mb-2 relative z-10">{t('examCompleted')}</h1>
+                        <h1 className="text-3xl font-bold text-white mb-2 relative z-10">{t.examCompleted}</h1>
                         <p className="text-blue-100 text-lg relative z-10 opacity-90">
                             {typeof exam.title === 'string'
                                 ? exam.title
-                                : exam.title[language as keyof typeof exam.title]}
+                                : exam.title[lang as keyof typeof exam.title]}
                         </p>
                     </div>
 
@@ -106,20 +115,26 @@ export function ExamResult() {
                                         cy="50"
                                         r="45"
                                         fill="none"
-                                        stroke={score >= 80 ? '#22c55e' : score >= 50 ? '#eab308' : '#ef4444'}
+                                        stroke={scorePercentage >= 80 ? '#22c55e' : scorePercentage >= 50 ? '#eab308' : '#ef4444'}
                                         strokeWidth="10"
                                         strokeDasharray="283"
-                                        strokeDashoffset={283 - (283 * score) / 100}
+                                        strokeDashoffset={283 - (283 * scorePercentage) / 100}
                                         className="transition-all duration-1000 ease-out"
                                     />
                                 </svg>
                                 <div className="absolute text-center flex flex-col items-center justify-center inset-0">
-                                    <span className="text-5xl font-extrabold text-slate-800 dark:text-white tracking-tighter">
+                                    <span className={`${score.toString().length >= 4 ? 'text-4xl' : 'text-5xl'} font-extrabold text-slate-800 dark:text-white tracking-tighter leading-none mt-2 transition-all`}>
                                         {score}
                                     </span>
-                                    <span className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1">
-                                        {t('scoreLabel')}
-                                    </span>
+
+                                    <div className="flex items-center gap-1.5 mt-1.5">
+                                        <span className="text-sm font-semibold text-slate-400 dark:text-slate-500">
+                                            / {maxScore}
+                                        </span>
+                                        <span className="text-[10px] font-bold text-slate-500 dark:text-slate-500/70 uppercase tracking-widest mt-0.5">
+                                            {t.scoreLabel}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -130,7 +145,7 @@ export function ExamResult() {
                                         {correctCount}
                                     </span>
                                     <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                                        {t('correctAnswers')}
+                                        {t.correctAnswers}
                                     </span>
                                 </div>
                                 <div className="bg-slate-50 dark:bg-[#222] p-6 rounded-2xl flex flex-col items-center justify-center border border-slate-100 dark:border-slate-800 transition-colors duration-300">
@@ -139,7 +154,7 @@ export function ExamResult() {
                                         {wrongCount}
                                     </span>
                                     <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                                        {t('wrongAnswers')}
+                                        {t.wrongAnswers}
                                     </span>
                                 </div>
                             </div>
@@ -150,7 +165,7 @@ export function ExamResult() {
                                 href={`/take-exam/${exam.id}`}
                                 className="flex items-center justify-center gap-2 bg-slate-100 dark:bg-[#222] hover:bg-slate-200 dark:hover:bg-[#333] text-slate-700 dark:text-slate-300 px-6 py-4 rounded-xl font-semibold transition-colors shadow-sm"
                             >
-                                <RotateCcw className="h-5 w-5" /> {t('retry')}
+                                <RotateCcw className="h-5 w-5" /> {t.retry}
                             </Link>
                             <button
                                 onClick={() => {
@@ -158,16 +173,20 @@ export function ExamResult() {
                                 }}
                                 className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold transition-colors shadow-lg shadow-blue-200 dark:shadow-none"
                             >
-                                <FileText className="h-5 w-5" /> {t('viewDetailsBtn')}
+                                <FileText className="h-5 w-5" /> {t.viewDetailsBtn}
                             </button>
                             <Link
                                 href="/exams"
                                 className="flex items-center justify-center gap-2 bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 dark:hover:bg-slate-600 text-white px-6 py-4 rounded-xl font-semibold transition-colors shadow-sm"
                             >
-                                <Home className="h-5 w-5" /> {t('backToList')}
+                                <Home className="h-5 w-5" /> {t.backToList}
                             </Link>
                         </div>
                     </div>
+                </div>
+
+                <div className="mb-10">
+                    <ExamRatingStars examId={exam.id} t={t} />
                 </div>
 
                 {/* Review Answers */}
@@ -177,7 +196,7 @@ export function ExamResult() {
                 >
                     <div className="p-6 sm:p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-[#222] transition-colors duration-300">
                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
-                            <BarChart3 className="h-7 w-7 text-blue-600 dark:text-blue-500" /> {t('reviewAnswers')}
+                            <BarChart3 className="h-7 w-7 text-blue-600 dark:text-blue-500" /> {t.reviewAnswers}
                         </h2>
                     </div>
 

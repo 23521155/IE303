@@ -65,15 +65,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             });
         });
     });
-    sitemapEntries.push({
-        url: `${baseUrl}/vi/blogs/ky-thi-it-passport`,
-        changeFrequency: 'weekly',
-        priority: 0.9,
-    });
-    sitemapEntries.push({
-        url: `${baseUrl}/vi/blogs/ky-thi-fe`,
-        changeFrequency: 'weekly',
-        priority: 0.9,
+
+    const blogIds = ['ky-thi-it-passport', 'ky-thi-fe'];
+
+    locales.forEach((locale) => {
+        blogIds.forEach((blogId) => {
+            const cleanPath = `/blogs/${blogId}`;
+
+            sitemapEntries.push({
+                url: `${baseUrl}/${locale}${cleanPath}`,
+                lastModified,
+                changeFrequency: 'weekly',
+                priority: 0.9,
+                alternates: {
+                    languages: {
+                        'x-default': `${baseUrl}/en${cleanPath}`,
+                        vi: `${baseUrl}/vi${cleanPath}`,
+                        en: `${baseUrl}/en${cleanPath}`,
+                        ja: `${baseUrl}/ja${cleanPath}`,
+                    },
+                },
+            });
+        });
     });
     return sitemapEntries;
 }

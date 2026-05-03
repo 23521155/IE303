@@ -1,6 +1,7 @@
 package com.edu.user_service.controller;
 
 import com.edu.user_service.dto.CreateUserRequest;
+import com.edu.user_service.dto.UserProfileDto;
 import com.edu.user_service.entity.User;
 import com.edu.user_service.service.UserService;
 import jakarta.validation.Valid;
@@ -23,18 +24,29 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id)
-    {
-        return userService.getUserById(id);
+    public UserProfileDto getUserById(@PathVariable Long id) {
+        User u = userService.getUserById(id);
+        return UserProfileDto.builder()
+                .id(u.getId())
+                .name(u.getName())
+                .currentStatus(u.getCurrentStatus())
+                .createdAt(u.getCreatedAt())
+                .build();
     }
 
     @GetMapping("/me")
-    public User getMe(Authentication authentication){
-        log.info("hi");
+    public UserProfileDto getMe(Authentication authentication) {
         String userId = authentication.getName();
-        log.info(userId);
         Long id = Long.parseLong(userId);
-        return userService.getUserById(id);
+        User u = userService.getUserById(id);
+        return UserProfileDto.builder()
+                .id(u.getId())
+                .name(u.getName())
+                .phoneNumber(u.getPhoneNumber())
+                .currentStatus(u.getCurrentStatus())
+                .email(u.getEmail())
+                .createdAt(u.getCreatedAt())
+                .build();
     }
 
 }

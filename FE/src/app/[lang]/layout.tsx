@@ -70,10 +70,12 @@ export default async function RootLayout({
   return (
     <html lang={lang}>
       <body className={`${inter.className} antialiased`}>
+          <LanguageProvider>
               <Header t={t} lang={lang}/>
               {children}
               <Footer t={t} lang={lang}/>
               <Toaster className={'bg-primary'} />
+          </LanguageProvider>
       </body>
     </html>
   );

@@ -3,7 +3,7 @@
   "exams": "Đề Thi",
   "materials": "Tài Liệu",
   "flashcards": "Flashcard",
-  "blog": "Bài viết",
+  "blogs": "Bài viết",
   "login": "Đăng Nhập",
   "register": "Đăng Ký",
   "logout": "Đăng xuất",
@@ -67,6 +67,11 @@
   "questionCount": "Số câu hỏi",
   "participants": "Lượt thi",
   "rating": "Đánh giá",
+  "rateExam": "Đánh giá đề",
+  "currentRating": "Điểm trung bình",
+  "yourRating": "Bạn đã đánh giá",
+  "clickToRate": "Nhấn vào sao để đánh giá",
+  "thankYouFeedback": "Cảm ơn bạn đã đánh giá!",
   "intro": "Giới thiệu chung",
   "examNotice": "Lưu ý trước khi làm bài",
   "notice1": "Hãy chuẩn bị môi trường yên tĩnh, đảm bảo kết nối internet ổn định để không làm gián đoạn bài làm.",
@@ -135,6 +140,14 @@
   "noSavedMaterials": "Chưa có tài liệu nào",
   "noSavedMaterialsDesc": "Bạn chưa lưu tài liệu học tập nào vào danh sách.",
   "exploreMaterials": "Khám phá tài liệu",
+  "loading": "Đang tải…",
+  "profileInvalidIdHint": "Dùng id người dùng dạng số trong URL (vd: /profile/5).",
+  "profileLoadFailed": "Không tải được hồ sơ.",
+  "recentActivity": "Hoạt động gần đây",
+  "activityLoadFailed": "Không tải được hoạt động.",
+  "noCompletedExamsYet": "Chưa có bài thi đã hoàn thành.",
+  "noCompletedExamsYetDesc": "Hãy thử sức với một đề thi ngay hôm nay!",
+  "profileAvatarAlt": "Ảnh đại diện",
   "welcomeBack": "Chào mừng bạn quay lại hệ thống thi thử",
   "emailAddress": "Địa chỉ Email",
   "password": "Mật khẩu",
@@ -183,5 +196,14 @@
   "registerSuccess": "Đăng ký thành công",
   "registerFail": "Đăng ký thất bại",
   "requireLoginSubmit": "Vui lòng đăng nhập để nộp bài. Nếu đã đăng nhập thì vui lòng thử lại sau.",
-  "realisticExam": "Bám sát thực tế"
+  "realisticExam": "Bám sát thực tế",
+  "blog": {
+    "title": "Bài Viết Mới Nhất",
+    "description": "Cập nhật những kiến thức giúp bạn đạt được thành tích tốt.",
+    "readMore": "Đọc tiếp",
+    "share": "Chia sẻ",
+    "shareTitle": "Xem bài viết này",
+    "copySuccess": "Đã copy link bài viết!"
+  }
+
 }

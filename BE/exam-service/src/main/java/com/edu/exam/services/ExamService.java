@@ -118,7 +118,9 @@ public class ExamService {
             attemptAnswers.add(ans);
         }
 
-        double score = questions.isEmpty() ? 0 : (double) totalCorrect / questions.size() * 100.0;
+        String examType = exam.getCategory().getId();
+        double maxScore = (examType.equals("it-passport") || examType.equals("fe") || examType.equals("sg")) ? 1000.0 : 100.0;
+        double score = questions.isEmpty() ? 0 : ((double) totalCorrect / questions.size()) * maxScore;
         score = Math.round(score * 100.0) / 100.0;
 
         attempt.setTotalCorrect(totalCorrect);

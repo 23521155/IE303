@@ -23,6 +23,7 @@ public class UserService {
         System.out.println(request.getCurrent());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setCurrentStatus(request.getCurrent());
+        user.setEmail(request.getEmail());
         return userRepository.save(user);
 
     }

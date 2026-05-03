@@ -5,43 +5,19 @@ import { Clock, Calendar, User, BookOpen, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { toast } from 'sonner';
-const blogPosts = [
-    {
-        id: 'ky-thi-it-passport',
-        title: 'Kỳ thi IT Passport là gì? Cẩm nang chinh phục chứng chỉ IT Nhật Bản từ A-Z',
-        excerpt: 'Từ định nghĩa, cấu trúc đề thi, cách đăng ký đến lộ trình ôn luyện – tất cả trong một bài viết.',
-        coverImage: '/blog-it-passport-thumbnail.jpg',
-        author: 'Nguyễn Lê Tuấn Phi',
-        date: '01/05/2026',
-        category: 'Chứng chỉ IT',
-        readTime: '15 phút',
-        type: 'blogs',
-    },
-    {
-        id: 'ky-thi-fe',
-        title: 'Kỳ thi FE là gì? Giải đáp mọi thắc mắc giúp bạn tự tin chinh phục',
-        excerpt: 'Từ định nghĩa, cấu trúc đề thi, cách đăng ký đến lộ trình ôn luyện – tất cả trong một bài viết.',
-        coverImage: '/blog-it-fe-thumbnail.jpg',
-        author: 'Nguyễn Lê Tuấn Phi',
-        date: '01/05/2026',
-        category: 'Chứng chỉ IT',
-        readTime: '30 phút',
-        type: 'blogs',
-    },
-];
 
-export function BlogList({ t, lang }: { t: any; lang: string }) {
+export function BlogList({ t, lang, blogPosts }: { t: any; lang: string; blogPosts: any }) {
     const handleShare = async (id: string) => {
-        const url = `${window.location.origin}/blog/${id}`;
+        const url = `${window.location.origin}/${lang}/blogs/${id}`;
 
         if (navigator.share) {
             await navigator.share({
-                title: 'Xem bài viết này',
+                title: t.blog.shareTitle,
                 url,
             });
         } else {
             navigator.clipboard.writeText(url);
-            toast.success('Đã copy link bài viết!');
+            toast.success(t.blog.copySuccess);
         }
     };
     return (
@@ -49,21 +25,19 @@ export function BlogList({ t, lang }: { t: any; lang: string }) {
             <div className="max-w-6xl mx-auto">
                 {/* HEADER */}
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-4">Bài Viết Mới Nhất</h1>
-                    <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        Cập nhật những kiến thức giúp bạn đạt được thành tích tốt.
-                    </p>
+                    <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-4">{t.blog.title}</h1>
+                    <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">{t.blog.description}</p>
                 </div>
 
                 {/* GRID */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {blogPosts.map((post) => (
+                    {blogPosts.map((post: any) => (
                         <article
                             key={post.id}
                             className="relative h-[420px] rounded-md overflow-hidden group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-500"
                         >
                             {/* CLICKABLE OVERLAY (click toàn card) */}
-                            <Link href={`/blog/${post.id}`} className="absolute inset-0 z-10" />
+                            <Link href={`/${lang}/blogs/${post.id}`} className="absolute inset-0 z-10" />
 
                             {/* IMAGE */}
                             <Image
@@ -118,10 +92,10 @@ export function BlogList({ t, lang }: { t: any; lang: string }) {
                                 <div className="flex gap-2 mt-auto relative z-20">
                                     {/* READ */}
                                     <Link
-                                        href={`/blogs/${post.id}`}
+                                        href={`/${lang}/blogs/${post.id}`}
                                         className="flex-1 py-2.5 px-3 bg-white/90 hover:bg-white text-black rounded-md text-sm font-medium flex items-center justify-center transition-colors"
                                     >
-                                        Đọc tiếp
+                                        {t.blog.readMore}
                                     </Link>
 
                                     {/* SHARE */}
@@ -133,7 +107,7 @@ export function BlogList({ t, lang }: { t: any; lang: string }) {
                                         className="flex-1 py-2.5 px-3 bg-white/20 hover:bg-white/30 text-white rounded-md text-sm font-medium flex items-center justify-center transition-colors border border-white/10 cursor-pointer"
                                     >
                                         <Share2 className="w-4 h-4 mr-1.5" />
-                                        Chia sẻ
+                                        {t.blog.share}
                                     </button>
                                 </div>
                             </div>
