@@ -129,7 +129,7 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                         </div>
 
                         <Button asChild variant={'link'} className="group">
-                            <Link href="/exams">
+                            <Link href={`/${lang}/exams`}>
                                 {t.viewAllExams}
                                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
@@ -279,7 +279,7 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                             asChild
                             className="py-6.5 px-8 font-semibold text-lg border-transparent shadow-md hover:scale-105 transition-all"
                         >
-                            <Link href="/register">{t.createAccount}</Link>
+                            <Link href={`/${lang}/register`}>{t.createAccount}</Link>
                         </Button>
 
                         {/* Secondary CTA */}
@@ -289,7 +289,7 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                             variant="outline"
                             className="py-6.5 px-8 font-semibold text-lg border-slate-300 dark:border-white/20 bg-transparent hover:bg-slate-100 dark:hover:bg-white/5"
                         >
-                            <Link href="/exams">{t.exploreExams}</Link>
+                            <Link href={`/${lang}/exams`}>{t.exploreExams}</Link>
                         </Button>
                     </div>
                 </div>
