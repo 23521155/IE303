@@ -183,7 +183,7 @@ export default function Home({ t, lang, popularExams }: { t: any; lang: string; 
                                         </span>
                                     </div>
                                     <Button asChild variant={'outline'} className={'hover:bg-accent'}>
-                                        <Link href={`/exams/${exam.id}`}>{t.viewDetails}</Link>
+                                        <Link href={`/${lang}/exams/${exam.id}`}>{t.viewDetails}</Link>
                                     </Button>
                                 </div>
                             </div>
