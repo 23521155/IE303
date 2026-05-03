@@ -85,7 +85,7 @@ export default function Home({ t, lang, popularExams }: { t: any; lang: string; 
                     </div>
                 </div>
 
-                <div className="h-full hidden xl:flex flex-1 relative">
+                <div className="h-full hidden xl:block flex-1 relative">
                     <AnimateInView delay={0.2}>
                         <Image
                             src={'/hoc 1.jpg'}

@@ -63,7 +63,6 @@ export async function generateMetadata({params}: { params: Promise<{ lang: strin
             },
             locale: lang === 'vi' ? 'vi_VN' : lang === 'ja' ? 'ja_JP' : 'en_US',
             type: "website",
-            countryName: "Việt Nam"
         },
         alternates: {
             canonical: `${baseUrl}/${lang}/exams`,
@@ -124,12 +123,17 @@ export default async function Page({params}:{params: Promise<{lang: string}>}) {
         inLanguage: lang,
         mainEntity: {
             '@type': 'ItemList',
-            itemListElement: topExams.map((exam, index) => ({
-                '@type': 'ListItem',
-                position: index + 1,
-                url: `${baseUrl}/${lang}/exams/${exam.id}`,
-                name: exam.title || `Đề thi ${exam.id}`,
-            })),
+            itemListElement: topExams.map((exam, index) => {
+                // Sửa lỗi: Bóc tách đúng text của ngôn ngữ hiện tại thay vì truyền nguyên Object
+                const examTitle = typeof exam.title === 'string' ? exam.title : exam.title[lang as Locale];
+
+                return {
+                    '@type': 'ListItem',
+                    position: index + 1,
+                    url: `${baseUrl}/${lang}/exams/${exam.id}`,
+                    name: examTitle || `Đề thi ${exam.id}`,
+                };
+            }),
         }
     };
 
