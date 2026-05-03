@@ -157,7 +157,7 @@ export function FlashcardDecks({ t, lang }: { t: any; lang: string }) {
                                     </span>
                                 </p>
                                 <Link
-                                    href={`/flashcard/${deck.id}`}
+                                    href={`/${lang}/flashcard/${deck.id}`}
                                     className="flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
                                 >
                                     {t.studyNow} <ArrowRight className="w-4 h-4 ml-1" />
