@@ -18,18 +18,18 @@ export default function Footer({ t, lang }: { t: any; lang: string }) {
                     <h3 className="text-white font-semibold mb-4 uppercase text-sm tracking-wider">{t.categories}</h3>
                     <ul className="space-y-3 text-sm">
                         <li>
-                            <Link href="/exams?category=english" className="hover:text-blue-400 transition-colors">
-                                {t.foreignLang}
+                            <Link href={`/${lang}/exams`} className="hover:text-blue-400 transition-colors">
+                                IT Passport
                             </Link>
                         </li>
                         <li>
-                            <Link href="/exams?category=it" className="hover:text-blue-400 transition-colors">
-                                {t.itComp}
+                            <Link href={`/${lang}/exams`} className="hover:text-blue-400 transition-colors">
+                                FE
                             </Link>
                         </li>
                         <li>
-                            <Link href="/exams?category=business" className="hover:text-blue-400 transition-colors">
-                                {t.business}
+                            <Link href={`/${lang}/exams`} className="hover:text-blue-400 transition-colors">
+                                SG
                             </Link>
                         </li>
                     </ul>

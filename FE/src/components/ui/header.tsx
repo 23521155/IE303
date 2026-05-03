@@ -10,6 +10,7 @@ import { ChevronDown, Globe, LogOut, Menu, Moon, Settings, Sun, User, X } from '
 import { ImageWithFallback } from '@/src/components/figma/ImageWithFallback';
 import Image from 'next/image';
 import { Button } from '@/src/components/ui/button';
+import { useTheme } from 'next-themes';
 import { usePathStore } from '@/src/store/authStore';
 
 const NAV_ITEMS = [
@@ -48,15 +49,11 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
     const langDropdownRef = useRef<HTMLDivElement>(null);
 
     // Theme state
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const isDark =
-                document.documentElement.classList.contains('dark') ||
-                window.matchMedia('(prefers-color-scheme: dark)').matches;
-            setIsDarkMode(isDark);
-        }
+        setMounted(true);
     }, []);
 
     const pathname = usePathname();
@@ -69,15 +66,6 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
             setPath(pathname);
         }
     }, [pathname, setPath]);
-
-    // Apply dark mode class to html element
-    useEffect(() => {
-        if (isDarkMode) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }, [isDarkMode]);
 
     // Đóng menu khi đổi trang
     useEffect(() => {
@@ -205,11 +193,11 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                         {/* Theme Toggle */}
                         <Button
                             variant={'ghost'}
-                            onClick={() => setIsDarkMode(!isDarkMode)}
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                             className="p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300 mr-2"
                             aria-label="Toggle dark mode"
                         >
-                            {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                            {mounted && (theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />)}
                         </Button>
 
                         {!user ? (
@@ -316,10 +304,10 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                         )}
                         <Button
                             variant="ghost"
-                            onClick={() => setIsDarkMode(!isDarkMode)}
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                             className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300"
                         >
-                            {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                            {mounted && (theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />)}
                         </Button>
                         <Button
                             variant="ghost"

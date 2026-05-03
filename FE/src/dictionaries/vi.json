@@ -18,7 +18,7 @@
   "freeToUse": "Miễn phí sử dụng",
   "updatedExams": "Đề thi cập nhật liên tục",
   "featuredExams": "Đề thi nổi bật",
-  "featuredDesc": "Các đề thi chứng chỉ phổ biến nhất được hàng nghìn học viên lựa chọn để ôn luyện mỗi ngày.",
+  "featuredDesc": "Các đề thi chứng chỉ phổ biến nhất.",
   "viewAllExams": "Xem tất cả đề thi",
   "whyChooseUs": "Tại sao chọn chúng tôi?",
   "whyDesc": "Nền tảng được thiết kế tối ưu giúp bạn đạt điểm số cao nhất.",
@@ -28,12 +28,12 @@
   "exploreExams": "Khám phá đề thi",
   "viewDetails": "Xem chi tiết",
   "minutes": "phút",
-  "feat1Title": "Đề thi sát thực tế",
-  "feat1Desc": "Ngân hàng câu hỏi khổng lồ, được cập nhật liên tục bám sát cấu trúc đề thi mới nhất của các tổ chức giáo dục.",
-  "feat2Title": "Đa dạng chứng chỉ",
-  "feat2Desc": "Từ ngoại ngữ (IELTS, TOEIC), chứng chỉ IT (AWS, Cisco) đến các chứng chỉ chuyên ngành kế toán, tài chính.",
-  "feat3Title": "Giao diện thông minh",
-  "feat3Desc": "Môi trường thi thử giả lập 99% thực tế, đếm ngược thời gian, chấm điểm tự động và phân tích kết quả chi tiết.",
+  "feat1Title": "100% Đề thi thật từ IPA",
+  "feat1Desc": "Cung cấp kho dữ liệu khổng lồ các đề thi chính thức đã được công bố của IT Passport, FE, AP... Không sử dụng câu hỏi giả lập, giúp bạn ôn tập sát với thực tế nhất.",
+  "feat2Title": "Hệ thống đề thi khoa học",
+  "feat2Desc": "Ngân hàng đề thi được sắp xếp khoa học theo từng năm và từng kỳ thi (Mùa Xuân / Mùa Thu), giúp bạn dễ dàng theo dõi và đánh giá lộ trình tiến bộ của bản thân.",
+  "feat3Title": "Thi thử như thi thật",
+  "feat3Desc": "Trải nghiệm môi trường làm bài mô phỏng hệ thống CBT thực tế. Tích hợp đồng hồ đếm ngược và tính năng tự động chấm điểm ngay sau khi hoàn thành bài thi.",
   "footerDesc": "Nền tảng luyện thi trực tuyến hàng đầu với kho đề thi đa dạng, chất lượng cao giúp bạn đạt kết quả tốt nhất trong các kỳ thi chứng chỉ quốc tế.",
   "allRightsReserved": "Bảo lưu mọi quyền.",
   "categories": "Danh mục",
@@ -78,7 +78,7 @@
   "notice2": "Khi ấn nút \"Bắt đầu thi\", thời gian sẽ lập tức đếm ngược và không thể tạm dừng.",
   "notice3": "Bài thi sẽ tự động nộp khi hết thời gian quy định hoặc khi bạn chọn nút nộp bài.",
   "startDoingExam": "Bắt đầu làm bài",
-  "introDesc": "Đề thi được biên soạn kỹ lưỡng bởi đội ngũ chuyên gia, mô phỏng hoàn toàn cấu trúc, độ khó và thời gian của kỳ thi thật. Hoàn thành bài thi giúp bạn đánh giá năng lực hiện tại, làm quen với áp lực phòng thi và tối ưu hóa điểm số.",
+  "introDesc": "Toàn bộ nội dung được lấy trực tiếp từ Cơ quan Xúc tiến Công nghệ Thông tin Nhật Bản (IPA) và được phép sử dụng, phân phối miễn phí theo quy định. Việc ôn luyện trên nguồn đề gốc giúp ứng viên đánh giá chính xác năng lực, nắm vững cấu trúc chuẩn để đạt kết quả tối ưu.",
   "question": "Câu",
   "submitExam": "Nộp bài",
   "submitting": "Đang nộp...",
@@ -205,5 +205,4 @@
     "shareTitle": "Xem bài viết này",
     "copySuccess": "Đã copy link bài viết!"
   }
-
 }
