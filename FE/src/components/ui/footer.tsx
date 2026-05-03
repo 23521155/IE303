@@ -37,18 +37,18 @@ export default function Footer({ t, lang }: { t: any; lang: string }) {
                 <div>
                     <h3 className="text-white font-semibold mb-4 uppercase text-sm tracking-wider">{t.support}</h3>
                     <ul className="space-y-3 text-sm">
+                        {/*<li>*/}
+                        {/*    <a href="#" className="hover:text-blue-400 transition-colors">*/}
+                        {/*        {t.userGuide}*/}
+                        {/*    </a>*/}
+                        {/*</li>*/}
                         <li>
-                            <a href="#" className="hover:text-blue-400 transition-colors">
-                                {t.userGuide}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" className="hover:text-blue-400 transition-colors">
+                            <Link href={`/${lang}/blogs`} className="hover:text-blue-400 transition-colors">
                                 {t.faq}
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#" className="hover:text-blue-400 transition-colors">
+                            <a href="mailto:nguyenletuanphi910.2019@gmail.com" className="hover:text-blue-400 transition-colors">
                                 {t.contact}
                             </a>
                         </li>
