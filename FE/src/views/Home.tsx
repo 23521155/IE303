@@ -195,8 +195,8 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
             <section id="features" className="py-20 bg-secondary/2 dark:bg-[#0f0f0f] transition-colors duration-300">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl font-bold text-secondary dark:text-white mb-4">{t.whyChooseUs}</h2>
-                        <p className="text-secondary/90 dark:text-slate-400 max-w-2xl mx-auto text-lg">{t.whyDesc}</p>
+                        <h2 className="text-3xl font-bold text-foreground mb-4">{t.whyChooseUs}</h2>
+                        <p className="text-muted-foreground max-w-2xl mx-auto text-lg">{t.whyDesc}</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -238,12 +238,12 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                                     </div>
 
                                     {/* Title */}
-                                    <h3 className="relative z-10 text-xl font-semibold text-secondary mb-3 group-hover:text-primary transition-colors">
+                                    <h3 className="relative z-10 text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
                                         {item.title}
                                     </h3>
 
                                     {/* Description */}
-                                    <p className="relative z-10 text-secondary text-sm leading-relaxed">{item.desc}</p>
+                                    <p className="relative z-10 text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
 
                                     {/* Bottom line hover */}
                                     <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-500" />
@@ -255,30 +255,29 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
             </section>
 
             {/* CTA Section */}
-            <section className="relative py-24 overflow-hidden min-h-[calc(100vh-64px-350px)]">
+            <section className="relative py-24 overflow-hidden border-t border-border bg-background">
                 {/* Background gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-secondary" />
+                <div className="absolute inset-0 bg-gradient-to-br from-secondary/50 via-background to-secondary/30 opacity-60" />
 
                 {/* Glow effects */}
-                <div className="absolute -top-20 -left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
-                <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-secondary/20 rounded-full blur-3xl" />
+                <div className="absolute -top-20 -left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+                <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
 
                 {/* Content */}
                 <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
                     {/* Title */}
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">{t.readyForExam}</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 leading-tight">{t.readyForExam}</h2>
 
                     {/* Description */}
-                    <p className="text-white/80 text-lg mb-10 max-w-2xl mx-auto">{t.readyDesc}</p>
+                    <p className="text-muted-foreground text-lg mb-10 max-w-2xl mx-auto">{t.readyDesc}</p>
 
                     {/* Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         {/* Primary CTA */}
 
                         <Button
                             asChild
-                            variant={'outline'}
-                            className=" py-6.5 px-5 font-semibold text-lg hover:bg-accent"
+                            className="py-6.5 px-8 font-semibold text-lg border-transparent shadow-md hover:scale-105 transition-all"
                         >
                             <Link href="/register">{t.createAccount}</Link>
                         </Button>
@@ -288,7 +287,7 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                         <Button
                             asChild
                             variant="outline"
-                            className=" py-6.5 px-5 font-semibold text-lg hover:bg-accent"
+                            className="py-6.5 px-8 font-semibold text-lg border-slate-300 dark:border-white/20 bg-transparent hover:bg-slate-100 dark:hover:bg-white/5"
                         >
                             <Link href="/exams">{t.exploreExams}</Link>
                         </Button>

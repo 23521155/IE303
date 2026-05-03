@@ -78,7 +78,7 @@
   "notice2": "When clicking \"Start Exam\", the time will immediately count down and cannot be paused.",
   "notice3": "The exam will automatically submit when the time is up or when you click the submit button.",
   "startDoingExam": "Start Exam",
-  "introDesc": "The exam is carefully compiled by a team of experts, completely simulating the structure, difficulty and time of the real exam. Completing the exam helps you evaluate your current ability, get used to the pressure of the exam room and optimize your score.",
+  "introDesc": "Under IPA guidelines, this exam is available for free use and distribution. Practicing with original papers helps candidates accurately assess their skills, master the exam structure, and maximize their performance.",
   "question": "Question",
   "submitExam": "Submit",
   "submitting": "Submitting...",
@@ -195,6 +195,7 @@
   "registering": "Registering",
   "registerSuccess": "Registration successful",
   "registerFail": "Registration failed",
-  "requireLoginSubmit": "Please log in to submit. If you are already logged in, please try again.",
-  "realisticExam": "Realistic simulation"
+  "requireLoginSubmit": "Please log in to submit",
+  "realisticExam": "Realistic simulation",
+  "loadingResults": "Loading results..."
 }

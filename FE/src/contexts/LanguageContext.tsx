@@ -183,11 +183,11 @@ const translations: Translations = {
     startDoingExam: { vi: 'Bắt đầu làm bài', en: 'Start Exam', ja: '試験を開始' },
     introDesc: {
         vi:
-            'Đề thi được biên soạn kỹ lưỡng bởi đội ngũ chuyên gia, mô phỏng hoàn toàn cấu trúc, độ khó và thời gian của kỳ thi thật. Hoàn thành bài thi giúp bạn đánh giá năng lực hiện tại, làm quen với áp lực phòng thi và tối ưu hóa điểm số.',
+            'Đây là đề thi chính thức từ Cơ quan Xúc tiến Công nghệ Thông tin Nhật Bản (IPA), được phép sử dụng và phân phối miễn phí theo quy định của đơn vị ban hành. Việc ôn luyện trên đề thi gốc giúp ứng viên đánh giá chính xác năng lực, nắm vững cấu trúc chuẩn và tối ưu hóa kết quả thi.',
         en:
-            'The exam is carefully compiled by a team of experts, completely simulating the structure, difficulty and time of the real exam. Completing the exam helps you evaluate your current ability, get used to the pressure of the exam room and optimize your score.',
+            'This is the official exam paper issued by the Information-technology Promotion Agency, Japan (IPA). According to the agency\'s guidelines, this material is available for free use and distribution. Practicing with the original exam allows candidates to accurately assess their proficiency, master the standard format, and achieve optimal results.',
         ja:
-            '試験は専門家チームによって慎重に編集され、実際の試験の構造、難易度、時間を完全にシミュレートしています。試験を完了すると、現在の能力を評価し、試験室のプレッシャーに慣れ、スコアを最適化するのに役立ちます。',
+            '本資料は、独立行政法人情報処理推進機構（IPA）が公開している公式試験問題であり、同機構の規定に基づき、自由な使用および配布が認められています。過去の試験問題（原典）を用いて演習を行うことで、受験者は自身の能力を正確に把握し、出題形式に習熟するとともに、試験結果の最大化を図ることができます。',
     },
     question: { vi: 'Câu', en: 'Question', ja: '質問' },
     submitExam: { vi: 'Nộp bài', en: 'Submit', ja: '提出' },

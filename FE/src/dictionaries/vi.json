@@ -78,7 +78,7 @@
   "notice2": "Khi ấn nút \"Bắt đầu thi\", thời gian sẽ lập tức đếm ngược và không thể tạm dừng.",
   "notice3": "Bài thi sẽ tự động nộp khi hết thời gian quy định hoặc khi bạn chọn nút nộp bài.",
   "startDoingExam": "Bắt đầu làm bài",
-  "introDesc": "Đề thi được biên soạn kỹ lưỡng bởi đội ngũ chuyên gia, mô phỏng hoàn toàn cấu trúc, độ khó và thời gian của kỳ thi thật. Hoàn thành bài thi giúp bạn đánh giá năng lực hiện tại, làm quen với áp lực phòng thi và tối ưu hóa điểm số.",
+  "introDesc": "Toàn bộ nội dung được lấy trực tiếp từ Cơ quan Xúc tiến Công nghệ Thông tin Nhật Bản (IPA) và được phép sử dụng, phân phối miễn phí theo quy định. Việc ôn luyện trên nguồn đề gốc giúp ứng viên đánh giá chính xác năng lực, nắm vững cấu trúc chuẩn để đạt kết quả tối ưu.",
   "question": "Câu",
   "submitExam": "Nộp bài",
   "submitting": "Đang nộp...",
@@ -195,6 +195,7 @@
   "registering": "Đang đăng ký",
   "registerSuccess": "Đăng ký thành công",
   "registerFail": "Đăng ký thất bại",
-  "requireLoginSubmit": "Vui lòng đăng nhập để nộp bài. Nếu đã đăng nhập thì vui lòng thử lại sau.",
-  "realisticExam": "Bám sát thực tế"
+  "requireLoginSubmit": "Vui lòng đăng nhập để nộp bài",
+  "realisticExam": "Bám sát thực tế",
+  "loadingResults": "Đang tải kết quả..."
 }
