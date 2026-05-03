@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, BrainCircuit, Globe, Code } from 'lucide-react';
+import { ArrowRight, CheckCircle2, BrainCircuit, Globe, Code, BookOpen, Clock } from 'lucide-react';
 import { exams } from '../data/mockData';
 import { Button } from '@/src/components/ui/button';
 
@@ -12,8 +12,9 @@ import SmoothScroll from '@/src/animation/smoothScroll';
 import AnimateInView from '@/src/animation/AnimateInView';
 import { useLenisScroll } from '@/src/animation/useLenisScroll';
 import { motion } from 'framer-motion';
-export default function Home({ t, lang }: { t: any; lang: string }) {
-    const featuredExams = exams.slice(0, 3);
+import { Exam } from '../services/examService';
+export default function Home({ t, lang, popularExams }: { t: any; lang: string; popularExams: Exam[] }) {
+    const featuredExams = popularExams || [];
     const { scrollTo } = useLenisScroll();
 
     return (
@@ -173,12 +174,12 @@ export default function Home({ t, lang }: { t: any; lang: string }) {
                                             : exam.description[lang as keyof typeof exam.description]}
                                     </p>
 
-                                    <div className="flex items-center gap-2 mb-6 text-xs">
-                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full flex">
-                                            ⭐{exam.rating}
+                                    <div className="flex flex-wrap items-center gap-2 mb-5 text-xs">
+                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-sm flex items-center gap-1">
+                                            <Clock className="w-3.5 h-3.5" /> {exam.duration} {t.minutes}
                                         </span>
-                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full">
-                                            {exam.duration} {t.minutes}
+                                        <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-sm flex items-center gap-1">
+                                            <BookOpen className="w-3.5 h-3.5" /> {exam.questionCount} {t.questions}
                                         </span>
                                     </div>
                                     <Button asChild variant={'outline'} className={'hover:bg-accent'}>

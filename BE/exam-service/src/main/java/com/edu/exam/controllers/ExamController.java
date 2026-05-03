@@ -28,6 +28,11 @@ public class ExamController {
         return ResponseEntity.ok(examService.getAllExams(search, category));
     }
 
+    @GetMapping("/popular")
+    public ResponseEntity<List<ExamSummaryDto>> getPopularExams() {
+        return ResponseEntity.ok(examService.getPopularExams());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ExamDto> getExamById(@PathVariable String id) {
         return ResponseEntity.ok(examService.getExamById(id));

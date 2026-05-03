@@ -80,6 +80,12 @@ class ExamService {
         return response.json();
     }
 
+    async getPopularExams(): Promise<Exam[]> {
+        return this.request<Exam[]>('/api/exams/popular', {
+            next: { revalidate: 86400 },
+        });
+    }
+
     async getAllCategories(): Promise<Category[]> {
         const response = await fetch(`${BE_URL}/api/categories`);
 
