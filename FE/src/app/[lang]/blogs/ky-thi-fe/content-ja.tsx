@@ -30,14 +30,14 @@ const compareStyles = {
     // .compare-card.fe & .compare-card.ip
     cardVariants: {
         fe: 'border-primary bg-primary/10 dark:border-blue-700 dark:bg-blue-900/20',
-        ip: 'border-secondary bg-gray-50 dark:border-blue-500 dark:bg-blue-900/10',
+        ip: 'border-secondary bg-gray-50 dark:border-blue-900 dark:bg-blue-900/10',
     },
 
     // .compare-card h4
     titleBase: 'text-[15px] font-bold mb-2.5',
     titleVariants: {
-        fe: 'text-primary dark:text-blue-400',
-        ip: 'text-secondary dark:text-blue-400',
+        fe: 'text-primary dark:text-blue-900',
+        ip: 'text-secondary dark:text-blue-900',
     },
 
     // .compare-card ul & li
@@ -49,12 +49,12 @@ const sessionStyles = {
     cardBase: 'rounded-md p-5 border-2 transition-colors',
     cardVariants: {
         morning: 'border-primary bg-primary/10 dark:border-blue-700 dark:bg-blue-900/20',
-        afternoon: 'border-secondary bg-gray-50 dark:border-blue-500 dark:bg-blue-900/10',
+        afternoon: 'border-secondary bg-gray-50 dark:border-blue-900 dark:bg-blue-900/10',
     },
     titleBase: 'text-[15px] font-bold mb-2.5',
     titleVariants: {
-        morning: 'text-primary dark:text-blue-400',
-        afternoon: 'text-secondary dark:text-blue-400',
+        morning: 'text-primary dark:text-blue-900',
+        afternoon: 'text-secondary dark:text-blue-900',
     },
     text: 'text-sm mb-1.5 text-slate-600 dark:text-slate-400',
     strong: 'font-semibold text-slate-900 dark:text-slate-200',
@@ -140,15 +140,15 @@ export default function ContentJa() {
                 </p>
 
                 {/* TABLE OF CONTENTS (TOC) */}
-                <nav className="bg-primary/10 dark:bg-blue-900/10 border-l-4 border-primary rounded-r-md p-6 my-10">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-400 mb-4">
+                <nav className="bg-primary/10 dark:bg-white dark:border-blue-900 border-l-4 border-primary rounded-r-md p-6 my-10">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-900 mb-4">
                         目次
                     </h3>
                     <ul className="space-y-2 text-base text-secondary">
                         <li>
                             <a
                                 href="#it-fe-la-gi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 1. FE資格とは？
                             </a>
@@ -156,7 +156,7 @@ export default function ContentJa() {
                         <li>
                             <a
                                 href="#fe-khac-it-passport"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 2. FEとITパスポートの違いは？
                             </a>
@@ -164,7 +164,7 @@ export default function ContentJa() {
                         <li>
                             <a
                                 href="#cau-truc-de-thi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 3. 試験構成の詳細
                             </a>
@@ -172,7 +172,7 @@ export default function ContentJa() {
                         <li>
                             <a
                                 href="#loi-ich"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 4. FE資格取得の実践的なメリット
                             </a>
@@ -180,7 +180,7 @@ export default function ContentJa() {
                         <li>
                             <a
                                 href="#dang-ky"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 5. 日本とベトナムでの受験申込方法
                             </a>
@@ -188,13 +188,13 @@ export default function ContentJa() {
                         <li>
                             <a
                                 href="#lo-trinh-on-luyen"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 6. ゼロからの3ヶ月学習ロードマップ
                             </a>
                         </li>
                         <li>
-                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-400 transition-colors">
+                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-900 transition-colors">
                                 7. よくある質問 (FAQ)
                             </a>
                         </li>
@@ -213,7 +213,7 @@ export default function ContentJa() {
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://viblo.asia/p/thi-do-chung-chi-ki-su-cntt-chuan-nhat-ban-fe-fundamental-information-technology-engineers-examination-tu-con-so-0-eW65GGO65DO"
-                        className="font-medium text-primary underline mr-1"
+                        className="font-medium text-primary underline mr-1 dark:text-blue-900"
                     >
                         FE
                     </a>
@@ -227,9 +227,9 @@ export default function ContentJa() {
                 </p>
 
                 {/* INFO BOX */}
-                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-5 my-8">
+                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border  dark:border-blue-800 rounded-md p-5 my-8">
                     <Info className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
-                    <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
+                    <p className="text-sm sm:text-base text-secondary  m-0">
                         FEは、日本のITスキル標準（ITSS）の<strong>レベル2</strong>
                         に位置付けられています。これはITパスポート（レベル1）の次のステップであり、AP、PM、SCなどのより高いレベルへステップアップするための基盤となります。
                     </p>
@@ -467,7 +467,7 @@ export default function ContentJa() {
                     他の国際的なIT資格よりもFEを選ぶ理由は何でしょうか？日本で働く多くのベトナム人エンジニアが共有する理由は以下の通りです：
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-400 mt-6 mb-3">
+                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">
                     日本での就労ビザの申請 – 大学の学位は不要
                 </h3>
                 <p className="mb-4">
@@ -476,7 +476,7 @@ export default function ContentJa() {
                     。大学の学位は持っていないが、技術的なスキルが本当に高い人にとって、これは非常に価値のある道です。
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-400 mt-6 mb-3">
+                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">
                     高度専門職ビザと永住権の加点
                 </h3>
                 <p className="mb-4">
@@ -485,7 +485,7 @@ export default function ContentJa() {
                     Worker）ビザ、そしてその後の永住権ビザを申請するためのポイントをより早く蓄積することができます。
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-400 mt-6 mb-3">12カ国で認定</h3>
+                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">12カ国で認定</h3>
                 <p className="mb-6">
                     FEは日本だけで価値があるわけではありません。<strong>ITPEC</strong>
                     （アジア情報処理試験協議会）の枠組みに基づくFE試験は、インド、シンガポール、韓国、中国、フィリピン、タイ、ベトナム、ミャンマー、台湾、マレーシア、モンゴル、バングラデシュを含むアジアの12か国で同等に認定されています。
@@ -601,7 +601,7 @@ export default function ContentJa() {
                 </div>
 
                 {/* TIP BOX */}
-                <div className="flex gap-4 bg-gray-50 dark:bg-blue-900/20 border-l-4 border-secondary dark:border-blue-500 rounded-r-md p-5 my-8">
+                <div className="flex gap-4 bg-gray-50 dark:bg-blue-900/20 border-l-4 border-secondary dark:border-blue-900 rounded-r-md p-5 my-8">
                     <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
                         <strong>ヒント:</strong>{' '}
                         ベトナムで受験する場合、試験にはベトナム語の翻訳が付属しているため、英語についてあまり心配する必要はありません。より重要なのは、IT用語を理解することです。ただし可能であれば、
@@ -639,11 +639,11 @@ export default function ContentJa() {
                 {/* STEPS */}
                 <div className="flex flex-col gap-4 my-8">
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             1
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 1ヶ月目 – 基礎テキストを読む（午前試験）
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -653,11 +653,11 @@ export default function ContentJa() {
                         </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             2
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-900 text-lg mb-1">
                                 2ヶ月目 – 過去問を解く（午前試験 + 午後試験の開始）
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -666,11 +666,11 @@ export default function ContentJa() {
                         </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             3
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 3ヶ月目 – 午後試験への取り組みと総合模擬試験
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -679,11 +679,11 @@ export default function ContentJa() {
                         </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             4
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 最終週 – 弱点の迅速な復習、メンタルの維持
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -699,7 +699,7 @@ export default function ContentJa() {
                         <strong>公式テキスト:</strong>
                         <a
                             href={'https://pdfcoffee.com/new-fe-textbook-vol2-pdf-free.html'}
-                            className="ml-1 font-bold underline text-primary"
+                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -710,7 +710,7 @@ export default function ContentJa() {
                         <strong>過去問:</strong>
                         <a
                             href="https://itpec.org/"
-                            className="ml-1 font-bold underline text-primary"
+                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -721,7 +721,7 @@ export default function ContentJa() {
                         <strong>日本の学習サイト:</strong>
                         <a
                             href="https://www.fe-siken.com/"
-                            className="ml-1 font-bold underline text-primary"
+                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -730,7 +730,7 @@ export default function ContentJa() {
                     </li>
                     <li>
                         <strong>オンライン模擬試験:</strong>
-                        <Link href="/ja/" className="ml-1 font-bold underline text-primary">
+                        <Link href="/ja/" className="ml-1 font-bold underline text-primary dark:text-blue-900">
                             IT Shiken – 実際の試験をシミュレートしたインターフェース、自動採点、無料
                         </Link>
                     </li>
@@ -742,10 +742,10 @@ export default function ContentJa() {
                     className="flex items-center gap-4 bg-primary/10 dark:bg-blue-900/10 border border-green-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-primary dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – FE試験の無料練習
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             オンラインでFE模擬試験を受ける – 実際の試験を99%シミュレートし、完了直後に自動採点します
                         </div>
                     </div>
@@ -762,7 +762,7 @@ export default function ContentJa() {
                 <div className="space-y-4 mb-10">
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             FEは難しいですか？合格率はどのくらいですか？
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -772,7 +772,7 @@ export default function ContentJa() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             大学の学位を持っていなくてもFE試験を受けるべきですか？
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -782,7 +782,7 @@ export default function ContentJa() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             午後試験ではどのプログラミング言語を選ぶべきですか？
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -792,7 +792,7 @@ export default function ContentJa() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             1つのセクションに合格した場合、両方を再受験する必要がありますか？
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -802,7 +802,7 @@ export default function ContentJa() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             私は非IT分野の人間ですが、FE試験を受けるべきですか？
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -817,10 +817,10 @@ export default function ContentJa() {
                     className="flex items-center gap-4 bg-primary/10 dark:bg-blue-900/10 border border-green-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-primary dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – フラッシュカード
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             フラッシュカードを使用してITの語彙と概念を復習します – 早く学び、長く記憶に残します
                         </div>
                     </div>
@@ -849,7 +849,10 @@ export default function ContentJa() {
                         Shikenは、無料のFE模擬試験、実際の試験をシミュレートしたインターフェース、自動採点、詳細な結果分析を提供し、自分の弱点がどこにあるかを明確に把握するのに役立ちます。
                     </p>
 
-                    <Button asChild className="text-lg !py-6 bg-accent hover:bg-accent/90 text-slate-900 border-none">
+                    <Button
+                        asChild
+                        className="text-lg !py-6 bg-accent hover:bg-accent/90 text-slate-900 border-none dark:text-white"
+                    >
                         <Link href="/ja/exams">今すぐFE模擬試験を受ける – 無料</Link>
                     </Button>
                 </div>

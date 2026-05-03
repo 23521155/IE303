@@ -99,15 +99,15 @@ export default function ContentEn() {
                 </p>
 
                 {/* TABLE OF CONTENTS (TOC) */}
-                <nav className="bg-primary/10 dark:bg-blue-900/10 border-l-4 border-primary rounded-r-md p-6 my-10">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-400 mb-4">
+                <nav className="bg-primary/10 dark:bg-white dark:border-blue-900 border-l-4 border-primary rounded-r-md p-6 my-10">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-900 mb-4">
                         Table of Contents
                     </h3>
                     <ul className="space-y-2 text-base text-secondary">
                         <li>
                             <a
                                 href="#it-passport-la-gi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 1. What is IT Passport?
                             </a>
@@ -115,7 +115,7 @@ export default function ContentEn() {
                         <li>
                             <a
                                 href="#ai-nen-thi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 2. Who should take IT Passport?
                             </a>
@@ -123,7 +123,7 @@ export default function ContentEn() {
                         <li>
                             <a
                                 href="#cau-truc-de-thi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 3. Detailed exam structure
                             </a>
@@ -131,7 +131,7 @@ export default function ContentEn() {
                         <li>
                             <a
                                 href="#loi-ich"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 4. Benefits of having an IT Passport certificate
                             </a>
@@ -139,7 +139,7 @@ export default function ContentEn() {
                         <li>
                             <a
                                 href="#dang-ky"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 5. How to register for the exam
                             </a>
@@ -147,13 +147,13 @@ export default function ContentEn() {
                         <li>
                             <a
                                 href="#lo-trinh-on-luyen"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 6. Effective study roadmap
                             </a>
                         </li>
                         <li>
-                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-400 transition-colors">
+                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-900 transition-colors">
                                 7. Frequently Asked Questions (FAQ)
                             </a>
                         </li>
@@ -172,7 +172,7 @@ export default function ContentEn() {
                         href="https://btacademy.vn/it-comtor/it-passport-la-gi-loi-the-cua-chung-chi-it-passport"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-primary underline mr-1"
+                        className="font-bold text-primary underline mr-1 dark:text-blue-900"
                     >
                         IT Passport
                     </a>
@@ -188,7 +188,7 @@ export default function ContentEn() {
                 </p>
 
                 {/* INFO BOX */}
-                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-5 my-8">
+                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border  dark:border-blue-800 rounded-md p-5 my-8">
                     <Info className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                     <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
                         <strong>IT Passport is not a certificate exclusively for IT professionals.</strong> On the
@@ -231,7 +231,7 @@ export default function ContentEn() {
                 {/* BENEFITS GRID */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-8">
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">
                             Sales & Marketing Professionals
                         </h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
@@ -239,20 +239,20 @@ export default function ContentEn() {
                         </p>
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">IT Comtors / IT Translators</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">IT Comtors / IT Translators</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             Needing vocabulary and foundational IT knowledge to translate accurately and professionally.
                         </p>
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">Back-office & HR</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">Back-office & HR</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             Working in an IT company but not an engineer, wanting to understand the "language" of
                             colleagues.
                         </p>
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">Career-switching Students</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">Career-switching Students</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             Wanting to switch to IT, needing a certificate to boost the CV and start the journey.
                         </p>
@@ -314,7 +314,7 @@ export default function ContentEn() {
                                 <td className="px-4 py-3" colSpan={2}>
                                     Total score to pass
                                 </td>
-                                <td className="px-4 py-3 text-primary dark:text-blue-400" colSpan={2}>
+                                <td className="px-4 py-3 text-primary dark:text-blue-900" colSpan={2}>
                                     ≥ 600/1000 (all 3 sections ≥ 300)
                                 </td>
                             </tr>
@@ -343,13 +343,13 @@ export default function ContentEn() {
                 {/* INTERNAL LINK 1 */}
                 <Link
                     href="/en/exams"
-                    className="flex items-center gap-4 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4 dark:bg-blue-900/10 border  dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md  dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Free Practice Exams
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             Take the IT Passport mock exam online now – auto-grading, 100% free
                         </div>
                     </div>
@@ -580,13 +580,13 @@ export default function ContentEn() {
                 {/* INTERNAL LINK 2 */}
                 <Link
                     href="/en/materials"
-                    className="flex items-center gap-4  dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4  dark:bg-blue-900/10 border  dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md  dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Materials
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             View the continuously updated repository of IT Passport study materials
                         </div>
                     </div>
@@ -603,7 +603,7 @@ export default function ContentEn() {
                 <div className="space-y-4 mb-10">
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             How is IT Passport different from the FE certificate?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -620,7 +620,7 @@ export default function ContentEn() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             How long is the IT Passport certificate valid for?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -631,7 +631,7 @@ export default function ContentEn() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Can someone who doesn't know Japanese take the exam?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -642,7 +642,7 @@ export default function ContentEn() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             What is the pass rate of the IT Passport exam?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">

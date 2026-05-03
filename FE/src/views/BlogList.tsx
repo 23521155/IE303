@@ -60,7 +60,7 @@ export function BlogList({ t, lang, blogPosts }: { t: any; lang: string; blogPos
 
                             {/* CATEGORY */}
                             <div className="absolute top-4 left-4 z-20">
-                                <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-md shadow-sm">
+                                <span className="bg-primary dark:text-secondary text-white text-xs font-semibold px-3 py-1 rounded-md shadow-sm">
                                     {post.category}
                                 </span>
                             </div>
