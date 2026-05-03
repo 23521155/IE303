@@ -30,14 +30,14 @@ const compareStyles = {
     // .compare-card.fe & .compare-card.ip
     cardVariants: {
         fe: 'border-primary bg-primary/10 dark:border-blue-700 dark:bg-blue-900/20',
-        ip: 'border-secondary bg-gray-50 dark:border-blue-500 dark:bg-blue-900/10',
+        ip: 'border-secondary bg-gray-50 dark:border-blue-900 dark:bg-blue-900/10',
     },
 
     // .compare-card h4
     titleBase: 'text-[15px] font-bold mb-2.5',
     titleVariants: {
-        fe: 'text-primary dark:text-blue-400',
-        ip: 'text-secondary dark:text-blue-400',
+        fe: 'text-primary dark:text-blue-900',
+        ip: 'text-secondary dark:text-blue-900',
     },
 
     // .compare-card ul & li
@@ -53,8 +53,8 @@ const sessionStyles = {
     },
     titleBase: 'text-[15px] font-bold mb-2.5',
     titleVariants: {
-        morning: 'text-primary dark:text-blue-400',
-        afternoon: 'text-secondary dark:text-blue-400',
+        morning: 'text-primary dark:text-blue-900',
+        afternoon: 'text-secondary dark:text-blue-900',
     },
     text: 'text-sm mb-1.5 text-slate-600 dark:text-slate-400',
     strong: 'font-semibold text-slate-900 dark:text-slate-200',
@@ -66,7 +66,7 @@ export default function ContentEn() {
             {/* HEADER */}
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
                 <div className="mb-4">
-                    <span className="bg-primary text-white dark:bg-blue-900 dark:text-blue-100 text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider">
+                    <span className="bg-primary text-white dark:bg-blue-900 text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider">
                         {postDetail.category}
                     </span>
                 </div>
@@ -143,15 +143,15 @@ export default function ContentEn() {
                 </p>
 
                 {/* TABLE OF CONTENTS (TOC) */}
-                <nav className="bg-primary/10 dark:bg-blue-900/10 border-l-4 border-primary rounded-r-md p-6 my-10">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-400 mb-4">
+                <nav className="bg-primary/10 dark:bg-white dark:border-blue-900 border-l-4 border-primary rounded-r-md p-6 my-10">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-900 mb-4">
                         Table of Contents
                     </h3>
                     <ul className="space-y-2 text-base text-secondary">
                         <li>
                             <a
                                 href="#it-fe-la-gi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 1. What is the IT FE Certificate?
                             </a>
@@ -159,7 +159,7 @@ export default function ContentEn() {
                         <li>
                             <a
                                 href="#fe-khac-it-passport"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 2. How is FE different from IT Passport?
                             </a>
@@ -167,7 +167,7 @@ export default function ContentEn() {
                         <li>
                             <a
                                 href="#cau-truc-de-thi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 3. Detailed exam structure
                             </a>
@@ -175,7 +175,7 @@ export default function ContentEn() {
                         <li>
                             <a
                                 href="#loi-ich"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 4. Practical benefits of having an FE certificate
                             </a>
@@ -183,7 +183,7 @@ export default function ContentEn() {
                         <li>
                             <a
                                 href="#dang-ky"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 5. How to register for the exam in Vietnam & Japan
                             </a>
@@ -191,13 +191,13 @@ export default function ContentEn() {
                         <li>
                             <a
                                 href="#lo-trinh-on-luyen"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 6. 3-month study roadmap from scratch
                             </a>
                         </li>
                         <li>
-                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-400 transition-colors">
+                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-900 transition-colors">
                                 7. Frequently Asked Questions (FAQ)
                             </a>
                         </li>
@@ -216,7 +216,7 @@ export default function ContentEn() {
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://viblo.asia/p/thi-do-chung-chi-ki-su-cntt-chuan-nhat-ban-fe-fundamental-information-technology-engineers-examination-tu-con-so-0-eW65GGO65DO"
-                        className="font-medium text-primary underline mr-1"
+                        className="font-medium text-primary underline mr-1 dark:text-blue-900"
                     >
                         FE
                     </a>
@@ -234,7 +234,7 @@ export default function ContentEn() {
                 </p>
 
                 {/* INFO BOX */}
-                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-5 my-8">
+                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border dark:border-blue-800 rounded-md p-5 my-8">
                     <Info className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                     <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
                         FE is at <strong>Level 2</strong> in the Japanese IT Skill Standard (ITSS) scale. This is the
@@ -496,7 +496,7 @@ export default function ContentEn() {
                     Vietnamese engineers working in Japan:
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-400 mt-6 mb-3">
+                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">
                     Apply for a working visa in Japan – no university degree required
                 </h3>
                 <p className="mb-4">
@@ -508,7 +508,7 @@ export default function ContentEn() {
                     extremely valuable path.
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-400 mt-6 mb-3">
+                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">
                     Bonus points for Kodo (Highly Skilled) visa & permanent residency
                 </h3>
                 <p className="mb-4">
@@ -517,7 +517,7 @@ export default function ContentEn() {
                     subsequently a permanent residency visa.
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-400 mt-6 mb-3">
+                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">
                     Recognized in 12 countries
                 </h3>
                 <p className="mb-6">
@@ -639,7 +639,7 @@ export default function ContentEn() {
                 </div>
 
                 {/* TIP BOX */}
-                <div className="flex gap-4 bg-gray-50 dark:bg-blue-900/20 border-l-4 border-secondary dark:border-blue-500 rounded-r-md p-5 my-8">
+                <div className="flex gap-4 bg-gray-50 dark:bg-blue-900/20 border-l-4 border-secondary dark:border-blue-900 rounded-r-md p-5 my-8">
                     <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
                         <strong>Tip:</strong> If you take the exam in Vietnam, the test comes with a Vietnamese
                         translation so you don't need to worry too much about English. More importantly is understanding
@@ -680,11 +680,11 @@ export default function ContentEn() {
                 {/* STEPS */}
                 <div className="flex flex-col gap-4 my-8">
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             1
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 Month 1 – Read foundational textbooks (morning exam)
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -696,11 +696,11 @@ export default function ContentEn() {
                         </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             2
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 Month 2 – Practice past papers (morning exam + start afternoon exam)
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -712,11 +712,11 @@ export default function ContentEn() {
                         </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             3
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1 text-blue-900">
                                 Month 3 – Tackle afternoon exam & comprehensive mock tests
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -729,11 +729,11 @@ export default function ContentEn() {
                         </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             4
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 Final Week – Quick review of weaknesses, maintain mentality
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -754,7 +754,7 @@ export default function ContentEn() {
                         <strong>Official books:</strong>
                         <a
                             href={'https://pdfcoffee.com/new-fe-textbook-vol2-pdf-free.html'}
-                            className="ml-1 font-bold underline text-primary"
+                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -765,7 +765,7 @@ export default function ContentEn() {
                         <strong>Past papers:</strong>
                         <a
                             href="https://itpec.org/"
-                            className="ml-1 font-bold underline text-primary"
+                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -776,7 +776,7 @@ export default function ContentEn() {
                         <strong>Japanese review site:</strong>
                         <a
                             href="https://www.fe-siken.com/"
-                            className="ml-1 font-bold underline text-primary"
+                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -785,7 +785,7 @@ export default function ContentEn() {
                     </li>
                     <li>
                         <strong>Online mock exams:</strong>
-                        <Link href="/en/" className="ml-1 font-bold underline text-primary">
+                        <Link href="/en/" className="ml-1 font-bold underline text-primary dark:text-blue-900">
                             IT Shiken – interface simulates the real exam, automatic grading, free
                         </Link>
                     </li>
@@ -797,10 +797,10 @@ export default function ContentEn() {
                     className="flex items-center gap-4 bg-primary/10 dark:bg-blue-900/10 border border-green-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-primary dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Free FE Exam Practice
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             Take FE mock exams online – 99% simulation of real exams, automatic grading right after
                             completion
                         </div>
@@ -818,7 +818,7 @@ export default function ContentEn() {
                 <div className="space-y-4 mb-10">
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Is FE difficult? What is the pass rate?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -831,7 +831,7 @@ export default function ContentEn() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Should I take the FE exam if I don't have a university degree?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -844,7 +844,7 @@ export default function ContentEn() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Which programming language should I choose for the afternoon exam?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -857,7 +857,7 @@ export default function ContentEn() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             If I pass one section, do I need to retake both?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -869,7 +869,7 @@ export default function ContentEn() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>I am a non-IT
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>I am a non-IT
                             person, should I take the FE exam?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -888,10 +888,10 @@ export default function ContentEn() {
                     className="flex items-center gap-4 bg-primary/10 dark:bg-blue-900/10 border border-green-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-primary dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Flashcards
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             Review IT vocabulary & concepts using Flashcards – learn fast, remember longer
                         </div>
                     </div>
@@ -923,7 +923,10 @@ export default function ContentEn() {
                         detailed result analysis – helping you clearly know where your weaknesses lie.
                     </p>
 
-                    <Button asChild className="text-lg !py-6 bg-accent hover:bg-accent/90 text-slate-900 border-none">
+                    <Button
+                        asChild
+                        className="text-lg !py-6 bg-accent hover:bg-accent/90 text-slate-900 dark:text-white border-none"
+                    >
                         <Link href="/en/exams">Take FE Mock Exam Now – For Free</Link>
                     </Button>
                 </div>

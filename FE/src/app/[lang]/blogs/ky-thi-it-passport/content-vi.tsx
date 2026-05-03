@@ -99,15 +99,15 @@ export default function ContentVi() {
                 </p>
 
                 {/* TABLE OF CONTENTS (TOC) */}
-                <nav className="bg-primary/10 dark:bg-blue-900/10 border-l-4 border-primary rounded-r-md p-6 my-10">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-400 mb-4">
+                <nav className="bg-primary/10 dark:bg-white dark:border-blue-900 border-l-4 border-primary rounded-r-md p-6 my-10">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-900 mb-4">
                         Nội Dung Bài Viết
                     </h3>
                     <ul className="space-y-2 text-base text-secondary">
                         <li>
                             <a
                                 href="#it-passport-la-gi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 1. IT Passport là gì?
                             </a>
@@ -115,7 +115,7 @@ export default function ContentVi() {
                         <li>
                             <a
                                 href="#ai-nen-thi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 2. Ai nên thi IT Passport?
                             </a>
@@ -123,7 +123,7 @@ export default function ContentVi() {
                         <li>
                             <a
                                 href="#cau-truc-de-thi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 3. Cấu trúc đề thi chi tiết
                             </a>
@@ -131,7 +131,7 @@ export default function ContentVi() {
                         <li>
                             <a
                                 href="#loi-ich"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 4. Lợi ích khi có chứng chỉ IT Passport
                             </a>
@@ -139,7 +139,7 @@ export default function ContentVi() {
                         <li>
                             <a
                                 href="#dang-ky"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 5. Cách đăng ký dự thi
                             </a>
@@ -147,13 +147,13 @@ export default function ContentVi() {
                         <li>
                             <a
                                 href="#lo-trinh-on-luyen"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 6. Lộ trình ôn luyện hiệu quả
                             </a>
                         </li>
                         <li>
-                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-400 transition-colors">
+                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-900 transition-colors">
                                 7. Câu hỏi thường gặp
                             </a>
                         </li>
@@ -172,7 +172,7 @@ export default function ContentVi() {
                         href="https://btacademy.vn/it-comtor/it-passport-la-gi-loi-the-cua-chung-chi-it-passport"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-primary underline mr-1"
+                        className="font-bold text-primary underline mr-1 dark:text-blue-900"
                     >
                         IT Passport
                     </a>
@@ -188,7 +188,7 @@ export default function ContentVi() {
                 </p>
 
                 {/* INFO BOX */}
-                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-5 my-8">
+                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border dark:border-blue-800 rounded-md p-5 my-8">
                     <Info className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                     <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
                         <strong>IT Passport không phải chứng chỉ dành riêng cho dân IT.</strong> Ngược lại, đây chính là
@@ -231,25 +231,25 @@ export default function ContentVi() {
                 {/* BENEFITS GRID */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-8">
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">Dân Sales & Marketing</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">Dân Sales & Marketing</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             Làm việc với khách hàng công nghệ, cần hiểu sản phẩm IT để tư vấn tốt hơn.
                         </p>
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">IT Comtor / Biên dịch IT</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">IT Comtor / Biên dịch IT</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             Cần vốn từ vựng và kiến thức nền tảng IT để dịch thuật chính xác, chuyên nghiệp.
                         </p>
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">Back-office & HR</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">Back-office & HR</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             Làm việc trong công ty IT nhưng không phải kỹ sư, muốn hiểu "ngôn ngữ" của đồng nghiệp.
                         </p>
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">Sinh viên chuyển ngành</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">Sinh viên chuyển ngành</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             Muốn chuyển sang IT, cần có chứng chỉ để bổ sung CV và bắt đầu hành trình.
                         </p>
@@ -311,7 +311,7 @@ export default function ContentVi() {
                                 <td className="px-4 py-3" colSpan={2}>
                                     Tổng điểm để đậu
                                 </td>
-                                <td className="px-4 py-3 text-primary dark:text-blue-400" colSpan={2}>
+                                <td className="px-4 py-3 text-primary dark:text-blue-900" colSpan={2}>
                                     ≥ 600/1000 (cả 3 phần ≥ 300)
                                 </td>
                             </tr>
@@ -340,13 +340,13 @@ export default function ContentVi() {
                 {/* INTERNAL LINK 1 */}
                 <Link
                     href="/vi/exams"
-                    className="flex items-center gap-4 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4 dark:bg-blue-900/10 border  dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md  dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Luyện Đề Miễn Phí
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             Thi thử IT Passport online ngay – chấm điểm tự động, miễn phí 100%
                         </div>
                     </div>
@@ -571,13 +571,13 @@ export default function ContentVi() {
                 {/* INTERNAL LINK 2 */}
                 <Link
                     href="/vi/materials"
-                    className="flex items-center gap-4  dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4  dark:bg-blue-900/10 border  dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md  dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Tài Liệu
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             Xem kho tài liệu luyện thi IT Passport được cập nhật liên tục
                         </div>
                     </div>
@@ -594,7 +594,7 @@ export default function ContentVi() {
                 <div className="space-y-4 mb-10">
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             IT Passport khác gì so với chứng chỉ FE?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -611,7 +611,7 @@ export default function ContentVi() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Chứng chỉ IT Passport có giá trị được bao lâu?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -622,7 +622,7 @@ export default function ContentVi() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Người không biết tiếng Nhật có thi được không?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -633,7 +633,7 @@ export default function ContentVi() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Tỷ lệ đậu của kỳ thi IT Passport là bao nhiêu?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">

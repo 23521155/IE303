@@ -97,15 +97,15 @@ export default function ContentJa() {
                 </p>
 
                 {/* TABLE OF CONTENTS (TOC) */}
-                <nav className="bg-primary/10 dark:bg-blue-900/10 border-l-4 border-primary rounded-r-md p-6 my-10">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-400 mb-4">
+                <nav className="bg-primary/10 dark:bg-white dark:border-blue-900 border-l-4 border-primary rounded-r-md p-6 my-10">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-900 mb-4">
                         目次
                     </h3>
                     <ul className="space-y-2 text-base text-secondary">
                         <li>
                             <a
                                 href="#it-passport-la-gi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 1. ITパスポートとは？
                             </a>
@@ -113,7 +113,7 @@ export default function ContentJa() {
                         <li>
                             <a
                                 href="#ai-nen-thi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 2. 誰がITパスポートを受験すべきか？
                             </a>
@@ -121,7 +121,7 @@ export default function ContentJa() {
                         <li>
                             <a
                                 href="#cau-truc-de-thi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 3. 試験構成の詳細
                             </a>
@@ -129,7 +129,7 @@ export default function ContentJa() {
                         <li>
                             <a
                                 href="#loi-ich"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 4. ITパスポート資格取得のメリット
                             </a>
@@ -137,7 +137,7 @@ export default function ContentJa() {
                         <li>
                             <a
                                 href="#dang-ky"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 5. 受験申込方法
                             </a>
@@ -145,13 +145,13 @@ export default function ContentJa() {
                         <li>
                             <a
                                 href="#lo-trinh-on-luyen"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 6. 効果的な学習ロードマップ
                             </a>
                         </li>
                         <li>
-                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-400 transition-colors">
+                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-900 transition-colors">
                                 7. よくある質問 (FAQ)
                             </a>
                         </li>
@@ -170,7 +170,7 @@ export default function ContentJa() {
                         href="https://btacademy.vn/it-comtor/it-passport-la-gi-loi-the-cua-chung-chi-it-passport"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-primary underline mr-1"
+                        className="font-bold text-primary underline mr-1 dark:text-blue-900"
                     >
                         ITパスポート
                     </a>
@@ -182,7 +182,7 @@ export default function ContentJa() {
                 </p>
 
                 {/* INFO BOX */}
-                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-5 my-8">
+                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border  dark:border-blue-800 rounded-md p-5 my-8">
                     <Info className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                     <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
                         <strong>ITパスポートはIT専門家だけの資格ではありません。</strong> むしろ、
@@ -222,25 +222,25 @@ export default function ContentJa() {
                 {/* BENEFITS GRID */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-8">
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">営業・マーケティング担当者</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">営業・マーケティング担当者</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             テクノロジークライアントと協力し、より良いコンサルティングのためにIT製品を理解する必要がある方。
                         </p>
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">ITコムター（IT通訳・翻訳者）</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">ITコムター（IT通訳・翻訳者）</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             正確かつ専門的に翻訳するための語彙力とITの基礎知識が必要な方。
                         </p>
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">バックオフィス・人事（HR）</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">バックオフィス・人事（HR）</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             IT企業で働いているがエンジニアではなく、同僚の「言語」を理解したい方。
                         </p>
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-400 mb-2">異業種への転職を目指す学生</h4>
+                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">異業種への転職を目指す学生</h4>
                         <p className="text-sm text-slate-600 dark:text-slate-400">
                             IT業界への転職を希望し、履歴書を強化してキャリアの第一歩を踏み出すための資格が必要な方。
                         </p>
@@ -304,7 +304,7 @@ export default function ContentJa() {
                                 <td className="px-4 py-3" colSpan={2}>
                                     総合評価点（合格基準）
                                 </td>
-                                <td className="px-4 py-3 text-primary dark:text-blue-400" colSpan={2}>
+                                <td className="px-4 py-3 text-primary dark:text-blue-900" colSpan={2}>
                                     総合評価点 600点以上（かつ分野別評価点がいずれも300点以上）
                                 </td>
                             </tr>
@@ -331,13 +331,13 @@ export default function ContentJa() {
                 {/* INTERNAL LINK 1 */}
                 <Link
                     href="/ja/exams"
-                    className="flex items-center gap-4 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4 dark:bg-blue-900/10 border  dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md  dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – 無料模擬試験
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             今すぐITパスポートのオンライン模擬試験を受ける – 自動採点、完全無料
                         </div>
                     </div>
@@ -554,13 +554,13 @@ export default function ContentJa() {
                 {/* INTERNAL LINK 2 */}
                 <Link
                     href="/ja/materials"
-                    className="flex items-center gap-4  dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4  dark:bg-blue-900/10 border  dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md  dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – 学習資料
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             継続的に更新されるITパスポート試験対策の学習資料リポジトリを見る
                         </div>
                     </div>
@@ -577,7 +577,7 @@ export default function ContentJa() {
                 <div className="space-y-4 mb-10">
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             ITパスポートはFE資格とどう違いますか？
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -592,7 +592,7 @@ export default function ContentJa() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             ITパスポート資格の有効期間はどのくらいですか？
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -602,7 +602,7 @@ export default function ContentJa() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             日本語が分からなくても受験できますか？
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -612,7 +612,7 @@ export default function ContentJa() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             ITパスポート試験の合格率はどのくらいですか？
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">

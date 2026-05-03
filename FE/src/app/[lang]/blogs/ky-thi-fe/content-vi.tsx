@@ -30,14 +30,14 @@ const compareStyles = {
     // .compare-card.fe & .compare-card.ip
     cardVariants: {
         fe: 'border-primary bg-primary/10 dark:border-blue-700 dark:bg-blue-900/20',
-        ip: 'border-secondary bg-gray-50 dark:border-blue-500 dark:bg-blue-900/10',
+        ip: 'border-secondary bg-gray-50 dark:border-blue-900 dark:bg-blue-900/10',
     },
 
     // .compare-card h4
     titleBase: 'text-[15px] font-bold mb-2.5',
     titleVariants: {
-        fe: 'text-primary dark:text-blue-400',
-        ip: 'text-secondary dark:text-blue-400',
+        fe: 'text-primary dark:text-blue-900',
+        ip: 'text-secondary dark:text-blue-900',
     },
 
     // .compare-card ul & li
@@ -49,12 +49,12 @@ const sessionStyles = {
     cardBase: 'rounded-md p-5 border-2 transition-colors',
     cardVariants: {
         morning: 'border-primary bg-primary/10 dark:border-blue-700 dark:bg-blue-900/20',
-        afternoon: 'border-secondary bg-gray-50 dark:border-blue-500 dark:bg-blue-900/10',
+        afternoon: 'border-secondary bg-gray-50 dark:border-blue-900 dark:bg-blue-900/10',
     },
     titleBase: 'text-[15px] font-bold mb-2.5',
     titleVariants: {
-        morning: 'text-primary dark:text-blue-400',
-        afternoon: 'text-secondary dark:text-blue-400',
+        morning: 'text-primary dark:text-blue-900',
+        afternoon: 'text-secondary dark:text-blue-900',
     },
     text: 'text-sm mb-1.5 text-slate-600 dark:text-slate-400',
     strong: 'font-semibold text-slate-900 dark:text-slate-200',
@@ -66,7 +66,7 @@ export default function ContentVi() {
             {/* HEADER */}
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
                 <div className="mb-4">
-                    <span className="bg-primary text-white dark:bg-blue-900 dark:text-blue-100 text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider">
+                    <span className="bg-primary text-white dark:bg-blue-900  text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider">
                         {postDetail.category}
                     </span>
                 </div>
@@ -143,15 +143,15 @@ export default function ContentVi() {
                 </p>
 
                 {/* TABLE OF CONTENTS (TOC) */}
-                <nav className="bg-primary/10 dark:bg-blue-900/10 border-l-4 border-primary rounded-r-md p-6 my-10">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-400 mb-4">
+                <nav className="bg-primary/10 dark:bg-white dark:border-blue-900 border-l-4 border-primary rounded-r-md p-6 my-10">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-900 mb-4">
                         Nội Dung Bài Viết
                     </h3>
                     <ul className="space-y-2 text-base text-secondary">
                         <li>
                             <a
                                 href="#it-fe-la-gi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 1. Chứng chỉ IT FE là gì?
                             </a>
@@ -159,7 +159,7 @@ export default function ContentVi() {
                         <li>
                             <a
                                 href="#fe-khac-it-passport"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 2. FE khác IT Passport chỗ nào?
                             </a>
@@ -167,7 +167,7 @@ export default function ContentVi() {
                         <li>
                             <a
                                 href="#cau-truc-de-thi"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 3. Cấu trúc đề thi chi tiết
                             </a>
@@ -175,7 +175,7 @@ export default function ContentVi() {
                         <li>
                             <a
                                 href="#loi-ich"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 4. Lợi ích thực tế khi có chứng chỉ FE
                             </a>
@@ -183,7 +183,7 @@ export default function ContentVi() {
                         <li>
                             <a
                                 href="#dang-ky"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 5. Cách đăng ký dự thi tại Việt Nam & Nhật Bản
                             </a>
@@ -191,13 +191,13 @@ export default function ContentVi() {
                         <li>
                             <a
                                 href="#lo-trinh-on-luyen"
-                                className="hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
                             >
                                 6. Lộ trình ôn luyện 3 tháng từ con số 0
                             </a>
                         </li>
                         <li>
-                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-400 transition-colors">
+                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-900 transition-colors">
                                 7. Câu hỏi thường gặp
                             </a>
                         </li>
@@ -216,7 +216,7 @@ export default function ContentVi() {
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://viblo.asia/p/thi-do-chung-chi-ki-su-cntt-chuan-nhat-ban-fe-fundamental-information-technology-engineers-examination-tu-con-so-0-eW65GGO65DO"
-                        className="font-medium text-primary underline mr-1"
+                        className="font-medium text-primary underline mr-1 dark:text-blue-900"
                     >
                         FE
                     </a>
@@ -232,7 +232,7 @@ export default function ContentVi() {
                 </p>
 
                 {/* INFO BOX */}
-                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-5 my-8">
+                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border  dark:border-blue-800 rounded-md p-5 my-8">
                     <Info className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                     <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
                         FE nằm ở <strong>Level 2</strong> trong thang chuẩn kỹ năng IT Nhật Bản (ITSS). Đây là bước tiếp
@@ -481,7 +481,7 @@ export default function ContentVi() {
                     Nam đang làm việc tại Nhật chia sẻ:
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-400 mt-6 mb-3">
+                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">
                     Xin visa làm việc tại Nhật – không cần bằng đại học
                 </h3>
                 <p className="mb-4">
@@ -491,7 +491,7 @@ export default function ContentVi() {
                     có bằng đại học nhưng thực sự giỏi kỹ thuật, đây là con đường cực kỳ giá trị.
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-400 mt-6 mb-3">
+                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">
                     Cộng điểm visa Kodo & visa vĩnh trú
                 </h3>
                 <p className="mb-4">
@@ -500,7 +500,7 @@ export default function ContentVi() {
                     vĩnh trú.
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-400 mt-6 mb-3">
+                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">
                     Được công nhận tại 12 quốc gia
                 </h3>
                 <p className="mb-6">
@@ -623,7 +623,7 @@ export default function ContentVi() {
                 </div>
 
                 {/* TIP BOX */}
-                <div className="flex gap-4 bg-gray-50 dark:bg-blue-900/20 border-l-4 border-secondary dark:border-blue-500 rounded-r-md p-5 my-8">
+                <div className="flex gap-4 bg-gray-50 dark:bg-blue-900/20 border-l-4 border-secondary dark:border-blue-900 rounded-r-md p-5 my-8">
                     <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
                         <strong>Mẹo:</strong> Nếu bạn thi tại Việt Nam, đề có bản dịch tiếng Việt kèm theo nên không cần
                         lo về tiếng Anh quá nhiều. Quan trọng hơn là hiểu được các thuật ngữ IT. Nhưng nếu có thể,{' '}
@@ -663,11 +663,11 @@ export default function ContentVi() {
                 {/* STEPS */}
                 <div className="flex flex-col gap-4 my-8">
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             1
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900  text-lg mb-1 dark:text-blue-900">
                                 Tháng 1 – Đọc giáo trình nền (đề sáng)
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -678,11 +678,11 @@ export default function ContentVi() {
                         </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             2
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 Tháng 2 – Luyện đề cũ (đề sáng + bắt đầu đề chiều)
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -693,11 +693,11 @@ export default function ContentVi() {
                         </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             3
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 Tháng 3 – Chiến đề chiều & thực chiến tổng hợp
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -709,11 +709,11 @@ export default function ContentVi() {
                         </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             4
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1 ">
                                 Tuần cuối – Ôn nhanh điểm yếu, giữ tâm lý
                             </h4>
                             <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
@@ -733,7 +733,7 @@ export default function ContentVi() {
                         <strong>Sách chính thức:</strong>
                         <a
                             href={'https://pdfcoffee.com/new-fe-textbook-vol2-pdf-free.html'}
-                            className="ml-1 font-bold underline text-primary"
+                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -744,7 +744,7 @@ export default function ContentVi() {
                         <strong>Đề thi cũ:</strong>
                         <a
                             href="https://itpec.org/"
-                            className="ml-1 font-bold underline text-primary"
+                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -755,7 +755,7 @@ export default function ContentVi() {
                         <strong>Trang ôn luyện tiếng Nhật:</strong>
                         <a
                             href="https://www.fe-siken.com/"
-                            className="ml-1 font-bold underline text-primary"
+                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -764,7 +764,7 @@ export default function ContentVi() {
                     </li>
                     <li>
                         <strong>Thi thử online:</strong>
-                        <Link href="/vi/" className="ml-1 font-bold underline text-primary">
+                        <Link href="/vi/" className="ml-1 font-bold underline text-primary dark:text-blue-900">
                             IT Shiken – giao diện mô phỏng đề thật, chấm điểm tự động, miễn phí
                         </Link>
                     </li>
@@ -776,10 +776,10 @@ export default function ContentVi() {
                     className="flex items-center gap-4 bg-primary/10 dark:bg-blue-900/10 border border-green-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-primary dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Luyện Đề FE Miễn Phí
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             Thi thử đề FE online – mô phỏng 99% đề thật, chấm điểm tự động ngay sau khi làm
                         </div>
                     </div>
@@ -796,7 +796,7 @@ export default function ContentVi() {
                 <div className="space-y-4 mb-10">
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             FE có khó không? Tỷ lệ đậu bao nhiêu?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -808,7 +808,7 @@ export default function ContentVi() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Không có bằng đại học, có nên thi FE không?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -820,7 +820,7 @@ export default function ContentVi() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Nên chọn ngôn ngữ lập trình nào cho đề chiều?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -832,7 +832,7 @@ export default function ContentVi() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Đậu một phần, có cần thi lại cả hai không?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -844,7 +844,7 @@ export default function ContentVi() {
 
                     <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
                         <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-400 font-extrabold">Q</span>
+                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Mình là dân non-IT, có nên thi FE không?
                         </div>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
@@ -862,10 +862,10 @@ export default function ContentVi() {
                     className="flex items-center gap-4 bg-primary/10 dark:bg-blue-900/10 border border-green-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-primary dark:hover:border-blue-700 transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-400 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Flashcard
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             Ôn từ vựng & khái niệm IT bằng Flashcard – học nhanh, nhớ lâu hơn
                         </div>
                     </div>
@@ -897,7 +897,10 @@ export default function ContentVi() {
                         tích kết quả chi tiết – giúp bạn biết rõ mình đang yếu chỗ nào.
                     </p>
 
-                    <Button asChild className="text-lg !py-6 bg-accent hover:bg-accent/90 text-slate-900 border-none">
+                    <Button
+                        asChild
+                        className="text-lg !py-6 bg-accent hover:bg-accent/90 text-slate-900 dark:text-white dark:text-blue-900 border-none"
+                    >
                         <Link href="/vi/exams">Thi Thử FE Ngay – Miễn Phí</Link>
                     </Button>
                 </div>

@@ -58,7 +58,7 @@ export default function Home({ t, lang, popularExams }: { t: any; lang: string; 
                             {/* Secondary Button */}
                         </div>
 
-                        <div className="mt-12 flex items-center justify-center gap-6 text-md text-slate-500 dark:text-slate-400 font-medium">
+                        <div className="mt-12 flex flex-col md:flex-row items-center justify-center gap-6 text-md text-slate-500 dark:text-slate-400 font-medium">
                             <AnimateInView delay={0.5}>
                                 <div className="flex items-center gap-2 text-green-500">
                                     <CheckCircle2 className="h-5 w-5" />
@@ -85,7 +85,7 @@ export default function Home({ t, lang, popularExams }: { t: any; lang: string; 
                     </div>
                 </div>
 
-                <div className="h-full flex-1 relative">
+                <div className="h-full hidden xl:flex flex-1 relative">
                     <AnimateInView delay={0.2}>
                         <Image
                             src={'/hoc 1.jpg'}
@@ -121,7 +121,7 @@ export default function Home({ t, lang, popularExams }: { t: any; lang: string; 
             {/* Featured Exams Section */}
             <section className=" py-20 bg-white dark:bg-[#121212]   dark:border-slate-800 transition-colors duration-300 min-h-[calc(100vh-64px)]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+                    <div className="flex flex-col md:flex-row justify-between mb-12 gap-4">
                         <div>
                             <h2 className="text-3xl font-bold text-secondary dark:text-white mb-4">
                                 {t.featuredExams}
@@ -129,12 +129,14 @@ export default function Home({ t, lang, popularExams }: { t: any; lang: string; 
                             <p className="text-secondary dark:text-slate-400 max-w-2xl text-lg">{t.featuredDesc}</p>
                         </div>
 
-                        <Button asChild variant={'link'} className="group">
-                            <Link href={`/${lang}/exams`}>
-                                {t.viewAllExams}
-                                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                            </Link>
-                        </Button>
+                        <div className="flex items-end">
+                            <Button asChild variant={'link'} className="group !p-0">
+                                <Link href={`/${lang}/exams`}>
+                                    {t.viewAllExams}
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                            </Button>
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -244,7 +246,9 @@ export default function Home({ t, lang, popularExams }: { t: any; lang: string; 
                                     </h3>
 
                                     {/* Description */}
-                                    <p className="relative z-10 text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
+                                    <p className="relative z-10 text-muted-foreground text-sm leading-relaxed">
+                                        {item.desc}
+                                    </p>
 
                                     {/* Bottom line hover */}
                                     <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-500" />
@@ -267,7 +271,9 @@ export default function Home({ t, lang, popularExams }: { t: any; lang: string; 
                 {/* Content */}
                 <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
                     {/* Title */}
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 leading-tight">{t.readyForExam}</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 leading-tight">
+                        {t.readyForExam}
+                    </h2>
 
                     {/* Description */}
                     <p className="text-muted-foreground text-lg mb-10 max-w-2xl mx-auto">{t.readyDesc}</p>
