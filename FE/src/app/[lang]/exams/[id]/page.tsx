@@ -51,8 +51,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
                 alt: examTitle,
             },
             locale: lang === 'vi' ? 'vi_VN' : lang === 'ja' ? 'ja_JP' : 'en_US',
-            phoneNumbers: "0903571094",
-            emails: "nguyenletuanphi910.2019@gmail.com",
             type: "article",
             countryName: "Việt Nam"
         },
@@ -79,5 +77,89 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     if (!examData) {
         notFound();
     }
-    return <ExamDetail examData={examData} t={t} lang={lang}  />;
+
+    const examTitle = typeof examData.title === 'string' ? examData.title : examData.title[lang as Locale];
+    const examDesc = typeof examData.description === 'string' ? examData.description : examData.description[lang as Locale];
+    const ogImageUrl = examData.image.startsWith('http') ? examData.image : `${baseUrl}${examData.image}`;
+
+    const breadcrumbJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: lang === 'vi' ? 'Trang chủ' : lang === 'ja' ? 'ホーム' : 'Home',
+                item: `${baseUrl}/${lang}`,
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: t.examLibrary || (lang === 'vi' ? 'Đề thi' : 'Exams'),
+                item: `${baseUrl}/${lang}/exams`,
+            },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: examTitle,
+                item: `${baseUrl}/${lang}/exams/${id}`,
+            },
+        ],
+    };
+
+    const examJsonLd: any = {
+        '@context': 'https://schema.org',
+        '@type': 'LearningResource',
+        name: examTitle,
+        description: examDesc,
+        image: ogImageUrl,
+        // Khai báo rõ đây là Đề thi thử hoặc Đề thi cũ
+        learningResourceType: ['Practice test', 'Past paper'],
+        educationalLevel: 'Professional', // Hoặc 'Beginner', 'Intermediate'
+        author: {
+            '@type': 'Organization',
+            name: 'IT Shiken',
+            url: baseUrl,
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'IT Shiken',
+            logo: {
+                '@type': 'ImageObject',
+                url: `${baseUrl}/itShikenLogo.png`,
+            }
+        },
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `${baseUrl}/${lang}/exams/${id}`,
+        }
+    };
+
+    // Tích hợp Đánh giá sao (Nổi bật trên kết quả tìm kiếm Google)
+    if ((examData as any).rating && (examData as any).ratingCount) {
+        examJsonLd.aggregateRating = {
+            '@type': 'AggregateRating',
+            ratingValue: (examData as any).rating,
+            ratingCount: (examData as any).ratingCount,
+            bestRating: '5',
+            worstRating: '1',
+        };
+    }
+    return <>
+
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+                __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c'),
+            }}
+        />
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+                __html: JSON.stringify(examJsonLd).replace(/</g, '\\u003c'),
+            }}
+        />
+        <ExamDetail examData={examData} t={t} lang={lang}  />
+    </>
+
 }

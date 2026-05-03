@@ -13,9 +13,10 @@ const commonData = {
         name: 'Nguyễn Lê Tuấn Phi',
         role: 'Author',
         avatar: '/avatar-Phi.jpg',
+        url: 'https://www.facebook.com/Fi.is.me.hello?locale=vi_VN',
     },
-    datePublished: '2026-05-01',
-    dateModified: '2026-05-01',
+    datePublished: '2026-05-01T08:00:00+07:00',
+    dateModified: '2026-05-01T08:00:00+07:00',
 };
 
 const localizedData = {
@@ -187,6 +188,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
         author: {
             '@type': 'Person',
             name: commonData.author.name,
+            url: commonData.author.url,
         },
         publisher: {
             '@type': 'Organization',
