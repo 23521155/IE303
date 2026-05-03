@@ -14,9 +14,8 @@ const FLASHCARDS = [
   { id: 5, front: 'TCO (Total Cost of Ownership)', back: 'Tổng chi phí sở hữu: Chi phí tổng cộng bao gồm chi phí mua sắm ban đầu và các chi phí vận hành, bảo trì, hỗ trợ trong suốt vòng đời của hệ thống IT.', hint: 'Không chỉ nhìn vào giá mua ban đầu.' }
 ];
 
-export function FlashcardPlay() {
+export function FlashcardPlay({ t, lang }: { t: any; lang: string }) {
   const { id } = useParams();
-  const { t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [showHint, setShowHint] = useState(false);
@@ -50,8 +49,8 @@ export function FlashcardPlay() {
         
         {/* Header điều hướng */}
         <div className="flex items-center justify-between mb-8">
-          <Link href="/flashcards" className="flex items-center text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white dark:bg-[#1a1a1a] px-4 py-2 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800">
-            <ArrowLeft className="w-5 h-5 mr-2" /> {t('backToList')}
+          <Link href={`/${lang}/flashcards`} className="flex items-center text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white dark:bg-[#1a1a1a] px-4 py-2 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800">
+            <ArrowLeft className="w-5 h-5 mr-2" /> {t.backToList}
           </Link>
           <div className="flex items-center gap-3">
             <span className="font-semibold text-slate-700 dark:text-slate-300">IT Passport cơ bản</span>
@@ -82,18 +81,18 @@ export function FlashcardPlay() {
               <div className="absolute top-6 right-6 text-slate-300 dark:text-slate-600">
                 <RefreshCw className="w-6 h-6" />
               </div>
-              <span className="text-sm font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-widest mb-4">{t('term')}</span>
+              <span className="text-sm font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-widest mb-4">{t.term}</span>
               <h2 className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white text-center leading-tight">
                 {currentCard.front}
               </h2>
               <p className="mt-8 text-slate-400 dark:text-slate-500 text-sm flex items-center gap-2">
-                <Maximize2 className="w-4 h-4" /> {t('clickToFlip')}
+                <Maximize2 className="w-4 h-4" /> {t.clickToFlip}
               </p>
             </div>
 
             {/* Mặt sau (Định nghĩa / Giải nghĩa) */}
             <div className="absolute inset-0 w-full h-full bg-blue-600 dark:bg-blue-800 text-white rounded-3xl border border-blue-700 dark:border-blue-900 flex flex-col items-center justify-center p-8 backface-hidden rotate-y-180 transition-colors duration-300">
-               <span className="text-sm font-semibold text-blue-200 dark:text-blue-300 uppercase tracking-widest mb-4">{t('definition')}</span>
+               <span className="text-sm font-semibold text-blue-200 dark:text-blue-300 uppercase tracking-widest mb-4">{t.definition}</span>
                <p className="text-2xl md:text-3xl font-medium text-center leading-relaxed max-w-2xl">
                  {currentCard.back}
                </p>
@@ -105,11 +104,11 @@ export function FlashcardPlay() {
                     onClick={() => setShowHint(true)}
                     className="mx-auto flex items-center text-blue-200 dark:text-blue-300 hover:text-white transition-colors text-sm font-medium bg-white/10 dark:bg-black/20 px-4 py-2 rounded-full"
                    >
-                     <Eye className="w-4 h-4 mr-2" /> {t('showHint')}
+                     <Eye className="w-4 h-4 mr-2" /> {t.showHint}
                    </button>
                  ) : (
                    <div className="bg-blue-700/50 dark:bg-black/30 p-5 rounded-2xl text-center text-blue-50 dark:text-blue-100 animate-fade-in border border-blue-500/30 dark:border-blue-500/20 backdrop-blur-sm">
-                     <span className="block text-xs uppercase tracking-wider mb-2 opacity-70 font-semibold">{t('hint')}</span>
+                     <span className="block text-xs uppercase tracking-wider mb-2 opacity-70 font-semibold">{t.hint}</span>
                      {currentCard.hint}
                    </div>
                  )}
@@ -128,8 +127,8 @@ export function FlashcardPlay() {
               <div className="bg-red-100 dark:bg-red-900/30 p-3 rounded-full mb-2 group-hover:bg-red-200 dark:group-hover:bg-red-900/50 transition-colors">
                 <X className="w-8 h-8 text-red-600 dark:text-red-400" />
               </div>
-              <span className="font-bold text-slate-700 dark:text-slate-300">{t('notRemembered')}</span>
-              <span className="text-xs text-slate-400 dark:text-slate-500 mt-1">{t('repeatLater')}</span>
+              <span className="font-bold text-slate-700 dark:text-slate-300">{t.notRemembered}</span>
+              <span className="text-xs text-slate-400 dark:text-slate-500 mt-1">{t.repeatLater}</span>
             </button>
             
             <button 
@@ -139,8 +138,8 @@ export function FlashcardPlay() {
               <div className="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-full mb-2 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors">
                 <Check className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
               </div>
-              <span className="font-bold text-slate-700 dark:text-slate-300">{t('remembered')}</span>
-              <span className="text-xs text-slate-400 dark:text-slate-500 mt-1">{t('completed')}</span>
+              <span className="font-bold text-slate-700 dark:text-slate-300">{t.remembered}</span>
+              <span className="text-xs text-slate-400 dark:text-slate-500 mt-1">{t.completed}</span>
             </button>
           </div>
         )}
@@ -157,14 +156,14 @@ export function FlashcardPlay() {
                   : 'bg-white dark:bg-[#1a1a1a] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm'
               }`}
             >
-              <ArrowLeft className="w-5 h-5 mr-2" /> {t('prev')}
+              <ArrowLeft className="w-5 h-5 mr-2" /> {t.prev}
             </button>
             
             <button 
               onClick={toggleFlip}
               className="flex items-center px-8 py-3 bg-blue-600 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 text-white rounded-xl font-bold shadow-md transition-colors"
             >
-              {t('flipToSeeAnswer')}
+              {t.flipToSeeAnswer}
             </button>
             
             <button 
@@ -176,7 +175,7 @@ export function FlashcardPlay() {
                   : 'bg-white dark:bg-[#1a1a1a] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm'
               }`}
             >
-              {t('next')} <ArrowRight className="w-5 h-5 ml-2" />
+              {t.next} <ArrowRight className="w-5 h-5 ml-2" />
             </button>
           </div>
         )}

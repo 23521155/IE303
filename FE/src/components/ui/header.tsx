@@ -47,6 +47,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
     const langDropdownRef = useRef<HTMLDivElement>(null);
+    const mobileLangDropdownRef = useRef<HTMLDivElement>(null);
 
     // Theme state
     const { theme, setTheme } = useTheme();
@@ -76,7 +77,11 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
     // Click outside to close language dropdown
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
-            if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
+            const target = event.target as Node;
+            const isOutsideDesktop = langDropdownRef.current && !langDropdownRef.current.contains(target);
+            const isOutsideMobile = mobileLangDropdownRef.current && !mobileLangDropdownRef.current.contains(target);
+
+            if (isOutsideDesktop && isOutsideMobile) {
                 setIsLangDropdownOpen(false);
             }
         }
@@ -126,23 +131,26 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                     {/* Nav items */}
 
                     <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-                        {NAV_ITEMS.map((item) => (
-                            <Link
-                                key={item.label}
-                                href={`/${lang}/${item.path}`}
-                                className=" text-secondary
-                                                cursor-pointer
-                                                dark:text-foreground
-                                                hover:text-primary
-                                                relative
-                                                font-medium
-                                                transition-colors
-                                                after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0
-                                                after:bg-primary after:transition-all hover:after:w-full"
-                            >
-                                {t[item.label as keyof typeof t]}
-                            </Link>
-                        ))}
+                        {NAV_ITEMS.map((item) => {
+                            const href = item.path === '/' ? `/${lang}` : `/${lang}${item.path}`;
+                            return (
+                                <Link
+                                    key={item.label}
+                                    href={href}
+                                    className=" text-secondary
+                                                    cursor-pointer
+                                                    dark:text-foreground
+                                                    hover:text-primary
+                                                    relative
+                                                    font-medium
+                                                    transition-colors
+                                                    after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0
+                                                    after:bg-primary after:transition-all hover:after:w-full"
+                                >
+                                    {t[item.label as keyof typeof t]}
+                                </Link>
+                            );
+                        })}
                     </nav>
 
                     {/* Setting buttons */}
@@ -270,7 +278,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                         )}
                     </div>
 
-                    <div className="flex items-center gap-2 lg:hidden">
+                    <div className="flex items-center gap-2 lg:hidden relative" ref={mobileLangDropdownRef}>
                         <Button
                             variant={'ghost'}
                             onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
@@ -279,7 +287,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                             {t.language}
                         </Button>
                         {isLangDropdownOpen && (
-                            <div className="absolute right-0 top-0 mt-2 w-32 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden z-50">
+                            <div className="absolute right-0 top-full mt-2 w-32 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden z-50">
                                 <div className="py-1">
                                     {languages.map((language) => (
                                         <p
@@ -324,51 +332,51 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
             {isMenuOpen && (
                 <div className="md:hidden bg-white dark:bg-[#1a1a1a] border-t border-blue-50 dark:border-slate-800 px-4 py-4 space-y-4">
                     <Link
-                        href="/"
+                        href={`/${lang}`}
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.home}
                     </Link>
                     <Link
-                        href="/exams"
+                        href={`/${lang}/exams`}
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.exams}
                     </Link>
                     <Link
-                        href="/materials"
+                        href={`/${lang}/materials`}
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.materials}
                     </Link>
                     <Link
-                        href="/flashcards"
+                        href={`/${lang}/flashcards`}
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.flashcards}
                     </Link>
                     <Link
-                        href="/blogs"
+                        href={`/${lang}/blogs`}
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
-                        {t.blog}
+                        {t.blogs}
                     </Link>
                     <div className="pt-4 border-t border-blue-50 dark:border-slate-800 flex flex-col gap-3">
                         {!user ? (
                             <>
                                 <Button asChild>
-                                    <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                                    <Link href={`/${lang}/login`} onClick={() => setIsMenuOpen(false)}>
                                         {t.login}
                                     </Link>
                                 </Button>
 
                                 <Button asChild variant={'outline'}>
-                                    <Link href="/register" onClick={() => setIsMenuOpen(false)}>
+                                    <Link href={`/${lang}/register`} onClick={() => setIsMenuOpen(false)}>
                                         {t.register}
                                     </Link>
                                 </Button>

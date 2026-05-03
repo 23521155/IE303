@@ -162,7 +162,7 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center border-t border-slate-100 dark:border-slate-800 pt-10">
                             <Link
-                                href={`/take-exam/${exam.id}`}
+                                href={`/${lang}/exams/${exam.id}/take`}
                                 className="flex items-center justify-center gap-2 bg-slate-100 dark:bg-[#222] hover:bg-slate-200 dark:hover:bg-[#333] text-slate-700 dark:text-slate-300 px-6 py-4 rounded-xl font-semibold transition-colors shadow-sm"
                             >
                                 <RotateCcw className="h-5 w-5" /> {t.retry}
@@ -176,7 +176,7 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
                                 <FileText className="h-5 w-5" /> {t.viewDetailsBtn}
                             </button>
                             <Link
-                                href="/exams"
+                                href={`/${lang}/exams`}
                                 className="flex items-center justify-center gap-2 bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 dark:hover:bg-slate-600 text-white px-6 py-4 rounded-xl font-semibold transition-colors shadow-sm"
                             >
                                 <Home className="h-5 w-5" /> {t.backToList}
