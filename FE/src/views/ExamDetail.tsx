@@ -55,7 +55,7 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
                         <div className="absolute bottom-6 left-6 right-6 text-white">
-                            <span className="inline-block bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full mb-4 shadow-sm">
+                            <span className="inline-block bg-primary/90 text-primary-foreground text-xs font-bold px-3 py-1.5 rounded-full mb-4 shadow-sm">
                                 {t[`cat_${exam.category.id}`] || exam.category.name}
                             </span>
                             <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 leading-tight">

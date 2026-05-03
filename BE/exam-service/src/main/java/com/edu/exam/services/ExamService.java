@@ -1,9 +1,6 @@
 package com.edu.exam.services;
 
-import com.edu.exam.dtos.CreateExamRequest;
-import com.edu.exam.dtos.ExamDto;
-import com.edu.exam.dtos.SubmitExamRequest;
-import com.edu.exam.dtos.UpdateExamRequest;
+import com.edu.exam.dtos.*;
 import com.edu.exam.entities.AttemptAnswer;
 import com.edu.exam.entities.Exam;
 import com.edu.exam.entities.Attempt;
@@ -47,6 +44,11 @@ public class ExamService {
             exams = examRepository.findAll();
         }
         return exams.stream().map(examMapper::toSimpleDto).toList();
+    }
+
+    @Cacheable(value = "popularExams")
+    public List<ExamSummaryDto> getPopularExams() {
+        return examRepository.findTop3ByOrderByParticipantsDesc();
     }
 
     @Cacheable(value = "exams", key = "#id")
