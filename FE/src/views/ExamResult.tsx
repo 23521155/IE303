@@ -70,7 +70,7 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
         }
     }, [id]);
 
-    if (loading) return <div className="p-8 text-center text-slate-700 dark:text-slate-300">Đang tải kết quả...</div>;
+    if (loading) return <div className="p-8 text-center text-slate-700 dark:text-slate-300">{t.loadingResults}</div>;
     if (error || !exam) return <div className="p-8 text-center text-red-500">{error || t('examResultNotFound')}</div>;
 
     const totalQuestions = combinedResults.length;

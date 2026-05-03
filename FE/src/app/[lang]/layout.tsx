@@ -7,6 +7,7 @@ import Footer from '@/src/components/ui/footer';
 import type {Locale} from '@/src/utils/i18n'
 import { getDictionary } from '@/src/utils/dictionaries';
 import {Toaster} from '@/src/components/ui/sonner';
+import { ThemeProvider } from '@/src/components/theme-provider';
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 export const metadata: Metadata = {
@@ -68,14 +69,21 @@ export default async function RootLayout({
     const { lang } = await params;
  const t = await getDictionary(lang as Locale)
   return (
-    <html lang={lang}>
+    <html lang={lang} suppressHydrationWarning>
       <body className={`${inter.className} antialiased`}>
+      <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+      >
           <LanguageProvider>
               <Header t={t} lang={lang}/>
               {children}
               <Footer t={t} lang={lang}/>
               <Toaster className={'bg-primary'} />
           </LanguageProvider>
+      </ThemeProvider>
       </body>
     </html>
   );
