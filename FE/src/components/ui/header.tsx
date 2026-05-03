@@ -126,23 +126,26 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                     {/* Nav items */}
 
                     <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-                        {NAV_ITEMS.map((item) => (
-                            <Link
-                                key={item.label}
-                                href={`/${lang}/${item.path}`}
-                                className=" text-secondary
-                                                cursor-pointer
-                                                dark:text-foreground
-                                                hover:text-primary
-                                                relative
-                                                font-medium
-                                                transition-colors
-                                                after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0
-                                                after:bg-primary after:transition-all hover:after:w-full"
-                            >
-                                {t[item.label as keyof typeof t]}
-                            </Link>
-                        ))}
+                        {NAV_ITEMS.map((item) => {
+                            const href = item.path === '/' ? `/${lang}` : `/${lang}${item.path}`;
+                            return (
+                                <Link
+                                    key={item.label}
+                                    href={href}
+                                    className=" text-secondary
+                                                    cursor-pointer
+                                                    dark:text-foreground
+                                                    hover:text-primary
+                                                    relative
+                                                    font-medium
+                                                    transition-colors
+                                                    after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0
+                                                    after:bg-primary after:transition-all hover:after:w-full"
+                                >
+                                    {t[item.label as keyof typeof t]}
+                                </Link>
+                            );
+                        })}
                     </nav>
 
                     {/* Setting buttons */}
