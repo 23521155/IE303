@@ -3,7 +3,7 @@
   "exams": "試験",
   "materials": "資料",
   "flashcards": "単語帳",
-  "blog": "ブログ",
+  "blogs": "ブログ",
   "login": "ログイン",
   "register": "登録",
   "logout": "ログアウト",
@@ -195,7 +195,14 @@
   "registering": "登録中",
   "registerSuccess": "登録に成功しました",
   "registerFail": "登録に失敗しました",
-  "requireLoginSubmit": "提出するにはログインしてください。",
+  "requireLoginSubmit": "提出するにはログインしてください。すでにログインしている場合は、もう一度お試しください。",
   "realisticExam": "本番に近い形式",
-  "loadingResults": "結果を読み込み中..."
+  "blog": {
+    "title": "最新記事",
+    "description": "学習に役立つ最新情報をチェックしましょう。",
+    "readMore": "続きを読む",
+    "share": "共有",
+    "shareTitle": "この記事を見る",
+    "copySuccess": "リンクをコピーしました！"
+  }
 }

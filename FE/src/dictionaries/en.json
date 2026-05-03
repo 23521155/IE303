@@ -3,7 +3,7 @@
   "exams": "Exams",
   "materials": "Materials",
   "flashcards": "Flashcards",
-  "blog": "Blogs",
+  "blogs": "Blogs",
   "login": "Login",
   "register": "Register",
   "logout": "Logout",
@@ -195,7 +195,14 @@
   "registering": "Registering",
   "registerSuccess": "Registration successful",
   "registerFail": "Registration failed",
-  "requireLoginSubmit": "Please log in to submit",
+  "requireLoginSubmit": "Please log in to submit. If you are already logged in, please try again.",
   "realisticExam": "Realistic simulation",
-  "loadingResults": "Loading results..."
+  "blog": {
+    "title": "Newest Blogs",
+    "description": "Stay updated with knowledge to achieve better results.",
+    "readMore": "Read more",
+    "share": "Share",
+    "shareTitle": "Check out this article",
+    "copySuccess": "Link copied!"
+  }
 }

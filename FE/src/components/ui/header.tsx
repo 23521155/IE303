@@ -31,7 +31,7 @@ const NAV_ITEMS = [
         path: '/flashcards',
     },
     {
-        label: 'blog',
+        label: 'blogs',
         path: '/blogs',
     },
 ];
