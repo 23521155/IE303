@@ -3,7 +3,7 @@
   "exams": "Đề Thi",
   "materials": "Tài Liệu",
   "flashcards": "Flashcard",
-  "blog": "Bài viết",
+  "blogs": "Bài viết",
   "login": "Đăng Nhập",
   "register": "Đăng Ký",
   "logout": "Đăng xuất",
@@ -196,5 +196,14 @@
   "registerSuccess": "Đăng ký thành công",
   "registerFail": "Đăng ký thất bại",
   "requireLoginSubmit": "Vui lòng đăng nhập để nộp bài. Nếu đã đăng nhập thì vui lòng thử lại sau.",
-  "realisticExam": "Bám sát thực tế"
+  "realisticExam": "Bám sát thực tế",
+  "blog": {
+    "title": "Bài Viết Mới Nhất",
+    "description": "Cập nhật những kiến thức giúp bạn đạt được thành tích tốt.",
+    "readMore": "Đọc tiếp",
+    "share": "Chia sẻ",
+    "shareTitle": "Xem bài viết này",
+    "copySuccess": "Đã copy link bài viết!"
+  }
+
 }
