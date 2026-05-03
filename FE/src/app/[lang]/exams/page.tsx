@@ -128,7 +128,7 @@ export default async function Page({params}:{params: Promise<{lang: string}>}) {
                 '@type': 'ListItem',
                 position: index + 1,
                 url: `${baseUrl}/${lang}/exams/${exam.id}`,
-                name: exam.title || exam.name || `Đề thi ${exam.id}`,
+                name: exam.title || `Đề thi ${exam.id}`,
             })),
         }
     };
