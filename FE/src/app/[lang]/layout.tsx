@@ -14,6 +14,7 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
     const { lang } = await params;
     const t = await getDictionary(lang as Locale);
+    const thumbnail = `/thumbnail-${lang}.png`;
 
     return {
         metadataBase: new URL(baseUrl),
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
             siteName: "ITShiken",
             images: [
                 {
-                    url: `/thumbnail.jpg`,
+                    url: thumbnail,
                     width: 1200,
                     height: 630,
                     alt: "ITShiken",
