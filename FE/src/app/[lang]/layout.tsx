@@ -10,43 +10,46 @@ import {Toaster} from '@/src/components/ui/sonner';
 import { ThemeProvider } from '@/src/components/theme-provider';
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
-export const metadata: Metadata = {
-    title: {
-        template: '%s | IT Shiken',
-        default: 'Thi thử online free & Luyện đề, chấm điểm tự động | IT Shiken'
-    },
-    description: 'Nền tảng luyện thi IT Passport, FE & các chứng chỉ IT Nhật khác. Tự tin đỗ ngay lần đầu với đề thi thật, chấm tự động. Thi thử miễn phí ngay!',
-    keywords: [
-        "luyện thi IT Passport",
-        "đề thi IT Passport tiếng Việt",
-        "luyện thi FE",
-        "đề thi FE tiếng Việt",
-        "thi thử IT Passport online",
-        "thi thử FE online",
-        "chứng chỉ IT Nhật Bản",
-        "sát hạch VITEC",
-        "giải đề FE có lời giải",
-        "từ vựng IT Passport"
-    ],
-    openGraph: {
-        title: 'Thi thử online free & Luyện đề, chấm điểm tự động | IT Shiken',
-        description: 'Nền tảng thi thử online miễn phí đa môn với hệ thống luyện đề trắc nghiệm, chấm điểm tự động và phân tích kết quả giúp bạn cải thiện điểm số nhanh chóng.',
-        url: baseUrl,
-        siteName: "ITShiken",
-        images: {
-            url: `/thumbnail.jpg`,
-            width: 1200,
-            height: 630,
-            alt: "ITShiken",
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+    const { lang } = await params;
+    const t = await getDictionary(lang as Locale);
+
+    return {
+        metadataBase: new URL(baseUrl),
+        title: {
+            template: '%s | IT Shiken',
+            default: t.metaTitle
         },
-        locale: "vi_VN",
-        phoneNumbers: "0903571094",
-        emails: "nguyenletuanphi910.2019@gmail.com",
-        type: "website",
-        countryName: "Việt Nam"
-    },
-    metadataBase: new URL(baseUrl || 'http://localhost:3000'),
-};
+        description: t.metaDescription,
+        keywords: t.metaKeywords.split(', '),
+        alternates: {
+            canonical: `/${lang}`,
+            languages: {
+                'vi': `/vi`,
+                'en': `/en`,
+                'ja': `/ja`,
+                'x-default': `/en`,
+            },
+        },
+        openGraph: {
+            title: t.metaTitle,
+            description: t.metaDescription,
+            url: `/${lang}`,
+            siteName: "ITShiken",
+            images: [
+                {
+                    url: `/thumbnail.jpg`,
+                    width: 1200,
+                    height: 630,
+                    alt: "ITShiken",
+                }
+            ],
+            locale: lang === 'vi' ? 'vi_VN' : lang === 'ja' ? 'ja_JP' : 'en_US',
+            type: "website",
+        },
+    };
+}
 
 export const viewport : Viewport = {
     width: 'device-width',
