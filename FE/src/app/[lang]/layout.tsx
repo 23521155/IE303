@@ -24,15 +24,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
         },
         description: t.metaDescription,
         keywords: t.metaKeywords.split(', '),
-        alternates: {
-            canonical: `/${lang}`,
-            languages: {
-                'vi': `/vi`,
-                'en': `/en`,
-                'ja': `/ja`,
-                'x-default': `/en`,
-            },
-        },
         openGraph: {
             title: t.metaTitle,
             description: t.metaDescription,
