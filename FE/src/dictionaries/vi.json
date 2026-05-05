@@ -208,5 +208,11 @@
     "shareTitle": "Xem bài viết này",
     "copySuccess": "Đã copy link bài viết!"
   },
-  "loadingResults": "Đang tải kết quả..."
+  "loadingResults": "Đang tải kết quả...",
+  "heroBadge": "Nền tảng luyện thi IT hàng đầu Việt Nam",
+  "popularBadge": "Phổ biến nhất",
+  "statLearnersLabel": "Học viên",
+  "statExamSetsLabel": "Đề thi",
+  "statCertsLabel": "Chứng chỉ",
+  "statPassRateLabel": "Tỷ lệ đậu"
 }

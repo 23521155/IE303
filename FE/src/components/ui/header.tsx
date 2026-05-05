@@ -137,7 +137,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                 <Link
                                     key={item.label}
                                     href={href}
-                                    className=" text-secondary
+                                    className={`   
                                                     cursor-pointer
                                                     dark:text-foreground
                                                     hover:text-primary
@@ -145,7 +145,13 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                                     font-medium
                                                     transition-colors
                                                     after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0
-                                                    after:bg-primary after:transition-all hover:after:w-full"
+                                                    after:bg-primary after:transition-all hover:after:w-full
+                                                    ${
+                                                        pathname === href
+                                                            ? 'after:w-full text-primary'
+                                                            : 'text-secondary'
+                                                    }
+                                                    `}
                                 >
                                     {t[item.label as keyof typeof t]}
                                 </Link>
