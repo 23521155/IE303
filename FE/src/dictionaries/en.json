@@ -205,5 +205,11 @@
     "shareTitle": "Check out this article",
     "copySuccess": "Link copied!"
   },
-  "loadingResults": "Loading results..."
+  "loadingResults": "Loading results...",
+  "heroBadge": "Vietnam's #1 IT Certification Platform",
+  "popularBadge": "Most Popular",
+  "statLearnersLabel": "Learners",
+  "statExamSetsLabel": "Exam Sets",
+  "statCertsLabel": "Certifications",
+  "statPassRateLabel": "Pass Rate"
 }

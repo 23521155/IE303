@@ -205,5 +205,11 @@
     "shareTitle": "この記事を見る",
     "copySuccess": "リンクをコピーしました！"
   },
-  "loadingResults": "結果を読み込み中..."
+  "loadingResults": "結果を読み込み中...",
+  "heroBadge": "ベトナムNo.1 IT資格プラットフォーム",
+  "popularBadge": "人気急上昇中",
+  "statLearnersLabel": "学習者",
+  "statExamSetsLabel": "試験セット",
+  "statCertsLabel": "取得可能な資格",
+  "statPassRateLabel": "合格率"
 }
