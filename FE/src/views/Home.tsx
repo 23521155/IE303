@@ -312,11 +312,11 @@ export default function Home({ t, lang, popularExams }: { t: any; lang: string; 
                                             : exam.description[lang as keyof typeof exam.description]}
                                     </p>
                                     <div className="flex flex-wrap items-center gap-2 mb-5 text-xs">
-                                        <span className="bg-white/15 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <span className="bg-white/15 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-md flex items-center gap-1.5">
                                             <Clock className="w-3.5 h-3.5" />
                                             {exam.duration} {t.minutes}
                                         </span>
-                                        <span className="bg-white/15 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full flex items-center gap-1.5">
+                                        <span className="bg-white/15 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-md flex items-center gap-1.5">
                                             <BookOpen className="w-3.5 h-3.5" />
                                             {exam.questionCount} {t.questions}
                                         </span>
