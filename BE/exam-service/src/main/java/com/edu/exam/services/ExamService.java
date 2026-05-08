@@ -1,9 +1,6 @@
 package com.edu.exam.services;
 
-import com.edu.exam.dtos.CreateExamRequest;
-import com.edu.exam.dtos.ExamDto;
-import com.edu.exam.dtos.SubmitExamRequest;
-import com.edu.exam.dtos.UpdateExamRequest;
+import com.edu.exam.dtos.*;
 import com.edu.exam.entities.AttemptAnswer;
 import com.edu.exam.entities.Exam;
 import com.edu.exam.entities.Attempt;
@@ -47,6 +44,11 @@ public class ExamService {
             exams = examRepository.findAll();
         }
         return exams.stream().map(examMapper::toSimpleDto).toList();
+    }
+
+    @Cacheable(value = "popularExams")
+    public List<ExamSummaryDto> getPopularExams() {
+        return examRepository.findTop3ByOrderByParticipantsDesc();
     }
 
     @Cacheable(value = "exams", key = "#id")
@@ -118,7 +120,9 @@ public class ExamService {
             attemptAnswers.add(ans);
         }
 
-        double score = questions.isEmpty() ? 0 : (double) totalCorrect / questions.size() * 100.0;
+        String examType = exam.getCategory().getId();
+        double maxScore = (examType.equals("it-passport") || examType.equals("fe") || examType.equals("sg")) ? 1000.0 : 100.0;
+        double score = questions.isEmpty() ? 0 : ((double) totalCorrect / questions.size()) * maxScore;
         score = Math.round(score * 100.0) / 100.0;
 
         attempt.setTotalCorrect(totalCorrect);

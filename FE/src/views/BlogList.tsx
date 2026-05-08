@@ -1,7 +1,8 @@
 'use client';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { Clock, Calendar, User, BookOpen, Share2, Heart, MessageCircle, Repeat, Send, MoreHorizontal, Image as ImageIcon, Loader2, Trash2, Pencil, X, Check } from 'lucide-react';
 import Link from 'next/link';
-import { Heart, MessageCircle, Repeat, Send, MoreHorizontal, Image as ImageIcon, Loader2, Trash2, Pencil, X, Check } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { ThreadDto, ThreadPageResponse } from '../types/thread';
 

@@ -55,7 +55,7 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
                         <div className="absolute bottom-6 left-6 right-6 text-white">
-                            <span className="inline-block bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full mb-4 shadow-sm">
+                            <span className="inline-block bg-primary/90 text-primary-foreground text-xs font-bold px-3 py-1.5 rounded-full mb-4 shadow-sm">
                                 {t[`cat_${exam.category.id}`] || exam.category.name}
                             </span>
                             <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 leading-tight">
@@ -94,7 +94,9 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                             <div className="flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-[#222] rounded-2xl transition-colors duration-300">
                                 <Star className="h-8 w-8 text-amber-400 mb-2" />
                                 <span className="text-sm text-slate-500 dark:text-slate-400 mb-1">{t.rating}</span>
-                                <span className="font-bold text-slate-900 dark:text-white">{exam.rating} / 5</span>
+                                <span className="font-bold text-slate-900 dark:text-white">
+                                    {exam.rating} ({exam.ratingCount})
+                                </span>
                             </div>
                         </div>
 
@@ -134,7 +136,7 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
 
                         <div className="flex justify-center">
                             <Button asChild className=" py-6.5 px-5 font-semibold text-lg ">
-                                <Link href={`/${lang}/take-exam/${exam.id}`}>
+                                <Link href={`/${lang}/exams/${exam.id}/take`}>
                                     {t.startDoingExam} <ArrowRight className="h-6 w-6" />
                                 </Link>
                             </Button>

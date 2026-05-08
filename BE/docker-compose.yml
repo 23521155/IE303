@@ -101,6 +101,8 @@ services:
       - DB_URL=jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/user_db?sslmode=require
       - DB_USERNAME=neondb_owner
       - DB_PASSWORD=npg_kFcsqpABNu18
+      # Đường dẫn gốc chứa file PDF bên trong container (Material_Data được COPY vào /app/)
+      - FILE_BASE_PATH=/app
 
 networks:
   be-network:

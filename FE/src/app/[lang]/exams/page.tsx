@@ -56,21 +56,18 @@ export async function generateMetadata({params}: { params: Promise<{ lang: strin
             url: `${baseUrl}/${lang}/exams`,
             siteName: "IT Shiken",
             images: {
-                url: `/thumbnail.jpg`,
+                url: `${baseUrl}/thumbnail.jpg`,
                 width: 1200,
                 height: 630,
                 alt: "IT Shiken",
             },
             locale: lang === 'vi' ? 'vi_VN' : lang === 'ja' ? 'ja_JP' : 'en_US',
-            phoneNumbers: "0903571094",
-            emails: "nguyenletuanphi910.2019@gmail.com",
             type: "website",
-            countryName: "Việt Nam"
         },
         alternates: {
             canonical: `${baseUrl}/${lang}/exams`,
             languages: {
-                'x-default': '${baseUrl}/en/exams',
+                'x-default': `${baseUrl}/en/exams`,
                 vi: `${baseUrl}/vi/exams`,
                 en: `${baseUrl}/en/exams`,
                 ja: `${baseUrl}/ja/exams`,
@@ -95,5 +92,65 @@ export default async function Page({params}:{params: Promise<{lang: string}>}) {
     }
 
 
-    return <ExamList t={t} lang={lang} examsData={examsData} categoriesData={categoriesData}  />;
+    const breadcrumbJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: lang === 'vi' ? 'Trang chủ' : lang === 'ja' ? 'ホーム' : 'Home',
+                item: `${baseUrl}/${lang}`,
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: t.examLibrary,
+                item: `${baseUrl}/${lang}/exams`,
+            },
+        ],
+    };
+
+    const topExams = examsData.slice(0, 30);
+
+    const collectionJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        '@id': `${baseUrl}/${lang}/exams#collection`,
+        name: `${t.examLibrary} - Tổng hợp ${examsData.length}+ đề thi IT`,
+        description: `${t.examLibDesc}. Luyện thi các chứng chỉ IT.`,
+        url: `${baseUrl}/${lang}/exams`,
+        inLanguage: lang,
+        mainEntity: {
+            '@type': 'ItemList',
+            itemListElement: topExams.map((exam, index) => {
+                // Sửa lỗi: Bóc tách đúng text của ngôn ngữ hiện tại thay vì truyền nguyên Object
+                const examTitle = typeof exam.title === 'string' ? exam.title : exam.title[lang as Locale];
+
+                return {
+                    '@type': 'ListItem',
+                    position: index + 1,
+                    url: `${baseUrl}/${lang}/exams/${exam.id}`,
+                    name: examTitle || `Đề thi ${exam.id}`,
+                };
+            }),
+        }
+    };
+
+    return <>
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+                __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c'),
+            }}
+        />
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+                __html: JSON.stringify(collectionJsonLd).replace(/</g, '\\u003c'),
+            }}
+        />
+        <ExamList t={t} lang={lang} examsData={examsData} categoriesData={categoriesData}  />
+    </>
+
 }

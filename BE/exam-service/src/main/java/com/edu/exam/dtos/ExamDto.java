@@ -21,5 +21,6 @@ public class ExamDto {
     private Map<String, String> description;
     private Integer participants;
     private BigDecimal rating;
+    private Integer ratingCount;
     private Set<QuestionDto> questions;
 }

@@ -66,5 +66,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         });
     });
 
+    const blogIds = ['ky-thi-it-passport', 'ky-thi-fe'];
+
+    locales.forEach((locale) => {
+        blogIds.forEach((blogId) => {
+            const cleanPath = `/blogs/${blogId}`;
+
+            sitemapEntries.push({
+                url: `${baseUrl}/${locale}${cleanPath}`,
+                lastModified,
+                changeFrequency: 'weekly',
+                priority: 0.9,
+                alternates: {
+                    languages: {
+                        'x-default': `${baseUrl}/en${cleanPath}`,
+                        vi: `${baseUrl}/vi${cleanPath}`,
+                        en: `${baseUrl}/en${cleanPath}`,
+                        ja: `${baseUrl}/ja${cleanPath}`,
+                    },
+                },
+            });
+        });
+    });
     return sitemapEntries;
 }

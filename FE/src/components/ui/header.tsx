@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useLanguage } from '@/src/contexts/LanguageContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMe } from '@/src/hooks/useMe';
@@ -10,6 +10,7 @@ import { ChevronDown, Globe, LogOut, Menu, Moon, Settings, Sun, User, X } from '
 import { ImageWithFallback } from '@/src/components/figma/ImageWithFallback';
 import Image from 'next/image';
 import { Button } from '@/src/components/ui/button';
+import { useTheme } from 'next-themes';
 import { usePathStore } from '@/src/store/authStore';
 
 const NAV_ITEMS = [
@@ -35,23 +36,25 @@ const NAV_ITEMS = [
     },
 ];
 
+function avatarFromName(name: string): string {
+    const seed = encodeURIComponent(name?.trim() || '?');
+    return `https://api.dicebear.com/7.x/shapes/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9`;
+}
+
 export default function Header({ t, lang }: { t: any; lang: string }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
     const langDropdownRef = useRef<HTMLDivElement>(null);
+    const mobileLangDropdownRef = useRef<HTMLDivElement>(null);
 
     // Theme state
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const isDark =
-                document.documentElement.classList.contains('dark') ||
-                window.matchMedia('(prefers-color-scheme: dark)').matches;
-            setIsDarkMode(isDark);
-        }
+        setMounted(true);
     }, []);
 
     const pathname = usePathname();
@@ -65,15 +68,6 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
         }
     }, [pathname, setPath]);
 
-    // Apply dark mode class to html element
-    useEffect(() => {
-        if (isDarkMode) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }, [isDarkMode]);
-
     // Đóng menu khi đổi trang
     useEffect(() => {
         setIsDropdownOpen(false);
@@ -83,7 +77,11 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
     // Click outside to close language dropdown
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
-            if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
+            const target = event.target as Node;
+            const isOutsideDesktop = langDropdownRef.current && !langDropdownRef.current.contains(target);
+            const isOutsideMobile = mobileLangDropdownRef.current && !mobileLangDropdownRef.current.contains(target);
+
+            if (isOutsideDesktop && isOutsideMobile) {
                 setIsLangDropdownOpen(false);
             }
         }
@@ -98,12 +96,19 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
     ];
 
     const { user, setUser } = useMe();
+    const router = useRouter();
+
+    const avatarSrc = useMemo(() => {
+        return avatarFromName(user?.name || '?');
+    }, [user?.name]);
+
     const handleLogout = async () => {
         await logoutAction();
         setUser(null);
+        if (pathname?.includes('/profile')) {
+            router.push(`/${lang}/`);
+        }
     };
-
-    const router = useRouter();
     const handleChangeLang = (newLang: string) => {
         const segments = pathname.split('/');
 
@@ -126,23 +131,32 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                     {/* Nav items */}
 
                     <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-                        {NAV_ITEMS.map((item) => (
-                            <Link
-                                key={item.label}
-                                href={`/${lang}/${item.path}`}
-                                className=" text-secondary
-                                                cursor-pointer
-                                                dark:text-foreground
-                                                hover:text-primary
-                                                relative
-                                                font-medium
-                                                transition-colors
-                                                after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0
-                                                after:bg-primary after:transition-all hover:after:w-full"
-                            >
-                                {t[item.label as keyof typeof t]}
-                            </Link>
-                        ))}
+                        {NAV_ITEMS.map((item) => {
+                            const href = item.path === '/' ? `/${lang}` : `/${lang}${item.path}`;
+                            return (
+                                <Link
+                                    key={item.label}
+                                    href={href}
+                                    className={`   
+                                                    cursor-pointer
+                                                    dark:text-foreground
+                                                    hover:text-primary
+                                                    relative
+                                                    font-medium
+                                                    transition-colors
+                                                    after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0
+                                                    after:bg-primary after:transition-all hover:after:w-full
+                                                    ${
+                                                        pathname === href
+                                                            ? 'after:w-full text-primary'
+                                                            : 'text-secondary'
+                                                    }
+                                                    `}
+                                >
+                                    {t[item.label as keyof typeof t]}
+                                </Link>
+                            );
+                        })}
                     </nav>
 
                     {/* Setting buttons */}
@@ -193,11 +207,11 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                         {/* Theme Toggle */}
                         <Button
                             variant={'ghost'}
-                            onClick={() => setIsDarkMode(!isDarkMode)}
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                             className="p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300 mr-2"
                             aria-label="Toggle dark mode"
                         >
-                            {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                            {mounted && (theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />)}
                         </Button>
 
                         {!user ? (
@@ -218,7 +232,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                 >
                                     <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-blue-100 dark:border-slate-700">
                                         <ImageWithFallback
-                                            src="https://images.unsplash.com/photo-1706025090996-63717544be2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbiUyMGFzaWFufGVufDF8fHx8MTc3MzMwOTcwN3ww&ixlib=rb-4.1.0&q=80&w=1080"
+                                            src={avatarSrc}
                                             alt="User Avatar"
                                             className="w-full h-full object-cover"
                                         />
@@ -239,22 +253,21 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                         <div className="px-4 py-3 border-b border-slate-50 dark:border-slate-800">
                                             <p className="text-sm text-slate-500 dark:text-slate-400">{t.loggedInAs}</p>
                                             <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
-                                                {/*{user?.email}*/}
-                                                Phi
+                                                {user?.name}
                                             </p>
                                         </div>
                                         <div className="py-1">
                                             <Link
-                                                href="/profile"
+                                                href={`/${lang}/profile`}
                                                 className="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400"
                                             >
                                                 <User className="w-4 h-4 mr-2" /> {t.profile}
                                             </Link>
                                             <Link
-                                                href="/settings"
+                                                href={`/${lang}/settings`}
                                                 className="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400"
                                             >
-                                                <Settings className="w-4 h-4 mr-2" /> Cài đặt
+                                                <Settings className="w-4 h-4 mr-2" /> {t.settings}
                                             </Link>
                                         </div>
                                         <div className="py-1 border-t border-slate-50 dark:border-slate-800">
@@ -271,7 +284,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                         )}
                     </div>
 
-                    <div className="flex items-center gap-2 lg:hidden">
+                    <div className="flex items-center gap-2 lg:hidden relative" ref={mobileLangDropdownRef}>
                         <Button
                             variant={'ghost'}
                             onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
@@ -280,7 +293,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                             {t.language}
                         </Button>
                         {isLangDropdownOpen && (
-                            <div className="absolute right-0 top-0 mt-2 w-32 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden z-50">
+                            <div className="absolute right-0 top-full mt-2 w-32 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden z-50">
                                 <div className="py-1">
                                     {languages.map((language) => (
                                         <p
@@ -305,10 +318,10 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                         )}
                         <Button
                             variant="ghost"
-                            onClick={() => setIsDarkMode(!isDarkMode)}
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                             className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300"
                         >
-                            {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                            {mounted && (theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />)}
                         </Button>
                         <Button
                             variant="ghost"
@@ -325,51 +338,51 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
             {isMenuOpen && (
                 <div className="md:hidden bg-white dark:bg-[#1a1a1a] border-t border-blue-50 dark:border-slate-800 px-4 py-4 space-y-4">
                     <Link
-                        href="/"
+                        href={`/${lang}`}
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.home}
                     </Link>
                     <Link
-                        href="/exams"
+                        href={`/${lang}/exams`}
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.exams}
                     </Link>
                     <Link
-                        href="/materials"
+                        href={`/${lang}/materials`}
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.materials}
                     </Link>
                     <Link
-                        href="/flashcards"
+                        href={`/${lang}/flashcards`}
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         {t.flashcards}
                     </Link>
                     <Link
-                        href="/community"
+                        href={`/${lang}/community`}
                         className="block text-secondary dark:text-slate-300 font-medium py-2"
                         onClick={() => setIsMenuOpen(false)}
                     >
-                        {t.blog}
+                        {t.blogs}
                     </Link>
                     <div className="pt-4 border-t border-blue-50 dark:border-slate-800 flex flex-col gap-3">
                         {!user ? (
                             <>
                                 <Button asChild>
-                                    <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                                    <Link href={`/${lang}/login`} onClick={() => setIsMenuOpen(false)}>
                                         {t.login}
                                     </Link>
                                 </Button>
 
                                 <Button asChild variant={'outline'}>
-                                    <Link href="/register" onClick={() => setIsMenuOpen(false)}>
+                                    <Link href={`/${lang}/register`} onClick={() => setIsMenuOpen(false)}>
                                         {t.register}
                                     </Link>
                                 </Button>
@@ -379,7 +392,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                 <div className="flex items-center p-3 bg-blue-50 dark:bg-slate-800/50 rounded-lg">
                                     <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white dark:border-slate-700 shadow-sm mr-3">
                                         <ImageWithFallback
-                                            src="https://images.unsplash.com/photo-1706025090996-63717544be2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbiUyMGFzaWFufGVufDF8fHx8MTc3MzMwOTcwN3ww&ixlib=rb-4.1.0&q=80&w=1080"
+                                            src={avatarSrc}
                                             alt="User Avatar"
                                             className="w-full h-full object-cover"
                                         />
@@ -394,7 +407,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                     </div>
                                 </div>
                                 <Link
-                                    href="/profile"
+                                    href={`/${lang}/profile`}
                                     className="flex items-center px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium"
                                     onClick={() => setIsMenuOpen(false)}
                                 >

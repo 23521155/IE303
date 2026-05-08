@@ -16,4 +16,7 @@ public class CreateUserRequest {
 
     private String current;
 
+    @Email(message = "Email không đúng định dạng")
+    private String email;
+
 }

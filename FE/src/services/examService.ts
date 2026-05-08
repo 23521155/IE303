@@ -18,6 +18,7 @@ export interface Exam {
     };
     participants: number;
     rating: number;
+    ratingCount?: number;
 }
 
 export interface ExamDetail extends Exam {
@@ -35,6 +36,12 @@ export interface Question {
     options: string[];
     correctAnswer: number;
     questionOrder?: number;
+}
+
+export interface RatingSummary {
+    rating: number;
+    ratingCount: number;
+    userRating: number | null;
 }
 
 class ExamService {
@@ -73,6 +80,12 @@ class ExamService {
         return response.json();
     }
 
+    async getPopularExams(): Promise<Exam[]> {
+        return this.request<Exam[]>('/api/exams/popular', {
+            next: { revalidate: 86400 },
+        });
+    }
+
     async getAllCategories(): Promise<Category[]> {
         const response = await fetch(`${BE_URL}/api/categories`);
 
@@ -100,6 +113,17 @@ class ExamService {
         return this.request<{ attemptId: string }>(`/api/exams/${examId}/submit`, {
             method: 'POST',
             body: JSON.stringify(payload),
+        });
+    }
+
+    async getRatingSummary(examId: string): Promise<RatingSummary> {
+        return this.request<RatingSummary>(`/api/exams/${examId}/rating`);
+    }
+
+    async submitRating(examId: string, rating: number): Promise<RatingSummary> {
+        return this.request<RatingSummary>(`/api/exams/${examId}/rating`, {
+            method: 'POST',
+            body: JSON.stringify({ rating }),
         });
     }
 }

@@ -97,7 +97,7 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                 </div>
 
                 {filteredExams.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredExams.map((exam) => (
                             <article
                                 key={exam.id}
@@ -145,7 +145,7 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
                                     {/* Info */}
                                     <div className="flex flex-wrap items-center gap-2 mb-5 text-xs">
                     <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-sm flex items-center gap-1">
-                        ⭐ {exam.rating}
+                        ⭐ {exam.rating} ({exam.ratingCount})
                     </span>
 
                                         <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-sm flex items-center gap-1">

@@ -116,7 +116,7 @@ export function TakeExam({
             localStorage.removeItem(draftKey);
             localStorage.removeItem(`timer_${examId}`);
 
-            router.push(`/${lang}/results/${responseData.attemptId}`);
+            router.push(`/${lang}/exams/${examId}/results/${responseData.attemptId}`);
         } catch (error) {
             console.error(error);
             toast.error(t.requireLoginSubmit)
