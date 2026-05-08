@@ -153,7 +153,7 @@ export default function DetailedEnhancedPost() {
                                 IT Passport (IP) - Kiến thức chung
                             </h2>
                             <p className="mb-4">
-                                <strong><a href="https://www3.jitec.ipa.go.jp/JitesCbt/index.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">IT Passport</a></strong> là chứng chỉ cơ bản nhất. Khác với lầm tưởng của nhiều người, chứng chỉ này không chỉ dành cho dân IT mà được thiết kế cho <strong>tất cả người lao động</strong> trong thời đại số.
+                                <strong><a href="/vi/exams" className="text-blue-600 dark:text-blue-400 hover:underline">IT Passport</a></strong> là chứng chỉ cơ bản nhất. Khác với lầm tưởng của nhiều người, chứng chỉ này không chỉ dành cho dân IT mà được thiết kế cho <strong>tất cả người lao động</strong> trong thời đại số.
                             </p>
 
                             <div className="space-y-4 mb-6">
@@ -181,7 +181,7 @@ export default function DetailedEnhancedPost() {
                                 <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white mb-2">
                                     <Lightbulb className="w-5 h-5 text-yellow-500" /> Mẹo ôn thi:
                                 </div>
-                                <p className="text-base">Kỳ thi diễn ra trên máy tính (CBT) quanh năm. Bạn không cần code, chỉ cần học thuộc từ vựng (đặc biệt là các thuật ngữ viết tắt tiếng Anh 3 chữ cái) và làm đề thi cũ (past papers) trên web <a href="https://www.itpassportsiken.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">IT Passport Kakomon Dojo (itpassportsiken.com)</a> là có thể đỗ sau 1-2 tháng ôn luyện.</p>
+                                <p className="text-base">Kỳ thi diễn ra trên máy tính (CBT) quanh năm. Bạn không cần code, chỉ cần học thuộc từ vựng (đặc biệt là các thuật ngữ viết tắt tiếng Anh 3 chữ cái) và làm đề thi cũ (past papers) trên hệ thống <a href="/vi/exams" className="text-blue-600 hover:underline">luyện đề IT Shiken</a> là có thể đỗ sau 1-2 tháng ôn luyện.</p>
                             </div>
 
 
@@ -191,7 +191,7 @@ export default function DetailedEnhancedPost() {
                                 FE / SG - Kỹ sư CNTT Cơ bản
                             </h2>
                             <p className="mb-4">
-                                Đây là cột mốc chính thức xác nhận bạn là một <strong>kỹ sư IT thực thụ</strong>. Level này chia làm 2 nhánh phổ biến: <strong><a href="https://www.ipa.go.jp/shiken/kubun/fe.html" target="_blank" rel="noopener noreferrer" className="text-green-600 dark:text-blue-400 hover:underline">FE (Fundamental IT Engineer)</a></strong> dành cho kỹ sư phát triển phần mềm và <strong><a href="https://www.ipa.go.jp/shiken/kubun/sg.html" target="_blank" rel="noopener noreferrer" className="text-green-600 dark:text-blue-400 hover:underline">SG (Information Security Management)</a></strong> dành cho người quản lý hệ thống.
+                                Đây là cột mốc chính thức xác nhận bạn là một <strong>kỹ sư IT thực thụ</strong>. Level này chia làm 2 nhánh phổ biến: <strong><a href="/vi/exams" className="text-green-600 dark:text-blue-400 hover:underline">FE (Fundamental IT Engineer)</a></strong> dành cho kỹ sư phát triển phần mềm và <strong><a href="/vi/exams" className="text-green-600 dark:text-blue-400 hover:underline">SG (Information Security Management)</a></strong> dành cho người quản lý hệ thống.
                             </p>
 
                             <div className="space-y-4 mb-6">
@@ -224,7 +224,7 @@ export default function DetailedEnhancedPost() {
                                 AP - Kỹ sư Ứng dụng & Thiết kế Hệ thống
                             </h2>
                             <p className="mb-4">
-                                <strong><a href="https://www.ipa.go.jp/shiken/kubun/ap.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">AP (Applied Information Technology Engineer)</a></strong> là bảo chứng vàng cho các Kỹ sư cấp cao (Senior), Team Lead hoặc BSE (BrSE - Kỹ sư cầu nối). Có bằng này, bạn được <strong>cộng điểm rất lớn</strong> khi xin Visa vĩnh trú hoặc Visa kỹ sư chất lượng cao.
+                                <strong><a href="/vi/exams" className="text-blue-600 dark:text-blue-400 hover:underline">AP (Applied Information Technology Engineer)</a></strong> là bảo chứng vàng cho các Kỹ sư cấp cao (Senior), Team Lead hoặc BSE (BrSE - Kỹ sư cầu nối). Có bằng này, bạn được <strong>cộng điểm rất lớn</strong> khi xin Visa vĩnh trú hoặc Visa kỹ sư chất lượng cao.
                             </p>
 
                             <div className="grid sm:grid-cols-2 gap-6 mb-8">
