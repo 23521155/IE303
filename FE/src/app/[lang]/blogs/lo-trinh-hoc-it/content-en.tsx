@@ -86,7 +86,7 @@ export default function ContentEn() {
                                 IT Passport (IP) – General Knowledge
                             </h2>
                             <p className="mb-4">
-                                <strong><a href="https://www3.jitec.ipa.go.jp/JitesCbt/index.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">IT Passport</a></strong> is the most basic certification. Contrary to popular belief, it is designed for <strong>all workers</strong> in the digital age, not just IT professionals.
+                                <strong><a href="/en/exams" className="text-blue-600 dark:text-blue-400 hover:underline">IT Passport</a></strong> is the most basic certification. Contrary to popular belief, it is designed for <strong>all workers</strong> in the digital age, not just IT professionals.
                             </p>
                             <div className="space-y-4 mb-6">
                                 <div className="flex gap-3">
@@ -112,7 +112,7 @@ export default function ContentEn() {
                                 <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white mb-2">
                                     <Lightbulb className="w-5 h-5 text-yellow-500" /> Study Tip:
                                 </div>
-                                <p className="text-base">The exam runs year-round as a CBT. No coding required — just memorize key terms and practice past papers at <a href="https://www.itpassportsiken.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">IT Passport Kakomon Dojo (itpassportsiken.com)</a>. You can pass within 1–2 months of focused study.</p>
+                                <p className="text-base">The exam runs year-round as a CBT. No coding required — just memorize key terms and practice past papers on the <a href="/en/exams" className="text-blue-600 hover:underline">IT Shiken practice system</a>. You can pass within 1–2 months of focused study.</p>
                             </div>
 
                             <h2 id="level-2" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">

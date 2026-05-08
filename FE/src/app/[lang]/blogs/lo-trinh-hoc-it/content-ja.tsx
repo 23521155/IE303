@@ -109,7 +109,7 @@ export default function ContentJa() {
                                 <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white mb-2">
                                     <Lightbulb className="w-5 h-5 text-yellow-500" /> 合格のコツ：
                                 </div>
-                                <p className="text-base">CBT方式で年中受験可能。プログラミング不要 — 用語を覚えて<a href="https://www.itpassportsiken.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">ITパスポート過去問道場</a>で過去問を繰り返すだけで、1〜2ヶ月の勉強で合格できます。</p>
+                                <p className="text-base">CBT方式で年中受験可能。プログラミング不要 — 用語を覚えて<a href="/ja/exams" className="text-blue-600 hover:underline">IT Shikenの模擬試験システム</a>で過去問を繰り返すだけで、1〜2ヶ月の勉強で合格できます。</p>
                             </div>
 
                             <h2 id="level-2" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
