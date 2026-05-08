@@ -7,12 +7,12 @@ import ContentJa from './content-ja';
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 
 const commonData = {
-    id: 'lo-trinh-hoc-it',
-    coverImage: '/it-roadmap.png',
+    id: 'ky-thi-ap',
+    coverImage: '/blog-it-passport-thumbnail.jpg',
     author: {
         name: 'Trần Thiên Phú',
         role: 'Author',
-        avatar: '/Shin.png',
+        avatar: '/avatar-Phi.jpg',
         url: 'https://www.facebook.com/Fi.is.me.hello?locale=vi_VN',
     },
     datePublished: '2026-05-08T08:00:00+07:00',
@@ -21,59 +21,51 @@ const commonData = {
 
 const localizedData = {
     vi: {
-        title: 'Lộ trình chứng chỉ IT Nhật Bản (IPA) từ Level 1 đến Level 4',
-        excerpt: 'Hướng dẫn toàn diện về hệ thống chứng chỉ CNTT quốc gia Nhật Bản. Chi tiết lộ trình từ IT Passport, FE, AP đến các chuyên gia Specialist.',
-        category: 'Lộ trình học',
-        tags: ['IT', 'Roadmap', 'IPA', 'IT Passport', 'FE', 'AP', 'Career'],
+        title: 'Kỳ thi AP (Applied Information Technology Engineer) là gì?',
+        excerpt: 'Chứng chỉ Kỹ sư CNTT Ứng dụng (AP) - Bước đệm vững chắc cho sự nghiệp kỹ sư phần mềm cao cấp tại Nhật Bản.',
+        category: 'Chứng chỉ IT',
+        tags: ['AP', 'IT AP', 'Itshiken', 'NhatBan', 'Career'],
         breadcrumbHome: 'Trang chủ',
         breadcrumbBlog: 'Bài viết',
         locale: 'vi_VN',
         faqs: [
             {
-                q: 'Nên bắt đầu từ đâu nếu tôi không biết gì về IT?',
-                a: 'Bạn nên bắt đầu với chứng chỉ IT Passport. Nó cung cấp nền tảng kiến thức cơ bản về cả IT và quản trị doanh nghiệp.',
+                q: 'AP khó hơn FE nhiều không?',
+                a: 'AP (Ứng dụng) khó hơn FE (Cơ bản) đáng kể. Nó đòi hỏi bạn không chỉ hiểu về công nghệ mà còn phải biết áp dụng vào thực tế quản lý và chiến lược.',
             },
             {
-                q: 'Sau khi lấy IT Passport, tôi nên học gì tiếp theo?',
-                a: 'Chứng chỉ FE (Fundamental Information Technology Engineer) là bước đi tự nhiên tiếp theo. Nó đi sâu hơn vào thuật toán, lập trình và hệ thống.',
-            },
-            {
-                q: 'Lộ trình này mất khoảng bao lâu?',
-                a: 'Trung bình, người mới sẽ mất khoảng 2-3 tháng cho IT Passport và 3-6 tháng cho FE nếu học đều đặn.',
+                q: 'Ai nên thi AP?',
+                a: 'Những người đã có kinh nghiệm làm việc IT từ 2-4 năm, muốn thăng tiến lên các vị trí Senior hoặc Project Manager tại các công ty Nhật.',
             }
         ],
     },
     en: {
-        title: 'Basic IT Learning Path for Beginners (IT Passport & FE)',
-        excerpt: 'A detailed step-by-step guide to entering the IT industry starting with fundamental certifications.',
-        category: 'Learning Path',
-        tags: ['IT', 'Roadmap', 'IT Passport', 'FE', 'Career'],
+        title: 'What is AP (Applied Information Technology Engineer) Exam?',
+        excerpt: 'AP Certification - A solid stepping stone for your senior software engineering career in Japan.',
+        category: 'IT Certification',
+        tags: ['AP', 'IT AP', 'Itshiken', 'Japan', 'Career'],
         breadcrumbHome: 'Home',
         breadcrumbBlog: 'Blogs',
         locale: 'en_US',
         faqs: [
             {
-                q: 'Where should I start if I have no IT background?',
-                a: 'You should start with the IT Passport exam. It provides foundational knowledge in IT and business management.',
-            },
-            {
-                q: 'What comes after IT Passport?',
-                a: 'The FE (Fundamental Information Technology Engineer) exam is the natural next step, diving deeper into algorithms and programming.',
+                q: 'Is AP much harder than FE?',
+                a: 'AP (Applied) is significantly harder than FE (Fundamental). It requires not only understanding technology but also applying it to management and strategy.',
             }
         ],
     },
     ja: {
-        title: '初心者のためのIT学習ロードマップ（ITパスポート＆FE）',
-        excerpt: '基本的な資格から始めて、IT業界に参入するための詳細なステップバイステップガイド。',
-        category: '学習ロードマップ',
-        tags: ['IT', 'Roadmap', 'IT Passport', 'FE', 'Career'],
+        title: '応用情報技術者試験（AP）とは？',
+        excerpt: 'AP資格 - 日本のシニアソフトウェアエンジニアのキャリアへの確かな足がかり。',
+        category: 'IT資格',
+        tags: ['AP', '応用情報技術者試験', 'Itshiken', '日本', 'キャリア'],
         breadcrumbHome: 'ホーム',
         breadcrumbBlog: 'ブログ',
         locale: 'ja_JP',
         faqs: [
             {
-                q: 'ITの知識がない場合、どこから始めるべきですか？',
-                a: 'ITパスポート試験から始めることをお勧めします。ITと企業経営の基礎知識を提供します。',
+                q: 'APはFEよりもずっと難しいですか？',
+                a: 'AP（応用）はFE（基本）よりもかなり難しいです。技術を理解するだけでなく、管理や戦略に適用することも求められます。',
             }
         ],
     },
