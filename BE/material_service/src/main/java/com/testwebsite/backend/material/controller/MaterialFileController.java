@@ -12,10 +12,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/materials")
 @RequiredArgsConstructor
@@ -41,11 +43,16 @@ public class MaterialFileController {
 
         String fileUrl = material.getFileUrl();
 
-        String relativePath = fileUrl;
-        Path filePath = Paths.get(basePath + relativePath).normalize();
+        // Strip leading slashes so Paths.resolve() always treats it as relative to basePath
+        String relativePath = fileUrl == null ? "" : fileUrl.replaceAll("^[/\\\\]+", "");
+        Path filePath = Paths.get(basePath).resolve(relativePath).normalize();
         File file = filePath.toFile();
 
+        log.info("[FILE] id={} | fileUrl='{}' | basePath='{}' | resolved='{}'  | exists={}",
+                id, fileUrl, basePath, file.getAbsolutePath(), file.exists());
+
         if (!file.exists() || !file.isFile()) {
+            log.warn("[FILE] NOT FOUND: {}", file.getAbsolutePath());
             return ResponseEntity.notFound().build();
         }
 

@@ -9,9 +9,12 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
 
 COPY --from=builder /app/material_service/target/material_service-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/material_service/Test_Data ./Test_Data
+
+RUN chown -R spring:spring /app
+USER spring:spring
 
 EXPOSE 8083
 
