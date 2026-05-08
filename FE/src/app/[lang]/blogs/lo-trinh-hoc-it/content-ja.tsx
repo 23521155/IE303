@@ -1,224 +1,225 @@
 import Image from 'next/image';
-import { Bookmark, Calendar, Clock, Share2 } from 'lucide-react';
+import { Bookmark, Calendar, Clock, Share2, Eye, MessageSquare, ChevronRight, CheckCircle2, Target, Lightbulb } from 'lucide-react';
 import React from 'react';
+import Link from 'next/link';
+import { Button } from '@/src/components/ui/button';
 
 const postDetail = {
     id: 'lo-trinh-hoc-it',
     title: '日本のIT資格ロードマップ（IPA）：基礎からエキスパートまで',
-    excerpt: '日本の国家IT資格制度に関する包括的なガイド。各レベルの試験構造と登録手順を含みます。',
-    coverImage: '/blog-it-fe-thumbnail.jpg',
-    author: {
-        name: 'Trần Thiên Phú',
-        role: 'Author',
-        avatar: '/avatar-Phi.jpg',
-    },
+    excerpt: '日本の国家IT資格制度（IPA）の総合ガイド。ITパスポートからスペシャリストまで、各レベルの試験構造・対象者・合格のコツを詳しく解説します。',
+    coverImage: '/it-roadmap.png',
+    author: { name: 'Trần Thiên Phú', role: 'Author', avatar: '/Shin.png', bio: '日本での実務経験5年以上。ITキャリア、日本のIT企業文化、資格取得について情報発信中。' },
     date: '08/05/2026',
     category: '学習ロードマップ',
-    readTime: '30分',
-    tags: ['IT', 'Roadmap', 'IPA', 'IT Passport', 'FE', 'AP', 'Career'],
+    readTime: '20分',
+    views: '15.2K',
+    comments: 38,
+    tags: ['IT', 'Roadmap', 'IPA', 'ITパスポート', 'FE', 'AP', 'Career'],
+    relatedPosts: [
+        { id: 'ky-thi-it-passport', title: 'ITパスポートとは？A-Zの完全ガイド', image: '/blog-it-passport-thumbnail.jpg', date: '01/05/2026', href: '/ja/blogs/ky-thi-it-passport' },
+        { id: 'ky-thi-fe', title: '基本情報技術者試験（FE）とは？', image: '/blog-it-fe-thumbnail.jpg', date: '01/05/2026', href: '/ja/blogs/ky-thi-fe' },
+        { id: 'ky-thi-ap', title: '応用情報技術者試験（AP）とは？', image: '/blog-it-passport-thumbnail.jpg', date: '08/05/2026', href: '/ja/blogs/ky-thi-ap' },
+    ]
 };
 
 export default function ContentJa() {
     return (
-        <main className="min-h-screen bg-white dark:bg-[#121212] py-8 transition-colors duration-300 text-slate-900 dark:text-slate-200">
-            {/* HEADER */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-                <div className="mb-4">
-                    <span className="bg-primary text-white dark:bg-blue-900  text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider">
-                        {postDetail.category}
-                    </span>
+        <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+            <header className="bg-white dark:bg-[#121212] pt-12 pb-8 border-b border-slate-200 dark:border-slate-800">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-6">
+                        <a href="/" className="hover:text-primary transition-colors">ホーム</a>
+                        <ChevronRight className="w-4 h-4" />
+                        <a href="/ja/blogs" className="hover:text-primary transition-colors">ブログ</a>
+                        <ChevronRight className="w-4 h-4" />
+                        <span className="text-slate-800 dark:text-slate-200 truncate">{postDetail.title}</span>
+                    </nav>
+                    <div className="mb-6">
+                        <span className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">{postDetail.category}</span>
+                    </div>
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.2]">{postDetail.title}</h1>
+                    <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">{postDetail.excerpt}</p>
+                    <div className="flex flex-wrap items-center justify-between gap-6 py-4">
+                        <div className="flex items-center gap-4">
+                            <Image src={postDetail.author.avatar} alt={postDetail.author.name} height={56} width={56} className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover" />
+                            <div>
+                                <div className="font-bold text-slate-900 dark:text-white text-base">{postDetail.author.name}</div>
+                                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                    <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
+                                    <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime}で読める</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+                            <span className="flex items-center gap-1.5 cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
+                            <span className="flex items-center gap-1.5 cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
+                            <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
+                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"><Share2 className="w-4 h-4" /></button>
+                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"><Bookmark className="w-4 h-4" /></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </header>
 
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-tight">
-                    {postDetail.title}
-                </h1>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-10">
+                    <article className="lg:col-span-9 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+                        <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
+                            <Image src={postDetail.coverImage} alt="日本のIT資格ロードマップ（IPA）" width={1200} height={800} className="w-full h-auto object-contain rounded-lg" priority />
+                            <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
+                                IPAが定める国家IT資格制度の全体像 — レベル1（ITパスポート）からレベル4（高度専門家）まで。出典：<a href="https://www.ipa.go.jp/shiken/about/about.html" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">IPA</a>
+                            </figcaption>
+                        </figure>
 
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-4xl">{postDetail.excerpt}</p>
+                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                            <p className="mb-6">
+                                日本でITエンジニアとしてキャリアアップを目指す方にとって、IPA（情報処理推進機構）の資格は単なる証明書以上の意味を持ちます。昇給・昇進の判断材料になるだけでなく、高度専門職（HSP）ビザや永住権申請の加点対象にもなります。このシステムは明確な4段階に分かれています。
+                            </p>
 
-                {/* META */}
-                <div className="flex flex-wrap items-center justify-between gap-4 py-6 border-y border-slate-100 dark:border-slate-800">
-                    <div className="flex items-center gap-3">
-                        <Image
-                            src={postDetail.author.avatar}
-                            alt={postDetail.author.name}
-                            height={48}
-                            width={48}
-                            className="w-12 h-12 rounded-full border border-slate-200 dark:border-slate-700 object-cover"
-                        />
-                        <div>
-                            <div className="font-semibold text-slate-900 dark:text-white">{postDetail.author.name}</div>
-                            <div className="text-xs text-slate-500 dark:text-slate-400">{postDetail.author.role}</div>
+                            <h2 id="level-1" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 scroll-mt-24 flex items-center gap-3">
+                                <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 text-xl">1</span>
+                                ITパスポート（iPass）— 共通的知識
+                            </h2>
+                            <p className="mb-4">
+                                <strong><a href="https://www3.jitec.ipa.go.jp/JitesCbt/index.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">ITパスポート</a></strong>は最も入門的な資格です。IT専門家だけでなく、<strong>すべての社会人・学生</strong>を対象に設計されています。
+                            </p>
+                            <div className="space-y-4 mb-6">
+                                <div className="flex gap-3">
+                                    <Target className="w-6 h-6 text-indigo-500 shrink-0 mt-1" />
+                                    <div>
+                                        <h4 className="font-semibold text-slate-900 dark:text-white">対象者</h4>
+                                        <p className="text-base text-slate-600 dark:text-slate-400">IT企業の営業・人事・マーケ担当者、理系以外からIT業界への転職希望者、新社会人全般。</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-3">
+                                    <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0 mt-1" />
+                                    <div>
+                                        <h4 className="font-semibold text-slate-900 dark:text-white">試験の重点分野</h4>
+                                        <ul className="list-disc pl-5 mt-1 text-base text-slate-600 dark:text-slate-400">
+                                            <li><strong>ストラテジ系：</strong>経営戦略、法務（著作権・個人情報保護）</li>
+                                            <li><strong>マネジメント系：</strong>プロジェクト管理、システム開発基礎</li>
+                                            <li><strong>テクノロジ系：</strong>ハードウェア・ネットワーク・セキュリティ・アルゴリズムの基礎</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-slate-50 dark:bg-slate-800/40 border-l-4 border-blue-500 p-5 rounded-r-lg mb-8">
+                                <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white mb-2">
+                                    <Lightbulb className="w-5 h-5 text-yellow-500" /> 合格のコツ：
+                                </div>
+                                <p className="text-base">CBT方式で年中受験可能。プログラミング不要 — 用語を覚えて<a href="https://www.itpassportsiken.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">ITパスポート過去問道場</a>で過去問を繰り返すだけで、1〜2ヶ月の勉強で合格できます。</p>
+                            </div>
+
+                            <h2 id="level-2" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                                <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 text-xl">2</span>
+                                FE・SG — 基本情報技術者
+                            </h2>
+                            <p className="mb-4">
+                                正式な<strong>ITエンジニアとしての証明</strong>となる試験です。2つの人気トラックに分かれます：<strong><a href="https://www.ipa.go.jp/shiken/kubun/fe.html" target="_blank" rel="noopener noreferrer" className="text-green-600 dark:text-blue-400 hover:underline">FE（基本情報技術者）</a></strong>と<strong><a href="https://www.ipa.go.jp/shiken/kubun/sg.html" target="_blank" rel="noopener noreferrer" className="text-green-600 dark:text-blue-400 hover:underline">SG（情報セキュリティマネジメント）</a></strong>。
+                            </p>
+                            <div className="space-y-4 mb-6">
+                                <div className="flex gap-3">
+                                    <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0 mt-1" />
+                                    <div>
+                                        <h4 className="font-semibold text-slate-900 dark:text-white">FE試験の構成（独自形式）：</h4>
+                                        <ul className="list-disc pl-5 mt-1 text-base text-slate-600 dark:text-slate-400">
+                                            <li><strong>科目A（90分）：</strong>四肢択一60問。離散数学・アルゴリズム・OS・DB・ネットワーク・マネジメント等。</li>
+                                            <li><strong>科目B（100分）：</strong>20問。最難関パート — 擬似言語によるアルゴリズム問題16問＋セキュリティ4問。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <blockquote className="border-l-4 border-slate-300 bg-slate-100 dark:border-slate-600 dark:bg-slate-800/80 p-5 italic text-slate-700 dark:text-slate-300 rounded-r-lg text-base">
+                                「2023年の改訂以降、科目BはC・Java・Pythonなどの実言語を廃止し、完全に擬似言語に移行。構文の暗記ではなく、純粋なアルゴリズム的思考力が問われます。」
+                            </blockquote>
+
+                            <h2 id="level-3" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                                <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 text-xl">3</span>
+                                AP — 応用情報技術者・システム設計
+                            </h2>
+                            <p className="mb-4">
+                                <strong><a href="https://www.ipa.go.jp/shiken/kubun/ap.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">応用情報技術者（AP）</a></strong>はシニアエンジニア・チームリード・BrSEの黄金資格。取得すると永住権・HSPビザの<strong>加点に大きく貢献</strong>します。
+                            </p>
+                            <div className="grid sm:grid-cols-2 gap-6 mb-8">
+                                <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm">
+                                    <h4 className="font-bold text-slate-900 dark:text-white mb-2 text-base border-b pb-2 dark:border-slate-700">午前（四肢択一）</h4>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400">80問／150分。60点以上で合格。マイクロプロセッサ・暗号アルゴリズム・DB正規化（第3・第4正規形）など非常に広い範囲をカバー。</p>
+                                </div>
+                                <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm">
+                                    <h4 className="font-bold text-slate-900 dark:text-white mb-2 text-base border-b pb-2 dark:border-slate-700">午後（記述・事例解析）</h4>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400">150分。必須1問（セキュリティ）＋専門分野10問中4問選択（プログラミング・DB・NW・組込み・監査…）。A4数ページのシステム事例を読み込んで記述解答。</p>
+                                </div>
+                            </div>
+
+                            <h2 id="level-4" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                                <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 text-xl">4</span>
+                                高度専門家（スペシャリスト）
+                            </h2>
+                            <p className="mb-4">IPAの「ラスボス」 — 合格率は通常<strong>10〜15%</strong>のみ。学術知識だけでは不十分で、実際のプロジェクト経験が必須です。</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-base mb-8">
+                                <div className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30"><strong className="text-purple-600 dark:text-purple-400"><a href="https://www.ipa.go.jp/shiken/kubun/nw.html" target="_blank" rel="noopener noreferrer" className="hover:underline">NW（ネットワークスペシャリスト）</a>：</strong>ネットワーク設計の専門家。</div>
+                                <div className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30"><strong className="text-purple-600 dark:text-purple-400"><a href="https://www.ipa.go.jp/shiken/kubun/db.html" target="_blank" rel="noopener noreferrer" className="hover:underline">DB（データベーススペシャリスト）</a>：</strong>DB設計・最適化の専門家。</div>
+                                <div className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30"><strong className="text-purple-600 dark:text-purple-400"><a href="https://www.ipa.go.jp/shiken/kubun/pm.html" target="_blank" rel="noopener noreferrer" className="hover:underline">PM（プロジェクトマネージャ）</a>：</strong>国際標準のPM資格。</div>
+                                <div className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30"><strong className="text-purple-600 dark:text-purple-400"><a href="https://www.ipa.go.jp/shiken/kubun/sa.html" target="_blank" rel="noopener noreferrer" className="hover:underline">SA（システムアーキテクト）</a>：</strong>ソリューション全体設計。</div>
+                                <div className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30 sm:col-span-2"><strong className="text-purple-600 dark:text-purple-400"><a href="https://www.ipa.go.jp/shiken/kubun/sc.html" target="_blank" rel="noopener noreferrer" className="hover:underline">SC（情報セキュリティスペシャリスト）</a>：</strong>情報セキュリティの国家資格。</div>
+                            </div>
+                            <p className="text-base text-slate-700 dark:text-slate-300">
+                                <strong>論文の壁：</strong>PM・SA・ITストラテジスト（ST）区分の午後Ⅱは、実際に携わったプロジェクトについて<strong>120分で2,000〜3,000字の論文を手書き</strong>する必要があります。日本語ネイティブ以外にとって最大の障壁です。
+                            </p>
+
+                            <div className="mt-16 pt-8 border-t border-slate-100 dark:border-slate-800">
+                                <div className="flex items-center gap-3 flex-wrap">
+                                    <span className="text-sm font-semibold text-slate-900 dark:text-white">タグ：</span>
+                                    {postDetail.tags.map((tag) => (
+                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 transition-colors font-medium">#{tag}</a>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </article>
 
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                        <div className="flex items-center gap-1.5">
-                            <Calendar className="w-4 h-4" />
-                            {postDetail.date}
+                    <aside className="hidden lg:block lg:col-span-3 space-y-8">
+                        <div className="sticky top-24 bg-white dark:bg-[#121212] p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                            <h3 className="font-bold text-base text-slate-900 dark:text-white mb-5 flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+                                <Bookmark className="w-4 h-4 text-blue-500" /> 目次
+                            </h3>
+                            <ul className="space-y-3 text-sm">
+                                <li><a href="#level-1" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>ITパスポート</a></li>
+                                <li><a href="#level-2" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>FE・SG</a></li>
+                                <li><a href="#level-3" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-orange-600 transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>応用情報（AP）</a></li>
+                                <li><a href="#level-4" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-purple-600 transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>高度専門家</a></li>
+                            </ul>
                         </div>
-                        <div className="flex items-center gap-1.5">
-                            <Clock className="w-4 h-4" />
-                            {postDetail.readTime}
-                        </div>
-
-                        <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
-                            <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                                <Share2 className="w-4 h-4" />
-                            </button>
-                            <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                                <Bookmark className="w-4 h-4" />
-                            </button>
-                        </div>
-                    </div>
+                    </aside>
                 </div>
             </div>
 
-            {/* COVER IMAGE */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-                <Image
-                    src={postDetail.coverImage}
-                    alt={postDetail.title}
-                    width={1200}
-                    height={630}
-                    className="w-full h-auto max-h-[500px] object-cover rounded-md shadow-sm"
-                />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div className="bg-gradient-to-br from-secondary/60 to-secondary dark:to-blue-800 rounded-xl p-8 sm:p-10 text-center shadow-lg">
+                    <h3 className="text-2xl font-bold text-white mb-4">IT資格の試験対策、準備はできていますか？</h3>
+                    <p className="text-blue-100 mb-8 max-w-2xl mx-auto">IT Shikenでは、本番に近い無料の模擬試験・自動採点・詳細な解答解説を提供しています。今すぐ始めましょう — 登録不要！</p>
+                    <Button asChild className="text-lg !py-6"><Link href="/ja/exams">今すぐ模擬試験を受ける</Link></Button>
+                </div>
             </div>
 
-            {/* CONTENT */}
-            <article className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
-                <p className="mb-6">
-                    IPA（情報処理推進機構）が主催する日本の情報技術資格制度は、4つのレベル（レベル1からレベル4）に分かれています。この記事では、初心者からエキスパートまでのロードマップを、各レベルの試験構造と登録手順とともに分析します。
-                </p>
-
-                <figure className="my-10">
-                    <img 
-                        src="/it-roadmap.png" 
-                        alt="Japan IT Certification Roadmap from Basic to Advanced" 
-                        className="w-full h-auto object-contain rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.08)] dark:shadow-none border border-slate-100 dark:border-slate-800 bg-white"
-                    />
-                    <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
-                        日本の国家IT資格のロードマップ（出典：IPA）
-                    </figcaption>
-                </figure>
-
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800">
-                    レベル1：共通の知識 - ITパスポート（IP）
-                </h2>
-                <p className="mb-4">
-                    <strong>ITパスポート</strong>はテクノロジーの世界へのパスポートです。これは、現代の企業環境で働くすべての人を対象とした最も基本的な資格です。
-                </p>
-
-                <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-6 my-8">
-                    <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-4 flex items-center gap-2">
-                        <span className="w-2 h-6 bg-primary dark:bg-blue-600 rounded-full"></span>
-                        ITパスポートの試験構造と登録
-                    </h4>
-                    <ul className="space-y-3 text-slate-700 dark:text-slate-300">
-                        <li><strong>試験形式：</strong>CBT（Computer-Based Testing）方式</li>
-                        <li><strong>試験時間と問題数：</strong>120分 - 四肢択一式 100問</li>
-                        <li><strong>合格基準：</strong>総合評価点が600点以上、かつ各分野別の評価点が300点以上であること。
-                            <ul className="list-disc pl-6 mt-1 text-sm">
-                                <li>ストラテジ系（経営全般）：約35問</li>
-                                <li>マネジメント系（IT管理）：約20問</li>
-                                <li>テクノロジ系（IT技術）：約45問</li>
-                            </ul>
-                        </li>
-                        <li className="pt-2 border-t border-slate-200 dark:border-slate-700"><strong>受験料：</strong>7,500円</li>
-                        <li><strong>登録手順：</strong>IPAのWebサイトからオンラインで登録します。CBT試験は全国のテストセンター（Prometric / CBT-Solutions）で<strong>年間を通じて</strong>実施されています。週末に試験を予約することができます。</li>
-                    </ul>
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 dark:border-slate-800">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">関連記事</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {postDetail.relatedPosts.map((post) => (
+                        <a key={post.id} href={post.href} className="group block">
+                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-800">
+                                <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2">
+                                <Calendar className="w-3.5 h-3.5" />{post.date}
+                            </div>
+                            <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2">{post.title}</h4>
+                        </a>
+                    ))}
                 </div>
-
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800">
-                    レベル2：基本的知識・技能 - FE / SG
-                </h2>
-                <p className="mb-4">
-                    この段階は、実践的なソフトウェアエンジニアまたは基本的な情報セキュリティ管理者になることを目指す人向けです。これには、<strong>FE（基本情報技術者試験）</strong>と<strong>SG（情報セキュリティマネジメント試験）</strong>の2つの資格が含まれます。
-                </p>
-
-                <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-6 my-8">
-                    <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-4 flex items-center gap-2">
-                        <span className="w-2 h-6 bg-secondary dark:bg-blue-600 rounded-full"></span>
-                        FE / SGの試験構造と登録
-                    </h4>
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">FE（基本情報技術者試験）の場合：</p>
-                    <ul className="space-y-3 text-slate-700 dark:text-slate-300 text-sm mb-4">
-                        <li><strong>試験形式：</strong>CBT方式 - 年間を通じて利用可能。</li>
-                        <li><strong>試験構造：</strong>同日に2つの科目に分かれています。
-                            <ul className="list-disc pl-6 mt-1">
-                                <li><strong>科目A（理論）：</strong>90分 - 四肢択一式 60問。合格基準：600点/1000点。</li>
-                                <li><strong>科目B（実践）：</strong>100分 - 多肢選択式 20問（アルゴリズム、プログラミング、情報セキュリティ）。合格基準：600点/1000点。</li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2 pt-4 border-t border-slate-200 dark:border-slate-700">SG（情報セキュリティマネジメント試験）の場合：</p>
-                    <ul className="space-y-3 text-slate-700 dark:text-slate-300 text-sm mb-4">
-                        <li><strong>試験形式：</strong>CBT方式 - 年間を通じて利用可能。</li>
-                        <li><strong>試験構造：</strong>科目A（理論 - 60分/48問）および科目B（シナリオ - 60分/12問）。</li>
-                    </ul>
-                    <div className="pt-2 border-t border-slate-200 dark:border-slate-700">
-                        <p className="text-sm"><strong>受験料：</strong>各試験7,500円。</p>
-                        <p className="text-sm"><strong>登録手順：</strong>IPAのCBTポータルから登録します。ITパスポートと同様に、テストセンターで試験日時を柔軟に選択できます。</p>
-                    </div>
-                </div>
-
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800">
-                    レベル3：応用的知識・技能 - AP
-                </h2>
-                <p className="mb-4">
-                    <strong>AP（応用情報技術者試験）</strong>は、シニアエンジニアまたはプロジェクトマネージャーとしての地位を確立するための重要な資格です。このレベルでは、包括的なシステム分析と設計機能が必要です。
-                </p>
-
-                <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-6 my-8">
-                    <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-4 flex items-center gap-2">
-                        <span className="w-2 h-6 bg-green-500 rounded-full"></span>
-                        APの試験構造と登録
-                    </h4>
-                    <ul className="space-y-3 text-slate-700 dark:text-slate-300">
-                        <li><strong>試験形式：</strong>筆記試験。年2回開催（春期は4月、秋期は10月）。</li>
-                        <li><strong>試験構造：</strong>
-                            <ul className="list-disc pl-6 mt-1 text-sm">
-                                <li><strong>午前（09:30 - 12:00）：</strong>150分 - IT全般をカバーする四肢択一式 80問。合格基準：60％。</li>
-                                <li><strong>午後（13:00 - 15:30）：</strong>150分 - 記述式。11問中4問を選択して解答します。合格基準：60％。</li>
-                            </ul>
-                        </li>
-                        <li className="pt-2 border-t border-slate-200 dark:border-slate-700"><strong>受験料：</strong>7,500円</li>
-                        <li><strong>登録手順：</strong>筆記試験であるため、IPAのWebサイトで試験の2〜3ヶ月前に登録する必要があります。（春期の登録は1月中旬、秋期の登録は7月中旬に始まります）。</li>
-                    </ul>
-                </div>
-
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800">
-                    レベル4：高度な知識・技能（スペシャリスト）
-                </h2>
-                <p className="mb-4">
-                    これはIPAシステムで最高のレベルです。レベル4の資格は、ITストラテジスト（ST）、システムアーキテクト（SA）、プロジェクトマネージャ（PM）、ネットワークスペシャリスト（NW）、データベーススペシャリスト（DB）など、9つの専門分野に分かれています。
-                </p>
-
-                <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-6 my-8">
-                    <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-4 flex items-center gap-2">
-                        <span className="w-2 h-6 bg-purple-500 rounded-full"></span>
-                        レベル4の試験構造と登録
-                    </h4>
-                    <ul className="space-y-3 text-slate-700 dark:text-slate-300">
-                        <li><strong>試験形式：</strong>筆記試験。各資格は年に1回のみ開催されます（科目に応じて春期または秋期）。</li>
-                        <li><strong>試験構造（非常に厳しい）：</strong>
-                            <ul className="list-disc pl-6 mt-1 text-sm">
-                                <li>午前I（50分）：共通の多肢選択式（APを保持しているか、2年以内に別のレベル4試験に合格している場合は免除されます）。</li>
-                                <li>午前II（40分）：専門の多肢選択式。</li>
-                                <li>午後I（90分）：シナリオに基づいた短い記述式の解答。</li>
-                                <li>午後II（120分）：小論文 - 実際に携わったプロジェクトに関する分析論文を書く必要があります。</li>
-                            </ul>
-                        </li>
-                        <li className="pt-2 border-t border-slate-200 dark:border-slate-700"><strong>手順と料金：</strong>7,500円。登録スケジュールはAP試験と同じです。</li>
-                    </ul>
-                </div>
-
-                <div className="bg-primary/10 dark:bg-blue-900/20 border-l-4 border-primary rounded-r-md p-6 my-10">
-                    <h3 className="text-xl font-bold text-primary dark:text-blue-100 mb-3">専門家のアドバイス</h3>
-                    <p className="text-slate-800 dark:text-slate-200">
-                        しっかりとしたITの基礎がある場合は<strong>FE</strong>から、キャリアを変えようとしている場合は<strong>ITパスポート</strong>から始めてください。特定のレベル4の分野に深く入り込むことを決定する前に、日本の雇用主へのアピールを最大化するために、<strong>AP</strong>の資格が最も価値のある長期的な目標です。
-                    </p>
-                </div>
-            </article>
+            </section>
         </main>
     );
 }
