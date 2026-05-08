@@ -10,7 +10,6 @@ import {Toaster} from '@/src/components/ui/sonner';
 import { ThemeProvider } from '@/src/components/theme-provider';
 import { GoogleAnalytics } from '@next/third-parties/google'
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
-
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
     const { lang } = await params;
     const t = await getDictionary(lang as Locale);

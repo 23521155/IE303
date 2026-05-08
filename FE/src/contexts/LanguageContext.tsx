@@ -17,7 +17,6 @@ const translations: Translations = {
     exams: { vi: 'Đề Thi', en: 'Exams', ja: '試験' },
     materials: { vi: 'Tài Liệu', en: 'Materials', ja: '資料' },
     flashcards: { vi: 'Flashcard', en: 'Flashcards', ja: '単語帳' },
-    blog: { vi: 'Cộng đồng', en: 'Community', ja: 'コミュニティ' },
 
     // Auth
     login: { vi: 'Đăng Nhập', en: 'Login', ja: 'ログイン' },
@@ -354,18 +353,6 @@ const translations: Translations = {
         en: 'Passwords do not match!',
         ja: 'パスワードが一致しません！',
     },
-
-    // Blog
-    community: { vi: 'Cộng đồng', en: 'Community', ja: 'コミュニティ' },
-    whatsNew: { vi: 'Có gì mới?', en: "What's new?", ja: '最近どう？' },
-    postBtn: { vi: 'Đăng', en: 'Post', ja: '投稿' },
-    admin: { vi: 'Quản trị viên', en: 'Admin', ja: '管理者' },
-    replies: { vi: 'bình luận', en: 'replies', ja: '返信' },
-    likes: { vi: 'lượt thích', en: 'likes', ja: 'いいね' },
-    endOfFeed: { vi: 'Bạn đã xem hết nội dung!', en: 'You have caught up!', ja: 'すべてのコンテンツを見ました！' },
-    thread: { vi: 'Bài viết', en: 'Thread', ja: 'スレッド' },
-    replyTo: { vi: 'Trả lời', en: 'Reply to', ja: '返信先' },
-    justNow: { vi: 'Vừa xong', en: 'Just now', ja: 'たった今' },
 };
 
 interface LanguageContextType {

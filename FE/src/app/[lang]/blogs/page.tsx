@@ -1,12 +1,11 @@
 import React from 'react';
-import { BlogList } from '@/src/views/BlogList';
+import { ArticleList } from '@/src/views/ArticleList';
 import { getDictionary } from '@/src/utils/dictionaries';
 import type { Locale } from '@/src/utils/i18n';
 
 import type { Metadata } from 'next'
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
-
 
 const titles = {
     vi: 'Blog IT - Kiến thức & lộ trình học IT',
@@ -49,6 +48,24 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 const blogPostsByLang = {
     vi: [
         {
+            id: 'lo-trinh-hoc-it',
+            title: 'Lộ trình học IT cơ bản cho người mới bắt đầu (IT Passport & FE)',
+            excerpt: 'Hướng dẫn chi tiết từng bước để bước chân vào ngành IT bắt đầu từ các chứng chỉ cơ bản.',
+            category: "Lộ trình học",
+            readTime: '20 phút',
+            coverImage: '/lo-trinh.jpg',
+            author: 'Trần Thiên Phú',
+        },
+        {
+            id: 'ky-thi-ap',
+            title: 'Kỳ thi AP (Applied Information Technology Engineer) là gì?',
+            excerpt: 'Chứng chỉ Kỹ sư CNTT Ứng dụng (AP) - Bước đệm vững chắc cho sự nghiệp kỹ sư phần mềm cao cấp tại Nhật Bản.',
+            category: "Chứng chỉ IT",
+            readTime: '25 phút',
+            coverImage: '/blog-it-passport-thumbnail.jpg',
+            author: 'Trần Thiên Phú',
+        },
+        {
             id: 'ky-thi-it-passport',
             title: 'Kỳ thi IT Passport là gì? Cẩm nang chinh phục chứng chỉ IT Nhật Bản từ A-Z',
             excerpt: 'Từ định nghĩa, cấu trúc đề thi, cách đăng ký đến lộ trình ôn luyện – tất cả trong một bài viết.',
@@ -60,13 +77,31 @@ const blogPostsByLang = {
             id: 'ky-thi-fe',
             title: 'Kỳ thi FE là gì? Giải đáp mọi thắc mắc giúp bạn tự tin chinh phục',
             excerpt: 'Từ định nghĩa, cấu trúc đề thi, cách đăng ký đến lộ trình ôn luyện – tất cả trong một bài viết.',
-            category: "Chửng chỉ IT",
+            category: "Chứng chỉ IT",
             readTime: '30 phút',
             coverImage: '/blog-it-fe-thumbnail.jpg'
         },
     ],
 
     en: [
+        {
+            id: 'lo-trinh-hoc-it',
+            title: 'Basic IT Learning Path for Beginners (IT Passport & FE)',
+            excerpt: 'A detailed step-by-step guide to entering the IT industry starting with fundamental certifications.',
+            category: 'Learning Path',
+            readTime: '20 min',
+            coverImage: '/blog-it-fe-thumbnail.jpg',
+            author: 'Trần Thiên Phú',
+        },
+        {
+            id: 'ky-thi-ap',
+            title: 'What is AP (Applied Information Technology Engineer) Exam?',
+            excerpt: 'AP Certification - A solid stepping stone for your senior software engineering career in Japan.',
+            category: 'IT Certification',
+            readTime: '25 min',
+            coverImage: '/blog-it-passport-thumbnail.jpg',
+            author: 'Trần Thiên Phú',
+        },
         {
             id: 'ky-thi-it-passport',
             title: 'What is IT Passport Exam? Complete Guide from A-Z',
@@ -86,6 +121,24 @@ const blogPostsByLang = {
     ],
 
     ja: [
+        {
+            id: 'lo-trinh-hoc-it',
+            title: '初心者のためのIT学習ロードマップ（ITパスポート＆FE）',
+            excerpt: '基本的な資格から始めて、IT業界に参入するための詳細なステップバイステップガイド。',
+            category: '学習ロードマップ',
+            readTime: '20分',
+            coverImage: '/blog-it-fe-thumbnail.jpg',
+            author: 'Trần Thiên Phú',
+        },
+        {
+            id: 'ky-thi-ap',
+            title: '応用情報技術者試験（AP）とは？',
+            excerpt: 'AP資格 - 日本のシニアソフトウェアエンジニアのキャリアへの確かな足がかり。',
+            category: 'IT資格',
+            readTime: '25分',
+            coverImage: '/blog-it-passport-thumbnail.jpg',
+            author: 'Trần Thiên Phú',
+        },
         {
             id: 'ky-thi-it-passport',
             title: 'ITパスポート試験とは？完全ガイド',
@@ -116,10 +169,9 @@ export default async function BlogPage({params}:{params:Promise<{lang: string}> 
     const t = await getDictionary(lang as Locale)
 
     const blogPosts = blogPostsByLang[lang as 'vi' | 'en' | 'ja'].map(post => ({
-        ...post,
         ...commonFields,
+        ...post,
     }))
-
 
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -149,7 +201,7 @@ export default async function BlogPage({params}:{params:Promise<{lang: string}> 
                     __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
                 }}
             />
-            <BlogList t={t} lang={lang} blogPosts={blogPosts} />
+            <ArticleList t={t} lang={lang} blogPosts={blogPosts} />
         </>
     );
 }

@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Clock, Calendar, User, BookOpen, Share2 } from 'lucide-react';
+import { Clock, Calendar, User, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { toast } from 'sonner';
 
-export function BlogList({ t, lang, blogPosts }: { t: any; lang: string; blogPosts: any }) {
+export function ArticleList({ t, lang, blogPosts }: { t: any; lang: string; blogPosts: any }) {
     const handleShare = async (id: string) => {
         const url = `${window.location.origin}/${lang}/blogs/${id}`;
 
@@ -36,7 +36,7 @@ export function BlogList({ t, lang, blogPosts }: { t: any; lang: string; blogPos
                             key={post.id}
                             className="relative h-[420px] rounded-md overflow-hidden group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-500"
                         >
-                            {/* CLICKABLE OVERLAY (click toàn card) */}
+                            {/* CLICKABLE OVERLAY */}
                             <Link href={`/${lang}/blogs/${post.id}`} className="absolute inset-0 z-10" />
 
                             {/* IMAGE */}
@@ -101,10 +101,10 @@ export function BlogList({ t, lang, blogPosts }: { t: any; lang: string; blogPos
                                     {/* SHARE */}
                                     <button
                                         onClick={(e) => {
-                                            e.preventDefault(); // tránh click card
+                                            e.preventDefault();
                                             handleShare(post.id);
                                         }}
-                                        className="flex-1 py-2.5 px-3 bg-white/20 hover:bg-white/30 text-white rounded-md text-sm font-medium flex items-center justify-center transition-colors border border-white/10 cursor-pointer"
+                                        className="flex-1 py-2.5 px-3 bg-white/20 hover:bg-white/30 text-white rounded-md text-sm font-medium flex items-center justify-center transition-colors border border-white/10 cursor-pointer relative z-30"
                                     >
                                         <Share2 className="w-4 h-4 mr-1.5" />
                                         {t.blog.share}
