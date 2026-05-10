@@ -3,6 +3,7 @@ package com.edu.exam.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -53,6 +54,7 @@ public class Exam {
     @Column(name = "rating_count")
     private Integer ratingCount = 0;
 
+    @BatchSize(size = 20)
     @OneToMany(mappedBy = "exam")
     @OrderBy("questionOrder ASC")
     private List<Question> questions;

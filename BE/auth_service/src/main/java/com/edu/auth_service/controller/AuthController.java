@@ -1,65 +1,61 @@
 package com.edu.auth_service.controller;
 
-import com.edu.auth_service.dto.*;
+import com.edu.auth_service.dto.internal.LoginResult;
+import com.edu.auth_service.dto.request.LoginRequest;
+import com.edu.auth_service.dto.request.RegisterRequest;
+import com.edu.auth_service.dto.response.ApiResponse;
+import com.edu.auth_service.dto.response.LoginResponse;
+import com.edu.auth_service.dto.response.RegisterResponse;
 import com.edu.auth_service.service.AuthService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.Duration;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ApiResponse<RegisterResponse>  register(@Valid @RequestBody RegisterRequest request){
-
+    public ApiResponse<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
         RegisterResponse result = authService.register(request);
-
-        return new ApiResponse<>(
-                200,
-                "Đăng ký thành công",
-                result
-        );
+        return new ApiResponse<>(200, "Đăng ký thành công", result);
     }
 
-    @PostMapping("login")
-    public ApiResponse<LoginResponse> login(@RequestBody LoginRequest request, HttpServletResponse response)
-    {
-        LoginResponse result = authService.login(request);
+    @PostMapping("/login")
+    public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
+        LoginResult result = authService.login(request);
 
-        Cookie cookie = new Cookie("token", result.getToken());
-        cookie.setHttpOnly(true);
-        cookie.setSecure(false);
-        cookie.setPath("/");
-        cookie.setMaxAge(24 * 60 * 60);
+        ResponseCookie cookie = ResponseCookie.from("token", result.token())
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(Duration.ofDays(1))
+                .sameSite("Lax")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        response.addCookie(cookie);
-        return new ApiResponse<>(
-                200,
-                "Đăng nhập thành công",
-                result
-        );
+        return new ApiResponse<>(200, "Đăng nhập thành công", new LoginResponse(result.userId()));
     }
 
-    @DeleteMapping("logout")
-    public ApiResponse<String> logout(HttpServletResponse response){
-        Cookie cookie = new Cookie("token", null);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(false);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
+    @DeleteMapping("/logout")
+    public ApiResponse<String> logout(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("token", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(Duration.ZERO)
+                .sameSite("Lax")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        response.addCookie(cookie);
-
-        return new ApiResponse<>(
-                200,
-                "Đăng xuất thành công",
-                "OK"
-        );
+        return new ApiResponse<>(200, "Đăng xuất thành công", "OK");
     }
-
 }

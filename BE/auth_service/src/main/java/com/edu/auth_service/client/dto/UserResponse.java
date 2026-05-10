@@ -1,4 +1,4 @@
-package com.edu.auth_service.dto;
+package com.edu.auth_service.client.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
