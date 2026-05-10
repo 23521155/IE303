@@ -1,4 +1,4 @@
-package com.edu.auth_service.dto;
+package com.edu.auth_service.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RegisterResponse {
-    private Long userId;
+    private Long credentialId;
 }

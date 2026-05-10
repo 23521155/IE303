@@ -1,7 +1,7 @@
 package com.edu.auth_service.client;
 
-import com.edu.auth_service.dto.CreateUserRequest;
-import com.edu.auth_service.dto.UserResponse;
+import com.edu.auth_service.client.dto.CreateUserRequest;
+import com.edu.auth_service.client.dto.UserResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "user-service")
 public interface UserServiceClient {
+
     @PostMapping("/api/users")
     UserResponse createUser(@RequestBody CreateUserRequest request);
 

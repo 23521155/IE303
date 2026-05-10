@@ -1,0 +1,17 @@
+# Profile dev — dùng khi chạy local hoặc không set SPRING_PROFILES_ACTIVE
+# KHÔNG commit file này lên repo production (đang gitignored qua .env)
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/auth_db?sslmode=require
+    username: neondb_owner
+    password: npg_kFcsqpABNu18
+  jpa:
+    show-sql: true
+
+jwt:
+  secret: FizzCoConCaFizzCoConCaFizzCoConCa
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

@@ -9,7 +9,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class AuthServiceApplication {
 
 	public static void main(String[] args) {
-		System.out.println("DB_PASSWORD = " + System.getenv("DB_PASSWORD"));
 		SpringApplication.run(AuthServiceApplication.class, args);
 	}
 

@@ -1,5 +1,9 @@
 server:
   port: 8083
+  compression:
+    enabled: true
+    mime-types: application/json,text/plain,text/html
+    min-response-size: 1024
 
 file:
   base-path: ${FILE_BASE_PATH:.}
@@ -16,18 +20,20 @@ spring:
     password: npg_kFcsqpABNu18
     driver-class-name: org.postgresql.Driver
     hikari:
-      maximum-pool-size: 5
-      minimum-idle: 1
+      maximum-pool-size: 10
+      minimum-idle: 2
       idle-timeout: 30000
+      connection-timeout: 20000
+      max-lifetime: 600000
+      keepalive-time: 60000
   jpa:
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
 eureka:
   client:
     service-url:

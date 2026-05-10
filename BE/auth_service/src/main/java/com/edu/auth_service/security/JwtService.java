@@ -1,4 +1,4 @@
-package com.edu.auth_service.service;
+package com.edu.auth_service.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -17,20 +17,20 @@ public class JwtService {
 
     @Value("${jwt.expiration}")
     private long expiration;
-    private SecretKey SECRET_KEY;
+
+    private SecretKey secretKey;
 
     @PostConstruct
     public void init() {
-        SECRET_KEY = Keys.hmacShaKeyFor(secret.getBytes());
+        secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
-
 
     public String generateToken(Long userId) {
         return Jwts.builder()
                 .setSubject(String.valueOf(userId))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 }
