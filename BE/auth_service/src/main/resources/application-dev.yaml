@@ -10,6 +10,7 @@ spring:
 
 jwt:
   secret: FizzCoConCaFizzCoConCaFizzCoConCa
+  refresh-expiration: 2592000000
 
 eureka:
   client:

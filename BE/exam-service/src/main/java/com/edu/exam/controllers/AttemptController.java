@@ -6,12 +6,7 @@ import com.edu.exam.services.AttemptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.security.Principal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/attempts")
@@ -20,11 +15,12 @@ public class AttemptController {
     private final AttemptService attemptService;
 
     @GetMapping("/me/summary")
-    public ResponseEntity<AttemptProfileSummaryDto> getMyProfileSummary(Principal principal) {
-        if (principal == null) {
+    public ResponseEntity<AttemptProfileSummaryDto> getMyProfileSummary(
+            @RequestHeader(value = "X-User-Id", required = false) String userId) {
+        if (userId == null || userId.isBlank()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok(attemptService.getProfileSummary(principal.getName()));
+        return ResponseEntity.ok(attemptService.getProfileSummary(userId));
     }
 
     @GetMapping("/users/{userId}/summary")

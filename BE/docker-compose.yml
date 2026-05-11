@@ -32,6 +32,9 @@ services:
       - be-network
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=prod
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - JWT_SECRET=${JWT_SECRET}
 
   # 3. Auth Service
   auth_service:
@@ -48,8 +51,14 @@ services:
       - be-network
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=prod
+      - JWT_SECRET=${JWT_SECRET}
+      - COOKIE_SECURE=true
+      - DB_URL=${AUTH_DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
 
-  # 4. User Service (Có kèm cấu hình Database Neon)
+  # 4. User Service
   user_service:
     build:
       context: .
@@ -64,10 +73,12 @@ services:
       - be-network
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
-      # Nạp thông tin Database từ đây để không bị lộ trong code
-      - DB_URL=jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/user_db?sslmode=require
-      - DB_USERNAME=neondb_owner
-      - DB_PASSWORD=npg_kFcsqpABNu18
+      - JWT_SECRET=${JWT_SECRET}
+      - SPRING_DATASOURCE_URL=${USER_DB_URL}
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+
+  # 5. Exam Service
   exam-service:
     build:
       context: .
@@ -82,7 +93,12 @@ services:
       - be-network
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
-#  6. material_service
+      - JWT_SECRET=${JWT_SECRET}
+      - SPRING_DATASOURCE_URL=${EXAM_DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+
+  # 6. Material Service
   material_service:
     build:
       context: .
@@ -97,11 +113,9 @@ services:
       - be-network
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
-      # Nạp thông tin Database từ đây để không bị lộ trong code
-      - DB_URL=jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/user_db?sslmode=require
-      - DB_USERNAME=neondb_owner
-      - DB_PASSWORD=npg_kFcsqpABNu18
-      # Đường dẫn gốc chứa file PDF bên trong container (Material_Data được COPY vào /app/)
+      - SPRING_DATASOURCE_URL=${MATERIAL_DB_URL}
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
       - FILE_BASE_PATH=/app
 
 networks:

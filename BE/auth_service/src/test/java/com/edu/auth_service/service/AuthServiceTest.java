@@ -11,6 +11,7 @@ import com.edu.auth_service.entity.Credential;
 import com.edu.auth_service.exception.AuthException;
 import com.edu.auth_service.exception.DuplicateEmailException;
 import com.edu.auth_service.repository.CredentialRepository;
+import com.edu.auth_service.repository.RefreshTokenRepository;
 import com.edu.auth_service.security.JwtService;
 import com.edu.auth_service.service.impl.AuthServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -31,10 +32,11 @@ import static org.mockito.Mockito.*;
 @DisplayName("AuthService — unit tests")
 class AuthServiceTest {
 
-    @Mock CredentialRepository credentialRepository;
-    @Mock UserServiceClient    userServiceClient;
-    @Mock PasswordEncoder      passwordEncoder;
-    @Mock JwtService           jwtService;
+    @Mock CredentialRepository  credentialRepository;
+    @Mock RefreshTokenRepository refreshTokenRepository;
+    @Mock UserServiceClient     userServiceClient;
+    @Mock PasswordEncoder       passwordEncoder;
+    @Mock JwtService            jwtService;
 
     @InjectMocks AuthServiceImpl authService;
 
@@ -59,7 +61,7 @@ class AuthServiceTest {
 
         LoginResult result = authService.login(request);
 
-        assertThat(result.token()).isEqualTo("eyJhbGciOiJIUzI1NiJ9.payload.sig");
+        assertThat(result.accessToken()).isEqualTo("eyJhbGciOiJIUzI1NiJ9.payload.sig");
         assertThat(result.userId()).isEqualTo(42L);
     }
 

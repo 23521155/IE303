@@ -24,6 +24,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         examService.getExamById(examId),
     ])
 
+
     if(!examData) return notFound();
 
     const draftKey: string = `exam_draft_${examId}`;

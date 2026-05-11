@@ -13,11 +13,11 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     hikari:
-      maximum-pool-size: 10
-      minimum-idle: 2
-      idle-timeout: 30000
-      connection-timeout: 20000
-      max-lifetime: 600000
+      maximum-pool-size: 5
+      minimum-idle: 1
+      connection-timeout: 8000
+      idle-timeout: 300000
+      max-lifetime: 900000
       keepalive-time: 60000
   jpa:
     hibernate:
@@ -28,7 +28,11 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 jwt:
-  expiration: 86400000
+  expiration: 900000        # 15 phút
+  refresh-expiration: 2592000000  # 30 ngày
+
+cookie:
+  secure: ${COOKIE_SECURE:false}
 
 feign:
   client:

@@ -22,28 +22,36 @@ export const loginAction = async (data: { email: string; password: string }) => 
                 message: json.message,
             };
         }
+        // Lấy Cookie ở header
+        const setCookie = res.headers.get('set-cookie');
 
-        const { token } = json.data;
+        const accessTokenMatch = setCookie?.match(/token=([^;]+)/)?.[1];
+        const refreshTokenMatch = setCookie?.match(/refresh_token=([^;]+)/)?.[1];
+
         const cookieStore = await cookies();
-        cookieStore.set({
-            name: 'access_token',
-            value: token,
-            httpOnly: true,
-            path: '/',
-            sameSite: 'lax',
-            maxAge: 60 * 60 * 24,
-        });
+        if (accessTokenMatch) {
+            cookieStore.set({
+                name: 'access_token',
+                value: accessTokenMatch,
+                httpOnly: true,
+                path: '/',
+                sameSite: 'lax',
+                maxAge: 60 * 15,
+            });
+        }
 
-        // cookieStore.set({
-        //     name: 'refresh_token',
-        //     value: refreshToken,
-        //     httpOnly: true,
-        //     path: '/',
-        //     sameSite: 'lax',
-        //     maxAge: 60 * 60 * 24 * 7,
-        // });
-        const phi = { success: json.success, statusCode: json.statusCode, message: json.message };
-        return phi;
+        if (refreshTokenMatch) {
+            cookieStore.set({
+                name: 'refresh_token',
+                value: refreshTokenMatch,
+                httpOnly: true,
+                path: '/',
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 24 * 30,
+            });
+        }
+
+        return { success: json.success, statusCode: json.statusCode, message: json.message };
     } catch (error) {
         return {
             success: false,

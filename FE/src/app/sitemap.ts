@@ -1,17 +1,30 @@
 import { MetadataRoute } from 'next';
 import { examService } from '@/src/services/examService';
+import { BE_URL } from '@/src/utils/constans';
 
 // 1. Thêm fallback để chống lỗi lúc build
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 
+async function getMaterialsLastModified(): Promise<Date> {
+    try {
+        const res = await fetch(`${BE_URL}/api/materials?size=200`, { next: { revalidate: 3600 } });
+        const json = await res.json();
+        const content: { createdAt?: string }[] = json?.data?.content ?? [];
+        const dates = content.map((m) => new Date(m.createdAt ?? '')).filter((d) => !isNaN(d.getTime()));
+        if (dates.length > 0) return new Date(Math.max(...dates.map((d) => d.getTime())));
+    } catch {}
+    return new Date();
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const lastModified = new Date();
+    const materialsLastModified = await getMaterialsLastModified();
 
     const routes = [
-        { path: '', priority: 1.0 },
-        { path: 'exams', priority: 0.9 },
-        { path: 'materials', priority: 0.8 },
-        { path: 'flashcards', priority: 0.7 },
+        { path: '', priority: 1.0, lastMod: lastModified },
+        { path: 'exams', priority: 0.9, lastMod: lastModified },
+        { path: 'materials', priority: 0.8, lastMod: materialsLastModified },
+        { path: 'flashcards', priority: 0.7, lastMod: lastModified },
     ];
 
     const locales = ['vi', 'en', 'ja'];
@@ -26,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             sitemapEntries.push({
                 // 3. Nối chuỗi sạch sẽ
                 url: `${baseUrl}/${locale}${cleanPath}`,
-                lastModified,
+                lastModified: route.lastMod,
                 changeFrequency: 'weekly',
                 priority: route.priority,
                 alternates: {
@@ -64,6 +77,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             });
         });
     });
+
+    try {
+        const res = await fetch(`${BE_URL}/api/materials?size=200`, { next: { revalidate: 3600 } });
+        const json = await res.json();
+        const materialItems: { id: number; createdAt?: string }[] = json?.data?.content ?? [];
+        locales.forEach((locale) => {
+            materialItems.forEach((material) => {
+                const cleanPath = `/materials/${material.id}`;
+                sitemapEntries.push({
+                    url: `${baseUrl}/${locale}${cleanPath}`,
+                    lastModified: material.createdAt ? new Date(material.createdAt) : lastModified,
+                    changeFrequency: 'monthly',
+                    priority: 0.7,
+                    alternates: {
+                        languages: {
+                            'x-default': `${baseUrl}/en${cleanPath}`,
+                            vi: `${baseUrl}/vi${cleanPath}`,
+                            en: `${baseUrl}/en${cleanPath}`,
+                            ja: `${baseUrl}/ja${cleanPath}`,
+                        },
+                    },
+                });
+            });
+        });
+    } catch {}
 
     const blogIds = ['ky-thi-it-passport', 'ky-thi-fe'];
 

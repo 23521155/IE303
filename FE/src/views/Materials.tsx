@@ -1,10 +1,11 @@
 'use client';
-import React, { useState, useEffect, useCallback } from 'react';
-import { BookOpen, FileText, Video, Download, PlayCircle, Search, Loader2, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { FileText, Video, Download, PlayCircle, Search, ChevronDown, Loader2 } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-import { BE_URL } from '@/src/utils/constans';
 import Image from 'next/image';
-interface LearningMaterial {
+import Link from 'next/link';
+
+type LearningMaterial = {
     id: number;
     title: string;
     category: string;
@@ -13,27 +14,100 @@ interface LearningMaterial {
     fileUrl: string;
     type: string;
     createdAt: string;
-}
+};
 
-export function Materials({ t, lang, materials }: { t: any; lang: string; materials: LearningMaterial[] }) {
+type PagedData = {
+    content: LearningMaterial[];
+    last: boolean;
+    totalElements: number;
+};
+
+export function Materials({ t, lang, initialData }: { t: any; lang: string; initialData: PagedData }) {
     const [activeTab, setActiveTab] = useState('all');
-    const [searchQuery, setSearchQuery] = useState('');
-    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
     const [categorySelect, setCategorySelect] = useState('all');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [materials, setMaterials] = useState<LearningMaterial[]>(initialData.content);
+    const [hasMore, setHasMore] = useState(!initialData.last);
+    const [loading, setLoading] = useState(false);
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+    // Khai báo sentinelRef TRƯỚC các useEffect dùng nó
+    const sentinelRef = useRef<HTMLDivElement>(null);
+    const hasMoreRef = useRef(!initialData.last);
+    const loadingRef = useRef(false);
+    const currentPageRef = useRef(0);
+    const categoryRef = useRef('all');
+    const isInitialMount = useRef(true);
 
-    // Debounce search query
+    const fetchPage = useCallback(async (pageNum: number, category: string, replace: boolean) => {
+        if (loadingRef.current) return;
+
+        loadingRef.current = true;
+        setLoading(true);
+
+        try {
+            const catParam = category !== 'all' ? `&category=${encodeURIComponent(category)}` : '';
+            const res = await fetch(`/api/materials?page=${pageNum}&size=15${catParam}`);
+            const json = await res.json();
+
+            // API trả về thẳng, không có wrapper .data
+            const data: PagedData | null = json ?? null;
+
+            if (!data || !Array.isArray(data.content)) {
+                console.error('Unexpected response:', json);
+                hasMoreRef.current = false;
+                setHasMore(false);
+                return;
+            }
+
+            setMaterials((prev) => (replace ? data.content : [...prev, ...data.content]));
+            hasMoreRef.current = !data.last;
+            setHasMore(!data.last);
+            currentPageRef.current = pageNum;
+        } catch (err) {
+            console.error('Fetch error:', err);
+            hasMoreRef.current = false;
+            setHasMore(false);
+        } finally {
+            loadingRef.current = false;
+            setLoading(false);
+        }
+    }, []);
+
+    // Category thay đổi → reset và fetch lại từ đầu
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setDebouncedSearchQuery(searchQuery);
-        }, 500);
-        return () => clearTimeout(timer);
-    }, [searchQuery]);
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+            return;
+        }
+        categoryRef.current = categorySelect;
+        currentPageRef.current = 0;
+        hasMoreRef.current = true;
+        setHasMore(true);
+        fetchPage(0, categorySelect, true);
+    }, [categorySelect, fetchPage]);
 
-    const filteredMaterials = materials?.filter((m) => {
-        return activeTab === 'all' || m.type === activeTab;
+    // Infinite scroll
+    useEffect(() => {
+        const sentinel = sentinelRef.current;
+        if (!sentinel) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && hasMoreRef.current && !loadingRef.current) {
+                    fetchPage(currentPageRef.current + 1, categoryRef.current, false);
+                }
+            },
+            { threshold: 0.1 },
+        );
+
+        observer.observe(sentinel);
+        return () => observer.disconnect();
+    }, [fetchPage, hasMore]);
+
+    const filteredMaterials = materials.filter((m) => {
+        const matchesType = activeTab === 'all' || m.type === activeTab;
+        const matchesSearch = !searchQuery || m.title.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesType && matchesSearch;
     });
 
     return (
@@ -72,47 +146,43 @@ export function Materials({ t, lang, materials }: { t: any; lang: string; materi
                     </div>
                 </div>
             </div>
+
             {/* Tabs */}
             <div className="flex space-x-4 mb-8 border-b border-gray-200 dark:border-slate-800">
-                <button
-                    onClick={() => setActiveTab('all')}
-                    className={`pb-4 px-2 text-sm font-medium border-b-2 transition-colors cursor-pointer ${
-                        activeTab === 'all'
-                            ? 'border-primary text-primary dark:text-blue-400 dark:border-blue-400'
-                            : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                    }`}
-                >
-                    {t.allMaterials}
-                </button>
-                <button
-                    onClick={() => setActiveTab('pdf')}
-                    className={`pb-4 px-2 text-sm font-medium border-b-2 transition-colors flex items-center cursor-pointer ${
-                        activeTab === 'pdf'
-                            ? 'border-primary text-primary dark:text-blue-400 dark:border-blue-400'
-                            : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                    }`}
-                >
-                    <Image src={'/pdf.png'} alt={'file pdf'} height={20} width={20} className={'mx-2'} />
-                    {t.ebooksPdf}
-                </button>
-                <button
-                    onClick={() => setActiveTab('video')}
-                    className={`pb-4 px-2 text-sm font-medium border-b-2 transition-colors flex items-center  cursor-pointer ${
-                        activeTab === 'video'
-                            ? 'border-primary text-primary dark:text-blue-400 dark:border-blue-400'
-                            : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                    }`}
-                >
-                    <Video className="w-4 h-4 mr-2" /> {t.videoLectures}
-                </button>
+                {(['all', 'pdf', 'video'] as const).map((tab) => (
+                    <button
+                        key={tab}
+                        onClick={() => setActiveTab(tab)}
+                        className={`pb-4 px-2 text-sm font-medium border-b-2 transition-colors flex items-center cursor-pointer ${
+                            activeTab === tab
+                                ? 'border-primary text-primary dark:text-blue-400 dark:border-blue-400'
+                                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                        }`}
+                    >
+                        {tab === 'all' && t.allMaterials}
+                        {tab === 'pdf' && (
+                            <>
+                                <Image src="/pdf.png" alt="pdf" height={20} width={20} className="mx-2" />
+                                {t.ebooksPdf}
+                            </>
+                        )}
+                        {tab === 'video' && (
+                            <>
+                                <Video className="w-4 h-4 mr-2" />
+                                {t.videoLectures}
+                            </>
+                        )}
+                    </button>
+                ))}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+            {/* Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredMaterials.map((material) => (
                     <article
                         key={material.id}
-                        className="relative h-[420px] rounded-xl overflow-hidden group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-500"
+                        className="relative h-[420px] rounded-md overflow-hidden group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-500"
                     >
-                        {/* IMAGE */}
                         <ImageWithFallback
                             src={
                                 material.imageUrl ||
@@ -121,13 +191,10 @@ export function Materials({ t, lang, materials }: { t: any; lang: string; materi
                             alt={material.title}
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         />
-
-                        {/* OVERLAY */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
 
-                        {/* TYPE BADGE */}
                         <div className="absolute top-4 right-4 z-20">
-                            <span className="bg-white/90 dark:bg-black/80 text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1 backdrop-blur">
+                            <span className="bg-white/90 dark:bg-black/80 text-xs font-semibold px-3 py-1 rounded-md flex items-center gap-1 backdrop-blur">
                                 {material.type === 'pdf' ? (
                                     <Image src="/pdf.png" alt="pdf" width={14} height={14} />
                                 ) : (
@@ -137,68 +204,65 @@ export function Materials({ t, lang, materials }: { t: any; lang: string; materi
                             </span>
                         </div>
 
-                        {/* CATEGORY */}
                         <div className="absolute top-4 left-4 z-20">
-                            <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full backdrop-blur">
+                            <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-md backdrop-blur">
                                 {material.category}
                             </span>
                         </div>
 
-                        {/* CONTENT */}
                         <div className="absolute bottom-0 p-5 w-full text-white flex flex-col">
-                            {/* TITLE */}
                             <h2 className="text-lg font-bold mb-2 line-clamp-2 group-hover:text-primary transition">
                                 {material.title}
                             </h2>
-
-                            {/* OPTIONAL DESCRIPTION (linh động) */}
                             {material.description && (
                                 <p className="text-sm text-white/80 mb-3 line-clamp-2">{material.description}</p>
                             )}
-
-                            {/* INFO FLEXIBLE */}
                             <div className="flex flex-wrap gap-2 text-xs mb-4">
                                 {material.type === 'pdf' ? (
-                                    <span className="bg-white/20 px-3 py-1 rounded-full flex items-center gap-1">
+                                    <span className="bg-white/20 px-3 py-1 rounded-md flex items-center gap-1">
                                         <Download className="w-3.5 h-3.5" />
                                         520 {t.downloads || 'lượt tải'}
                                     </span>
                                 ) : (
-                                    <span className="bg-white/20 px-3 py-1 rounded-full flex items-center gap-1">
+                                    <span className="bg-white/20 px-3 py-1 rounded-md flex items-center gap-1">
                                         <PlayCircle className="w-3.5 h-3.5" />
                                         1.2K {t.views || 'lượt xem'}
                                     </span>
                                 )}
-
-                                <span className="bg-white/20 px-3 py-1 rounded-full">
-                                    {new Date(material.createdAt).toLocaleDateString()}
-                                </span>
                             </div>
-
-                            {/* CTA */}
                             <div className="flex gap-2 mt-auto">
-                                <a
-                                    href={`${BE_URL}/api/materials/${material.id}/file`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex-1 py-2 px-3 bg-white/90 text-black rounded-full text-sm font-medium flex items-center justify-center hover:bg-white"
+                                <Link
+                                    href={`/${lang}/materials/${material.id}`}
+                                    className="flex-1 py-2 px-3 bg-white/90 text-black rounded-md text-sm font-medium flex items-center justify-center hover:bg-white"
                                 >
                                     <FileText className="w-4 h-4 mr-1" />
-                                    Xem
-                                </a>
-
+                                    {t.viewDetails}
+                                </Link>
                                 <a
-                                    href={`${BE_URL}/api/materials/${material.id}/file?download=true`}
-                                    className="flex-1 py-2 px-3 bg-white/20 text-white rounded-full text-sm font-medium flex items-center justify-center hover:bg-white/30"
+                                    href={`/api/materials/${material.id}/file?download=true`}
+                                    className="flex-1 py-2 px-3 bg-white/20 text-white rounded-md text-sm font-medium flex items-center justify-center hover:bg-white/30"
                                 >
                                     <Download className="w-4 h-4 mr-1" />
-                                    Tải
+                                    {t.download}
                                 </a>
                             </div>
                         </div>
                     </article>
                 ))}
             </div>
+
+            {/* Sentinel + trạng thái */}
+            <div ref={sentinelRef} className="h-4 mt-8" />
+            {loading && (
+                <div className="flex justify-center py-6">
+                    <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                </div>
+            )}
+            {!hasMore && materials.length > 0 && (
+                <p className="text-center text-sm text-gray-400 dark:text-gray-600 py-6">
+                    {t.allLoaded ?? 'Đã tải hết tài liệu'}
+                </p>
+            )}
         </div>
     );
 }

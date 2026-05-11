@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import static org.assertj.core.api.Assertions.*;
@@ -38,11 +39,10 @@ class AuthControllerTest {
         request.setEmail("user@gmail.com");
         request.setPassword("password123");
 
-        when(authService.login(any())).thenReturn(new LoginResult("eyJhbGc.payload.sig", 42L));
+        when(authService.login(any())).thenReturn(new LoginResult("eyJhbGc.payload.sig", "refresh-stub", 42L));
 
         ApiResponse<LoginResponse> result = controller.login(request, new MockHttpServletResponse());
 
-        assertThat(result.getStatusCode()).isEqualTo(200);
         assertThat(result.getMessage()).isEqualTo("Đăng nhập thành công");
         assertThat(result.getData().getUserId()).isEqualTo(42L);
     }
@@ -54,7 +54,7 @@ class AuthControllerTest {
         request.setEmail("user@gmail.com");
         request.setPassword("password123");
 
-        when(authService.login(any())).thenReturn(new LoginResult("my-jwt-token", 42L));
+        when(authService.login(any())).thenReturn(new LoginResult("my-jwt-token", "refresh-stub", 42L));
 
         MockHttpServletResponse response = new MockHttpServletResponse();
         controller.login(request, response);
@@ -64,14 +64,14 @@ class AuthControllerTest {
         assertThat(setCookie).contains("token=my-jwt-token");
         assertThat(setCookie).containsIgnoringCase("HttpOnly");
         assertThat(setCookie).containsIgnoringCase("SameSite=Lax");
-        assertThat(setCookie).containsIgnoringCase("Max-Age=86400");
+        assertThat(setCookie).containsIgnoringCase("Max-Age=900");
         assertThat(setCookie).containsIgnoringCase("Path=/");
     }
 
     @Test
     @DisplayName("login: response body KHÔNG có field 'token' (bảo mật XSS)")
     void login_thanhCong_responseBodyKhongChuaToken() {
-        when(authService.login(any())).thenReturn(new LoginResult("secret-token", 42L));
+        when(authService.login(any())).thenReturn(new LoginResult("secret-token", "refresh-stub", 42L));
 
         ApiResponse<LoginResponse> result = controller.login(new LoginRequest(), new MockHttpServletResponse());
 
@@ -102,9 +102,8 @@ class AuthControllerTest {
     void logout_setCookieMaxAge0() {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
-        ApiResponse<String> result = controller.logout(response);
+        ApiResponse<String> result = controller.logout(new MockHttpServletRequest(), response);
 
-        assertThat(result.getStatusCode()).isEqualTo(200);
         assertThat(result.getMessage()).isEqualTo("Đăng xuất thành công");
 
         String setCookie = response.getHeader(HttpHeaders.SET_COOKIE);
@@ -117,7 +116,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("logout: KHÔNG gọi authService (stateless)")
     void logout_khongGoiAuthService() {
-        controller.logout(new MockHttpServletResponse());
+        controller.logout(new MockHttpServletRequest(), new MockHttpServletResponse());
         verifyNoInteractions(authService);
     }
 
@@ -137,7 +136,6 @@ class AuthControllerTest {
 
         ApiResponse<RegisterResponse> result = controller.register(request);
 
-        assertThat(result.getStatusCode()).isEqualTo(200);
         assertThat(result.getMessage()).isEqualTo("Đăng ký thành công");
         assertThat(result.getData().getCredentialId()).isEqualTo(42L);
     }

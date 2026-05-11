@@ -1,0 +1,12 @@
+cors:
+  allowed-origins: ${ALLOWED_ORIGINS}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+
+management:
+  endpoint:
+    health:
+      show-details: when-authorized

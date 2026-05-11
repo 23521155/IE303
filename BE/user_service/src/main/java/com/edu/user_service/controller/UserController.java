@@ -7,7 +7,8 @@ import com.edu.user_service.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -35,18 +36,19 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public UserProfileDto getMe(Authentication authentication) {
-        String userId = authentication.getName();
-        Long id = Long.parseLong(userId);
-        User u = userService.getUserById(id);
-        return UserProfileDto.builder()
+    public ResponseEntity<UserProfileDto> getMe(
+            @RequestHeader(value = "X-User-Id", required = false) String userId) {
+        if (userId == null || userId.isBlank()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        User u = userService.getUserById(Long.parseLong(userId));
+        return ResponseEntity.ok(UserProfileDto.builder()
                 .id(u.getId())
                 .name(u.getName())
                 .phoneNumber(u.getPhoneNumber())
                 .currentStatus(u.getCurrentStatus())
                 .email(u.getEmail())
                 .createdAt(u.getCreatedAt())
-                .build();
+                .build());
     }
-
 }
