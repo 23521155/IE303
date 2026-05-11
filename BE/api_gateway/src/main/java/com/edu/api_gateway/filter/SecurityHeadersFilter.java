@@ -21,7 +21,7 @@ public class SecurityHeadersFilter implements GlobalFilter, Ordered {
         exchange.getResponse().beforeCommit(() -> {
             HttpHeaders headers = exchange.getResponse().getHeaders();
             headers.set("X-Content-Type-Options", "nosniff");
-            headers.set("X-Frame-Options", "DENY");
+            headers.set("X-Frame-Options", "SAMEORIGIN");
             headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
             headers.set("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
             return Mono.empty();
