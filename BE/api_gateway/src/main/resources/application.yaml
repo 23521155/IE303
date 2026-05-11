@@ -1,36 +1,174 @@
 server:
   port: 8080
+  compression:
+    enabled: true
+    mime-types: application/json,text/plain,text/html
+    min-response-size: 1024
 
 spring:
   application:
     name: api-gateway
-
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   cloud:
     gateway:
       server:
         webflux:
+          httpclient:
+            connect-timeout: 5000        # ms
+            response-timeout: 30s
           routes:
             - id: auth_service
               uri: lb://auth-service
               predicates:
                 - Path=/api/auth/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: auth-service-cb
+                    fallbackUri: forward:/fallback/service-unavailable
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: SERVICE_UNAVAILABLE
+                    methods: GET
+                    backoff:
+                      firstBackoff: 200ms
+                      maxBackoff: 2000ms
+                      factor: 2
+              metadata:
+                response-timeout: 10s
 
             - id: user_service
               uri: lb://user-service
               predicates:
                 - Path=/api/users/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: user-service-cb
+                    fallbackUri: forward:/fallback/service-unavailable
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: SERVICE_UNAVAILABLE
+                    methods: GET
+                    backoff:
+                      firstBackoff: 200ms
+                      maxBackoff: 2000ms
+                      factor: 2
+              metadata:
+                response-timeout: 10s
 
             - id: exam_service
               uri: lb://exam-service
               predicates:
                 - Path=/api/exams/**, /api/categories/**, /api/attempts/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: exam-service-cb
+                    fallbackUri: forward:/fallback/service-unavailable
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: SERVICE_UNAVAILABLE
+                    methods: GET
+                    backoff:
+                      firstBackoff: 200ms
+                      maxBackoff: 2000ms
+                      factor: 2
+              metadata:
+                response-timeout: 20s
 
+            # Material service: không retry vì có file download lớn
             - id: material_service
               uri: lb://material-service
               predicates:
                 - Path=/api/materials/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: material-service-cb
+                    fallbackUri: forward:/fallback/service-unavailable
+              metadata:
+                response-timeout: 60s
+
+jwt:
+  secret: ${JWT_SECRET:FizzCoConCaFizzCoConCaFizzCoConCa}
+
+gateway:
+  security:
+    excluded-paths:
+      - /api/auth/**
+      - /actuator/**
+      - /fallback/**
+    protected-paths:
+      - "GET:/api/users/me"
+      - "POST:/api/exams"
+      - "PUT:/api/exams/**"
+      - "DELETE:/api/exams/**"
+      - "POST:/api/exams/*/submit"
+      - "POST:/api/exams/*/rating"
+      - "GET:/api/attempts/me/**"
+      - "POST:/api/materials"
+      - "PUT:/api/materials/**"
+      - "DELETE:/api/materials/**"
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 20
+        minimum-number-of-calls: 10
+        failure-rate-threshold: 60
+        slow-call-rate-threshold: 80
+        slow-call-duration-threshold: 15s
+        wait-duration-in-open-state: 15s
+        permitted-number-of-calls-in-half-open-state: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        record-exceptions:
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+          - org.springframework.cloud.gateway.support.NotFoundException
+    instances:
+      auth-service-cb:
+        base-config: default
+      user-service-cb:
+        base-config: default
+      exam-service-cb:
+        base-config: default
+      material-service-cb:
+        base-config: default
 
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery-server:8761/eureka/
+      defaultZone: ${EUREKA_URL:http://discovery-server:8761/eureka/}
+    fetch-registry: true
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 10
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: when-authorized
+    gateway:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0.0

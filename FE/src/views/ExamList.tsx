@@ -1,7 +1,7 @@
 'use client';
 import {useState} from 'react';
 import Link from 'next/link';
-import { BookOpen, Clock, Filter, Search, Users} from 'lucide-react';
+import { BookOpen, ChevronDown, Clock, Filter, Search, Users} from 'lucide-react';
 import {Category, Exam} from '../services/examService';
 import type {Locale} from '@/src/utils/i18n'
 import { Button }  from '@/src/components/ui/button'
@@ -31,56 +31,41 @@ export function ExamList({ t, lang, examsData, categoriesData }: { t: any; lang:
     return (
         <main className="bg-slate-50 dark:bg-[#121212] min-h-screen pt-10 pb-20 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Header Section */}
-                <div className="mb-10 text-center">
-                    <h1 className="text-4xl font-extrabold text-secondary dark:text-white mb-4 tracking-tight">
-                        {t.examLibrary}
-                    </h1>
-                    <p className="text-lg text-secondary dark:text-slate-400 max-w-2xl mx-auto">{t.examLibDesc}</p>
-                </div>
+                {/* Header + Filter */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <h1 className="text-3xl font-bold text-secondary dark:text-white">
+                            {t.examLibrary}
+                        </h1>
+                        <p className="mt-2 text-secondary dark:text-gray-400">{t.examLibDesc}</p>
+                    </div>
 
-                {/* Search and Filter */}
-                <div className="bg-background border border-border rounded-2xl p-4 mb-8 shadow-sm">
-                    <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
+                    <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                        <div className="relative w-full sm:w-auto">
+                            <select
+                                value={activeCategory}
+                                onChange={(e) => setActiveCategory(e.target.value)}
+                                className="w-full sm:w-44 py-2 pl-4 pr-10 border border-gray-300 dark:border-slate-700 bg-white dark:bg-[#1a1a1a] text-secondary dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary appearance-none transition-colors cursor-pointer"
+                            >
+                                {categories.map((cat) => (
+                                    <option key={cat.id} value={cat.id}>
+                                        {t[`cat_${cat.id}`] || cat.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                        </div>
 
-                        {/* Search */}
-                        <div className="relative flex-1">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-
+                        <div className="relative w-full sm:w-auto">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                             <input
                                 type="text"
-                                aria-label={t.searchExams}
                                 placeholder={t.searchExams}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="
-          w-full pl-10 pr-4 py-2.5
-          bg-muted/40
-          border border-border
-          rounded-xl
-          text-sm
-          focus:outline-none
-          focus:ring-2 focus:ring-primary/40
-          focus:border-primary
-          transition
-        "
+                                className="pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-700 bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-64 transition-colors"
                             />
                         </div>
-
-                        {/* Categories */}
-                        <div className="flex gap-2 overflow-x-auto no-scrollbar">
-                            {categories.map((category) => (
-                                <Button
-                                    key={category.id}
-                                    onClick={() => setActiveCategory(category.id)}
-                                    variant={activeCategory === category.id ? 'default' : 'outline'}
-                                    aria-pressed={activeCategory === category.id}
-                                >
-                                    {t[`cat_${category.id}`] || category.name}
-                                </Button>
-                            ))}
-                        </div>
-
                     </div>
                 </div>
 

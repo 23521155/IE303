@@ -33,4 +33,14 @@ public class JwtService {
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    public Long extractUserId(String token) {
+        String subject = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+        return Long.parseLong(subject);
+    }
 }

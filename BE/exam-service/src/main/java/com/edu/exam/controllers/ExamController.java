@@ -4,12 +4,11 @@ import com.edu.exam.dtos.*;
 import com.edu.exam.services.ExamService;
 import com.edu.exam.services.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -62,8 +61,12 @@ public class ExamController {
 
     @PostMapping("/{id}/submit")
     public ResponseEntity<Map<String, String>> submitExam(
-            @PathVariable String id, @RequestBody SubmitExamRequest request, Principal principal) {
-        String userId = principal.getName();
+            @PathVariable String id,
+            @RequestBody SubmitExamRequest request,
+            @RequestHeader(value = "X-User-Id", required = false) String userId) {
+        if (userId == null || userId.isBlank()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         String attemptId = examService.submitExam(id, request, userId);
         return ResponseEntity.ok(Map.of("attemptId", attemptId));
     }

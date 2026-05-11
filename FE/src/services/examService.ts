@@ -71,19 +71,21 @@ class ExamService {
 
     async getAllExams(): Promise<Exam[]> {
         const response = await fetch(`${BE_URL}/api/exams`);
-        console.log(response);
 
         if (!response.ok) {
             throw new Error('Không thể tải danh sách đề thi');
         }
 
-        return response.json();
+        const res = await response.json();
+
+        return res.data;
     }
 
     async getPopularExams(): Promise<Exam[]> {
-        return this.request<Exam[]>('/api/exams/popular', {
+        const res = await this.request<{ data: Exam[] }>('/api/exams/popular', {
             next: { revalidate: 86400 },
         });
+        return res.data;
     }
 
     async getAllCategories(): Promise<Category[]> {
@@ -93,12 +95,14 @@ class ExamService {
             throw new Error('Không thể tải danh sách danh mục');
         }
 
-        return response.json();
+        const res = await response.json();
+        return res.data;
     }
 
     async getExamById(id: string): Promise<ExamDetail | null> {
         try {
-            return await this.request<ExamDetail>(`/api/exams/${id}`);
+            const res = await this.request<{ data: ExamDetail }>(`/api/exams/${id}`);
+            return res.data;
         } catch (error) {
             console.error(`Exam with id ${id} not found:`, error);
             return null;
@@ -110,10 +114,11 @@ class ExamService {
     }
 
     async submitExam(examId: string, payload: any) {
-        return this.request<{ attemptId: string }>(`/api/exams/${examId}/submit`, {
+        const res = await this.request<{ data: { attemptId: string } }>(`/api/exams/${examId}/submit`, {
             method: 'POST',
             body: JSON.stringify(payload),
         });
+        return res.data;
     }
 
     async getRatingSummary(examId: string): Promise<RatingSummary> {

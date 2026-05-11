@@ -25,5 +25,6 @@ export default async function Page({params}: { params: Promise<{ lang: string }>
     const { lang } = await  params;
     const t = await getDictionary(lang as Locale)
     const popularExams = await examService.getPopularExams();
+
     return <Home t={t} lang={lang} popularExams={popularExams} />;
 }

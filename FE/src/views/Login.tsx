@@ -34,6 +34,7 @@ export function Login({ t, lang }: { t: any; lang: string }) {
             const user = await meRes.json().then((data) => data.data);
 
             setUser(user);
+
             router.push(path);
 
             return res.message; // dùng cho success message

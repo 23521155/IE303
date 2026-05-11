@@ -5,13 +5,13 @@ import { CheckCircle2, XCircle, Award, BarChart3, Clock, RotateCcw, Home, FileTe
 import { BE_URL } from '@/src/utils/constans';
 import { ExamRatingStars } from '@/src/components/ExamRatingStars';
 
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import remarkBreaks from "remark-breaks";
-import rehypeRaw from "rehype-raw";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import "katex/dist/katex.min.css";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
+import rehypeRaw from 'rehype-raw';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 
 function getExamMaxScore(examId: string): number {
     if (!examId) return 100;
@@ -39,7 +39,7 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
                 });
 
                 if (!resultRes.ok) throw new Error('Không tìm thấy kết quả thi');
-                const attemptData = await resultRes.json();
+                const attemptData = await resultRes.json().then((result) => result.data);
 
                 const questionsData = attemptData.exam.questions;
 
@@ -92,9 +92,7 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
                         <Award className="h-20 w-20 text-yellow-300 mx-auto mb-4 relative z-10 drop-shadow-md" />
                         <h1 className="text-3xl font-bold text-white mb-2 relative z-10">{t.examCompleted}</h1>
                         <p className="text-blue-100 text-lg relative z-10 opacity-90">
-                            {typeof exam.title === 'string'
-                                ? exam.title
-                                : exam.title[lang as keyof typeof exam.title]}
+                            {typeof exam.title === 'string' ? exam.title : exam.title[lang as keyof typeof exam.title]}
                         </p>
                     </div>
 
@@ -115,7 +113,13 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
                                         cy="50"
                                         r="45"
                                         fill="none"
-                                        stroke={scorePercentage >= 80 ? '#22c55e' : scorePercentage >= 50 ? '#eab308' : '#ef4444'}
+                                        stroke={
+                                            scorePercentage >= 80
+                                                ? '#22c55e'
+                                                : scorePercentage >= 50
+                                                ? '#eab308'
+                                                : '#ef4444'
+                                        }
                                         strokeWidth="10"
                                         strokeDasharray="283"
                                         strokeDashoffset={283 - (283 * scorePercentage) / 100}
@@ -123,7 +127,11 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
                                     />
                                 </svg>
                                 <div className="absolute text-center flex flex-col items-center justify-center inset-0">
-                                    <span className={`${score.toString().length >= 4 ? 'text-4xl' : 'text-5xl'} font-extrabold text-slate-800 dark:text-white tracking-tighter leading-none mt-2 transition-all`}>
+                                    <span
+                                        className={`${
+                                            score.toString().length >= 4 ? 'text-4xl' : 'text-5xl'
+                                        } font-extrabold text-slate-800 dark:text-white tracking-tighter leading-none mt-2 transition-all`}
+                                    >
                                         {score}
                                     </span>
 
@@ -222,20 +230,29 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
                                                 p: ({ node, ...props }) => <p className="mb-4 last:mb-0" {...props} />,
                                                 table: ({ node, ...props }) => (
                                                     <div className="overflow-x-auto my-6 font-medium text-lg">
-                                                        <table className="w-full text-left border-collapse border border-slate-200 dark:border-slate-700" {...props} />
+                                                        <table
+                                                            className="w-full text-left border-collapse border border-slate-200 dark:border-slate-700"
+                                                            {...props}
+                                                        />
                                                     </div>
                                                 ),
                                                 th: ({ node, ...props }) => (
-                                                    <th className="border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 font-bold" {...props} />
+                                                    <th
+                                                        className="border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 font-bold"
+                                                        {...props}
+                                                    />
                                                 ),
                                                 td: ({ node, ...props }) => (
-                                                    <td className="border border-slate-200 dark:border-slate-700 px-4 py-3" {...props} />
+                                                    <td
+                                                        className="border border-slate-200 dark:border-slate-700 px-4 py-3"
+                                                        {...props}
+                                                    />
                                                 ),
                                                 img: ({ node, ...props }) => (
                                                     <img
                                                         className="max-w-full h-auto rounded-xl border border-slate-200 dark:border-slate-800 my-4 shadow-sm mx-auto"
                                                         {...props}
-                                                        alt={props.alt || "Question Image"}
+                                                        alt={props.alt || 'Question Image'}
                                                     />
                                                 ),
                                             }}
@@ -295,8 +312,12 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
                                                         components={{
                                                             p: ({ node, ...props }) => <span {...props} />,
                                                             img: ({ node, ...props }) => (
-                                                                <img className="max-w-full h-auto rounded-lg" {...props} alt="Option Image" />
-                                                            )
+                                                                <img
+                                                                    className="max-w-full h-auto rounded-lg"
+                                                                    {...props}
+                                                                    alt="Option Image"
+                                                                />
+                                                            ),
                                                         }}
                                                     >
                                                         {option}
