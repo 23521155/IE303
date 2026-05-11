@@ -117,6 +117,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
       - FILE_BASE_PATH=/app
+    volumes:
+      - ./material_service/Material_Data:/app/Material_Data:ro
 
 networks:
   be-network:
