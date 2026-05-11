@@ -29,23 +29,27 @@ export const loginAction = async (data: { email: string; password: string }) => 
         const refreshTokenMatch = setCookie?.match(/refresh_token=([^;]+)/)?.[1];
 
         const cookieStore = await cookies();
-        cookieStore.set({
-            name: 'access_token',
-            value: accessTokenMatch,
-            httpOnly: true,
-            path: '/',
-            sameSite: 'lax',
-            maxAge: 60 * 15,
-        });
+        if (accessTokenMatch) {
+            cookieStore.set({
+                name: 'access_token',
+                value: accessTokenMatch,
+                httpOnly: true,
+                path: '/',
+                sameSite: 'lax',
+                maxAge: 60 * 15,
+            });
+        }
 
-        cookieStore.set({
-            name: 'refresh_token',
-            value: refreshTokenMatch,
-            httpOnly: true,
-            path: '/',
-            sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 30,
-        });
+        if (refreshTokenMatch) {
+            cookieStore.set({
+                name: 'refresh_token',
+                value: refreshTokenMatch,
+                httpOnly: true,
+                path: '/',
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 24 * 30,
+            });
+        }
 
         return { success: json.success, statusCode: json.statusCode, message: json.message };
     } catch (error) {
