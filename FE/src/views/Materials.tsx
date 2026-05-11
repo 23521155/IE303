@@ -36,7 +36,7 @@ export function Materials({ t, lang, initialData }: { t: any; lang: string; init
     const loadingRef = useRef(false);
     const currentPageRef = useRef(0);
     const categoryRef = useRef('all');
-    const isInitialMount = useRef(true);
+    const prevCategoryRef = useRef('all');
 
     const fetchPage = useCallback(async (pageNum: number, category: string, replace: boolean) => {
         if (loadingRef.current) return;
@@ -49,10 +49,11 @@ export function Materials({ t, lang, initialData }: { t: any; lang: string; init
             const res = await fetch(`/api/materials?page=${pageNum}&size=15${catParam}`);
             const json = await res.json();
 
-            // API trả về thẳng, không có wrapper .data
-            const data: PagedData | null = json ?? null;
+            // Gateway có thể wrap { data: { content, last, ... } } hoặc trả thẳng
+            const raw = json?.data ?? json;
+            const data: PagedData | null = (raw && Array.isArray(raw.content)) ? raw : null;
 
-            if (!data || !Array.isArray(data.content)) {
+            if (!data) {
                 console.error('Unexpected response:', json);
                 hasMoreRef.current = false;
                 setHasMore(false);
@@ -75,10 +76,8 @@ export function Materials({ t, lang, initialData }: { t: any; lang: string; init
 
     // Category thay đổi → reset và fetch lại từ đầu
     useEffect(() => {
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-            return;
-        }
+        if (prevCategoryRef.current === categorySelect) return;
+        prevCategoryRef.current = categorySelect;
         categoryRef.current = categorySelect;
         currentPageRef.current = 0;
         hasMoreRef.current = true;
