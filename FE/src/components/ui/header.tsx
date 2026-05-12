@@ -133,6 +133,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                     <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
                         {NAV_ITEMS.map((item) => {
                             const href = item.path === '/' ? `/${lang}` : `/${lang}${item.path}`;
+                            const isActive = href === `/${lang}` ? pathname === href : pathname.startsWith(href);
                             return (
                                 <Link
                                     key={item.label}
@@ -146,11 +147,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                                     transition-colors
                                                     after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0
                                                     after:bg-primary after:transition-all hover:after:w-full
-                                                    ${
-                                                        pathname === href
-                                                            ? 'after:w-full text-primary'
-                                                            : 'text-secondary'
-                                                    }
+                                                    ${isActive ? 'after:w-full text-primary' : 'text-secondary'}
                                                     `}
                                 >
                                     {t[item.label as keyof typeof t]}
