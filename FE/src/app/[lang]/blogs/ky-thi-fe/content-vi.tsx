@@ -62,11 +62,11 @@ const sessionStyles = {
 
 export default function ContentVi() {
     return (
-        <main className="min-h-screen bg-white dark:bg-[#121212] py-8 transition-colors duration-300 text-slate-900 dark:text-slate-200">
+        <main className="min-h-screen bg-background py-8 transition-colors duration-300 text-foreground/90">
             {/* HEADER */}
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
                 <div className="mb-4">
-                    <span className="bg-primary text-white dark:bg-blue-900  text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider">
+                    <span className="bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider">
                         {postDetail.category}
                     </span>
                 </div>

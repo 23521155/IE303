@@ -204,5 +204,10 @@
   "statLearnersLabel": "学習者",
   "statExamSetsLabel": "試験セット",
   "statCertsLabel": "取得可能な資格",
-  "statPassRateLabel": "合格率"
+  "examInfo": "試験情報",
+  "autoGrading": "自動採点",
+  "instantResults": "即時結果",
+  "columnName": "資料名",
+  "columnCategory": "カテゴリ",
+  "columnType": "タイプ"
 }

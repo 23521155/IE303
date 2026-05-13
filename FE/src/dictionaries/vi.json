@@ -204,5 +204,11 @@
   "statLearnersLabel": "Học viên",
   "statExamSetsLabel": "Đề thi",
   "statCertsLabel": "Chứng chỉ",
-  "statPassRateLabel": "Tỷ lệ đậu"
+  "statPassRateLabel": "Tỷ lệ đậu",
+  "examInfo": "Thông tin đề thi",
+  "autoGrading": "Chấm điểm tự động",
+  "instantResults": "Kết quả ngay lập tức",
+  "columnName": "Tên tài liệu",
+  "columnCategory": "Danh mục",
+  "columnType": "Định dạng"
 }

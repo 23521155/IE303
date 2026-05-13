@@ -9,6 +9,7 @@ import { getDictionary } from '@/src/utils/dictionaries';
 import {Toaster} from '@/src/components/ui/sonner';
 import { ThemeProvider } from '@/src/components/theme-provider';
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { ScrollToTop } from '@/src/components/ui/ScrollToTop';
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
     const { lang } = await params;
@@ -75,6 +76,7 @@ export default async function RootLayout({
               <Header t={t} lang={lang}/>
               {children}
               <Footer t={t} lang={lang}/>
+              <ScrollToTop />
               <Toaster className={'bg-primary'} />
           </LanguageProvider>
       </ThemeProvider>
