@@ -125,5 +125,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             });
         });
     });
+
+    const flashcardIds = ['1', '2', '3', '4'];
+
+    locales.forEach((locale) => {
+        flashcardIds.forEach((flashcardId) => {
+            const cleanPath = `/flashcards/${flashcardId}`;
+
+            sitemapEntries.push({
+                url: `${baseUrl}/${locale}${cleanPath}`,
+                lastModified,
+                changeFrequency: 'monthly', // Thẻ ít thay đổi hàng ngày nên để monthly
+                priority: 0.8, // Ưu tiên khá cao vì là tính năng học tập
+                alternates: {
+                    languages: {
+                        'x-default': `${baseUrl}/en${cleanPath}`,
+                        vi: `${baseUrl}/vi${cleanPath}`,
+                        en: `${baseUrl}/en${cleanPath}`,
+                        ja: `${baseUrl}/ja${cleanPath}`,
+                    },
+                },
+            });
+        });
+    });
+
     return sitemapEntries;
 }

@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import { 
-    Bookmark, Calendar, Clock, Share2, 
-    Eye, MessageSquare, ChevronRight, 
+import {
+    Bookmark, Calendar, Clock, Share2,
+    Eye, MessageSquare, ChevronRight,
     Link as LinkIcon,
     Mail, CheckCircle2, Target, Lightbulb
 } from 'lucide-react';
@@ -19,11 +19,11 @@ const postDetail = {
     id: 'lo-trinh-hoc-it',
     title: 'Lộ trình chứng chỉ IT Nhật Bản (IPA) từ Cơ bản đến Chuyên gia',
     excerpt: 'Hướng dẫn toàn diện về hệ thống chứng chỉ Công nghệ thông tin quốc gia Nhật Bản. Phân tích chi tiết đối tượng, nội dung trọng tâm và mẹo vượt qua từng cấp độ từ IT Passport đến Specialist.',
-    coverImage: '/it-roadmap.png', 
+    coverImage: '/it-roadmap.png',
     author: {
         name: 'Trần Thiên Phú',
         role: 'Author',
-        avatar: '/Shin.png', 
+        avatar: '/Shin.png',
         bio: 'Hơn 5 năm kinh nghiệm làm việc tại Nhật Bản. Chia sẻ kiến thức về lập trình, văn hóa doanh nghiệp IT và lộ trình phát triển sự nghiệp.',
     },
     date: '08/05/2026',
@@ -33,24 +33,24 @@ const postDetail = {
     comments: 38,
     tags: ['IT', 'Roadmap', 'IPA', 'IT Passport', 'FE', 'AP', 'Career'],
     relatedPosts: [
-        { 
-            id: 'ky-thi-it-passport', 
-            title: 'Kỳ thi IT Passport là gì? Cẩm nang chinh phục chứng chỉ IT Nhật Bản từ A-Z', 
-            image: '/blog-it-passport-thumbnail.jpg', 
+        {
+            id: 'ky-thi-it-passport',
+            title: 'Kỳ thi IT Passport là gì? Cẩm nang chinh phục chứng chỉ IT Nhật Bản từ A-Z',
+            image: '/blog-it-passport-thumbnail.jpg',
             date: '01/05/2026',
             href: '/vi/blogs/ky-thi-it-passport'
         },
-        { 
-            id: 'ky-thi-fe', 
-            title: 'Kỳ thi FE là gì? Giải đáp mọi thắc mắc giúp bạn tự tin chinh phục', 
-            image: '/blog-it-fe-thumbnail.jpg', 
+        {
+            id: 'ky-thi-fe',
+            title: 'Kỳ thi FE là gì? Giải đáp mọi thắc mắc giúp bạn tự tin chinh phục',
+            image: '/blog-it-fe-thumbnail.jpg',
             date: '01/05/2026',
             href: '/vi/blogs/ky-thi-fe'
         },
-        { 
-            id: 'ky-thi-ap', 
-            title: 'Kỳ thi AP (Applied Information Technology Engineer) là gì?', 
-            image: '/blog-it-passport-thumbnail.jpg', 
+        {
+            id: 'ky-thi-ap',
+            title: 'Kỳ thi AP (Applied Information Technology Engineer) là gì?',
+            image: '/blog-it-passport-thumbnail.jpg',
             date: '08/05/2026',
             href: '/vi/blogs/ky-thi-ap'
         },
@@ -59,30 +59,30 @@ const postDetail = {
 
 export default function DetailedEnhancedPost() {
     return (
-        <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+        <main className="min-h-screen bg-background transition-colors duration-300">
             {/* HERO SECTION */}
-            <header className="bg-white dark:bg-[#121212] pt-12 pb-8 border-b border-slate-200 dark:border-slate-800">
+            <header className="bg-background border-b border-border/50 pt-12 pb-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Breadcrumb */}
-                    <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-6">
-                        <a href="/" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Trang chủ</a>
+                    <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+                        <a href="/" className="hover:text-primary transition-colors">Trang chủ</a>
                         <ChevronRight className="w-4 h-4" />
-                        <a href="/category" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Blog</a>
+                        <a href="/category" className="hover:text-primary transition-colors">Blog</a>
                         <ChevronRight className="w-4 h-4" />
-                        <span className="text-slate-800 dark:text-slate-200 truncate">{postDetail.title}</span>
+                        <span className="text-foreground/80 truncate">{postDetail.title}</span>
                     </nav>
 
                     <div className="mb-6">
-                        <span className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        <span className="inline-block bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                             {postDetail.category}
                         </span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.2]">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-secondary dark:text-foreground mb-6 leading-[1.2]">
                         {postDetail.title}
                     </h1>
 
-                    <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                    <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                         {postDetail.excerpt}
                     </p>
 
@@ -94,26 +94,26 @@ export default function DetailedEnhancedPost() {
                                 alt={postDetail.author.name}
                                 height={56}
                                 width={56}
-                                className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover"
+                                className="w-14 h-14 rounded-full border-2 border-border/60 object-cover"
                             />
                             <div>
-                                <div className="font-bold text-slate-900 dark:text-white text-base">{postDetail.author.name}</div>
-                                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                <div className="font-bold text-secondary dark:text-foreground text-base">{postDetail.author.name}</div>
+                                <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                                     <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
-                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-border/60"></span>
                                     <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime} đọc</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
-                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
-                            <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Chia sẻ">
+                        <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
+                            <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
+                            <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
+                            <div className="flex items-center gap-2 pl-4 border-l border-border/40">
+                                <button className="p-2 rounded-full hover:bg-muted/60 hover:text-primary transition-colors" title="Chia sẻ">
                                     <Share2 className="w-4 h-4" />
                                 </button>
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Lưu bài">
+                                <button className="p-2 rounded-full hover:bg-muted/60 hover:text-primary transition-colors" title="Lưu bài">
                                     <Bookmark className="w-4 h-4" />
                                 </button>
                             </div>
@@ -127,28 +127,28 @@ export default function DetailedEnhancedPost() {
                 <div className="lg:grid lg:grid-cols-12 lg:gap-10">
 
                     {/* CỘT TRÁI: NỘI DUNG CHÍNH */}
-                    <article className="lg:col-span-9 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
-                        
-                        <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
-                            <Image 
-                                src={postDetail.coverImage} 
-                                alt="Lộ trình chứng chỉ IT Nhật Bản (IPA)" 
-                                width={1200} 
+                    <article className="lg:col-span-9 bg-background rounded-2xl border border-border/60 overflow-hidden">
+
+                        <figure className="w-full bg-muted/[0.2] p-4">
+                            <Image
+                                src={postDetail.coverImage}
+                                alt="Lộ trình chứng chỉ IT Nhật Bản (IPA)"
+                                width={1200}
                                 height={800}
                                 className="w-full h-auto object-contain rounded-lg"
-                                priority 
+                                priority
                             />
-                            <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
+                            <figcaption className="text-center text-sm text-muted-foreground/60 mt-3 italic">
                                 Sơ đồ hệ thống chứng chỉ CNTT chuẩn quốc gia Nhật Bản (IPA) — từ Level 1 (IT Passport) đến Level 4 (Chuyên gia). Nguồn: <a href="https://www.ipa.go.jp/shiken/about/about.html" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">IPA</a>
                             </figcaption>
                         </figure>
 
-                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-foreground/80">
                             <p className="mb-6 drop-cap">
                                 Đối với các kỹ sư CNTT muốn phát triển sự nghiệp tại Nhật Bản, việc sở hữu chứng chỉ của Cơ quan Xúc tiến Công nghệ Thông tin (IPA) không chỉ là tấm vé thông hành mà còn là yếu tố quyết định để tăng lương, thăng tiến và đặc biệt là cộng điểm xét duyệt Visa Kỹ sư chất lượng cao (HSP). Hệ thống này được chia thành 4 cấp độ rõ rệt.
                             </p>
 
-                            <h2 id="level-1" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="level-1" className="text-2xl sm:text-3xl font-bold text-secondary dark:text-foreground mt-12 mb-6 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 text-xl">1</span>
                                 IT Passport (IP) - Kiến thức chung
                             </h2>
@@ -160,15 +160,15 @@ export default function DetailedEnhancedPost() {
                                 <div className="flex gap-3">
                                     <Target className="w-6 h-6 text-indigo-500 shrink-0 mt-1" />
                                     <div>
-                                        <h4 className="font-semibold text-slate-900 dark:text-white">Đối tượng phù hợp</h4>
-                                        <p className="text-base text-slate-600 dark:text-slate-400">Sinh viên mới ra trường, nhân sự khối kinh doanh (Sales, HR, Marketing) tại các công ty IT, hoặc người trái ngành muốn có cái nhìn tổng quan về công nghệ và quản trị doanh nghiệp.</p>
+                                        <h4 className="font-semibold text-secondary dark:text-foreground">Đối tượng phù hợp</h4>
+                                        <p className="text-base text-muted-foreground">Sinh viên mới ra trường, nhân sự khối kinh doanh (Sales, HR, Marketing) tại các công ty IT, hoặc người trái ngành muốn có cái nhìn tổng quan về công nghệ và quản trị doanh nghiệp.</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-3">
                                     <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0 mt-1" />
                                     <div>
-                                        <h4 className="font-semibold text-slate-900 dark:text-white">Kiến thức trọng tâm</h4>
-                                        <ul className="list-disc pl-5 mt-1 text-base text-slate-600 dark:text-slate-400">
+                                        <h4 className="font-semibold text-secondary dark:text-foreground">Kiến thức trọng tâm</h4>
+                                        <ul className="list-disc pl-5 mt-1 text-base text-muted-foreground">
                                             <li><strong>Strategy (Chiến lược):</strong> Quản trị doanh nghiệp, luật pháp (bản quyền, bảo vệ dữ liệu cá nhân), chiến lược kinh doanh cơ bản.</li>
                                             <li><strong>Management (Quản lý):</strong> Quản lý dự án, phát triển hệ thống cơ bản.</li>
                                             <li><strong>Technology (Công nghệ):</strong> Kiến thức rất nền tảng về phần cứng, mạng, bảo mật, toán logic.</li>
@@ -177,8 +177,8 @@ export default function DetailedEnhancedPost() {
                                 </div>
                             </div>
 
-                            <div className="bg-slate-50 dark:bg-slate-800/40 border-l-4 border-blue-500 p-5 rounded-r-lg mb-8">
-                                <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white mb-2">
+                            <div className="bg-muted/[0.15] border-l-4 border-blue-500 p-5 rounded-r-xl mb-8">
+                                <div className="flex items-center gap-2 font-bold text-secondary dark:text-foreground mb-2">
                                     <Lightbulb className="w-5 h-5 text-yellow-500" /> Mẹo ôn thi:
                                 </div>
                                 <p className="text-base">Kỳ thi diễn ra trên máy tính (CBT) quanh năm. Bạn không cần code, chỉ cần học thuộc từ vựng (đặc biệt là các thuật ngữ viết tắt tiếng Anh 3 chữ cái) và làm đề thi cũ (past papers) trên hệ thống <a href="/vi/exams" className="text-blue-600 hover:underline">luyện đề IT Shiken</a> là có thể đỗ sau 1-2 tháng ôn luyện.</p>
@@ -186,7 +186,7 @@ export default function DetailedEnhancedPost() {
 
 
                             {/* LEVEL 2 */}
-                            <h2 id="level-2" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="level-2" className="text-2xl sm:text-3xl font-bold text-secondary dark:text-foreground mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 text-xl">2</span>
                                 FE / SG - Kỹ sư CNTT Cơ bản
                             </h2>
@@ -198,28 +198,28 @@ export default function DetailedEnhancedPost() {
                                 <div className="flex gap-3">
                                     <Target className="w-6 h-6 text-indigo-500 shrink-0 mt-1" />
                                     <div>
-                                        <h4 className="font-semibold text-slate-900 dark:text-white">Đối tượng phù hợp</h4>
-                                        <p className="text-base text-slate-600 dark:text-slate-400">Lập trình viên từ Junior đến Mid-level (1-3 năm kinh nghiệm), sinh viên chuyên ngành Khoa học Máy tính. Rất nhiều công ty Nhật thưởng nóng (từ 5-10 vạn yên) hoặc tăng lương hàng tháng khi nhân viên lấy được FE.</p>
+                                        <h4 className="font-semibold text-secondary dark:text-foreground">Đối tượng phù hợp</h4>
+                                        <p className="text-base text-muted-foreground">Lập trình viên từ Junior đến Mid-level (1-3 năm kinh nghiệm), sinh viên chuyên ngành Khoa học Máy tính. Rất nhiều công ty Nhật thưởng nóng (từ 5-10 vạn yên) hoặc tăng lương hàng tháng khi nhân viên lấy được FE.</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-3">
                                     <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0 mt-1" />
                                     <div>
-                                        <h4 className="font-semibold text-slate-900 dark:text-white">Cấu trúc đề FE cực kỳ đặc thù:</h4>
-                                        <ul className="list-disc pl-5 mt-1 text-base text-slate-600 dark:text-slate-400">
+                                        <h4 className="font-semibold text-secondary dark:text-foreground">Cấu trúc đề FE cực kỳ đặc thù:</h4>
+                                        <ul className="list-disc pl-5 mt-1 text-base text-muted-foreground">
                                             <li><strong>Môn A (Lý thuyết - 90 phút):</strong> 60 câu trắc nghiệm. Bao phủ Toán rời rạc, Cấu trúc dữ liệu, Thuật toán, OS, Database, Network và cả phần Management/Strategy như IP nhưng sâu hơn.</li>
                                             <li><strong>Môn B (Thực hành - 100 phút):</strong> 20 câu. Đây là phần đánh rớt nhiều nhất. Trong đó 16 câu là đọc hiểu mã giả (Pseudo-code) liên quan đến thuật toán và cấu trúc dữ liệu, 4 câu về tình huống Bảo mật (Security).</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            <blockquote className="border-l-4 border-slate-300 bg-slate-100 dark:border-slate-600 dark:bg-slate-800/80 p-5 italic text-slate-700 dark:text-slate-300 rounded-r-lg text-base">
+                            <blockquote className="border-l-4 border-border/60 bg-muted/[0.25] text-foreground/70 rounded-r-xl p-5 italic text-base mb-8">
                                 "Từ năm 2023, FE đã bỏ thi các ngôn ngữ lập trình cụ thể (C, Java, Python...) ở môn B và chuyển hoàn toàn sang mã giả (Pseudo-code). Điều này đòi hỏi tư duy thuật toán thuần túy thay vì học vẹt syntax."
                             </blockquote>
 
 
                             {/* LEVEL 3 */}
-                            <h2 id="level-3" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="level-3" className="text-2xl sm:text-3xl font-bold text-secondary dark:text-foreground mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 text-xl">3</span>
                                 AP - Kỹ sư Ứng dụng & Thiết kế Hệ thống
                             </h2>
@@ -228,22 +228,22 @@ export default function DetailedEnhancedPost() {
                             </p>
 
                             <div className="grid sm:grid-cols-2 gap-6 mb-8">
-                                <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm">
-                                    <h4 className="font-bold text-slate-900 dark:text-white mb-2 text-base border-b pb-2 dark:border-slate-700">Buổi sáng (Trắc nghiệm)</h4>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400">80 câu / 150 phút. Yêu cầu 60% để đỗ. Kiến thức rất rộng, từ vi mạch, kiến trúc máy tính, thuật toán mã hóa sâu, đến thiết kế database chuẩn hóa bậc 3, bậc 4.</p>
+                                <div className="border border-border/60 rounded-xl p-5">
+                                    <h4 className="font-bold text-secondary dark:text-foreground mb-2 text-base border-b pb-2 border-border/50">Buổi sáng (Trắc nghiệm)</h4>
+                                    <p className="text-sm text-muted-foreground">80 câu / 150 phút. Yêu cầu 60% để đỗ. Kiến thức rất rộng, từ vi mạch, kiến trúc máy tính, thuật toán mã hóa sâu, đến thiết kế database chuẩn hóa bậc 3, bậc 4.</p>
                                 </div>
-                                <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm">
-                                    <h4 className="font-bold text-slate-900 dark:text-white mb-2 text-base border-b pb-2 dark:border-slate-700">Buổi chiều (Tự luận / Tình huống)</h4>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400">150 phút. Bạn phải giải 1 câu bắt buộc (Security) và <strong>chọn 4 trong 10 câu</strong> chuyên ngành (Lập trình, Database, Network, Embedded, Audit, Management...). Yêu cầu đọc hiểu tình huống hệ thống dài 4-5 trang A4 và viết câu trả lời ngắn.</p>
+                                <div className="border border-border/60 rounded-xl p-5">
+                                    <h4 className="font-bold text-secondary dark:text-foreground mb-2 text-base border-b pb-2 border-border/50">Buổi chiều (Tự luận / Tình huống)</h4>
+                                    <p className="text-sm text-muted-foreground">150 phút. Bạn phải giải 1 câu bắt buộc (Security) và <strong>chọn 4 trong 10 câu</strong> chuyên ngành (Lập trình, Database, Network, Embedded, Audit, Management...). Yêu cầu đọc hiểu tình huống hệ thống dài 4-5 trang A4 và viết câu trả lời ngắn.</p>
                                 </div>
                             </div>
-                            <p className="text-base text-slate-700 dark:text-slate-300">
+                            <p className="text-base text-foreground/80">
                                 <strong>Mẹo ôn thi AP:</strong> Kỳ thi chỉ tổ chức 2 lần/năm (Xuân và Thu) và thi hoàn toàn trên giấy (PBT). Kỹ năng sống còn ở môn Chiều là <strong>đọc hiểu tiếng Nhật siêu tốc</strong> và biết cách chọn bài thi thế mạnh của mình. Nếu không giỏi tiếng Nhật, hãy ưu tiên chọn các bài về Lập trình, Network, Database vì chúng dùng nhiều logic toán và sơ đồ.
                             </p>
 
 
                             {/* LEVEL 4 */}
-                            <h2 id="level-4" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="level-4" className="text-2xl sm:text-3xl font-bold text-secondary dark:text-foreground mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 text-xl">4</span>
                                 Chuyên gia cấp cao (Specialist)
                             </h2>
@@ -251,35 +251,35 @@ export default function DetailedEnhancedPost() {
                                 Đây là "trùm cuối" của IPA, tỷ lệ đỗ thường chỉ dao động từ <strong>10% - 15%</strong>. Để lấy được Level 4, kiến thức hàn lâm là chưa đủ, bạn bắt buộc phải có kinh nghiệm chinh chiến thực tế qua các dự án lớn.
                             </p>
 
-                            <h4 className="font-semibold text-slate-900 dark:text-white text-lg mt-6 mb-3">Các mảng chứng chỉ Level 4 phổ biến:</h4>
+                            <h4 className="font-semibold text-secondary dark:text-foreground text-lg mt-6 mb-3">Các mảng chứng chỉ Level 4 phổ biến:</h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-base mb-8">
-                                <div className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30">
+                                <div className="p-3 border border-border/60 rounded-xl bg-muted/[0.15]">
                                     <strong className="text-purple-600 dark:text-purple-400"><a href="https://www.ipa.go.jp/shiken/kubun/nw.html" target="_blank" rel="noopener noreferrer" className="hover:underline">NW (Network Specialist)</a>:</strong> Chuyên gia thiết kế hạ tầng mạng.
                                 </div>
-                                <div className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30">
+                                <div className="p-3 border border-border/60 rounded-xl bg-muted/[0.15]">
                                     <strong className="text-purple-600 dark:text-purple-400"><a href="https://www.ipa.go.jp/shiken/kubun/db.html" target="_blank" rel="noopener noreferrer" className="hover:underline">DB (Database Specialist)</a>:</strong> Chuyên gia thiết kế & tối ưu CSDL.
                                 </div>
-                                <div className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30">
+                                <div className="p-3 border border-border/60 rounded-xl bg-muted/[0.15]">
                                     <strong className="text-purple-600 dark:text-purple-400"><a href="https://www.ipa.go.jp/shiken/kubun/pm.html" target="_blank" rel="noopener noreferrer" className="hover:underline">PM (Project Manager)</a>:</strong> Quản lý dự án chuẩn quốc tế.
                                 </div>
-                                <div className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30">
+                                <div className="p-3 border border-border/60 rounded-xl bg-muted/[0.15]">
                                     <strong className="text-purple-600 dark:text-purple-400"><a href="https://www.ipa.go.jp/shiken/kubun/sa.html" target="_blank" rel="noopener noreferrer" className="hover:underline">SA (System Architect)</a>:</strong> Kỹ sư thiết kế giải pháp tổng thể.
                                 </div>
-                                <div className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30 sm:col-span-2">
+                                <div className="p-3 border border-border/60 rounded-xl bg-muted/[0.15] sm:col-span-2">
                                     <strong className="text-purple-600 dark:text-purple-400"><a href="https://www.ipa.go.jp/shiken/kubun/sc.html" target="_blank" rel="noopener noreferrer" className="hover:underline">RISS / SC (Chuyên gia Bảo mật)</a>:</strong> Chứng chỉ quốc gia có giá trị hành nghề về đăng ký an toàn thông tin.
                                 </div>
                             </div>
 
-                            <p className="text-base text-slate-700 dark:text-slate-300">
+                            <p className="text-base text-foreground/80">
                                 <strong>Nỗi ám ảnh mang tên Bài luận (Essay - 論文):</strong> Đối với các môn như PM, SA, ST (IT Strategist), phần thi Chiều II yêu cầu bạn phải viết tay một bài luận từ <strong>2000 đến 3000 chữ</strong> bằng tiếng Nhật trong vòng 120 phút. Bạn phải miêu tả một dự án thực tế mình đã làm, nêu vấn đề, phân tích giải pháp dựa trên lý thuyết luận của IPA và kết quả đạt được. Đây là rào cản cực lớn đối với kỹ sư người nước ngoài.
                             </p>
 
                             {/* Tags Section */}
-                            <div className="mt-16 pt-8 border-t border-slate-100 dark:border-slate-800">
+                            <div className="mt-16 pt-8 border-t border-border/40">
                                 <div className="flex items-center gap-3 flex-wrap">
-                                    <span className="text-sm font-semibold text-slate-900 dark:text-white">Tags:</span>
+                                    <span className="text-sm font-semibold text-secondary dark:text-foreground">Tags:</span>
                                     {postDetail.tags.map((tag) => (
-                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
+                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-muted/50 border border-border/40 text-foreground/70 text-sm rounded-md hover:bg-muted hover:text-foreground transition-colors font-medium">
                                             #{tag}
                                         </a>
                                     ))}
@@ -292,48 +292,48 @@ export default function DetailedEnhancedPost() {
                     {/* CỘT PHẢI: TABLE OF CONTENTS */}
                     <aside className="hidden lg:block lg:col-span-3 space-y-8">
                         {/* Mục lục bài viết (Sticky) */}
-                        <div className="sticky top-24 bg-white dark:bg-[#121212] p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                            <h3 className="font-bold text-base text-slate-900 dark:text-white mb-5 flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
-                                <Bookmark className="w-4 h-4 text-blue-500" /> Nội Dung Bài Viết
+                        <div className="sticky top-24 bg-background/60 border border-border/50 p-6 rounded-2xl">
+                            <h3 className="font-bold text-base text-secondary dark:text-foreground mb-5 flex items-center gap-2 pb-3 border-b border-border/40">
+                                <Bookmark className="w-4 h-4 text-primary" /> Nội Dung Bài Viết
                             </h3>
                             <ul className="space-y-3 text-sm">
                                 <li>
-                                    <a href="#level-1" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>
+                                    <a href="#level-1" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">1</span>
                                         IT Passport (IP) – Level 1
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#level-2" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>
+                                    <a href="#level-2" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">2</span>
                                         FE / SG – Level 2
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#level-3" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>
+                                    <a href="#level-3" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">3</span>
                                         AP – Level 3
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#level-4" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>
+                                    <a href="#level-4" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">4</span>
                                         Chuyên gia (Specialist)
                                     </a>
                                 </li>
                             </ul>
                         </div>
 
-                       
+
                     </aside>
                 </div>
             </div>
 
             {/* CTA BOX */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div className="bg-gradient-to-br from-secondary/60 to-secondary dark:to-blue-800 rounded-xl p-8 sm:p-10 text-center shadow-lg">
+                <div className="bg-gradient-to-br from-secondary/60 to-secondary dark:to-secondary/80 rounded-2xl p-8 sm:p-10 text-center">
                     <h3 className="text-2xl font-bold text-white mb-4">Sẵn Sàng Luyện Thi Chứng Chỉ IT Chưa?</h3>
-                    <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
+                    <p className="text-white/80 mb-8 max-w-2xl mx-auto">
                         IT Shiken cung cấp đề thi thử miễn phí, sát đề thật, chấm điểm tự động và phân tích kết quả chi tiết. Bắt đầu ngay hôm nay – không cần đăng ký!
                     </p>
                     <Button asChild className="text-lg !py-6">
@@ -343,12 +343,12 @@ export default function DetailedEnhancedPost() {
             </div>
 
             {/* BÀI VIẾT LIÊN QUAN */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 dark:border-slate-800">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">Bài viết liên quan</h3>
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-border/40">
+                <h3 className="text-2xl font-bold text-secondary dark:text-foreground mb-8">Bài viết liên quan</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {postDetail.relatedPosts.map((post) => (
                         <a key={post.id} href={post.href} className="group block">
-                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-800">
+                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-muted/50">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
@@ -356,11 +356,11 @@ export default function DetailedEnhancedPost() {
                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
                                 <Calendar className="w-3.5 h-3.5" />
                                 {post.date}
                             </div>
-                            <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                            <h4 className="font-bold text-lg text-secondary dark:text-foreground group-hover:text-primary transition-colors line-clamp-2">
                                 {post.title}
                             </h4>
                         </a>
