@@ -57,7 +57,6 @@ export default function RegularExamCard({ exam, lang, t, index }: CardProps) {
                         <Clock className="w-3.5 h-3.5 shrink-0" />
                         {exam.duration} {t.minutes}
                     </span>
-                    <span className="ml-auto tabular-nums">⭐ {exam.rating}</span>
                 </div>
 
                 <Button
