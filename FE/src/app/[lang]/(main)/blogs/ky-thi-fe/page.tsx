@@ -1,8 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
-import ContentVi from '@/src/app/[lang]/blogs/ky-thi-fe/content-vi';
-import ContentEn from '@/src/app/[lang]/blogs/ky-thi-fe/content-en';
-import ContentJa from '@/src/app/[lang]/blogs/ky-thi-fe/content-ja';
+import ContentVi from '@/src/app/[lang]/(main)/blogs/ky-thi-fe/content-vi';
+import ContentEn from '@/src/app/[lang]/(main)/blogs/ky-thi-fe/content-en';
+import ContentJa from '@/src/app/[lang]/(main)/blogs/ky-thi-fe/content-ja';
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 
