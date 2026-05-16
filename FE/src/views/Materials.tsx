@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { FileText, Video, Download, Search, Loader2, Folder, LayoutList } from 'lucide-react';
+import { FileText, Video, Download, Search, Loader2, Folder, LayoutList, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import AnimateInView from '@/src/animation/AnimateInView'; // Thêm import này
 
@@ -46,15 +46,29 @@ export function Materials({ t, lang, initialData }: { t: any; lang: string; init
         try {
             const catParam = category !== 'all' ? `&category=${encodeURIComponent(category)}` : '';
             const res = await fetch(`/api/materials?page=${pageNum}&size=15${catParam}`);
-            const json = await res.json();
-
-            const raw = json?.data ?? json;
-            const data: PagedData | null = raw && Array.isArray(raw.content) ? raw : null;
-
-            if (!data) {
-                console.error('Unexpected response:', json);
+            
+            if (!res.ok) {
+                console.warn('Materials API responded with', res.status);
                 hasMoreRef.current = false;
                 setHasMore(false);
+                return;
+            }
+
+            const json = await res.json();
+
+            // Handle multiple possible response shapes:
+            // 1. { data: { content: [...], last: bool, totalElements: N } }
+            // 2. { content: [...], last: bool, totalElements: N }
+            // 3. {} or other unexpected shape
+            const raw = json?.data ?? json;
+            const data: PagedData | null =
+                raw && Array.isArray(raw.content) ? raw : null;
+
+            if (!data) {
+                // Empty or unexpected response - treat as "no more data"
+                hasMoreRef.current = false;
+                setHasMore(false);
+                if (replace) setMaterials([]);
                 return;
             }
 
@@ -117,6 +131,7 @@ export function Materials({ t, lang, initialData }: { t: any; lang: string; init
         { value: 'all', label: t.allMaterials, Icon: LayoutList },
         { value: 'pdf', label: t.ebooksPdf, Icon: FileText },
         { value: 'video', label: t.videoLectures, Icon: Video },
+        { value: 'theory', label: t.theory ?? 'Lý thuyết', Icon: BookOpen },
     ];
 
     return (
@@ -249,6 +264,8 @@ export function Materials({ t, lang, initialData }: { t: any; lang: string; init
                                     <div className="flex items-center gap-3 min-w-0 flex-1">
                                         {material.type === 'pdf' ? (
                                             <FileText className="w-4 h-4 text-primary/60 flex-shrink-0" />
+                                        ) : material.type === 'theory' ? (
+                                            <BookOpen className="w-4 h-4 text-green-500/70 flex-shrink-0" />
                                         ) : (
                                             <Video className="w-4 h-4 text-secondary/60 dark:text-blue-400/60 flex-shrink-0" />
                                         )}
