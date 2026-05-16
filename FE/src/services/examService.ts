@@ -122,14 +122,16 @@ class ExamService {
     }
 
     async getRatingSummary(examId: string): Promise<RatingSummary> {
-        return this.request<RatingSummary>(`/api/exams/${examId}/rating`);
+        const res = await this.request<{ data: RatingSummary }>(`/api/exams/${examId}/rating`);
+        return res.data;
     }
 
     async submitRating(examId: string, rating: number): Promise<RatingSummary> {
-        return this.request<RatingSummary>(`/api/exams/${examId}/rating`, {
+        const res = await this.request<{ data: RatingSummary }>(`/api/exams/${examId}/rating`, {
             method: 'POST',
             body: JSON.stringify({ rating }),
         });
+        return res.data;
     }
 }
 

@@ -204,5 +204,11 @@
   "statLearnersLabel": "Learners",
   "statExamSetsLabel": "Exam Sets",
   "statCertsLabel": "Certifications",
-  "statPassRateLabel": "Pass Rate"
+  "statPassRateLabel": "Pass Rate",
+  "examInfo": "Exam Information",
+  "autoGrading": "Automated Grading",
+  "instantResults": "Instant Results",
+  "columnName": "Document Name",
+  "columnCategory": "Category",
+  "columnType": "Type"
 }

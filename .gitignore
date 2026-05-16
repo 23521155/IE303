@@ -3,3 +3,11 @@
 **/node_modules/
 **/.next/
 **/.env
+.agents
+PRODUCT.md
+.impeccable
+DESIGN.md
+skills-lock.json
+screenshot
+.playwright-mcp
+.claude
