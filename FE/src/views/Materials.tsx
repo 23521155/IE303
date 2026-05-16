@@ -1,9 +1,8 @@
 'use client';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { FileText, Video, Download, PlayCircle, Search, ChevronDown, Loader2 } from 'lucide-react';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-import Image from 'next/image';
+import { FileText, Video, Download, Search, Loader2, Folder, LayoutList } from 'lucide-react';
 import Link from 'next/link';
+import AnimateInView from '@/src/animation/AnimateInView'; // Thêm import này
 
 type LearningMaterial = {
     id: number;
@@ -49,9 +48,8 @@ export function Materials({ t, lang, initialData }: { t: any; lang: string; init
             const res = await fetch(`/api/materials?page=${pageNum}&size=15${catParam}`);
             const json = await res.json();
 
-            // Gateway có thể wrap { data: { content, last, ... } } hoặc trả thẳng
             const raw = json?.data ?? json;
-            const data: PagedData | null = (raw && Array.isArray(raw.content)) ? raw : null;
+            const data: PagedData | null = raw && Array.isArray(raw.content) ? raw : null;
 
             if (!data) {
                 console.error('Unexpected response:', json);
@@ -109,159 +107,221 @@ export function Materials({ t, lang, initialData }: { t: any; lang: string; init
         return matchesType && matchesSearch;
     });
 
+    const CATEGORIES = [
+        { value: 'all', label: t.allMaterials },
+        { value: 'FE', label: 'FE' },
+        { value: 'IT Passport', label: 'IT Passport' },
+    ];
+
+    const TABS = [
+        { value: 'all', label: t.allMaterials, Icon: LayoutList },
+        { value: 'pdf', label: t.ebooksPdf, Icon: FileText },
+        { value: 'video', label: t.videoLectures, Icon: Video },
+    ];
+
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-colors duration-300">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                <div>
-                    <h1 className="text-3xl font-bold text-secondary dark:text-white flex items-center">
-                        {t.studyMaterials}
-                    </h1>
-                    <p className="mt-2 text-secondary dark:text-gray-400">{t.materialsDesc}</p>
+        <main className="bg-background min-h-screen transition-colors duration-300">
+            {/* ─── Header — pure identity with gradient & animation ──────────────── */}
+            <section className="relative pt-20 pb-10 overflow-hidden">
+                {/* Ambient amber glow */}
+                <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                        background:
+                            'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(232, 121, 33, 0.09) 0%, transparent 65%)',
+                    }}
+                />
+                {/* Dot-grid texture */}
+                <div
+                    className="absolute inset-0 pointer-events-none opacity-[0.025] dark:opacity-[0.04]"
+                    style={{
+                        backgroundImage: 'radial-gradient(circle, var(--color-secondary) 1px, transparent 1px)',
+                        backgroundSize: '28px 28px',
+                    }}
+                />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                    <AnimateInView>
+                        <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide mb-4">
+                            {t.materialsBadge ?? t.studyMaterials}
+                        </div>
+                        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-secondary dark:text-foreground mb-3">
+                            {t.studyMaterials}
+                        </h1>
+                        <p className="text-muted-foreground text-base leading-relaxed max-w-xl">{t.materialsDesc}</p>
+                    </AnimateInView>
                 </div>
+            </section>
 
-                <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
-                    <div className="relative w-full sm:w-auto">
-                        <select
-                            value={categorySelect}
-                            onChange={(e) => setCategorySelect(e.target.value)}
-                            className="w-full sm:w-40 py-2 pl-4 pr-10 border border-gray-300 dark:border-slate-700 bg-white dark:bg-[#1a1a1a] text-secondary dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary appearance-none transition-colors cursor-pointer"
-                        >
-                            <option value="all">{t.allMaterials}</option>
-                            <option value="FE">FE</option>
-                            <option value="IT Passport">IT Passport</option>
-                        </select>
-                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
-                    </div>
-
-                    <div className="relative w-full sm:w-auto">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                        <input
-                            type="text"
-                            placeholder={t.searchMaterials}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-700 bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-64 transition-colors"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {/* Tabs */}
-            <div className="flex space-x-4 mb-8 border-b border-gray-200 dark:border-slate-800">
-                {(['all', 'pdf', 'video'] as const).map((tab) => (
-                    <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`pb-4 px-2 text-sm font-medium border-b-2 transition-colors flex items-center cursor-pointer ${
-                            activeTab === tab
-                                ? 'border-primary text-primary dark:text-blue-400 dark:border-blue-400'
-                                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                        }`}
-                    >
-                        {tab === 'all' && t.allMaterials}
-                        {tab === 'pdf' && (
-                            <>
-                                <Image src="/pdf.png" alt="pdf" height={20} width={20} className="mx-2" />
-                                {t.ebooksPdf}
-                            </>
-                        )}
-                        {tab === 'video' && (
-                            <>
-                                <Video className="w-4 h-4 mr-2" />
-                                {t.videoLectures}
-                            </>
-                        )}
-                    </button>
-                ))}
-            </div>
-
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredMaterials.map((material) => (
-                    <article
-                        key={material.id}
-                        className="relative h-[420px] rounded-md overflow-hidden group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-500"
-                    >
-                        <ImageWithFallback
-                            src={
-                                material.imageUrl ||
-                                'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1080'
-                            }
-                            alt={material.title}
-                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
-
-                        <div className="absolute top-4 right-4 z-20">
-                            <span className="bg-white/90 dark:bg-black/80 text-xs font-semibold px-3 py-1 rounded-md flex items-center gap-1 backdrop-blur">
-                                {material.type === 'pdf' ? (
-                                    <Image src="/pdf.png" alt="pdf" width={14} height={14} />
-                                ) : (
-                                    <Video className="w-3.5 h-3.5 text-primary" />
-                                )}
-                                {(material.type || 'UNKNOWN').toUpperCase()}
-                            </span>
+            {/* ─── Content Area ─────────────────────────────────────────────────── */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+                {/* ─── Split-pane OS Explorer Shell ─── */}
+                {/* 1. LỚP CHA: Cố định h-[600px], dùng overflow-hidden (KHÔNG dùng overflow-y-auto ở đây) */}
+                <div className="flex flex-col md:flex-row border border-border/60 rounded-xl overflow-hidden bg-white dark:bg-[#111827] h-[600px] lg:h-[700px] relative z-10 shadow-sm">
+                    {/* ── Left sidebar: directory tree ── */}
+                    <aside className="md:w-56 flex-shrink-0 border-b md:border-b-0 md:border-r border-border/60 bg-muted/[0.25] dark:bg-[#0d1117] flex flex-col">
+                        {/* Sidebar header (cố định) */}
+                        <div className="px-4 py-3 border-b border-border/60 flex-shrink-0">
+                            <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-muted-foreground/60">
+                                {t.categories || 'Library'}
+                            </p>
                         </div>
 
-                        <div className="absolute top-4 left-4 z-20">
-                            <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-md backdrop-blur">
-                                {material.category}
-                            </span>
-                        </div>
+                        {/* Vùng điều hướng Category (cho phép cuộn độc lập nếu danh sách quá dài) */}
+                        <div className="p-1.5 flex-1 overflow-y-auto custom-scrollbar">
+                            {CATEGORIES.map(({ value, label }) => (
+                                <button
+                                    key={value}
+                                    onClick={() => setCategorySelect(value)}
+                                    className={`w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors cursor-pointer ${
+                                        categorySelect === value
+                                            ? 'bg-primary/10 text-primary font-medium'
+                                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                                    }`}
+                                >
+                                    <Folder className="w-3.5 h-3.5 flex-shrink-0" />
+                                    {label}
+                                </button>
+                            ))}
 
-                        <div className="absolute bottom-0 p-5 w-full text-white flex flex-col">
-                            <h2 className="text-lg font-bold mb-2 line-clamp-2 group-hover:text-primary transition">
-                                {material.title}
-                            </h2>
-                            {material.description && (
-                                <p className="text-sm text-white/80 mb-3 line-clamp-2">{material.description}</p>
+                            <div className="mx-3 my-2 border-t border-border/40" />
+
+                            {/* Type filter */}
+                            {TABS.map(({ value, label, Icon }) => (
+                                <button
+                                    key={value}
+                                    onClick={() => setActiveTab(value)}
+                                    className={`w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors cursor-pointer ${
+                                        activeTab === value
+                                            ? 'bg-primary/10 text-primary font-medium'
+                                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                                    }`}
+                                >
+                                    <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
+                    </aside>
+
+                    {/* ── Main area ── */}
+                    <div className="flex-1 min-w-0 flex flex-col h-full">
+                        {/* Search toolbar (Cố định ở trên) */}
+                        <div className="flex items-center gap-3 px-4 h-11 border-b border-border/60 flex-shrink-0">
+                            <Search className="w-4 h-4 text-muted-foreground/45 flex-shrink-0" />
+                            <input
+                                type="text"
+                                placeholder={t.searchMaterials}
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/40 outline-none min-w-0"
+                            />
+                            {searchQuery && (
+                                <span className="font-mono text-[0.65rem] text-muted-foreground/50 tabular-nums flex-shrink-0">
+                                    {filteredMaterials.length}
+                                </span>
                             )}
-                            <div className="flex flex-wrap gap-2 text-xs mb-4">
-                                {material.type === 'pdf' ? (
-                                    <span className="bg-white/20 px-3 py-1 rounded-md flex items-center gap-1">
-                                        <Download className="w-3.5 h-3.5" />
-                                        520 {t.downloads || 'lượt tải'}
-                                    </span>
-                                ) : (
-                                    <span className="bg-white/20 px-3 py-1 rounded-md flex items-center gap-1">
-                                        <PlayCircle className="w-3.5 h-3.5" />
-                                        1.2K {t.views || 'lượt xem'}
-                                    </span>
-                                )}
-                            </div>
-                            <div className="flex gap-2 mt-auto">
-                                <Link
-                                    href={`/${lang}/materials/${material.id}`}
-                                    className="flex-1 py-2 px-3 bg-white/90 text-black rounded-md text-sm font-medium flex items-center justify-center hover:bg-white"
-                                >
-                                    <FileText className="w-4 h-4 mr-1" />
-                                    {t.viewDetails}
-                                </Link>
-                                <a
-                                    href={`/api/materials/${material.id}/file?download=true`}
-                                    className="flex-1 py-2 px-3 bg-white/20 text-white rounded-md text-sm font-medium flex items-center justify-center hover:bg-white/30"
-                                >
-                                    <Download className="w-4 h-4 mr-1" />
-                                    {t.download}
-                                </a>
+                        </div>
+
+                        {/* Column labels (Cố định ở trên) */}
+                        <div className="hidden md:flex items-center px-4 h-8 bg-muted/[0.2] border-b border-border/40 flex-shrink-0">
+                            <span className="text-[0.6rem] font-semibold uppercase tracking-widest text-muted-foreground/45 flex-1">
+                                {t.columnName || 'Name'}
+                            </span>
+                            <div className="flex items-center flex-shrink-0">
+                                <span className="text-[0.6rem] font-semibold uppercase tracking-widest text-muted-foreground/45 w-28 text-right">
+                                    {t.columnCategory || 'Category'}
+                                </span>
+                                <span className="text-[0.6rem] font-semibold uppercase tracking-widest text-muted-foreground/45 w-16 text-center">
+                                    {t.columnType || 'Type'}
+                                </span>
+                                <span className="w-16" />
                             </div>
                         </div>
-                    </article>
-                ))}
-            </div>
 
-            {/* Sentinel + trạng thái */}
-            <div ref={sentinelRef} className="h-4 mt-8" />
-            {loading && (
-                <div className="flex justify-center py-6">
-                    <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                        {/* 2. KHU VỰC CUỘN: CHỈ CUỘN DANH SÁCH FILE */}
+                        <div className="flex-1 overflow-y-auto relative custom-scrollbar">
+                            {filteredMaterials.map((material) => (
+                                <div
+                                    key={material.id}
+                                    className="flex items-center justify-between py-3 px-4 border-b border-border/40 hover:bg-muted/[0.25] transition-colors group cursor-pointer"
+                                >
+                                    {/* Left: icon + title */}
+                                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                                        {material.type === 'pdf' ? (
+                                            <FileText className="w-4 h-4 text-primary/60 flex-shrink-0" />
+                                        ) : (
+                                            <Video className="w-4 h-4 text-secondary/60 dark:text-blue-400/60 flex-shrink-0" />
+                                        )}
+                                        <Link
+                                            href={`/${lang}/materials/${material.id}`}
+                                            className="text-sm text-foreground/85 hover:text-foreground truncate transition-colors"
+                                        >
+                                            {material.title}
+                                        </Link>
+                                    </div>
+
+                                    {/* Right: meta + icon-only actions (desktop) */}
+                                    <div className="hidden md:flex items-center flex-shrink-0 pl-4">
+                                        <span className="font-mono text-xs text-muted-foreground/55 w-28 text-right truncate">
+                                            {material.category}
+                                        </span>
+                                        <span className="font-mono text-xs text-muted-foreground/45 uppercase w-16 text-center">
+                                            {material.type}
+                                        </span>
+                                        <div className="flex items-center gap-0.5 w-16 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <Link
+                                                href={`/${lang}/materials/${material.id}`}
+                                                className="p-1.5 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                                                title={t.viewDetails}
+                                            >
+                                                <FileText className="w-3.5 h-3.5" />
+                                            </Link>
+                                            <a
+                                                href={`/api/materials/${material.id}/file?download=true`}
+                                                className="p-1.5 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                                                title={t.download}
+                                            >
+                                                <Download className="w-3.5 h-3.5" />
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    {/* Icon-only actions (mobile — always visible) */}
+                                    <div className="flex md:hidden items-center gap-1 flex-shrink-0 pl-3">
+                                        <Link
+                                            href={`/${lang}/materials/${material.id}`}
+                                            className="p-1.5 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                                        >
+                                            <FileText className="w-3.5 h-3.5" />
+                                        </Link>
+                                        <a
+                                            href={`/api/materials/${material.id}/file?download=true`}
+                                            className="p-1.5 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                                        >
+                                            <Download className="w-3.5 h-3.5" />
+                                        </a>
+                                    </div>
+                                </div>
+                            ))}
+
+                            {/* Sentinel for infinite scroll */}
+                            <div ref={sentinelRef} className="h-4" />
+
+                            {/* Đưa phần loading và text thông báo vào BÊN TRONG vùng cuộn */}
+                            {loading && (
+                                <div className="flex justify-center py-4 border-t border-border/40">
+                                    <Loader2 className="w-4 h-4 animate-spin text-primary/60" />
+                                </div>
+                            )}
+                            {!hasMore && materials.length > 0 && (
+                                <p className="text-center font-mono text-[0.65rem] text-muted-foreground/35 py-4 border-t border-border/40">
+                                    {t.allLoaded ?? '— end of list —'}
+                                </p>
+                            )}
+                        </div>
+                    </div>
                 </div>
-            )}
-            {!hasMore && materials.length > 0 && (
-                <p className="text-center text-sm text-gray-400 dark:text-gray-600 py-6">
-                    {t.allLoaded ?? 'Đã tải hết tài liệu'}
-                </p>
-            )}
-        </div>
+            </div>
+        </main>
     );
 }

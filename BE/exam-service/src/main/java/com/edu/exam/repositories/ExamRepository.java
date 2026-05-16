@@ -60,5 +60,6 @@ public interface ExamRepository extends JpaRepository<Exam, String> {
     @Query("SELECT e.rating AS rating, e.ratingCount AS ratingCount FROM Exam e WHERE e.id = :examId")
     Optional<ExamRatingSummaryDto> findRatingSummaryById(@Param("examId") String examId);
 
-    List<ExamSummaryDto> findTop3ByOrderByParticipantsDesc();
+    @EntityGraph("category")
+    List<Exam> findTop3ByOrderByParticipantsDesc();
 }

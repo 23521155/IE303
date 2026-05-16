@@ -48,7 +48,19 @@ public class ExamService {
 
     @Cacheable(value = "popularExams")
     public List<ExamSummaryDto> getPopularExams() {
-        return examRepository.findTop3ByOrderByParticipantsDesc();
+        List<Exam> popularExams = examRepository.findTop3ByOrderByParticipantsDesc();
+
+        return popularExams.stream()
+                .map(e -> new ExamSummaryDto(
+                        e.getId(),
+                        e.getTitle(),
+                        new CategoryDto(e.getCategory().getId(), e.getCategory().getName()),
+                        e.getImage(),
+                        e.getDuration(),
+                        e.getDescription(),
+                        e.getQuestionCount()
+                ))
+                .toList();
     }
 
     @Cacheable(value = "exams", key = "#id")
