@@ -175,8 +175,8 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
                     return;
                 }
                 if (!res.ok) throw new Error(String(res.status));
-                const data: ProfileSummary = await res.json();
-                setSummary(data);
+                const response = await res.json();
+                setSummary(response.data);
             } catch {
                 if (!cancelled) {
                     setSummaryError('failed');
