@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { AlertTriangle, Bookmark, Calendar, CheckCircle2, Clock, Info, Link as LinkIcon, Share2 } from 'lucide-react';
+import { AlertTriangle, Bookmark, Calendar, CheckCircle2, Clock, Info, Link as LinkIcon, Share2, Eye, MessageSquare, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/src/components/ui/button';
 import React from 'react';
@@ -18,6 +18,31 @@ const postDetail = {
     category: 'IT Certification',
     readTime: '30 minutes',
     tags: ['FE', 'IT FE', 'Itshiken', 'Japan', 'Career'],
+    views: '1.2k',
+    comments: '15',
+    relatedPosts: [
+        { 
+            id: 'ky-thi-it-passport', 
+            title: 'What is the IT Passport Exam? A complete guide to passing', 
+            image: '/blog-it-passport-thumbnail.jpg', 
+            date: '25/04/2026',
+            href: '/en/blogs/ky-thi-it-passport'
+        },
+        { 
+            id: 'ky-thi-ap', 
+            title: 'What is the AP (Applied Information Technology Engineer) Exam?', 
+            image: '/blog-it-passport-thumbnail.jpg', 
+            date: '08/05/2026',
+            href: '/en/blogs/ky-thi-ap'
+        },
+        { 
+            id: 'lo-trinh-hoc-it', 
+            title: 'Japanese IT Certification Roadmap (IPA) from Beginner to Expert', 
+            image: '/it-roadmap.png', 
+            date: '08/05/2026',
+            href: '/en/blogs/lo-trinh-hoc-it'
+        },
+    ]
 };
 
 const compareStyles = {
@@ -56,81 +81,95 @@ const sessionStyles = {
         morning: 'text-primary dark:text-blue-900',
         afternoon: 'text-secondary dark:text-blue-900',
     },
-    text: 'text-sm mb-1.5 text-slate-600 dark:text-slate-400',
+    text: 'text-sm mb-1.5 text-muted-foreground',
     strong: 'font-semibold text-slate-900 dark:text-slate-200',
 };
 
 export default function ContentEn() {
     return (
-        <main className="min-h-screen bg-background py-8 transition-colors duration-300 text-foreground/90">
-            {/* HEADER */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-                <div className="mb-4">
-                    <span className="bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider">
-                        {postDetail.category}
-                    </span>
-                </div>
+        <main className="min-h-screen bg-background transition-colors duration-300">
+            {/* HERO SECTION */}
+            <header className="bg-card pt-12 pb-8 border-b border-border/40">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    {/* Breadcrumb */}
+                    <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+                        <a href="/" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Home</a>
+                        <ChevronRight className="w-4 h-4" />
+                        <a href="/category" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Blog</a>
+                        <ChevronRight className="w-4 h-4" />
+                        <span className="text-foreground/90 truncate">{postDetail.title}</span>
+                    </nav>
 
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-tight">
-                    {postDetail.title}
-                </h1>
-
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-4xl">{postDetail.excerpt}</p>
-
-                {/* META */}
-                <div className="flex flex-wrap items-center justify-between gap-4 py-6 border-y border-slate-100 dark:border-slate-800">
-                    <div className="flex items-center gap-3">
-                        <Image
-                            src={postDetail.author.avatar}
-                            alt={postDetail.author.name}
-                            height={48}
-                            width={48}
-                            className="w-12 h-12 rounded-full border border-slate-200 dark:border-slate-700 object-cover"
-                        />
-                        <div>
-                            <div className="font-semibold text-slate-900 dark:text-white">{postDetail.author.name}</div>
-                            <div className="text-xs text-slate-500 dark:text-slate-400">{postDetail.author.role}</div>
-                        </div>
+                    <div className="mb-6">
+                        <span className="inline-block bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            {postDetail.category}
+                        </span>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                        <div className="flex items-center gap-1.5">
-                            <Calendar className="w-4 h-4" />
-                            {postDetail.date}
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                            <Clock className="w-4 h-4" />
-                            {postDetail.readTime} read
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6 leading-[1.2]">
+                        {postDetail.title}
+                    </h1>
+
+                    <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                        {postDetail.excerpt}
+                    </p>
+
+                    {/* Meta Info */}
+                    <div className="flex flex-wrap items-center justify-between gap-6 py-4">
+                        <div className="flex items-center gap-4">
+                            <Image
+                                src={postDetail.author.avatar}
+                                alt={postDetail.author.name}
+                                height={56}
+                                width={56}
+                                className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover"
+                            />
+                            <div>
+                                <div className="font-bold text-foreground text-base">{postDetail.author.name}</div>
+                                <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
+                                    <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
+                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                                    <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime}</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
-                            <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                                <Share2 className="w-4 h-4" />
-                            </button>
-                            <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                                <Bookmark className="w-4 h-4" />
-                            </button>
+                        <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
+                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
+                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
+                            <div className="flex items-center gap-2 pl-4 border-l border-border/60">
+                                <button className="p-2 rounded-full hover:bg-secondary/20 transition-colors" title="Share">
+                                    <Share2 className="w-4 h-4" />
+                                </button>
+                                <button className="p-2 rounded-full hover:bg-secondary/20 transition-colors" title="Save">
+                                    <Bookmark className="w-4 h-4" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </header>
 
-            {/* COVER IMAGE */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-                <Image
-                    src={postDetail.coverImage}
-                    alt="What is IT FE - Japanese Information Technology Certification"
-                    width={500}
-                    height={500}
-                    className="w-full h-auto max-h-[500px] object-cover rounded-md shadow-sm"
-                />
-                <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
-                    What is the FE Certificate?
-                </figcaption>
-            </div>
+            {/* MAIN LAYOUT: 2 COLUMNS */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-10">
+                    {/* LEFT COLUMN: MAIN CONTENT */}
+                    <article className="lg:col-span-9 bg-card rounded-2xl shadow-sm border border-border/40 overflow-hidden">
+                        <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
+                            <Image 
+                                src={postDetail.coverImage} 
+                                alt={postDetail.title} 
+                                width={1200} 
+                                height={800}
+                                className="w-full h-auto object-cover rounded-lg max-h-[500px]"
+                                priority 
+                            />
+                            <figcaption className="text-center text-sm text-muted-foreground mt-3 italic">
+                                What is the FE Certificate?
+                            </figcaption>
+                        </figure>
 
-            {/* CONTENT */}
-            <article className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-foreground/80">
                 <p className="mb-4">
                     If you are working in the IT industry and want a certification to prove your capabilities – or are
                     aiming for the Japanese labor market – you have probably heard of the FE certification. But what
@@ -142,72 +181,12 @@ export default function ContentEn() {
                     to know to get started.
                 </p>
 
-                {/* TABLE OF CONTENTS (TOC) */}
-                <nav className="bg-primary/10 dark:bg-white dark:border-blue-900 border-l-4 border-primary rounded-r-md p-6 my-10">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-900 mb-4">
-                        Table of Contents
-                    </h3>
-                    <ul className="space-y-2 text-base text-secondary">
-                        <li>
-                            <a
-                                href="#it-fe-la-gi"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                1. What is the IT FE Certificate?
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#fe-khac-it-passport"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                2. How is FE different from IT Passport?
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#cau-truc-de-thi"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                3. Detailed exam structure
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#loi-ich"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                4. Practical benefits of having an FE certificate
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#dang-ky"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                5. How to register for the exam in Vietnam & Japan
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#lo-trinh-on-luyen"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                6. 3-month study roadmap from scratch
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-900 transition-colors">
-                                7. Frequently Asked Questions (FAQ)
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+
 
                 {/* SECTION 1 */}
                 <h2
                     id="it-fe-la-gi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40"
                 >
                     1. What Is The FE Certificate?
                 </h2>
@@ -246,7 +225,7 @@ export default function ContentEn() {
                 {/* SECTION 2 */}
                 <h2
                     id="fe-khac-it-passport"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40"
                 >
                     2. How Is FE Different From IT Passport?
                 </h2>
@@ -299,7 +278,7 @@ export default function ContentEn() {
                 {/* SECTION 3 */}
                 <h2
                     id="cau-truc-de-thi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40"
                 >
                     3. Detailed FE Exam Structure
                 </h2>
@@ -308,7 +287,7 @@ export default function ContentEn() {
                     time more wisely.
                 </p>
 
-                <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 my-6 text-center font-medium">
+                <div className="bg-slate-50 dark:bg-slate-800/50 border border-border/60 rounded-md p-5 my-6 text-center font-medium">
                     This is the most important part you need to grasp before starting to study. The FE exam consists of{' '}
                     <strong>two separate sections</strong>, often called the "morning exam" and "afternoon exam" – 150
                     minutes each, taken on the same day.
@@ -378,7 +357,7 @@ export default function ContentEn() {
                 </div>
 
                 {/* TIẾP TỤC SECTION 3 */}
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-8 mb-3">
+                <h3 className="text-xl font-bold text-foreground mt-8 mb-3">
                     Key knowledge areas to master
                 </h3>
                 <p className="mb-6">
@@ -386,7 +365,7 @@ export default function ContentEn() {
                 </p>
 
                 <div className="overflow-x-auto mb-8">
-                    <table className="w-full border border-slate-200 dark:border-slate-700 text-sm text-left">
+                    <table className="w-full border border-border/60 text-sm text-left">
                         <thead className="bg-[#053825] text-white">
                             <tr>
                                 <th className="px-4 py-3 font-semibold border border-slate-300 dark:border-slate-600">
@@ -397,69 +376,69 @@ export default function ContentEn() {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="text-slate-700 dark:text-slate-300">
-                            <tr className="bg-white dark:bg-[#121212]">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                        <tbody className="text-foreground/80">
+                            <tr className="bg-card">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Basic Computer Science
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     Binary, number systems, logical operations, data structures (stack, queue, tree,
                                     hash)
                                 </td>
                             </tr>
                             <tr className="bg-slate-50 dark:bg-slate-800/30">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Computer Architecture
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     RAM, CPU, scheduling algorithms (FIFO, LRU), cache memory
                                 </td>
                             </tr>
-                            <tr className="bg-white dark:bg-[#121212]">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                            <tr className="bg-card">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Computer Networks
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     TCP/IP, DNS, DHCP, NAT, common protocols
                                 </td>
                             </tr>
                             <tr className="bg-slate-50 dark:bg-slate-800/30">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Databases
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     SQL, DB design, relations, normalization
                                 </td>
                             </tr>
-                            <tr className="bg-white dark:bg-[#121212]">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                            <tr className="bg-card">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Security
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     SQL injection, phishing, encryption, security policies
                                 </td>
                             </tr>
                             <tr className="bg-slate-50 dark:bg-slate-800/30">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Software Development
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     Development lifecycle, testing (unit test, integration test), object-oriented design
                                 </td>
                             </tr>
-                            <tr className="bg-white dark:bg-[#121212]">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                            <tr className="bg-card">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Management & Strategy
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     Project management, break-even, business strategy, IT auditing
                                 </td>
                             </tr>
                             <tr className="bg-slate-50 dark:bg-slate-800/30">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Programming (afternoon exam)
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     Algorithms, flowcharts, C/Java/Python code – choose the 1 language you are strongest
                                     in
                                 </td>
@@ -478,7 +457,7 @@ export default function ContentEn() {
                         className="w-full h-auto object-cover rounded-md shadow-sm"
                         loading="lazy"
                     />
-                    <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
+                    <figcaption className="text-center text-sm text-muted-foreground mt-3 italic">
                         The afternoon session of FE requires practical programming thinking – you will choose the
                         language you are most confident in to take the test.
                     </figcaption>
@@ -487,7 +466,7 @@ export default function ContentEn() {
                 {/* SECTION 4 */}
                 <h2
                     id="loi-ich"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40"
                 >
                     4. Practical Benefits Of Having An FE Certificate
                 </h2>
@@ -541,12 +520,12 @@ export default function ContentEn() {
                 {/* SECTION 5 */}
                 <h2
                     id="dang-ky"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40"
                 >
                     5. How To Register For The FE Exam
                 </h2>
                 <div className="overflow-x-auto mb-6">
-                    <table className="w-full border border-slate-200 dark:border-slate-700 text-sm text-left">
+                    <table className="w-full border border-border/60 text-sm text-left">
                         <thead className="bg-[#053825] text-white">
                             <tr>
                                 <th className="px-4 py-3 font-semibold border border-slate-300 dark:border-slate-600">
@@ -560,77 +539,77 @@ export default function ContentEn() {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="text-slate-700 dark:text-slate-300">
-                            <tr className="bg-white dark:bg-[#121212]">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                        <tbody className="text-foreground/80">
+                            <tr className="bg-card">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Organizing body
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     HITC / VITEC (in coordination with IPA – ITPEC)
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     IPA directly
                                 </td>
                             </tr>
                             <tr className="bg-slate-50 dark:bg-slate-800/30">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Exam schedule
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     Twice a year (April & October)
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     Twice a year (April & October)
                                 </td>
                             </tr>
-                            <tr className="bg-white dark:bg-[#121212]">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                            <tr className="bg-card">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Exam language
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     English + Vietnamese translation
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     Japanese (needs around N2–N3)
                                 </td>
                             </tr>
                             <tr className="bg-slate-50 dark:bg-slate-800/30">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Exam format
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">Paper-based</td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">Paper-based</td>
+                                <td className="px-4 py-3 border border-border/60">
                                     Computer-based (CBT)
                                 </td>
                             </tr>
-                            <tr className="bg-white dark:bg-[#121212]">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                            <tr className="bg-card">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Fee
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     ~1,500,000 VND
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">~7,500 JPY</td>
+                                <td className="px-4 py-3 border border-border/60">~7,500 JPY</td>
                             </tr>
                             <tr className="bg-slate-50 dark:bg-slate-800/30">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Location
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     Hanoi, Da Nang, Ho Chi Minh City and some other places
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     Across 47 prefectures in Japan
                                 </td>
                             </tr>
-                            <tr className="bg-white dark:bg-[#121212]">
-                                <td className="px-4 py-3 font-medium border border-slate-200 dark:border-slate-700">
+                            <tr className="bg-card">
+                                <td className="px-4 py-3 font-medium border border-border/60">
                                     Results
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     ~20 days after the exam
                                 </td>
-                                <td className="px-4 py-3 border border-slate-200 dark:border-slate-700">
+                                <td className="px-4 py-3 border border-border/60">
                                     View immediately after the exam (CBT)
                                 </td>
                             </tr>
@@ -652,7 +631,7 @@ export default function ContentEn() {
                 {/* SECTION 6 */}
                 <h2
                     id="lo-trinh"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40"
                 >
                     6. 3-Month FE Study Roadmap From Scratch
                 </h2>
@@ -666,7 +645,7 @@ export default function ContentEn() {
                         className="w-full h-auto object-cover rounded-md shadow-sm"
                         loading="lazy"
                     />
-                    <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
+                    <figcaption className="text-center text-sm text-muted-foreground mt-3 italic">
                         The total preparation time for FE usually ranges from 3 months (for IT folks) to 5–6 months (for
                         complete beginners).
                     </figcaption>
@@ -679,7 +658,7 @@ export default function ContentEn() {
 
                 {/* STEPS */}
                 <div className="flex flex-col gap-4 my-8">
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             1
                         </div>
@@ -687,7 +666,7 @@ export default function ContentEn() {
                             <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 Month 1 – Read foundational textbooks (morning exam)
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Use the "New FE Textbook Vol.1 & Vol.2" by IPA (free English version available). Spend
                                 1–2 hours each evening, no need to memorize everything immediately. Goal: understand the
                                 overall chapters, note keywords in Q&A format. At the end of each chapter, do the
@@ -695,7 +674,7 @@ export default function ContentEn() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             2
                         </div>
@@ -703,7 +682,7 @@ export default function ContentEn() {
                             <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 Month 2 – Practice past papers (morning exam + start afternoon exam)
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Download past exam papers from the ITPEC website (itpec.org). Do at least 1 morning exam
                                 daily, read the answer explanations carefully even for the correct ones. Simultaneously,
                                 start getting used to the afternoon exam, choose your strongest programming language
@@ -711,15 +690,15 @@ export default function ContentEn() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             3
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1 text-blue-900">
+                            <h4 className="font-bold text-foreground text-lg mb-1 text-blue-900">
                                 Month 3 – Tackle afternoon exam & comprehensive mock tests
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Focus on tackling the afternoon exam – this is the part where most people fail. Practice
                                 reading questions quickly, identify easy questions to do first. At the end of the month,
                                 take full mock tests for both morning and afternoon in a continuous 300 minutes to get
@@ -728,7 +707,7 @@ export default function ContentEn() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
                             4
                         </div>
@@ -736,7 +715,7 @@ export default function ContentEn() {
                             <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
                                 Final Week – Quick review of weaknesses, maintain mentality
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Do not learn new knowledge. Review questions you often get wrong, revise frequently
                                 appearing keywords. Get enough sleep. In the exam room, do easy questions first –
                                 average less than 2 minutes per question for the morning exam, don't "get stuck" on a
@@ -746,7 +725,7 @@ export default function ContentEn() {
                     </div>
                 </div>
 
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-6 mb-3">
+                <h3 className="text-xl font-bold text-foreground mt-6 mb-3">
                     Recommended materials & tools
                 </h3>
                 <ul className="list-disc pl-6 mb-6 space-y-2">
@@ -800,7 +779,7 @@ export default function ContentEn() {
                         <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Free FE Exam Practice
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
+                        <div className="font-semibold text-foreground group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             Take FE mock exams online – 99% simulation of real exams, automatic grading right after
                             completion
                         </div>
@@ -810,18 +789,18 @@ export default function ContentEn() {
                 {/* SECTION 7 - FAQ */}
                 <h2
                     id="faq"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40"
                 >
                     7. Frequently Asked Questions (FAQ)
                 </h2>
 
                 <div className="space-y-4 mb-10">
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-foreground">
                             <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Is FE difficult? What is the pass rate?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/60 text-foreground/80 text-sm md:text-base bg-card">
                             The average FE pass rate in Vietnam is under 25% – quite low. This doesn't mean it's
                             impossible to pass, but rather many people study incorrectly or neglect the afternoon
                             section. If you study for a full 3 months following the right roadmap, the chance of passing
@@ -829,12 +808,12 @@ export default function ContentEn() {
                         </div>
                     </div>
 
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-foreground">
                             <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Should I take the FE exam if I don't have a university degree?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/60 text-foreground/80 text-sm md:text-base bg-card">
                             This is one of the reasons many people choose FE. The FE certificate is recognized by the
                             Japanese government to replace a university degree when applying for an IT engineer working
                             visa. Therefore, if you want to work in Japan without an IT university degree, FE is the
@@ -842,12 +821,12 @@ export default function ContentEn() {
                         </div>
                     </div>
 
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-foreground">
                             <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             Which programming language should I choose for the afternoon exam?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/60 text-foreground/80 text-sm md:text-base bg-card">
                             The afternoon exam allows you to choose 1 of 5 languages: C, Java, Python, Assembly, Excel.
                             The most common advice from the community is to choose the language you use daily. Python
                             and Java are the two most popular choices because of their clear syntax, which is easy to
@@ -855,24 +834,24 @@ export default function ContentEn() {
                         </div>
                     </div>
 
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-foreground">
                             <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
                             If I pass one section, do I need to retake both?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/60 text-foreground/80 text-sm md:text-base bg-card">
                             No. If you pass one section (morning or afternoon), that result is reserved for the
                             immediate next exam. You only need to retake the section you haven't passed. This
                             significantly reduces the pressure for first-time test-takers.
                         </div>
                     </div>
 
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-foreground">
                             <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>I am a non-IT
                             person, should I take the FE exam?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/60 text-foreground/80 text-sm md:text-base bg-card">
                             To be honest: FE is quite challenging for someone with absolutely no IT background because
                             of the programming and algorithm sections. If you are non-IT, you should start with IT
                             Passport first to build a foundation, then decide whether to climb up to FE. Many comtors,
@@ -891,69 +870,137 @@ export default function ContentEn() {
                         <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Flashcards
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
+                        <div className="font-semibold text-foreground group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
                             Review IT vocabulary & concepts using Flashcards – learn fast, remember longer
                         </div>
                     </div>
                 </Link>
 
                 {/* CONCLUSION */}
-                <div className="bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700 rounded-md p-6 sm:p-8 my-10">
-                    <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Conclusion</h2>
-                    <p className="mb-4 text-slate-700 dark:text-slate-300">
+                <div className="bg-slate-50 dark:bg-slate-800/30 border border-border/60 rounded-md p-6 sm:p-8 my-10">
+                    <h2 className="text-xl font-bold text-foreground mb-4">Conclusion</h2>
+                    <p className="mb-4 text-foreground/80">
                         The FE certificate is not easy, but it is worth all the effort you put in. Not just a line on
                         your CV, FE is also a real door for you to work in Japan, get a visa without a university
                         degree, and have a solid foundation to step up to higher levels.
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300 font-medium mb-4">
+                    <p className="text-foreground/80 font-medium mb-4">
                         More importantly: <strong>you don't need a perfect starting point</strong>. Many people have
                         passed FE from almost zero, just by studying right and sticking to the plan. The 3-month roadmap
                         above is realistic and has been verified by people in the community themselves.
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300 font-medium">
+                    <p className="text-foreground/80 font-medium">
                         Good luck conquering this engineering certificate!
                     </p>
                 </div>
 
-                {/* CTA BOX */}
-                <div className="bg-gradient-to-br from-[#053825] to-primary dark:to-blue-800 rounded-md p-8 sm:p-10 text-center my-12 shadow-lg">
+                            {/* Tags Section */}
+                            <div className="mt-16 pt-8 border-t border-border/40">
+                                <div className="flex items-center gap-3 flex-wrap">
+                                    <span className="text-sm font-semibold text-foreground">Tags:</span>
+                                    {postDetail.tags.map((tag) => (
+                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-secondary/10 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
+                                            #{tag}
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    {/* RIGHT COLUMN: TABLE OF CONTENTS */}
+                    <aside className="hidden lg:block lg:col-span-3 space-y-8">
+                        <div className="sticky top-24 bg-card p-6 rounded-2xl shadow-sm border border-border/40">
+                            <h3 className="font-bold text-base text-foreground mb-5 flex items-center gap-2 pb-3 border-b border-border/40">
+                                <Bookmark className="w-4 h-4 text-blue-500" /> Table of Contents
+                            </h3>
+                            <ul className="space-y-3 text-sm">
+                                <li>
+                                    <a href="#it-fe-la-gi" className="flex items-center gap-2.5 text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>
+                                        What is FE?
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#fe-khac-it-passport" className="flex items-center gap-2.5 text-muted-foreground hover:text-green-600 dark:hover:text-green-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>
+                                        Differs from IT Passport?
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#cau-truc-de-thi" className="flex items-center gap-2.5 text-muted-foreground hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>
+                                        Exam structure
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#loi-ich" className="flex items-center gap-2.5 text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>
+                                        Benefits
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#dang-ky" className="flex items-center gap-2.5 text-muted-foreground hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-pink-600 group-hover:text-white transition-colors">5</span>
+                                        How to register
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#lo-trinh-on-luyen" className="flex items-center gap-2.5 text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">6</span>
+                                        Study roadmap
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#faq" className="flex items-center gap-2.5 text-muted-foreground hover:text-green-600 dark:hover:text-green-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">7</span>
+                                        FAQ
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+            {/* CTA BOX */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div className="bg-gradient-to-br from-[#053825] to-primary dark:to-blue-800 rounded-xl p-8 sm:p-10 text-center shadow-lg">
                     <h3 className="text-2xl font-bold text-white mb-4">Start Practicing For FE Today?</h3>
                     <p className="text-green-100 mb-8 max-w-2xl mx-auto">
-                        IT Shiken provides free FE mock exams, a real-exam simulation interface, automatic grading, and
-                        detailed result analysis – helping you clearly know where your weaknesses lie.
+                        IT Shiken provides free FE mock exams, a real-exam simulation interface, automatic grading, and detailed result analysis – helping you clearly know where your weaknesses lie.
                     </p>
-
-                    <Button
-                        asChild
-                        className="text-lg !py-6 bg-accent hover:bg-accent/90 text-slate-900 dark:text-white border-none"
-                    >
+                    <Button asChild className="text-lg !py-6 bg-accent hover:bg-accent/90 text-slate-900 border-none">
                         <Link href="/en/exams">Take FE Mock Exam Now – For Free</Link>
                     </Button>
                 </div>
-            </article>
-
-            {/* FOOTER */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-                    <div className="flex flex-wrap gap-2">
-                        {postDetail.tags.map((tag, index) => (
-                            <span
-                                key={index}
-                                className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm px-3 py-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                            >
-                                #{tag}
-                            </span>
-                        ))}
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        <span className="text-sm text-slate-500 dark:text-slate-400">Share:</span>
-                        <button className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-primary hover:text-white dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-primary transition-colors">
-                            <LinkIcon className="w-4 h-4" />
-                        </button>
-                    </div>
-                </div>
             </div>
+
+            {/* RELATED POSTS */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-border/40">
+                <h3 className="text-2xl font-bold text-foreground mb-8">Related Posts</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {postDetail.relatedPosts.map((post) => (
+                        <a key={post.id} href={post.href} className="group block">
+                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-secondary/10">
+                                <Image
+                                    src={post.image}
+                                    alt={post.title}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                                <Calendar className="w-3.5 h-3.5" />
+                                {post.date}
+                            </div>
+                            <h4 className="font-bold text-lg text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                                {post.title}
+                            </h4>
+                        </a>
+                    ))}
+                </div>
+            </section>
         </main>
     );
 }
