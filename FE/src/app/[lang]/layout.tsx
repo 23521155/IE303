@@ -1,16 +1,15 @@
 import type { Metadata, Viewport } from 'next';
 import { LanguageProvider } from '@/src/contexts/LanguageContext';
 import '@/src/styles/index.css';
-import {Inter } from "next/font/google";
-import Header from '@/src/components/ui/header';
-import Footer from '@/src/components/ui/footer';
-import type {Locale} from '@/src/utils/i18n'
+import { Inter } from 'next/font/google';
+import type { Locale } from '@/src/utils/i18n';
 import { getDictionary } from '@/src/utils/dictionaries';
-import {Toaster} from '@/src/components/ui/sonner';
+import { Toaster } from '@/src/components/ui/sonner';
 import { ThemeProvider } from '@/src/components/theme-provider';
-import { GoogleAnalytics } from '@next/third-parties/google'
-import { ScrollToTop } from '@/src/components/ui/ScrollToTop';
+import { GoogleAnalytics } from '@next/third-parties/google';
+
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
     const { lang } = await params;
     const t = await getDictionary(lang as Locale);
@@ -20,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
         metadataBase: new URL(baseUrl),
         title: {
             template: '%s | IT Shiken',
-            default: t.metaTitle
+            default: t.metaTitle,
         },
         description: t.metaDescription,
         keywords: t.metaKeywords.split(', '),
@@ -28,60 +27,44 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
             title: t.metaTitle,
             description: t.metaDescription,
             url: `/${lang}`,
-            siteName: "ITShiken",
-            images: [
-                {
-                    url: thumbnail,
-                    width: 1200,
-                    height: 630,
-                    alt: "ITShiken",
-                }
-            ],
+            siteName: 'ITShiken',
+            images: [{ url: thumbnail, width: 1200, height: 630, alt: 'ITShiken' }],
             locale: lang === 'vi' ? 'vi_VN' : lang === 'ja' ? 'ja_JP' : 'en_US',
-            type: "website",
+            type: 'website',
         },
     };
 }
 
-export const viewport : Viewport = {
+export const viewport: Viewport = {
     width: 'device-width',
     initialScale: 1,
-}
+};
 
 const inter = Inter({
-    subsets: ["latin", "vietnamese"],
-    weight: ["300", "400", "500", "600", "700"],
+    subsets: ['latin', 'vietnamese'],
+    weight: ['300', '400', '500', '600', '700'],
 });
 
-
-
 export default async function RootLayout({
-  children, params,
+    children,
+    params,
 }: Readonly<{
-  children: React.ReactNode;
-    params: Promise <{ lang: string }>;
+    children: React.ReactNode;
+    params: Promise<{ lang: string }>;
 }>) {
     const { lang } = await params;
- const t = await getDictionary(lang as Locale)
-  return (
-    <html lang={lang} suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
-      <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-      >
-          <LanguageProvider>
-              <Header t={t} lang={lang}/>
-              {children}
-              <Footer t={t} lang={lang}/>
-              <ScrollToTop />
-              <Toaster className={'bg-primary'} />
-          </LanguageProvider>
-      </ThemeProvider>
-      </body>
-      <GoogleAnalytics gaId="G-LK1K8KJGGG" />
-    </html>
-  );
+
+    return (
+        <html lang={lang} suppressHydrationWarning>
+            <body className={`${inter.className} antialiased`}>
+                <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                    <LanguageProvider>
+                        {children}
+                        <Toaster className="bg-primary" />
+                    </LanguageProvider>
+                </ThemeProvider>
+            </body>
+            <GoogleAnalytics gaId="G-LK1K8KJGGG" />
+        </html>
+    );
 }

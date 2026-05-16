@@ -1,25 +1,61 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
-    Mail,
-    Phone,
-    Calendar,
-    Clock,
-    CheckCircle,
-    ChevronRight,
     Settings,
     LogOut,
-    FileText,
-    Activity,
-    BookOpen,
+    User,
+    History,
+    BrainCircuit,
+    Home,
+    PanelLeft,
+    BarChart2,
+    Map,
+    Lightbulb,
+    ChevronRight,
+    ChevronsUpDown,
 } from 'lucide-react';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
-import { useLanguage } from '../contexts/LanguageContext';
+import Image from 'next/image';
+import { useMe } from '@/src/hooks/useMe';
 import { BE_URL } from '../utils/constans';
 import { logoutAction } from '@/src/actions/authActions';
-import { useMe } from '@/src/hooks/useMe';
+import { ProfileTab } from './ProfileTab';
+import { HistoryTab } from './HistoryTab';
+import { AICoachGraphTab, AICoachPathTab, AICoachInsightTab } from './AICoachTab';
+import {
+    SidebarProvider,
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuItem,
+    SidebarMenuButton,
+    SidebarMenuSub,
+    SidebarMenuSubButton,
+    SidebarMenuSubItem,
+    SidebarRail,
+    SidebarInset,
+    useSidebar,
+} from '@/components/animate-ui/components/radix/sidebar';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/animate-ui/primitives/radix/collapsible';
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+} from '@/src/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/src/components/ui/avatar';
+
+// ─── Types ───────────────────────────────────────────────────────────────────
 
 type AttemptListItem = {
     id: string;
@@ -47,52 +83,145 @@ type ProfileApiUser = {
     createdAt?: string | null;
 };
 
-function avatarFromName(name: string): string {
+type TabId = 'profile' | 'history' | 'coach/graph' | 'coach/path' | 'coach/insight';
+
+// ─── Config ──────────────────────────────────────────────────────────────────
+
+const COACH_SUB: { id: TabId; icon: React.ElementType; label: string }[] = [
+    { id: 'coach/graph', icon: BarChart2, label: 'Graph' },
+    { id: 'coach/path', icon: Map, label: 'Path' },
+    { id: 'coach/insight', icon: Lightbulb, label: 'Insight' },
+];
+
+const NAV_ITEMS: { id: TabId; icon: React.ElementType; label: string }[] = [
+    { id: 'profile', icon: User, label: 'Profile' },
+    { id: 'history', icon: History, label: 'History' },
+];
+
+const TAB_VARIANTS = {
+    initial: { opacity: 0, y: 6 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -6 },
+};
+
+const TAB_TRANSITION = { duration: 0.15, ease: 'easeOut' } as const;
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function avatarFromName(name: string) {
     const seed = encodeURIComponent(name.trim() || '?');
     return `https://api.dicebear.com/7.x/shapes/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9`;
 }
 
-function pickExamTitle(title: Record<string, string> | null | undefined, lang: string): string {
-    if (!title) return '';
-    const key = lang in title ? lang : 'vi';
-    return title[key] || title.vi || title.en || Object.values(title)[0] || '';
+function getInitials(name: string) {
+    return name
+        .trim()
+        .split(' ')
+        .map((w) => w[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase();
 }
 
-function formatPracticeHours(totalSeconds: number): string {
-    const h = Math.round((totalSeconds / 3600) * 10) / 10;
-    return `${h}h`;
+function formatPracticeHours(totalSeconds: number) {
+    return `${Math.round((totalSeconds / 3600) * 10) / 10}h`;
 }
 
-function formatDurationSeconds(seconds: number, lang: string): string {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    if (lang === 'en') {
-        return m > 0 ? `${m} min${s ? ` ${s}s` : ''}` : `${s}s`;
-    }
-    if (lang === 'ja') {
-        return m > 0 ? `${m}分${s ? `${s}秒` : ''}` : `${s}秒`;
-    }
-    return m > 0 ? `${m} phút${s ? ` ${s}s` : ''}` : `${s} giây`;
+// ─── Sub-components ──────────────────────────────────────────────────────────
+
+function LogoTrigger() {
+    const { toggleSidebar } = useSidebar();
+    return (
+        <>
+            <div className="flex items-center justify-between w-full group-data-[collapsible=icon]:hidden">
+                <Image
+                    src="/itShikenLogo.png"
+                    alt="ITShiken"
+                    width={120}
+                    height={32}
+                    className="h-8 w-auto object-contain dark:hidden"
+                />
+                <Image
+                    src="/itShikenLogo-darkMode.png"
+                    alt="ITShiken"
+                    width={120}
+                    height={32}
+                    className="h-8 w-auto object-contain hidden dark:block"
+                />
+                <button
+                    type="button"
+                    onClick={toggleSidebar}
+                    className="p-1.5 rounded-md hover:bg-sidebar-accent transition-colors cursor-pointer shrink-0"
+                    aria-label="Toggle sidebar"
+                >
+                    <PanelLeft className="w-4 h-4 text-sidebar-foreground/60" />
+                </button>
+            </div>
+            <button
+                type="button"
+                onClick={toggleSidebar}
+                className="relative hidden group-data-[collapsible=icon]:flex items-center justify-center cursor-pointer rounded-md group/logo-collapsed"
+                aria-label="Toggle sidebar"
+            >
+                <Image
+                    src="/is.png"
+                    alt="ITShiken"
+                    width={20}
+                    height={20}
+                    className="object-contain transition-opacity duration-200 group-hover/logo-collapsed:opacity-0"
+                />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/logo-collapsed:opacity-100 transition-opacity duration-200">
+                    <PanelLeft className="w-4 h-4 text-sidebar-foreground" />
+                </div>
+            </button>
+        </>
+    );
 }
 
-function getExamMaxScore(examId: string): number {
-    if (!examId) return 100;
-    const lowerId = examId.toLowerCase();
-    if (lowerId.includes('it-passport') || lowerId.includes('fe') || lowerId.includes('sg')) {
-        return 1000;
-    }
-    return 100;
+function Breadcrumb({ activeTab, setActiveTab }: { activeTab: TabId; setActiveTab: (t: TabId) => void }) {
+    const isCoach = activeTab.startsWith('coach/');
+    const badge = {
+        'coach/graph': 'Graph',
+        'coach/path': 'Path',
+        'coach/insight': 'Insight',
+        history: 'History',
+        profile: 'Profile',
+    }[activeTab];
+
+    return (
+        <div>
+            {isCoach && (
+                <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-2">
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('coach/graph')}
+                        className="hover:text-foreground transition-colors duration-150 cursor-pointer"
+                    >
+                        AI Coach
+                    </button>
+                    <ChevronRight className="w-3.5 h-3.5 opacity-40 flex-shrink-0" />
+                    <span className="text-foreground/70">{badge}</span>
+                </div>
+            )}
+            <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide mb-2">
+                {badge}
+            </div>
+            <h2 className="text-xl font-bold tracking-tight text-secondary dark:text-foreground">
+                {isCoach ? 'AI Coach' : badge}
+            </h2>
+        </div>
+    );
 }
+
+// ─── Main ────────────────────────────────────────────────────────────────────
 
 export function Profile({ t, lang }: { t: any; lang: string }) {
     const params = useParams<{ lang?: string; id?: string | string[] }>();
     const router = useRouter();
     const { setUser } = useMe();
-    const rawId = params?.id;
-    const id = Array.isArray(rawId) ? rawId[0] : rawId;
-    const language = lang;
+    const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
 
-    const [activeTab, setActiveTab] = useState('history');
+    const [activeTab, setActiveTab] = useState<TabId>('profile');
     const [summary, setSummary] = useState<ProfileSummary | null>(null);
     const [summaryLoading, setSummaryLoading] = useState(true);
     const [summaryError, setSummaryError] = useState<string | null>(null);
@@ -100,23 +229,19 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
     const [profileLoading, setProfileLoading] = useState(true);
     const [profileError, setProfileError] = useState<string | null>(null);
 
-    // Kiểm tra xem có đang xem trang của mình hay người khác
     const isMyProfile = !id || id === 'me';
     const numericUserId = typeof id === 'string' && /^\d+$/.test(id) ? Number.parseInt(id, 10) : null;
 
-    console.log('numericUserId', numericUserId);
-
+    // Load profile user
     useEffect(() => {
         let cancelled = false;
-        async function loadProfile() {
+        async function load() {
             setProfileLoading(true);
             setProfileError(null);
             try {
                 if (isMyProfile) {
                     const res = await fetch(`${BE_URL}/api/users/me`, { credentials: 'include' });
-
                     const json = (await res.json().catch(() => ({}))) as { data?: ProfileApiUser };
-
                     if (cancelled) return;
                     if (res.status === 401) {
                         setProfileUser(null);
@@ -133,12 +258,8 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
                     setProfileError('invalid-id');
                     return;
                 }
-                const res = await fetch(`${BE_URL}/api/users/${numericUserId}`, {
-                    credentials: 'include',
-                });
-                console.log(res);
+                const res = await fetch(`${BE_URL}/api/users/${numericUserId}`, { credentials: 'include' });
                 const json = (await res.json().catch(() => ({}))) as { data?: ProfileApiUser };
-                console.log('json', json);
                 if (cancelled) return;
                 if (!res.ok) throw new Error(String(res.status));
                 setProfileUser(json.data ?? null);
@@ -151,32 +272,31 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
                 if (!cancelled) setProfileLoading(false);
             }
         }
-        void loadProfile();
+        void load();
         return () => {
             cancelled = true;
         };
     }, [isMyProfile, id, numericUserId, setUser]);
 
+    // Load summary
     useEffect(() => {
         let cancelled = false;
         const path = isMyProfile
             ? '/api/attempts/me/summary'
             : `/api/attempts/users/${encodeURIComponent(id!)}/summary`;
-        const url = `${BE_URL}${path}`;
-
         async function load() {
             setSummaryLoading(true);
             setSummaryError(null);
             try {
-                const res = await fetch(url, { credentials: 'include' });
+                const res = await fetch(`${BE_URL}${path}`, { credentials: 'include' });
                 if (cancelled) return;
                 if (isMyProfile && res.status === 401) {
                     setSummary({ completedCount: 0, totalPracticeSeconds: 0, recentAttempts: [] });
                     return;
                 }
                 if (!res.ok) throw new Error(String(res.status));
-                const data: ProfileSummary = await res.json();
-                setSummary(data);
+                const json = await res.json();
+                setSummary(json.data ?? json);
             } catch {
                 if (!cancelled) {
                     setSummaryError('failed');
@@ -192,8 +312,8 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
         };
     }, [isMyProfile, id]);
 
-    const localeTag = language === 'vi' ? 'vi-VN' : language === 'ja' ? 'ja-JP' : 'en-US';
-
+    // Derived display values
+    const localeTag = { vi: 'vi-VN', ja: 'ja-JP' }[lang] ?? 'en-US';
     const displayName = profileLoading ? '…' : profileUser?.name ?? '—';
     const displayEmail = profileLoading ? '…' : profileUser?.email?.trim() || (isMyProfile ? '—' : '');
     const displayPhone = profileLoading ? '…' : profileUser?.phoneNumber?.trim() || (isMyProfile ? '—' : '');
@@ -203,276 +323,213 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
         ? new Date(profileUser.createdAt).toLocaleDateString(localeTag)
         : '—';
     const avatarSrc = avatarFromName(profileLoading && !profileUser ? '?' : profileUser?.name?.trim() || '?');
-
-    const completedDisplay = summaryLoading ? '…' : String(summary?.completedCount ?? 0);
-    const hoursDisplay = summaryLoading ? '…' : formatPracticeHours(summary?.totalPracticeSeconds ?? 0);
     const recentAttempts = summary?.recentAttempts ?? [];
+    const hoursDisplay = formatPracticeHours(summary?.totalPracticeSeconds ?? 0);
 
     const handleLogout = async () => {
         await logoutAction();
         setUser(null);
-        router.push(`/${language}/`);
+        router.push(`/${lang}/`);
     };
 
+    // Tab content config — maps tab id → rendered element
+    const coachTabProps = {
+        t,
+        lang,
+        completedCount: summary?.completedCount ?? 0,
+        totalPracticeSeconds: summary?.totalPracticeSeconds ?? 0,
+        recentAttempts,
+        summaryLoading,
+    };
+
+    const TAB_CONTENT: Record<TabId, React.ReactNode> = {
+        profile: (
+            <ProfileTab
+                t={t}
+                lang={lang}
+                profileUser={profileUser}
+                profileLoading={profileLoading}
+                profileError={profileError}
+                displayName={displayName}
+                displayEmail={displayEmail}
+                displayPhone={displayPhone}
+                joinedStr={joinedStr}
+                isMyProfile={isMyProfile}
+                completedCount={summary?.completedCount ?? 0}
+                hoursDisplay={hoursDisplay}
+                avatarSrc={avatarSrc}
+            />
+        ),
+        history: (
+            <HistoryTab
+                t={t}
+                lang={lang}
+                recentAttempts={recentAttempts}
+                summaryLoading={summaryLoading}
+                summaryError={summaryError}
+                isMyProfile={isMyProfile}
+            />
+        ),
+        'coach/graph': <AICoachGraphTab {...coachTabProps} />,
+        'coach/path': <AICoachPathTab {...coachTabProps} />,
+        'coach/insight': <AICoachInsightTab {...coachTabProps} />,
+    };
+
+    // Dropdown items config
+    const DROPDOWN_LINKS = [
+        { href: `/${lang}/`, icon: Home, label: t.home ?? 'Home', show: true },
+        { href: `/${lang}/settings`, icon: Settings, label: t.settings ?? 'Settings', show: isMyProfile },
+    ];
+
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-colors duration-300 min-h-screen">
-            <div className="flex flex-col md:flex-row gap-8">
-                {/* Sidebar Thông tin User */}
-                <div className="w-full md:w-1/3 lg:w-1/4">
-                    <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 flex flex-col items-center text-center transition-colors duration-300">
-                        <div className="relative mb-4">
-                            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-blue-50 dark:border-gray-800 shadow-md">
-                                {profileLoading && !profileUser ? (
-                                    <div className="w-full h-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
-                                ) : (
-                                    <ImageWithFallback
-                                        src={avatarSrc}
-                                        alt={t.profileAvatarAlt}
-                                        className="w-full h-full object-cover"
-                                    />
-                                )}
-                            </div>
-                        </div>
+        <SidebarProvider defaultOpen>
+            <Sidebar
+                collapsible="icon"
+                className="border-r border-sidebar-border"
+                innerClassName="bg-[#fef8f4] dark:bg-[oklch(0.17_0.005_256)]"
+            >
+                <SidebarHeader className="border-b border-sidebar-border group-data-[collapsible=icon]:px-2">
+                    <LogoTrigger />
+                </SidebarHeader>
 
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center justify-center gap-2 mb-6">
-                            {displayName}
-                        </h2>
-                        {profileError === 'invalid-id' && (
-                            <p className="text-sm text-amber-600 dark:text-amber-500 mb-4">{t.profileInvalidIdHint}</p>
-                        )}
-                        {profileError === 'failed' && !profileLoading && (
-                            <p className="text-sm text-red-500 dark:text-red-400 mb-4">{t.profileLoadFailed}</p>
-                        )}
-
-                        <div className="w-full space-y-4 text-left border-t border-gray-100 dark:border-gray-800 pt-6">
-                            {isMyProfile && (
-                                <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                                    <Mail className="w-4 h-4 mr-3 text-gray-400 dark:text-gray-500" />
-                                    <span className="truncate">{displayEmail}</span>
-                                </div>
-                            )}
-                            {isMyProfile && (
-                                <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                                    <Phone className="w-4 h-4 mr-3 text-gray-400 dark:text-gray-500" />
-                                    <span>{displayPhone}</span>
-                                </div>
-                            )}
-                            <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                                <Calendar className="w-4 h-4 mr-3 text-gray-400 dark:text-gray-500" />
-                                <span>
-                                    {t.joined} {joinedStr}
-                                </span>
-                            </div>
-                        </div>
-
-                        {isMyProfile && (
-                            <div className="w-full mt-8 space-y-2">
-                                <Link
-                                    href={`/${language}/settings`}
-                                    className="w-full flex items-center justify-between px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors group"
+                <SidebarContent className="pt-3 px-2">
+                    <SidebarMenu>
+                        {/* Flat nav items */}
+                        {NAV_ITEMS.map(({ id: navId, icon: Icon, label }) => (
+                            <SidebarMenuItem key={navId}>
+                                <SidebarMenuButton
+                                    isActive={activeTab === navId}
+                                    tooltip={label}
+                                    onClick={() => setActiveTab(navId)}
+                                    className="cursor-pointer"
                                 >
-                                    <span className="flex items-center">
-                                        <Settings className="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500" />{' '}
-                                        {t.settings}
-                                    </span>
-                                </Link>
-                                <button
-                                    type="button"
-                                    onClick={handleLogout}
-                                    className="w-full flex items-center justify-between px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors group"
-                                >
-                                    <span className="flex items-center">
-                                        <LogOut className="w-4 h-4 mr-2 text-red-400 group-hover:text-red-500" />{' '}
-                                        {t.logout}
-                                    </span>
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
+                                    <Icon className="shrink-0" />
+                                    <span>{label}</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        ))}
 
-                {/* Nội dung chính */}
-                <div className="w-full md:w-2/3 lg:w-3/4 flex flex-col gap-6">
-                    {/* Thống kê nhanh */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="bg-white dark:bg-[#1a1a1a] p-5 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-4 transition-colors duration-300">
-                            <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg text-blue-600 dark:text-blue-400 shrink-0">
-                                <FileText className="w-6 h-6" />
-                            </div>
-                            <div className="min-w-0">
-                                <p className="text-sm text-gray-500 dark:text-gray-400">{t.completedExams}</p>
-                                <p className="text-xl font-bold text-gray-900 dark:text-white">{completedDisplay}</p>
-                            </div>
-                        </div>
-                        <div className="bg-white dark:bg-[#1a1a1a] p-5 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-4 transition-colors duration-300">
-                            <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg text-purple-600 dark:text-purple-400 shrink-0">
-                                <Clock className="w-6 h-6" />
-                            </div>
-                            <div className="min-w-0">
-                                <p className="text-sm text-gray-500 dark:text-gray-400">{t.studyHours}</p>
-                                <p className="text-xl font-bold text-gray-900 dark:text-white">{hoursDisplay}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Tabs & Nội dung lịch sử */}
-                    <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden flex-1 transition-colors duration-300">
-                        <div className="flex border-b border-gray-100 dark:border-gray-800 px-6 pt-4 space-x-6 overflow-x-auto hide-scrollbar">
-                            <button
-                                onClick={() => setActiveTab('history')}
-                                className={`pb-4 px-2 text-sm font-medium border-b-2 transition-colors flex items-center whitespace-nowrap ${
-                                    activeTab === 'history'
-                                        ? 'border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400'
-                                        : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-                                }`}
-                            >
-                                <Activity className="w-4 h-4 mr-2" /> {t.recentActivity}
-                            </button>
-                            {isMyProfile && (
-                                <button
-                                    onClick={() => setActiveTab('saved')}
-                                    className={`pb-4 px-2 text-sm font-medium border-b-2 transition-colors flex items-center whitespace-nowrap ${
-                                        activeTab === 'saved'
-                                            ? 'border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400'
-                                            : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-                                    }`}
-                                >
-                                    <BookOpen className="w-4 h-4 mr-2" /> {t.savedMaterials}
-                                </button>
-                            )}
-                        </div>
-
-                        <div className="p-6">
-                            {activeTab === 'history' && (
-                                <div className="space-y-4">
-                                    {summaryLoading && (
-                                        <p className="text-center text-sm text-gray-500 dark:text-gray-400 py-8">
-                                            {t.loading}
-                                        </p>
-                                    )}
-                                    {!summaryLoading && summaryError && (
-                                        <p className="text-center text-sm text-red-500 dark:text-red-400 py-4">
-                                            {t.activityLoadFailed}
-                                        </p>
-                                    )}
-                                    {!summaryLoading &&
-                                        recentAttempts.map((exam) => {
-                                            const dateStr = exam.createdAt
-                                                ? new Date(exam.createdAt).toLocaleDateString(localeTag)
-                                                : '';
-                                            const timeStr = formatDurationSeconds(exam.timeSpentSeconds ?? 0, language);
-                                            const title = pickExamTitle(exam.examTitle, language);
-                                            const maxScore = getExamMaxScore(exam.examId);
-                                            return (
-                                                <div
-                                                    key={exam.id}
-                                                    className="group flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-blue-100 dark:hover:border-blue-900/50 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-all"
-                                                >
-                                                    <div className="mb-4 sm:mb-0 flex-1 min-w-0">
-                                                        <h4 className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors">
-                                                            {title || exam.examId}
-                                                        </h4>
-                                                        <div className="mt-1 flex flex-wrap items-center text-xs text-gray-500 dark:text-gray-400 gap-3">
-                                                            <span className="flex items-center">
-                                                                <Calendar className="w-3 h-3 mr-1 shrink-0" /> {dateStr}
-                                                            </span>
-                                                            <span className="flex items-center">
-                                                                <Clock className="w-3 h-3 mr-1 shrink-0" /> {timeStr}
-                                                            </span>
-                                                            <span className="flex items-center text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-full">
-                                                                <CheckCircle className="w-3 h-3 mr-1 shrink-0" />{' '}
-                                                                {t.statusCompleted}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="flex items-center w-full sm:w-auto justify-between sm:justify-end gap-6 border-t sm:border-t-0 border-gray-100 dark:border-gray-800 pt-3 sm:pt-0">
-                                                        <div className="text-left sm:text-right">
-                                                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                                {t.result}
-                                                            </p>
-                                                            <p className="font-bold text-gray-900 dark:text-gray-100">
-                                                                {exam.score}{' '}
-                                                                <span className="text-xs text-gray-400 font-normal">
-                                                                    / {maxScore}
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                        <div className="text-left sm:text-right">
-                                                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                                {t.correctCount}
-                                                            </p>
-                                                            <p className="font-bold text-gray-900 dark:text-gray-100">
-                                                                {exam.totalCorrect}{' '}
-                                                                <span className="text-xs text-gray-400 font-normal">
-                                                                    / {exam.questionCount}
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                        {isMyProfile && (
-                                                            <Link
-                                                                href={`/${language}/exams/${exam.examId}/results/${exam.id}`}
-                                                                className="p-2 text-gray-400 hover:text-blue-600 hover:bg-white dark:hover:bg-gray-800 rounded-full transition-colors hidden sm:block"
-                                                            >
-                                                                <ChevronRight className="w-5 h-5" />
-                                                            </Link>
-                                                        )}
-                                                    </div>
-
-                                                    {isMyProfile && (
-                                                        <Link
-                                                            href={`/${language}/exams/${exam.examId}/results/${exam.id}`}
-                                                            className="mt-3 w-full sm:hidden text-center text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 py-2 rounded-lg"
-                                                        >
-                                                            {t.viewDetailsBtn}
-                                                        </Link>
-                                                    )}
-                                                </div>
-                                            );
-                                        })}
-                                    {!summaryLoading && !summaryError && recentAttempts.length === 0 && (
-                                        <div className="text-center py-12">
-                                            <FileText className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-                                            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                                {t.noCompletedExamsYet}
-                                            </h3>
-                                            <p className="text-gray-500 dark:text-gray-400 mt-1 mb-4">
-                                                {t.noCompletedExamsYetDesc ??
-                                                    'Hãy thử sức với một đề thi ngay hôm nay!'}
-                                            </p>
-                                            <Link
-                                                href={`/${language}/exams`}
-                                                className="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors"
-                                            >
-                                                {t.exploreExams ?? 'Khám phá đề thi'}{' '}
-                                                <ChevronRight className="w-4 h-4 ml-1" />
-                                            </Link>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            {activeTab === 'saved' && isMyProfile && (
-                                <div className="text-center py-12">
-                                    <BookOpen className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-                                    <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                        {t.noSavedMaterials}
-                                    </h3>
-                                    <p className="text-gray-500 dark:text-gray-400 mt-1 mb-4">
-                                        {t.noSavedMaterialsDesc}
-                                    </p>
-                                    <Link
-                                        href={`/${language}/materials`}
-                                        className="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors"
+                        {/* AI Coach collapsible */}
+                        <Collapsible asChild className="group/collapsible">
+                            <SidebarMenuItem>
+                                <CollapsibleTrigger asChild>
+                                    <SidebarMenuButton
+                                        isActive={activeTab.startsWith('coach/')}
+                                        tooltip="AI Coach"
+                                        className="cursor-pointer"
                                     >
-                                        {t.exploreMaterials}
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                                        <BrainCircuit className="shrink-0" />
+                                        <span>AI Coach</span>
+                                        <ChevronRight className="ml-auto shrink-0 transition-transform duration-300 [[data-state=open]_&]:rotate-90" />
+                                    </SidebarMenuButton>
+                                </CollapsibleTrigger>
+                                <CollapsibleContent>
+                                    <SidebarMenuSub>
+                                        {COACH_SUB.map(({ id: subId, icon: Icon, label }) => (
+                                            <SidebarMenuSubItem key={subId}>
+                                                <SidebarMenuSubButton asChild isActive={activeTab === subId}>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setActiveTab(subId)}
+                                                        className="cursor-pointer w-full"
+                                                    >
+                                                        <Icon className="w-3.5 h-3.5 shrink-0" />
+                                                        <span>{label}</span>
+                                                    </button>
+                                                </SidebarMenuSubButton>
+                                            </SidebarMenuSubItem>
+                                        ))}
+                                    </SidebarMenuSub>
+                                </CollapsibleContent>
+                            </SidebarMenuItem>
+                        </Collapsible>
+                    </SidebarMenu>
+                </SidebarContent>
+
+                <SidebarFooter className="border-t border-sidebar-border">
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <SidebarMenuButton
+                                        size="lg"
+                                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
+                                    >
+                                        <Avatar className="h-8 w-8 rounded-lg shrink-0">
+                                            <AvatarImage src={avatarSrc} alt={displayName} />
+                                            <AvatarFallback className="rounded-lg bg-sidebar-accent text-sidebar-accent-foreground text-xs">
+                                                {getInitials(profileLoading ? '?' : profileUser?.name ?? '?')}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+                                            <span className="truncate font-semibold text-sidebar-foreground">
+                                                {displayName}
+                                            </span>
+                                            <span className="truncate text-xs text-sidebar-foreground/50">
+                                                {displayEmail && displayEmail !== '—'
+                                                    ? displayEmail
+                                                    : t.profileMember ?? 'Member'}
+                                            </span>
+                                        </div>
+                                        <ChevronsUpDown className="ml-auto size-4 text-sidebar-foreground/50 group-data-[collapsible=icon]:hidden shrink-0" />
+                                    </SidebarMenuButton>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                                    side="right"
+                                    align="end"
+                                    sideOffset={4}
+                                >
+                                    <DropdownMenuGroup>
+                                        {DROPDOWN_LINKS.filter(({ show }) => show).map(
+                                            ({ href, icon: Icon, label }) => (
+                                                <DropdownMenuItem key={href} asChild>
+                                                    <Link href={href}>
+                                                        <Icon className="mr-2 h-4 w-4" />
+                                                        {label}
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                            ),
+                                        )}
+                                    </DropdownMenuGroup>
+                                    {isMyProfile && (
+                                        <>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem
+                                                onClick={handleLogout}
+                                                className="text-destructive focus:text-destructive cursor-pointer"
+                                            >
+                                                <LogOut className="mr-2 h-4 w-4" />
+                                                {t.logout ?? 'Logout'}
+                                            </DropdownMenuItem>
+                                        </>
+                                    )}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarFooter>
+
+                <SidebarRail />
+            </Sidebar>
+
+            <SidebarInset className="dark:bg-background overflow-y-auto">
+                <div className="p-8 lg:p-12">
+                    <Breadcrumb activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={activeTab}
+                            variants={TAB_VARIANTS}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                            transition={TAB_TRANSITION}
+                        >
+                            {TAB_CONTENT[activeTab]}
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
-            </div>
-        </div>
+            </SidebarInset>
+        </SidebarProvider>
     );
 }
