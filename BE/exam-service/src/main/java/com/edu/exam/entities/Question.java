@@ -34,5 +34,7 @@ public class Question {
     @Column(name = "question_order")
     private Integer questionOrder;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
 }
