@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { AlertTriangle, Bookmark, Calendar, CheckCircle2, Clock, Info, Link as LinkIcon, Share2 } from 'lucide-react';
+import { AlertTriangle, Bookmark, Calendar, CheckCircle2, Clock, Info, Link as LinkIcon, Share2, Eye, MessageSquare, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/src/components/ui/button';
 import React from 'react';
@@ -19,149 +19,128 @@ const postDetail = {
     category: 'IT資格',
     readTime: '30分',
     tags: ['ITパスポート', 'Itshiken', '日本', 'キャリア'],
+    views: '1.2k',
+    comments: '15',
+    relatedPosts: [
+        { 
+            id: 'ky-thi-fe', 
+            title: 'FE試験とは？合格のための完全ガイド', 
+            image: '/blog-it-fe-thumbnail.jpg', 
+            date: '01/05/2026',
+            href: '/ja/blogs/ky-thi-fe'
+        },
+        { 
+            id: 'ky-thi-ap', 
+            title: 'AP試験とは？', 
+            image: '/blog-it-passport-thumbnail.jpg', 
+            date: '08/05/2026',
+            href: '/ja/blogs/ky-thi-ap'
+        },
+        { 
+            id: 'lo-trinh-hoc-it', 
+            title: '日本のIT資格ロードマップ', 
+            image: '/it-roadmap.png', 
+            date: '08/05/2026',
+            href: '/ja/blogs/lo-trinh-hoc-it'
+        },
+    ]
 };
 
 export default function ContentJa() {
     return (
-        <main className="min-h-screen bg-white dark:bg-[#121212] py-8 transition-colors duration-300 text-slate-900 dark:text-slate-200">
-            {/* HEADER */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-                <div className="mb-4">
-                    <span className="bg-primary text-white dark:bg-blue-900 dark:text-blue-100 text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider">
-                        {postDetail.category}
-                    </span>
-                </div>
+        <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+            {/* HERO SECTION */}
+            <header className="bg-white dark:bg-[#121212] pt-12 pb-8 border-b border-slate-200 dark:border-slate-800">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    {/* Breadcrumb */}
+                    <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-6">
+                        <a href="/" className="hover:text-primary dark:hover:text-blue-400 transition-colors">ホーム</a>
+                        <ChevronRight className="w-4 h-4" />
+                        <a href="/category" className="hover:text-primary dark:hover:text-blue-400 transition-colors">ブログ</a>
+                        <ChevronRight className="w-4 h-4" />
+                        <span className="text-slate-800 dark:text-slate-200 truncate">{postDetail.title}</span>
+                    </nav>
 
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-tight">
-                    {postDetail.title}
-                </h1>
-
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-4xl">{postDetail.excerpt}</p>
-
-                {/* META */}
-                <div className="flex flex-wrap items-center justify-between gap-4 py-6 border-y border-slate-100 dark:border-slate-800">
-                    <div className="flex items-center gap-3">
-                        <Image
-                            src={postDetail.author.avatar}
-                            alt={postDetail.author.name}
-                            height={48}
-                            width={48}
-                            className="w-12 h-12 rounded-full border border-slate-200 dark:border-slate-700 object-cover"
-                        />
-                        <div>
-                            <div className="font-semibold text-slate-900 dark:text-white">{postDetail.author.name}</div>
-                            <div className="text-xs text-slate-500 dark:text-slate-400">{postDetail.author.role}</div>
-                        </div>
+                    <div className="mb-6">
+                        <span className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            {postDetail.category}
+                        </span>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                        <div className="flex items-center gap-1.5">
-                            <Calendar className="w-4 h-4" />
-                            {postDetail.date}
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                            <Clock className="w-4 h-4" />
-                            {postDetail.readTime} 読む
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.2]">
+                        {postDetail.title}
+                    </h1>
+
+                    <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                        {postDetail.excerpt}
+                    </p>
+
+                    {/* Meta Info */}
+                    <div className="flex flex-wrap items-center justify-between gap-6 py-4">
+                        <div className="flex items-center gap-4">
+                            <Image
+                                src={postDetail.author.avatar}
+                                alt={postDetail.author.name}
+                                height={56}
+                                width={56}
+                                className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover"
+                            />
+                            <div>
+                                <div className="font-bold text-slate-900 dark:text-white text-base">{postDetail.author.name}</div>
+                                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                    <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
+                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                                    <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime}</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
-                            <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                                <Share2 className="w-4 h-4" />
-                            </button>
-                            <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                                <Bookmark className="w-4 h-4" />
-                            </button>
+                        <div className="flex items-center gap-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
+                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
+                            <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
+                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="共有">
+                                    <Share2 className="w-4 h-4" />
+                                </button>
+                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="保存">
+                                    <Bookmark className="w-4 h-4" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </header>
 
-            {/* COVER IMAGE */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-                <Image
-                    src={postDetail.coverImage}
-                    alt="ITパスポートとは - 日本の情報技術資格"
-                    width={500}
-                    height={500}
-                    className="w-full h-auto max-h-[500px] object-cover rounded-md shadow-sm"
-                />
-                <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
-                    ITパスポート資格とは？
-                </figcaption>
-            </div>
+            {/* MAIN LAYOUT: 2 COLUMNS */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-10">
+                    {/* LEFT COLUMN: MAIN CONTENT */}
+                    <article className="lg:col-span-9 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+                        <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
+                            <Image 
+                                src={postDetail.coverImage} 
+                                alt={postDetail.title} 
+                                width={1200} 
+                                height={800}
+                                className="w-full h-auto object-cover rounded-lg max-h-[500px]"
+                                priority 
+                            />
+                            <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
+                                ITパスポート資格とは？
+                            </figcaption>
+                        </figure>
 
-            {/* CONTENT */}
-            <article className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
-                <p className="mb-6">
-                    ITパスポートについて調べていて、どこから始めればいいか迷っていませんか？あるいは、この資格が本当に自分に必要なのか疑問に思っていますか？ご安心ください。この記事では、十分な情報を得て自信を持って試験に臨めるよう、AからZまですべてを解説します。
-                </p>
+                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                            <p className="mb-6 drop-cap">
+                                ITパスポートについて調べていて、どこから始めればいいか迷っていませんか？あるいは、この資格が本当に自分に必要なのか疑問に思っていますか？ご安心ください。この記事では、十分な情報を得て自信を持って試験に臨めるよう、AからZまですべてを解説します。
+                            </p>
 
-                {/* TABLE OF CONTENTS (TOC) */}
-                <nav className="bg-primary/10 dark:bg-white dark:border-blue-900 border-l-4 border-primary rounded-r-md p-6 my-10">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-blue-900 mb-4">
-                        目次
-                    </h3>
-                    <ul className="space-y-2 text-base text-secondary">
-                        <li>
-                            <a
-                                href="#it-passport-la-gi"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                1. ITパスポートとは？
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#ai-nen-thi"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                2. 誰がITパスポートを受験すべきか？
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#cau-truc-de-thi"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                3. 試験構成の詳細
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#loi-ich"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                4. ITパスポート資格取得のメリット
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#dang-ky"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                5. 受験申込方法
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#lo-trinh-on-luyen"
-                                className="hover:text-primary dark:hover:text-blue-900 transition-colors"
-                            >
-                                6. 効果的な学習ロードマップ
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#faq" className="hover:text-primary dark:hover:text-blue-900 transition-colors">
-                                7. よくある質問 (FAQ)
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+
 
                 {/* SECTION 1 */}
                 <h2
                     id="it-passport-la-gi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     1. ITパスポートとは？
                 </h2>
@@ -207,7 +186,7 @@ export default function ContentJa() {
                 {/* SECTION 2 */}
                 <h2
                     id="ai-nen-thi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     2. 誰がITパスポートを受験すべきか？
                 </h2>
@@ -254,7 +233,7 @@ export default function ContentJa() {
                 {/* SECTION 3 */}
                 <h2
                     id="cau-truc-de-thi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     3. ITパスポートの試験構成の詳細
                 </h2>
@@ -346,7 +325,7 @@ export default function ContentJa() {
                 {/* SECTION 4 */}
                 <h2
                     id="loi-ich"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     4. なぜITパスポート資格を取得すべきなのか？
                 </h2>
@@ -396,7 +375,7 @@ export default function ContentJa() {
                 {/* SECTION 5 */}
                 <h2
                     id="dang-ky"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     5. 受験申込方法
                 </h2>
@@ -463,7 +442,7 @@ export default function ContentJa() {
                 {/* SECTION 6 */}
                 <h2
                     id="lo-trinh-on-luyen"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     6. 効果的な学習ロードマップ
                 </h2>
@@ -569,7 +548,7 @@ export default function ContentJa() {
                 {/* SECTION 7 - FAQ */}
                 <h2
                     id="faq"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800"
+                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     7. よくある質問 (FAQ)
                 </h2>
@@ -635,44 +614,115 @@ export default function ContentJa() {
                     </p>
                 </div>
 
-                {/* CTA BOX */}
-                <div className="bg-gradient-to-br from-secondary/60 to-secondary dark:to-blue-800 rounded-md p-8 sm:p-10 text-center my-12 shadow-lg">
+                            {/* Tags Section */}
+                            <div className="mt-16 pt-8 border-t border-slate-100 dark:border-slate-800">
+                                <div className="flex items-center gap-3 flex-wrap">
+                                    <span className="text-sm font-semibold text-slate-900 dark:text-white">タグ:</span>
+                                    {postDetail.tags.map((tag) => (
+                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
+                                            #{tag}
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    {/* RIGHT COLUMN: TABLE OF CONTENTS */}
+                    <aside className="hidden lg:block lg:col-span-3 space-y-8">
+                        <div className="sticky top-24 bg-white dark:bg-[#121212] p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                            <h3 className="font-bold text-base text-slate-900 dark:text-white mb-5 flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+                                <Bookmark className="w-4 h-4 text-blue-500" /> 目次
+                            </h3>
+                            <ul className="space-y-3 text-sm">
+                                <li>
+                                    <a href="#it-passport-la-gi" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>
+                                        ITパスポートとは？
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#ai-nen-thi" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>
+                                        誰が受験すべきか？
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#cau-truc-de-thi" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>
+                                        試験構成
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#loi-ich" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>
+                                        メリット
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#dang-ky" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-pink-600 group-hover:text-white transition-colors">5</span>
+                                        申し込み方法
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#lo-trinh-on-luyen" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">6</span>
+                                        学習ロードマップ
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#faq" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">7</span>
+                                        FAQ
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+            {/* CTA BOX */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div className="bg-gradient-to-br from-secondary/60 to-secondary dark:to-blue-800 rounded-xl p-8 sm:p-10 text-center shadow-lg">
                     <h3 className="text-2xl font-bold text-white mb-4">
                         ITパスポートの練習を始める準備はできましたか？
                     </h3>
                     <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-                        IT
-                        Shikenは、本番に近い無料の模擬試験を、自動採点と詳細な結果分析付きで提供しています。今日から始めましょう。登録は不要です！
+                        IT Shikenは、本番に近い無料の模擬試験を、自動採点と詳細な結果分析付きで提供しています。今日から始めましょう。登録は不要です！
                     </p>
-
                     <Button asChild className="text-lg !py-6">
                         <Link href="/ja/exams">今すぐ模擬試験を受ける – 無料</Link>
                     </Button>
                 </div>
-            </article>
-
-            {/* FOOTER */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-                    <div className="flex flex-wrap gap-2">
-                        {postDetail.tags.map((tag, index) => (
-                            <span
-                                key={index}
-                                className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm px-3 py-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                            >
-                                #{tag}
-                            </span>
-                        ))}
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        <span className="text-sm text-slate-500 dark:text-slate-400">共有:</span>
-                        <button className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-primary hover:text-white dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-primary transition-colors">
-                            <LinkIcon className="w-4 h-4" />
-                        </button>
-                    </div>
-                </div>
             </div>
+
+            {/* RELATED POSTS */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 dark:border-slate-800">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">関連記事</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {postDetail.relatedPosts.map((post) => (
+                        <a key={post.id} href={post.href} className="group block">
+                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-800">
+                                <Image
+                                    src={post.image}
+                                    alt={post.title}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2">
+                                <Calendar className="w-3.5 h-3.5" />
+                                {post.date}
+                            </div>
+                            <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                                {post.title}
+                            </h4>
+                        </a>
+                    ))}
+                </div>
+            </section>
         </main>
     );
 }
