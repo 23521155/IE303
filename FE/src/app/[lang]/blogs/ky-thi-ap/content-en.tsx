@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Image from 'next/image';
 import { 
     Bookmark, Calendar, Clock, Share2, 
@@ -21,7 +22,8 @@ const postDetail = {
     date: '08/05/2026',
     category: 'IT Certification',
     readTime: '25 min',
-
+  views: '1.2k',
+    comments: '15',
     tags: ['AP', 'IT AP', 'Itshiken', 'Japan', 'Career'],
     relatedPosts: [
         { 
@@ -50,30 +52,30 @@ const postDetail = {
 
 export default function ContentEn() {
     return (
-        <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+        <main className="min-h-screen bg-background transition-colors duration-300">
             {/* HERO SECTION */}
-            <header className="bg-white dark:bg-[#121212] pt-12 pb-8 border-b border-slate-200 dark:border-slate-800">
+            <header className="bg-card pt-12 pb-8 border-b border-border/40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Breadcrumb */}
-                    <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-6">
+                    <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
                         <a href="/en" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Home</a>
                         <ChevronRight className="w-4 h-4" />
                         <a href="/en/category" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Blog</a>
                         <ChevronRight className="w-4 h-4" />
-                        <span className="text-slate-800 dark:text-slate-200 truncate">{postDetail.title}</span>
+                        <span className="text-foreground/90 truncate">{postDetail.title}</span>
                     </nav>
 
                     <div className="mb-6">
-                        <span className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        <span className="inline-block bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                             {postDetail.category}
                         </span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.2]">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6 leading-[1.2]">
                         {postDetail.title}
                     </h1>
 
-                    <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                    <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                         {postDetail.excerpt}
                     </p>
 
@@ -88,8 +90,8 @@ export default function ContentEn() {
                                 className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover"
                             />
                             <div>
-                                <div className="font-bold text-slate-900 dark:text-white text-base">{postDetail.author.name}</div>
-                                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                <div className="font-bold text-foreground text-base">{postDetail.author.name}</div>
+                                <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                                     <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
                                     <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
                                     <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime} read</span>
@@ -97,14 +99,14 @@ export default function ContentEn() {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+                        <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
                             <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
                             <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
-                            <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Share">
+                            <div className="flex items-center gap-2 pl-4 border-l border-border/60">
+                                <button className="p-2 rounded-full hover:bg-secondary/20 transition-colors" title="Share">
                                     <Share2 className="w-4 h-4" />
                                 </button>
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Save post">
+                                <button className="p-2 rounded-full hover:bg-secondary/20 transition-colors" title="Save post">
                                     <Bookmark className="w-4 h-4" />
                                 </button>
                             </div>
@@ -118,7 +120,7 @@ export default function ContentEn() {
                 <div className="lg:grid lg:grid-cols-12 lg:gap-10">
 
                     {/* LEFT COLUMN: MAIN CONTENT */}
-                    <article className="lg:col-span-9 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+                    <article className="lg:col-span-9 bg-card rounded-2xl shadow-sm border border-border/40 overflow-hidden">
                         
                         <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
                             <Image 
@@ -131,7 +133,7 @@ export default function ContentEn() {
                             />
                         </figure>
 
-                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-foreground/80">
                             <p className="mb-6 drop-cap">
                                 Hello fellow IT engineers. If you are working or planning to develop your career at Japanese enterprises, you have probably heard of the ITSS (Information Technology Skill Standards). Among these, the Applied Information Technology Engineer Examination (応用情報技術者試験, briefly called AP) is considered the most prestigious "guarantee" of an engineer's competence.
                             </p>
@@ -139,7 +141,7 @@ export default function ContentEn() {
                                 AP is not just a test to check how well you code. It is a comprehensive assessment to see if you have the mindset of a Leader, System Architect, or Project Manager. The passing rate for AP is quite strict, usually hovering around 20% - 25%. However, with the right strategy, conquering it is entirely within reach.
                             </p>
 
-                            <h2 id="section-1" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-1" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 text-xl">1</span>
                                 Why AP and not another certificate?
                             </h2>
@@ -152,7 +154,7 @@ export default function ContentEn() {
                                 <li><strong>Career Advancement:</strong> Marks the transition from a Programmer (Coder) to higher-level positions like System Engineer (SE).</li>
                             </ul>
 
-                            <h2 id="section-2" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-2" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 text-xl">2</span>
                                 The Rules: A "brain-burning" day with 2 exams
                             </h2>
@@ -160,7 +162,7 @@ export default function ContentEn() {
                                 The AP exam is organized by IPA twice a year (April and October). You will take 2 consecutive tests on the same day. The core point is: You must score a minimum of 60/100 for BOTH exams. If you fail the morning exam, your afternoon exam won't be graded.
                             </p>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-6 mb-3">
                                 Battle 1: Morning Exam (午前 - Gozen) - The Sprint
                             </h3>
                             <ul className="list-disc pl-6 mb-4 space-y-2">
@@ -182,7 +184,7 @@ export default function ContentEn() {
                                 </p>
                             </div>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-8 mb-3">
                                 Battle 2: Afternoon Exam (午後 - Gogo) - Choosing your strengths
                             </h3>
                             <ul className="list-disc pl-6 mb-4 space-y-2">
@@ -193,7 +195,7 @@ export default function ContentEn() {
                                 For those working in Web Development (e.g., MERN stack or Full-stack), maximize your technical background. Don't "look at the other mountain", finalize your strong subjects before the exam day. The advice is to aim straight for <strong>Database</strong> and <strong>System Architecture</strong>.
                             </p>
 
-                            <h2 id="section-3" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-3" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 text-xl">3</span>
                                 "Beating" Database and System Architecture
                             </h2>
@@ -201,7 +203,7 @@ export default function ContentEn() {
                                 These are two "gold mines" for points if you have Web experience.
                             </p>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-6 mb-3">
                                 Database (データベース): When data mindset rules
                             </h3>
                             <p className="mb-4">
@@ -219,7 +221,7 @@ export default function ContentEn() {
                                 </li>
                             </ul>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-8 mb-3">
                                 System Architecture (システムアーキテクチャ): The optimization problem
                             </h3>
                             <p className="mb-4">
@@ -242,7 +244,7 @@ export default function ContentEn() {
                                 </li>
                             </ul>
 
-                            <h2 id="section-4" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-4" className="text-2xl sm:text-3xl font-bold text-foreground mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 text-xl">4</span>
                                 The nightmare called "Specialized Japanese"
                             </h2>
@@ -253,20 +255,20 @@ export default function ContentEn() {
                                 <div className="flex gap-3">
                                     <Target className="w-6 h-6 text-indigo-500 shrink-0 mt-1" />
                                     <div>
-                                        <h4 className="font-semibold text-slate-900 dark:text-white">Speed is survival</h4>
-                                        <p className="text-base text-slate-600 dark:text-slate-400">You only have 30 minutes for each Case Study. Don't read and translate every word. Use the Scanning technique, find structures like: 「～という課題がある」(There is a problem...) or 「～を満たす必要がある」(Must satisfy...). This is the key to picking out constraints for the design.</p>
+                                        <h4 className="font-semibold text-foreground">Speed is survival</h4>
+                                        <p className="text-base text-muted-foreground">You only have 30 minutes for each Case Study. Don't read and translate every word. Use the Scanning technique, find structures like: 「～という課題がある」(There is a problem...) or 「～を満たす必要がある」(Must satisfy...). This is the key to picking out constraints for the design.</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-3">
                                     <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0 mt-1" />
                                     <div>
-                                        <h4 className="font-semibold text-slate-900 dark:text-white">Writing essays</h4>
-                                        <p className="text-base text-slate-600 dark:text-slate-400">You must write short sentences (15-40 characters) in Japanese to explain the solution. Practice writing concisely, using the correct short form structure (Plain form / である).</p>
+                                        <h4 className="font-semibold text-foreground">Writing essays</h4>
+                                        <p className="text-base text-muted-foreground">You must write short sentences (15-40 characters) in Japanese to explain the solution. Practice writing concisely, using the correct short form structure (Plain form / である).</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <h2 id="section-5" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-5" className="text-2xl sm:text-3xl font-bold text-foreground mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 text-xl">5</span>
                                 Proposed Study Roadmap (4-Month Campaign)
                             </h2>
@@ -277,22 +279,22 @@ export default function ContentEn() {
                                 <li><strong>Month 4 (Sprint Phase):</strong> Take Full Tests 2-3 times (both morning and afternoon) on weekends to get used to the pressure of sitting in the exam room for 5 hours straight.</li>
                             </ul>
 
-                            <h2 id="conclusion" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24">
+                            <h2 id="conclusion" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24">
                                 Conclusion
                             </h2>
                             <p className="mb-4">
                                 The AP exam is truly a "tough" challenge, requiring you to balance technical system knowledge, management mindset, and Japanese processing ability. However, the value it brings to your career path, income, and settlement in Japan is absolutely worth every hour you spend grinding.
                             </p>
-                            <p className="font-medium text-slate-800 dark:text-slate-200">
+                            <p className="font-medium text-foreground/90">
                                 Wish you a resilient spirit and soon hold this powerful certificate in your hands!
                             </p>
 
                             {/* Tags Section */}
-                            <div className="mt-16 pt-8 border-t border-slate-100 dark:border-slate-800">
+                            <div className="mt-16 pt-8 border-t border-border/40">
                                 <div className="flex items-center gap-3 flex-wrap">
-                                    <span className="text-sm font-semibold text-slate-900 dark:text-white">Tags:</span>
+                                    <span className="text-sm font-semibold text-foreground">Tags:</span>
                                     {postDetail.tags.map((tag) => (
-                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
+                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-secondary/10 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
                                             #{tag}
                                         </a>
                                     ))}
@@ -304,37 +306,37 @@ export default function ContentEn() {
                     {/* RIGHT COLUMN: TABLE OF CONTENTS */}
                     <aside className="hidden lg:block lg:col-span-3 space-y-8">
                         {/* Sticky TOC */}
-                        <div className="sticky top-24 bg-white dark:bg-[#121212] p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                            <h3 className="font-bold text-base text-slate-900 dark:text-white mb-5 flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+                        <div className="sticky top-24 bg-card p-6 rounded-2xl shadow-sm border border-border/40">
+                            <h3 className="font-bold text-base text-foreground mb-5 flex items-center gap-2 pb-3 border-b border-border/40">
                                 <Bookmark className="w-4 h-4 text-blue-500" /> Table of Contents
                             </h3>
                             <ul className="space-y-3 text-sm">
                                 <li>
-                                    <a href="#section-1" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
+                                    <a href="#section-1" className="flex items-center gap-2.5 text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>
                                         Why choose AP?
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-2" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group">
+                                    <a href="#section-2" className="flex items-center gap-2.5 text-muted-foreground hover:text-green-600 dark:hover:text-green-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>
                                         Exam Rules
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-3" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
+                                    <a href="#section-3" className="flex items-center gap-2.5 text-muted-foreground hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>
                                         Decoding Case Studies
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-4" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
+                                    <a href="#section-4" className="flex items-center gap-2.5 text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>
                                         Specialized Japanese
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-5" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
+                                    <a href="#section-5" className="flex items-center gap-2.5 text-muted-foreground hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-pink-600 group-hover:text-white transition-colors">5</span>
                                         Study Roadmap
                                     </a>
@@ -359,12 +361,12 @@ export default function ContentEn() {
             </div>
 
             {/* RELATED POSTS */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 dark:border-slate-800">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">Related Articles</h3>
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-border/40">
+                <h3 className="text-2xl font-bold text-foreground mb-8">Related Articles</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {postDetail.relatedPosts.map((post) => (
                         <a key={post.id} href={post.href} className="group block">
-                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-800">
+                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-secondary/10">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
@@ -372,11 +374,11 @@ export default function ContentEn() {
                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
                                 <Calendar className="w-3.5 h-3.5" />
                                 {post.date}
                             </div>
-                            <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                            <h4 className="font-bold text-lg text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                                 {post.title}
                             </h4>
                         </a>

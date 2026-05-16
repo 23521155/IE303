@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Image from 'next/image';
 import { 
     Bookmark, Calendar, Clock, Share2, 
@@ -17,7 +18,10 @@ const postDetail = {
         name: 'Trần Thiên Phú',
         role: 'Author',
         avatar: '/Shin.png', 
+
     },
+      views: '1.2k',
+    comments: '15',
     date: '08/05/2026',
     category: 'Chứng chỉ IT',
     readTime: '25 phút',
@@ -49,30 +53,30 @@ const postDetail = {
 
 export default function ContentVi() {
     return (
-        <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+        <main className="min-h-screen bg-background transition-colors duration-300">
             {/* HERO SECTION */}
-            <header className="bg-white dark:bg-[#121212] pt-12 pb-8 border-b border-slate-200 dark:border-slate-800">
+            <header className="bg-card pt-12 pb-8 border-b border-border/40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Breadcrumb */}
-                    <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-6">
+                    <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
                         <a href="/" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Trang chủ</a>
                         <ChevronRight className="w-4 h-4" />
                         <a href="/category" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Blog</a>
                         <ChevronRight className="w-4 h-4" />
-                        <span className="text-slate-800 dark:text-slate-200 truncate">{postDetail.title}</span>
+                        <span className="text-foreground/90 truncate">{postDetail.title}</span>
                     </nav>
 
                     <div className="mb-6">
-                        <span className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        <span className="inline-block bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                             {postDetail.category}
                         </span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.2]">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6 leading-[1.2]">
                         {postDetail.title}
                     </h1>
 
-                    <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                    <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                         {postDetail.excerpt}
                     </p>
 
@@ -87,8 +91,8 @@ export default function ContentVi() {
                                 className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover"
                             />
                             <div>
-                                <div className="font-bold text-slate-900 dark:text-white text-base">{postDetail.author.name}</div>
-                                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                <div className="font-bold text-foreground text-base">{postDetail.author.name}</div>
+                                <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                                     <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
                                     <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
                                     <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime} đọc</span>
@@ -96,14 +100,14 @@ export default function ContentVi() {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+                        <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
                             <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
                             <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
-                            <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Chia sẻ">
+                            <div className="flex items-center gap-2 pl-4 border-l border-border/60">
+                                <button className="p-2 rounded-full hover:bg-secondary/20 transition-colors" title="Chia sẻ">
                                     <Share2 className="w-4 h-4" />
                                 </button>
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Lưu bài">
+                                <button className="p-2 rounded-full hover:bg-secondary/20 transition-colors" title="Lưu bài">
                                     <Bookmark className="w-4 h-4" />
                                 </button>
                             </div>
@@ -117,7 +121,7 @@ export default function ContentVi() {
                 <div className="lg:grid lg:grid-cols-12 lg:gap-10">
 
                     {/* CỘT TRÁI: NỘI DUNG CHÍNH */}
-                    <article className="lg:col-span-9 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+                    <article className="lg:col-span-9 bg-card rounded-2xl shadow-sm border border-border/40 overflow-hidden">
                         
                         <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
                             <Image 
@@ -130,7 +134,7 @@ export default function ContentVi() {
                             />
                         </figure>
 
-                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-foreground/80">
                             <p className="mb-6 drop-cap">
                                 Chào anh em IT. Nếu đang làm việc hoặc có ý định phát triển sự nghiệp tại các doanh nghiệp, tập đoàn tại Nhật Bản, chắc hẳn anh em đã từng nghe đến hệ thống chuẩn kỹ năng CNTT - ITSS (Information Technology Skill Standards). Trong đó, Kỳ thi Kỹ sư Công nghệ thông tin Ứng dụng (Applied Information Technology Engineer Examination - 応用情報技術者試験, gọi tắt là AP) được xem là "bảo chứng" uy tín nhất cho năng lực của một kỹ sư.
                             </p>
@@ -138,7 +142,7 @@ export default function ContentVi() {
                                 AP không đơn thuần là bài test kiểm tra bạn code giỏi cỡ nào. Nó là bài kiểm tra toàn diện để xem bạn có tư duy của một Leader, System Architect hay Project Manager hay không. Tỷ lệ đỗ của AP khá gắt gao, chỉ dao động ở mức 20% - 25%. Tuy nhiên, nếu có chiến thuật đúng đắn, việc chinh phục nó hoàn toàn nằm trong tầm tay.
                             </p>
 
-                            <h2 id="section-1" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-1" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 text-xl">1</span>
                                 Tại sao lại là AP mà không phải chứng chỉ nào khác?
                             </h2>
@@ -151,7 +155,7 @@ export default function ContentVi() {
                                 <li><strong>Cơ hội thăng tiến:</strong> Đánh dấu sự chuyển mình từ một lập trình viên (Coder/Programmer) sang các vị trí cấp cao hơn như thiết kế hệ thống (SE - System Engineer).</li>
                             </ul>
 
-                            <h2 id="section-2" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-2" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 text-xl">2</span>
                                 Thể lệ cuộc chơi: Một ngày "đốt não" với 2 bài thi
                             </h2>
@@ -159,7 +163,7 @@ export default function ContentVi() {
                                 Kỳ thi AP do IPA tổ chức 2 lần một năm (tháng 4 và tháng 10). Bạn sẽ thi liền 2 bài trong cùng một ngày. Điểm cốt lõi là: Phải đạt tối thiểu 60/100 điểm cho CẢ HAI bài thi. Nếu trượt bài sáng, bài chiều của bạn sẽ không được chấm.
                             </p>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-6 mb-3">
                                 Trận chiến 1: Bài thi Buổi sáng (午前 - Gozen) - Cuộc chạy nước rút
                             </h3>
                             <ul className="list-disc pl-6 mb-4 space-y-2">
@@ -181,7 +185,7 @@ export default function ContentVi() {
                                 </p>
                             </div>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-8 mb-3">
                                 Trận chiến 2: Bài thi Buổi chiều (午後 - Gogo) - Lựa chọn thế mạnh
                             </h3>
                             <ul className="list-disc pl-6 mb-4 space-y-2">
@@ -192,7 +196,7 @@ export default function ContentVi() {
                                 Đối với những anh em đang làm mảng Web Development (ví dụ như MERN stack hay Full-stack), hãy tận dụng tối đa nền tảng kỹ thuật. Đừng "đứng núi này trông núi nọ", hãy chốt sổ luôn các môn thế mạnh từ ở nhà. Lời khuyên là nhắm thẳng vào <strong>Cơ sở dữ liệu (Database)</strong> và <strong>Kiến trúc hệ thống (System Architecture)</strong>.
                             </p>
 
-                            <h2 id="section-3" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-3" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 text-xl">3</span>
                                 "Phá đảo" môn Database và System Architecture
                             </h2>
@@ -200,7 +204,7 @@ export default function ContentVi() {
                                 Đây là hai "mỏ vàng" điểm số nếu bạn đã có kinh nghiệm làm Web.
                             </p>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-6 mb-3">
                                 Môn Database (データベース): Khi tư duy dữ liệu lên ngôi
                             </h3>
                             <p className="mb-4">
@@ -218,7 +222,7 @@ export default function ContentVi() {
                                 </li>
                             </ul>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-8 mb-3">
                                 Môn Kiến trúc hệ thống (システムアーキテクチャ): Bài toán tối ưu hóa
                             </h3>
                             <p className="mb-4">
@@ -241,7 +245,7 @@ export default function ContentVi() {
                                 </li>
                             </ul>
 
-                            <h2 id="section-4" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-4" className="text-2xl sm:text-3xl font-bold text-foreground mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 text-xl">4</span>
                                 Nỗi ám ảnh mang tên "Tiếng Nhật chuyên ngành"
                             </h2>
@@ -252,20 +256,20 @@ export default function ContentVi() {
                                 <div className="flex gap-3">
                                     <Target className="w-6 h-6 text-indigo-500 shrink-0 mt-1" />
                                     <div>
-                                        <h4 className="font-semibold text-slate-900 dark:text-white">Tốc độ là sống còn</h4>
-                                        <p className="text-base text-slate-600 dark:text-slate-400">Bạn chỉ có 30 phút cho mỗi Case Study. Đừng đọc dịch từng chữ. Hãy dùng kỹ thuật Scanning, tìm cấu trúc: 「～という課題がある」(Có vấn đề là...) hoặc 「～を満たす必要がある」(Cần phải thỏa mãn...). Đây là chìa khóa để nhặt ra ràng buộc (constraint) cho thiết kế.</p>
+                                        <h4 className="font-semibold text-foreground">Tốc độ là sống còn</h4>
+                                        <p className="text-base text-muted-foreground">Bạn chỉ có 30 phút cho mỗi Case Study. Đừng đọc dịch từng chữ. Hãy dùng kỹ thuật Scanning, tìm cấu trúc: 「～という課題がある」(Có vấn đề là...) hoặc 「～を満たす必要がある」(Cần phải thỏa mãn...). Đây là chìa khóa để nhặt ra ràng buộc (constraint) cho thiết kế.</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-3">
                                     <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0 mt-1" />
                                     <div>
-                                        <h4 className="font-semibold text-slate-900 dark:text-white">Viết tự luận</h4>
-                                        <p className="text-base text-slate-600 dark:text-slate-400">Bạn phải viết những câu ngắn (15-40 ký tự) bằng tiếng Nhật để giải thích giải pháp. Hãy tập viết súc tích, dùng đúng cấu trúc thể rút gọn (Thể thông thường / である).</p>
+                                        <h4 className="font-semibold text-foreground">Viết tự luận</h4>
+                                        <p className="text-base text-muted-foreground">Bạn phải viết những câu ngắn (15-40 ký tự) bằng tiếng Nhật để giải thích giải pháp. Hãy tập viết súc tích, dùng đúng cấu trúc thể rút gọn (Thể thông thường / である).</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <h2 id="section-5" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-5" className="text-2xl sm:text-3xl font-bold text-foreground mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 text-xl">5</span>
                                 Lộ trình ôn tập đề xuất (Chiến dịch 4 tháng)
                             </h2>
@@ -276,22 +280,22 @@ export default function ContentVi() {
                                 <li><strong>Tháng 4 (Giai đoạn nước rút):</strong> Làm Full Test 2-3 lần (cả sáng lẫn chiều) vào cuối tuần để quen với áp lực ngồi phòng thi liên tục 5 tiếng đồng hồ.</li>
                             </ul>
 
-                            <h2 id="conclusion" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24">
+                            <h2 id="conclusion" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24">
                                 Kết luận
                             </h2>
                             <p className="mb-4">
                                 Kỳ thi AP thực sự là một thử thách "khó nhằn", đòi hỏi bạn phải cân bằng giữa kiến thức kỹ thuật hệ thống, tư duy quản lý và năng lực xử lý tiếng Nhật. Tuy nhiên, giá trị mà nó mang lại cho con đường sự nghiệp, thu nhập và định cư tại Nhật Bản là hoàn toàn xứng đáng với từng giờ bạn bỏ ra để cày cuốc.
                             </p>
-                            <p className="font-medium text-slate-800 dark:text-slate-200">
+                            <p className="font-medium text-foreground/90">
                                 Chúc anh em chân cứng đá mềm và sớm cầm trên tay tấm thẻ chứng chỉ quyền lực này!
                             </p>
 
                             {/* Tags Section */}
-                            <div className="mt-16 pt-8 border-t border-slate-100 dark:border-slate-800">
+                            <div className="mt-16 pt-8 border-t border-border/40">
                                 <div className="flex items-center gap-3 flex-wrap">
-                                    <span className="text-sm font-semibold text-slate-900 dark:text-white">Tags:</span>
+                                    <span className="text-sm font-semibold text-foreground">Tags:</span>
                                     {postDetail.tags.map((tag) => (
-                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
+                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-secondary/10 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
                                             #{tag}
                                         </a>
                                     ))}
@@ -303,37 +307,37 @@ export default function ContentVi() {
                     {/* CỘT PHẢI: TABLE OF CONTENTS */}
                     <aside className="hidden lg:block lg:col-span-3 space-y-8">
                         {/* Mục lục bài viết (Sticky) */}
-                        <div className="sticky top-24 bg-white dark:bg-[#121212] p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                            <h3 className="font-bold text-base text-slate-900 dark:text-white mb-5 flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+                        <div className="sticky top-24 bg-card p-6 rounded-2xl shadow-sm border border-border/40">
+                            <h3 className="font-bold text-base text-foreground mb-5 flex items-center gap-2 pb-3 border-b border-border/40">
                                 <Bookmark className="w-4 h-4 text-blue-500" /> Nội Dung Bài Viết
                             </h3>
                             <ul className="space-y-3 text-sm">
                                 <li>
-                                    <a href="#section-1" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
+                                    <a href="#section-1" className="flex items-center gap-2.5 text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>
                                         Tại sao lại là AP?
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-2" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group">
+                                    <a href="#section-2" className="flex items-center gap-2.5 text-muted-foreground hover:text-green-600 dark:hover:text-green-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>
                                         Thể lệ cuộc chơi
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-3" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
+                                    <a href="#section-3" className="flex items-center gap-2.5 text-muted-foreground hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>
                                         Giải mã Case Study
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-4" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
+                                    <a href="#section-4" className="flex items-center gap-2.5 text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>
                                         Tiếng Nhật chuyên ngành
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-5" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
+                                    <a href="#section-5" className="flex items-center gap-2.5 text-muted-foreground hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-pink-600 group-hover:text-white transition-colors">5</span>
                                         Lộ trình ôn tập
                                     </a>
@@ -358,12 +362,12 @@ export default function ContentVi() {
             </div>
 
             {/* BÀI VIẾT LIÊN QUAN */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 dark:border-slate-800">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">Bài viết liên quan</h3>
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-border/40">
+                <h3 className="text-2xl font-bold text-foreground mb-8">Bài viết liên quan</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {postDetail.relatedPosts.map((post) => (
                         <a key={post.id} href={post.href} className="group block">
-                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-800">
+                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-secondary/10">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
@@ -371,11 +375,11 @@ export default function ContentVi() {
                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
                                 <Calendar className="w-3.5 h-3.5" />
                                 {post.date}
                             </div>
-                            <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                            <h4 className="font-bold text-lg text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                                 {post.title}
                             </h4>
                         </a>

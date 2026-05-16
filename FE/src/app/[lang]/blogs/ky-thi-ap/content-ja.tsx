@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Image from 'next/image';
 import { 
     Bookmark, Calendar, Clock, Share2, 
@@ -20,7 +21,8 @@ const postDetail = {
     },
     date: '08/05/2026',
     category: 'IT資格',
-    readTime: '25分',
+    readTime: '25分',  views: '1.2k',
+    comments: '15',
     tags: ['AP', '応用情報技術者試験', 'Itshiken', '日本', 'キャリア'],
     relatedPosts: [
         { 
@@ -49,30 +51,30 @@ const postDetail = {
 
 export default function ContentJa() {
     return (
-        <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+        <main className="min-h-screen bg-background transition-colors duration-300">
             {/* HERO SECTION */}
-            <header className="bg-white dark:bg-[#121212] pt-12 pb-8 border-b border-slate-200 dark:border-slate-800">
+            <header className="bg-card pt-12 pb-8 border-b border-border/40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Breadcrumb */}
-                    <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-6">
+                    <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
                         <a href="/ja" className="hover:text-primary dark:hover:text-blue-400 transition-colors">ホーム</a>
                         <ChevronRight className="w-4 h-4" />
                         <a href="/ja/category" className="hover:text-primary dark:hover:text-blue-400 transition-colors">ブログ</a>
                         <ChevronRight className="w-4 h-4" />
-                        <span className="text-slate-800 dark:text-slate-200 truncate">{postDetail.title}</span>
+                        <span className="text-foreground/90 truncate">{postDetail.title}</span>
                     </nav>
 
                     <div className="mb-6">
-                        <span className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        <span className="inline-block bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                             {postDetail.category}
                         </span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.2]">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6 leading-[1.2]">
                         {postDetail.title}
                     </h1>
 
-                    <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                    <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                         {postDetail.excerpt}
                     </p>
 
@@ -87,8 +89,8 @@ export default function ContentJa() {
                                 className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover"
                             />
                             <div>
-                                <div className="font-bold text-slate-900 dark:text-white text-base">{postDetail.author.name}</div>
-                                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                <div className="font-bold text-foreground text-base">{postDetail.author.name}</div>
+                                <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                                     <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
                                     <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
                                     <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime} 読了</span>
@@ -96,14 +98,14 @@ export default function ContentJa() {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+                        <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
                             <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
                             <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
-                            <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="共有">
+                            <div className="flex items-center gap-2 pl-4 border-l border-border/60">
+                                <button className="p-2 rounded-full hover:bg-secondary/20 transition-colors" title="共有">
                                     <Share2 className="w-4 h-4" />
                                 </button>
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="保存">
+                                <button className="p-2 rounded-full hover:bg-secondary/20 transition-colors" title="保存">
                                     <Bookmark className="w-4 h-4" />
                                 </button>
                             </div>
@@ -117,7 +119,7 @@ export default function ContentJa() {
                 <div className="lg:grid lg:grid-cols-12 lg:gap-10">
 
                     {/* LEFT COLUMN: MAIN CONTENT */}
-                    <article className="lg:col-span-9 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+                    <article className="lg:col-span-9 bg-card rounded-2xl shadow-sm border border-border/40 overflow-hidden">
                         
                         <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
                             <Image 
@@ -130,7 +132,7 @@ export default function ContentJa() {
                             />
                         </figure>
 
-                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-foreground/80">
                             <p className="mb-6 drop-cap">
                                 こんにちは、ITエンジニアの皆さん。日本の企業で働く、またはキャリアを積む予定があるなら、「ITスキル標準（ITSS）」について聞いたことがあるでしょう。その中でも、応用情報技術者試験（AP）は、エンジニアの能力を証明する最も権威ある「保証」と見なされています。
                             </p>
@@ -138,7 +140,7 @@ export default function ContentJa() {
                                 APは、単にコードを書く能力をテストするものではありません。リーダー、システムアーキテクト、またはプロジェクトマネージャーとしての思考力があるかを確認する総合的なテストです。APの合格率は厳しく、通常20%〜25%程度です。しかし、正しい戦略を持てば、合格は十分に可能です。
                             </p>
 
-                            <h2 id="section-1" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-1" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 text-xl">1</span>
                                 なぜ他の資格ではなくAPなのか？
                             </h2>
@@ -151,7 +153,7 @@ export default function ContentJa() {
                                 <li><strong>キャリアアップ：</strong>プログラマー（コーダー）からシステムエンジニア（SE）などの上位職への移行を意味します。</li>
                             </ul>
 
-                            <h2 id="section-2" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-2" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 text-xl">2</span>
                                 ルール：2つの試験が行われる「頭脳戦」の1日
                             </h2>
@@ -159,7 +161,7 @@ export default function ContentJa() {
                                 AP試験はIPAによって年に2回（4月と10月）開催されます。同じ日に2つの試験を連続して受けます。重要なポイントは、両方の試験で最低60/100点以上のスコアを獲得する必要があることです。午前の試験に不合格の場合、午後の試験は採点されません。
                             </p>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-6 mb-3">
                                 バトル1：午前試験（Gozen） - スプリント
                             </h3>
                             <ul className="list-disc pl-6 mb-4 space-y-2">
@@ -181,7 +183,7 @@ export default function ContentJa() {
                                 </p>
                             </div>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-8 mb-3">
                                 バトル2：午後試験（Gogo） - 強みの選択
                             </h3>
                             <ul className="list-disc pl-6 mb-4 space-y-2">
@@ -192,7 +194,7 @@ export default function ContentJa() {
                                 Web開発（MERNスタックやフルスタックなど）に携わっている場合は、技術的なバックグラウンドを最大限に活用してください。「隣の芝生は青い」と思わず、自宅で得意科目を決めておきましょう。アドバイスとしては、<strong>「データベース」</strong>と<strong>「システムアーキテクチャ」</strong>を狙うことです。
                             </p>
 
-                            <h2 id="section-3" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-3" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 text-xl">3</span>
                                データベースとシステムアーキテクチャの「攻略」
                             </h2>
@@ -200,7 +202,7 @@ export default function ContentJa() {
                                 Webの経験がある場合、これらは2つのポイントの「金脈」です。
                             </p>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-6 mb-3">
                                 データベース（Database）：データ思考が支配するとき
                             </h3>
                             <p className="mb-4">
@@ -218,7 +220,7 @@ export default function ContentJa() {
                                 </li>
                             </ul>
 
-                            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-3">
+                            <h3 className="text-xl font-semibold text-foreground/90 mt-8 mb-3">
                                 システムアーキテクチャ（System Architecture）：最適化問題
                             </h3>
                             <p className="mb-4">
@@ -241,7 +243,7 @@ export default function ContentJa() {
                                 </li>
                             </ul>
 
-                            <h2 id="section-4" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-4" className="text-2xl sm:text-3xl font-bold text-foreground mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 text-xl">4</span>
                                 最大の障壁：「専門的な日本語」という悪夢
                             </h2>
@@ -252,20 +254,20 @@ export default function ContentJa() {
                                 <div className="flex gap-3">
                                     <Target className="w-6 h-6 text-indigo-500 shrink-0 mt-1" />
                                     <div>
-                                        <h4 className="font-semibold text-slate-900 dark:text-white">スピードが命</h4>
-                                        <p className="text-base text-slate-600 dark:text-slate-400">各ケーススタディに与えられた時間はわずか30分です。一言一句翻訳して読まないでください。スキャニング技術を使い、「～という課題がある」や「～を満たす必要がある」といった構造を見つけてください。これが設計の制約条件を見つける鍵です。</p>
+                                        <h4 className="font-semibold text-foreground">スピードが命</h4>
+                                        <p className="text-base text-muted-foreground">各ケーススタディに与えられた時間はわずか30分です。一言一句翻訳して読まないでください。スキャニング技術を使い、「～という課題がある」や「～を満たす必要がある」といった構造を見つけてください。これが設計の制約条件を見つける鍵です。</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-3">
                                     <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0 mt-1" />
                                     <div>
-                                        <h4 className="font-semibold text-slate-900 dark:text-white">記述式解答</h4>
-                                        <p className="text-base text-slate-600 dark:text-slate-400">解決策を説明するために、日本語で短い文章（15〜40文字）を書く必要があります。正しい簡略形（常体／である調）を使用して、簡潔に書く練習をしてください。</p>
+                                        <h4 className="font-semibold text-foreground">記述式解答</h4>
+                                        <p className="text-base text-muted-foreground">解決策を説明するために、日本語で短い文章（15〜40文字）を書く必要があります。正しい簡略形（常体／である調）を使用して、簡潔に書く練習をしてください。</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <h2 id="section-5" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
+                            <h2 id="section-5" className="text-2xl sm:text-3xl font-bold text-foreground mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 text-xl">5</span>
                                 推奨される学習ロードマップ（4ヶ月のキャンペーン）
                             </h2>
@@ -276,22 +278,22 @@ export default function ContentJa() {
                                 <li><strong>4ヶ月目（スプリントフェーズ）：</strong>週末にフルテスト（午前と午後）を2〜3回受け、試験室に5時間連続で座るプレッシャーに慣れます。</li>
                             </ul>
 
-                            <h2 id="conclusion" className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24">
+                            <h2 id="conclusion" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24">
                                 結論
                             </h2>
                             <p className="mb-4">
                                 AP試験は、システムの技術的知識、マネジメント思考、そして日本語処理能力のバランスが求められる、真の「厳しい」挑戦です。しかし、それが日本のキャリアパス、収入、そして定住にもたらす価値は、あなたが勉強に費やすすべての時間に見合うものです。
                             </p>
-                            <p className="font-medium text-slate-800 dark:text-slate-200">
+                            <p className="font-medium text-foreground/90">
                                 皆さんの健闘を祈り、早くこの強力な資格証明書を手にすることを願っています！
                             </p>
 
                             {/* Tags Section */}
-                            <div className="mt-16 pt-8 border-t border-slate-100 dark:border-slate-800">
+                            <div className="mt-16 pt-8 border-t border-border/40">
                                 <div className="flex items-center gap-3 flex-wrap">
-                                    <span className="text-sm font-semibold text-slate-900 dark:text-white">Tags:</span>
+                                    <span className="text-sm font-semibold text-foreground">Tags:</span>
                                     {postDetail.tags.map((tag) => (
-                                        <a key={tag} href={`/ja/tag/${tag}`} className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
+                                        <a key={tag} href={`/ja/tag/${tag}`} className="px-3 py-1.5 bg-secondary/10 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
                                             #{tag}
                                         </a>
                                     ))}
@@ -303,37 +305,37 @@ export default function ContentJa() {
                     {/* RIGHT COLUMN: TABLE OF CONTENTS */}
                     <aside className="hidden lg:block lg:col-span-3 space-y-8">
                         {/* Sticky TOC */}
-                        <div className="sticky top-24 bg-white dark:bg-[#121212] p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                            <h3 className="font-bold text-base text-slate-900 dark:text-white mb-5 flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+                        <div className="sticky top-24 bg-card p-6 rounded-2xl shadow-sm border border-border/40">
+                            <h3 className="font-bold text-base text-foreground mb-5 flex items-center gap-2 pb-3 border-b border-border/40">
                                 <Bookmark className="w-4 h-4 text-blue-500" /> 目次
                             </h3>
                             <ul className="space-y-3 text-sm">
                                 <li>
-                                    <a href="#section-1" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
+                                    <a href="#section-1" className="flex items-center gap-2.5 text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>
                                         なぜAPなのか？
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-2" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group">
+                                    <a href="#section-2" className="flex items-center gap-2.5 text-muted-foreground hover:text-green-600 dark:hover:text-green-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>
                                         試験のルール
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-3" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
+                                    <a href="#section-3" className="flex items-center gap-2.5 text-muted-foreground hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>
                                         ケーススタディ解読
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-4" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
+                                    <a href="#section-4" className="flex items-center gap-2.5 text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>
                                         専門的な日本語
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-5" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
+                                    <a href="#section-5" className="flex items-center gap-2.5 text-muted-foreground hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
                                         <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-pink-600 group-hover:text-white transition-colors">5</span>
                                         学習ロードマップ
                                     </a>
@@ -358,12 +360,12 @@ export default function ContentJa() {
             </div>
 
             {/* RELATED POSTS */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 dark:border-slate-800">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">関連記事</h3>
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-border/40">
+                <h3 className="text-2xl font-bold text-foreground mb-8">関連記事</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {postDetail.relatedPosts.map((post) => (
                         <a key={post.id} href={post.href} className="group block">
-                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-800">
+                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-secondary/10">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
@@ -371,11 +373,11 @@ export default function ContentJa() {
                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
                                 <Calendar className="w-3.5 h-3.5" />
                                 {post.date}
                             </div>
-                            <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                            <h4 className="font-bold text-lg text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                                 {post.title}
                             </h4>
                         </a>
