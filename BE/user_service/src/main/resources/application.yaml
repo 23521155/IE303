@@ -10,9 +10,9 @@ spring:
         name: user-service
 
     datasource:
-        url: jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/user_db?sslmode=require
+        url: jdbc:postgresql://ep-polished-forest-aouitx9x-pooler.c-2.ap-southeast-1.aws.neon.tech/user_db?user=neondb_owner&password=npg_HO0ExMqpRa1y&sslmode=require&channelBinding=require
         username: neondb_owner
-        password: npg_kFcsqpABNu18
+        password: npg_HO0ExMqpRa1y
         driver-class-name: org.postgresql.Driver
         hikari:
             maximum-pool-size: 5

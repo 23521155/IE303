@@ -2,9 +2,9 @@
 # KHÔNG commit file này lên repo production (đang gitignored qua .env)
 spring:
   datasource:
-    url: jdbc:postgresql://ep-shiny-violet-a1soua7r-pooler.ap-southeast-1.aws.neon.tech:5432/auth_db?sslmode=require
+    url: jdbc:postgresql://ep-polished-forest-aouitx9x-pooler.c-2.ap-southeast-1.aws.neon.tech/auth_db?user=neondb_owner&password=npg_HO0ExMqpRa1y&sslmode=require&channelBinding=require
     username: neondb_owner
-    password: npg_kFcsqpABNu18
+    password: npg_HO0ExMqpRa1y
   jpa:
     show-sql: true
 
