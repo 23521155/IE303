@@ -37,6 +37,9 @@ spring:
   cache:
     type: none
 
+  flyway:
+    out-of-order: true
+
 jwt:
   secret: ${JWT_SECRET:FizzCoConCaFizzCoConCaFizzCoConCa}
 

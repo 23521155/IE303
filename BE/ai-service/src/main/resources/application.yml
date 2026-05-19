@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: ai-service
+
+server:
+  port: 8085
+
+llm:
+  provider: ${LLM_PROVIDER:gemini}
+
+anthropic:
+  api-key: ${ANTHROPIC_API_KEY:}
+
+gemini:
+  api-key: ${GEMINI_API_KEY:}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+logging:
+  level:
+    com.edu.ai: DEBUG
