@@ -81,6 +81,49 @@ spring:
               metadata:
                 response-timeout: 20s
 
+            # AI Coach SSE streaming — must be BEFORE ai_service (more specific path)
+            - id: ai_service_sse
+              uri: lb://ai-service
+              predicates:
+                - Path=/api/coach/node/*/explain/stream
+              metadata:
+                response-timeout: 120s
+
+            # AI Coach learning-path — longer timeout for LLM generation
+            - id: ai_service_learning_path
+              uri: lb://ai-service
+              predicates:
+                - Path=/api/coach/*/learning-path
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: ai-service-cb
+                    fallbackUri: forward:/fallback/service-unavailable
+              metadata:
+                response-timeout: 90s
+
+            # AI Coach service
+            - id: ai_service
+              uri: lb://ai-service
+              predicates:
+                - Path=/api/coach/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: ai-service-cb
+                    fallbackUri: forward:/fallback/service-unavailable
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: SERVICE_UNAVAILABLE
+                    methods: GET
+                    backoff:
+                      firstBackoff: 200ms
+                      maxBackoff: 2000ms
+                      factor: 2
+              metadata:
+                response-timeout: 30s
+
             # Material service: không retry vì có file download lớn
             - id: material_service
               uri: lb://material-service
@@ -93,6 +136,12 @@ spring:
                     fallbackUri: forward:/fallback/service-unavailable
               metadata:
                 response-timeout: 60s
+
+cors:
+  allowed-origins:
+    - http://localhost:3000
+    - http://localhost:3001
+    - ${ALLOWED_ORIGINS:http://localhost:3000}
 
 jwt:
   secret: ${JWT_SECRET:FizzCoConCaFizzCoConCaFizzCoConCa}
@@ -116,6 +165,22 @@ gateway:
       - "DELETE:/api/materials/**"
 
 resilience4j:
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 30s
+        cancel-running-future: true
+    instances:
+      auth-service-cb:
+        base-config: default
+      user-service-cb:
+        base-config: default
+      exam-service-cb:
+        base-config: default
+      ai-service-cb:
+        base-config: default
+      material-service-cb:
+        base-config: default
   circuitbreaker:
     configs:
       default:
@@ -137,6 +202,8 @@ resilience4j:
       user-service-cb:
         base-config: default
       exam-service-cb:
+        base-config: default
+      ai-service-cb:
         base-config: default
       material-service-cb:
         base-config: default

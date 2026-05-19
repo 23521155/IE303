@@ -1,5 +1,6 @@
 @import './tailwind.css';
 @import './theme.css';
+@import '@xyflow/react/dist/style.css';
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;

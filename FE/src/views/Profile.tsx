@@ -2,20 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    Settings,
-    LogOut,
-    User,
-    History,
-    BrainCircuit,
-    Home,
-    PanelLeft,
-    BarChart2,
-    Map,
-    Lightbulb,
-    ChevronRight,
-    ChevronsUpDown,
-} from 'lucide-react';
+import { Settings, LogOut, User, Home, PanelLeft, ChevronRight, ChevronsUpDown } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useMe } from '@/src/hooks/useMe';
@@ -54,6 +41,12 @@ import {
     DropdownMenuSeparator,
 } from '@/src/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/src/components/ui/avatar';
+import { GraphIcon } from '@/src/components/svg-icon/graph';
+import { AiIcon } from '@/src/components/svg-icon/ai';
+import { BubLightIcon } from '@/src/components/svg-icon/bub-light';
+import { HistoryLineIcon } from '@/src/components/svg-icon/history-line';
+import { PathLearnIcon } from '@/src/components/svg-icon/path';
+import AnimateInView from '@/src/animation/AnimateInView';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -88,14 +81,14 @@ type TabId = 'profile' | 'history' | 'coach/graph' | 'coach/path' | 'coach/insig
 // ─── Config ──────────────────────────────────────────────────────────────────
 
 const COACH_SUB: { id: TabId; icon: React.ElementType; label: string }[] = [
-    { id: 'coach/graph', icon: BarChart2, label: 'Graph' },
-    { id: 'coach/path', icon: Map, label: 'Path' },
-    { id: 'coach/insight', icon: Lightbulb, label: 'Insight' },
+    { id: 'coach/graph', icon: GraphIcon, label: 'Graph' },
+    { id: 'coach/path', icon: PathLearnIcon, label: 'Path' },
+    { id: 'coach/insight', icon: BubLightIcon, label: 'Insight' },
 ];
 
 const NAV_ITEMS: { id: TabId; icon: React.ElementType; label: string }[] = [
     { id: 'profile', icon: User, label: 'Profile' },
-    { id: 'history', icon: History, label: 'History' },
+    { id: 'history', icon: HistoryLineIcon, label: 'History' },
 ];
 
 const TAB_VARIANTS = {
@@ -175,41 +168,6 @@ function LogoTrigger() {
                 </div>
             </button>
         </>
-    );
-}
-
-function Breadcrumb({ activeTab, setActiveTab }: { activeTab: TabId; setActiveTab: (t: TabId) => void }) {
-    const isCoach = activeTab.startsWith('coach/');
-    const badge = {
-        'coach/graph': 'Graph',
-        'coach/path': 'Path',
-        'coach/insight': 'Insight',
-        history: 'History',
-        profile: 'Profile',
-    }[activeTab];
-
-    return (
-        <div>
-            {isCoach && (
-                <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-2">
-                    <button
-                        type="button"
-                        onClick={() => setActiveTab('coach/graph')}
-                        className="hover:text-foreground transition-colors duration-150 cursor-pointer"
-                    >
-                        AI Coach
-                    </button>
-                    <ChevronRight className="w-3.5 h-3.5 opacity-40 flex-shrink-0" />
-                    <span className="text-foreground/70">{badge}</span>
-                </div>
-            )}
-            <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide mb-2">
-                {badge}
-            </div>
-            <h2 className="text-xl font-bold tracking-tight text-secondary dark:text-foreground">
-                {isCoach ? 'AI Coach' : badge}
-            </h2>
-        </div>
     );
 }
 
@@ -326,6 +284,16 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
     const recentAttempts = summary?.recentAttempts ?? [];
     const hoursDisplay = formatPracticeHours(summary?.totalPracticeSeconds ?? 0);
 
+    const isCoach = activeTab.startsWith('coach/');
+    const badge: string =
+        ({
+            'coach/graph': 'Graph',
+            'coach/path': 'Path',
+            'coach/insight': 'Insight',
+            history: 'History',
+            profile: 'Profile',
+        } as Record<TabId, string>)[activeTab] ?? 'Profile';
+
     const handleLogout = async () => {
         await logoutAction();
         setUser(null);
@@ -336,6 +304,7 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
     const coachTabProps = {
         t,
         lang,
+        userId: profileUser?.id?.toString() ?? null,
         completedCount: summary?.completedCount ?? 0,
         totalPracticeSeconds: summary?.totalPracticeSeconds ?? 0,
         recentAttempts,
@@ -418,7 +387,7 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
                                         tooltip="AI Coach"
                                         className="cursor-pointer"
                                     >
-                                        <BrainCircuit className="shrink-0" />
+                                        <AiIcon className="shrink-0 w-5.5 h-5.5" />
                                         <span>AI Coach</span>
                                         <ChevronRight className="ml-auto shrink-0 transition-transform duration-300 [[data-state=open]_&]:rotate-90" />
                                     </SidebarMenuButton>
@@ -433,7 +402,7 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
                                                         onClick={() => setActiveTab(subId)}
                                                         className="cursor-pointer w-full"
                                                     >
-                                                        <Icon className="w-3.5 h-3.5 shrink-0" />
+                                                        <Icon className="w-4 h-4 shrink-0" />
                                                         <span>{label}</span>
                                                     </button>
                                                 </SidebarMenuSubButton>
@@ -514,21 +483,76 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
             </Sidebar>
 
             <SidebarInset className="dark:bg-background overflow-y-auto">
-                <div className="p-8 lg:p-12">
-                    <Breadcrumb activeTab={activeTab} setActiveTab={setActiveTab} />
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={activeTab}
-                            variants={TAB_VARIANTS}
-                            initial="initial"
-                            animate="animate"
-                            exit="exit"
-                            transition={TAB_TRANSITION}
-                        >
-                            {TAB_CONTENT[activeTab]}
-                        </motion.div>
-                    </AnimatePresence>
+                {/* ── Gradient page header ── */}
+                <div className="relative px-8 lg:px-12 pb-0 overflow-hidden">
+                    <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                            background:
+                                'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(232, 121, 33, 0.09) 0%, transparent 65%)',
+                        }}
+                    />
+                    {/* Dot-grid texture */}
+                    <div
+                        className="absolute inset-0 pointer-events-none opacity-[0.025] dark:opacity-[0.04]"
+                        style={{
+                            backgroundImage: 'radial-gradient(circle, var(--color-secondary) 1px, transparent 1px)',
+                            backgroundSize: '28px 28px',
+                        }}
+                    />
+
+                    <div className="relative">
+                        <section className="relative pb-8 overflow-hidden">
+                            {/* Ambient amber glow */}
+                            <div
+                                className="absolute inset-0 pointer-events-none"
+                                style={{
+                                    background:
+                                        'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(232, 121, 33, 0.09) 0%, transparent 65%)',
+                                }}
+                            />
+                            {/* Dot-grid texture */}
+                            <div
+                                className="absolute inset-0 pointer-events-none opacity-[0.025] dark:opacity-[0.04]"
+                                style={{
+                                    backgroundImage:
+                                        'radial-gradient(circle, var(--color-secondary) 1px, transparent 1px)',
+                                    backgroundSize: '28px 28px',
+                                }}
+                            />
+                            <div className="max-w-7xl mx-auto relative pt-8">
+                                <AnimateInView>
+                                    <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide mb-4">
+                                        DashBoard
+                                    </div>
+                                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-secondary dark:text-foreground mb-3">
+                                        {isCoach ? 'AI Coach' : badge}
+                                    </h1>
+
+                                    {/*Thêm desc cho 5 loại tab*/}
+                                    <p className="text-muted-foreground text-base leading-relaxed max-w-xl">
+                                        {t.examLibDesc}
+                                    </p>
+                                </AnimateInView>
+                            </div>
+                        </section>
+                    </div>
                 </div>
+
+                {/* ── Content ── */}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeTab}
+                        variants={TAB_VARIANTS}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        transition={TAB_TRANSITION}
+                        className={activeTab === 'coach/graph' ? '' : 'p-8 lg:p-12'}
+                    >
+                        {TAB_CONTENT[activeTab]}
+                    </motion.div>
+                </AnimatePresence>
             </SidebarInset>
         </SidebarProvider>
     );
