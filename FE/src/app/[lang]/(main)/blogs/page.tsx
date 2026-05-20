@@ -2,8 +2,7 @@ import React from 'react';
 import { ArticleList } from '@/src/views/ArticleList';
 import { getDictionary } from '@/src/utils/dictionaries';
 import type { Locale } from '@/src/utils/i18n';
-
-import type { Metadata } from 'next'
+import type { Metadata } from 'next';
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 
@@ -11,13 +10,13 @@ const titles = {
     vi: 'Blog IT - Kiến thức & lộ trình học IT',
     en: 'IT Blog - Guides & Learning Path',
     ja: 'ITブログ - 学習ガイド',
-}
+};
 
 const descriptions = {
     vi: 'Tổng hợp bài viết về IT Passport, FE và lộ trình học IT dành cho người mới.',
     en: 'Collection of articles about IT Passport, FE exam, and IT learning paths.',
     ja: 'ITパスポートやFE試験に関する記事まとめ。',
-}
+};
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
     const { lang } = await params;
@@ -25,7 +24,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     return {
         title: titles[lang as 'vi' | 'en' | 'ja'],
         description: descriptions[lang as 'vi' | 'en' | 'ja'],
-
         alternates: {
             canonical: `${baseUrl}/${lang}/blogs`,
             languages: {
@@ -34,7 +32,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
                 ja: `${baseUrl}/ja/blogs`,
             },
         },
-
         openGraph: {
             title: titles[lang as 'vi' | 'en' | 'ja'],
             description: descriptions[lang as 'vi' | 'en' | 'ja'],
@@ -42,11 +39,20 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
             siteName: 'IT Shiken',
             type: 'website',
         },
-    }
+    };
 }
 
 const blogPostsByLang = {
     vi: [
+        {
+            id: 'chon-truong-it-tieng-nhat',
+            title: 'Bạn Muốn Chọn Trường Để Vừa Học IT Vừa Học Tiếng Nhật? Hãy Ghé Qua Website Này!',
+            excerpt: 'Kỷ nguyên số đưa IT kết hợp Tiếng Nhật thành tấm vé vàng sự nghiệp. Hãy khám phá Uni2Insight để đọc review thực tế và chuẩn bị hành trang cùng IT Shiken.',
+            category: "Định hướng",
+            readTime: '8 phút',
+            coverImage: '/uni2insight-real.png',
+            author: 'Trần Thiên Phú',
+        },
         {
             id: 'lo-trinh-hoc-it',
             title: 'Lộ trình học IT cơ bản cho người mới bắt đầu (IT Passport & FE)',
@@ -79,11 +85,20 @@ const blogPostsByLang = {
             excerpt: 'Từ định nghĩa, cấu trúc đề thi, cách đăng ký đến lộ trình ôn luyện – tất cả trong một bài viết.',
             category: "Chứng chỉ IT",
             readTime: '30 phút',
-            coverImage: '/blog-it-fe-thumbnail.jpg'
+            coverImage: '/blog-it-fe-thumbnail.jpg',
         },
     ],
 
     en: [
+        {
+            id: 'chon-truong-it-tieng-nhat',
+            title: 'Choosing a School for IT and Japanese Studies: Check Uni2Insight & IT Shiken',
+            excerpt: 'Discover how to choose the best universities for combined IT and Japanese studies in Vietnam using real student reviews on Uni2Insight.',
+            category: 'Career Guide',
+            readTime: '8 min',
+            coverImage: '/uni2insight-real.png',
+            author: 'Trần Thiên Phú',
+        },
         {
             id: 'lo-trinh-hoc-it',
             title: 'Basic IT Learning Path for Beginners (IT Passport & FE)',
@@ -116,11 +131,20 @@ const blogPostsByLang = {
             excerpt: 'Full explanation of FE exam structure and preparation strategy.',
             category: 'IT Certification',
             readTime: '30 min',
-            coverImage: '/blog-it-fe-thumbnail.jpg'
+            coverImage: '/blog-it-fe-thumbnail.jpg',
         },
     ],
 
     ja: [
+        {
+            id: 'chon-truong-it-tieng-nhat',
+            title: 'ITと日本語を両方学べる大学の選び方：Uni2InsightとIT Shikenを活用しよう',
+            excerpt: 'ベトナムでITと日本語を同時に学べる最適な大学を選ぶ方法。Uni2Insightでの現役学生によるリアルなレビューと、IT Shikenでの資格対策について紹介。',
+            category: 'キャリアガイド',
+            readTime: '8分',
+            coverImage: '/uni2insight-real.png',
+            author: 'Trần Thiên Phú',
+        },
         {
             id: 'lo-trinh-hoc-it',
             title: '初心者のためのIT学習ロードマップ（ITパスポート＆FE）',
@@ -153,25 +177,25 @@ const blogPostsByLang = {
             excerpt: '試験内容から対策まで徹底解説。',
             category: 'IT資格',
             readTime: '30分',
-            coverImage: '/blog-it-fe-thumbnail.jpg'
+            coverImage: '/blog-it-fe-thumbnail.jpg',
         },
     ],
-}
+};
 
 const commonFields = {
     author: 'Nguyễn Lê Tuấn Phi',
-    date: '2026-05-01',
+    date: '2026-05-20',
     type: 'blogs',
-}
+};
 
-export default async function BlogPage({params}:{params:Promise<{lang: string}> }) {
-    const {lang} = await params;
-    const t = await getDictionary(lang as Locale)
+export default async function BlogPage({ params }: { params: Promise<{ lang: string }> }) {
+    const { lang } = await params;
+    const t = await getDictionary(lang as Locale);
 
     const blogPosts = blogPostsByLang[lang as 'vi' | 'en' | 'ja'].map(post => ({
         ...commonFields,
         ...post,
-    }))
+    }));
 
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -179,9 +203,7 @@ export default async function BlogPage({params}:{params:Promise<{lang: string}> 
         '@id': `${baseUrl}/${lang}/blogs#collection`,
         name: titles[lang as 'vi' | 'en' | 'ja'],
         url: `${baseUrl}/${lang}/blogs`,
-
         inLanguage: lang,
-
         mainEntity: {
             '@type': 'ItemList',
             itemListElement: blogPosts.map((post, index) => ({
@@ -191,7 +213,7 @@ export default async function BlogPage({params}:{params:Promise<{lang: string}> 
                 name: post.title,
             })),
         },
-    }
+    };
 
     return (
         <>
