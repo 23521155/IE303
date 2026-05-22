@@ -3,29 +3,13 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FileText, Video, Download, Search, Loader2, Folder, LayoutList, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import AnimateInView from '@/src/animation/AnimateInView'; // Thêm import này
+import { materialService, type Material, type MaterialPage } from '@/src/services/materialService';
 
-type LearningMaterial = {
-    id: number;
-    title: string;
-    category: string;
-    imageUrl: string;
-    description: string;
-    fileUrl: string;
-    type: string;
-    createdAt: string;
-};
-
-type PagedData = {
-    content: LearningMaterial[];
-    last: boolean;
-    totalElements: number;
-};
-
-export function Materials({ t, lang, initialData }: { t: any; lang: string; initialData: PagedData }) {
+export function Materials({ t, lang, initialData }: { t: any; lang: string; initialData: MaterialPage }) {
     const [activeTab, setActiveTab] = useState('all');
     const [categorySelect, setCategorySelect] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
-    const [materials, setMaterials] = useState<LearningMaterial[]>(initialData.content);
+    const [materials, setMaterials] = useState<Material[]>(initialData.content);
     const [hasMore, setHasMore] = useState(!initialData.last);
     const [loading, setLoading] = useState(false);
 
@@ -44,33 +28,11 @@ export function Materials({ t, lang, initialData }: { t: any; lang: string; init
         setLoading(true);
 
         try {
-            const catParam = category !== 'all' ? `&category=${encodeURIComponent(category)}` : '';
-            const res = await fetch(`/api/materials?page=${pageNum}&size=15${catParam}`);
-            
-            if (!res.ok) {
-                console.warn('Materials API responded with', res.status);
-                hasMoreRef.current = false;
-                setHasMore(false);
-                return;
-            }
-
-            const json = await res.json();
-
-            // Handle multiple possible response shapes:
-            // 1. { data: { content: [...], last: bool, totalElements: N } }
-            // 2. { content: [...], last: bool, totalElements: N }
-            // 3. {} or other unexpected shape
-            const raw = json?.data ?? json;
-            const data: PagedData | null =
-                raw && Array.isArray(raw.content) ? raw : null;
-
-            if (!data) {
-                // Empty or unexpected response - treat as "no more data"
-                hasMoreRef.current = false;
-                setHasMore(false);
-                if (replace) setMaterials([]);
-                return;
-            }
+            const data = await materialService.getMaterials({
+                page: pageNum,
+                size: 15,
+                category: category !== 'all' ? category : undefined,
+            });
 
             setMaterials((prev) => (replace ? data.content : [...prev, ...data.content]));
             hasMoreRef.current = !data.last;

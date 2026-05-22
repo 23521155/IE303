@@ -1,30 +1,16 @@
 import type { Metadata } from 'next';
+import { materialService, type Material } from '@/src/services/materialService';
 import type { Locale } from '@/src/utils/i18n';
 import { getDictionary } from '@/src/utils/dictionaries';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import { BE_URL } from '@/src/utils/constans';
 import { MaterialDetail } from '@/src/views/MaterialDetail';
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 
-type Material = {
-    id: number;
-    title: string;
-    category: string;
-    imageUrl: string;
-    description: string;
-    fileUrl: string;
-    type: string;
-    createdAt: string;
-};
-
 const getMaterialCached = cache(async (id: string): Promise<Material | null> => {
     try {
-        const res = await fetch(`${BE_URL}/api/materials/${id}`, { next: { revalidate: 3600 } });
-        if (!res.ok) return null;
-        const json = await res.json();
-        return json?.data ?? null;
+        return await materialService.getMaterialById(id, { next: { revalidate: 3600 } });
     } catch {
         return null;
     }

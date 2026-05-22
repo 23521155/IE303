@@ -1,15 +1,16 @@
 import { MetadataRoute } from 'next';
 import { examService } from '@/src/services/examService';
-import { BE_URL } from '@/src/utils/constans';
+import { materialService } from '@/src/services/materialService';
 
 // 1. Thêm fallback để chống lỗi lúc build
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 
 async function getMaterialsLastModified(): Promise<Date> {
     try {
-        const res = await fetch(`${BE_URL}/api/materials?size=200`, { next: { revalidate: 3600 } });
-        const json = await res.json();
-        const content: { createdAt?: string }[] = json?.data?.content ?? [];
+        const { content } = await materialService.getMaterials(
+            { size: 200 },
+            { next: { revalidate: 3600 } },
+        );
         const dates = content.map((m) => new Date(m.createdAt ?? '')).filter((d) => !isNaN(d.getTime()));
         if (dates.length > 0) return new Date(Math.max(...dates.map((d) => d.getTime())));
     } catch {}
@@ -79,9 +80,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     try {
-        const res = await fetch(`${BE_URL}/api/materials?size=200`, { next: { revalidate: 3600 } });
-        const json = await res.json();
-        const materialItems: { id: number; createdAt?: string }[] = json?.data?.content ?? [];
+        const { content: materialItems } = await materialService.getMaterials(
+            { size: 200 },
+            { next: { revalidate: 3600 } },
+        );
         locales.forEach((locale) => {
             materialItems.forEach((material) => {
                 const cleanPath = `/materials/${material.id}`;
