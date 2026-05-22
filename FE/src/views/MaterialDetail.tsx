@@ -60,7 +60,7 @@ export function MaterialDetail({ material, t, lang }: { material: Material; t: a
                     <div className="flex items-center gap-4 flex-wrap">
                         <a
                             href={downloadUrl}
-                            className="inline-flex items-center gap-2 h-8 px-3.5 text-sm font-medium bg-primary text-white hover:bg-primary/90 rounded-md transition-colors"
+                            className="inline-flex items-center gap-2 h-8 px-3.5 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-md transition-colors"
                         >
                             <Download className="w-3.5 h-3.5" />
                             {t.downloads || 'Tải xuống'}

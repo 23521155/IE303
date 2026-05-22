@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from "next/navigation";
-import { Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -39,6 +39,7 @@ export function TakeExam({
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [timeLeft, setTimeLeft] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
     useEffect(() => {
         if (!exam) return;
@@ -97,6 +98,7 @@ export function TakeExam({
         if (isSubmitting) return;
 
         setIsSubmitting(true);
+        setIsConfirmModalOpen(false);
 
         try {
             const timeSpent = exam.duration * 60 - Math.max(0, timeLeft);
@@ -156,12 +158,38 @@ export function TakeExam({
         }
     }, [currentQuestionIndex]);
 
+    const modalTranslations = {
+        vi: {
+            title: t.confirmSubmitTitle || "Nộp bài thi?",
+            desc: t.confirmSubmit || "Bạn có chắc chắn muốn nộp bài thi này không? Hành động này không thể hoàn tác.",
+            progress: `Đã làm ${answeredCount}/${questions.length} câu`,
+            cancel: t.cancel || "Hủy",
+            submit: t.submitExam || "Nộp bài",
+        },
+        en: {
+            title: t.confirmSubmitTitle || "Submit Exam?",
+            desc: t.confirmSubmit || "Are you sure you want to submit? This action cannot be undone.",
+            progress: `Answered ${answeredCount}/${questions.length} questions`,
+            cancel: t.cancel || "Cancel",
+            submit: t.submitExam || "Submit",
+        },
+        ja: {
+            title: t.confirmSubmitTitle || "試験を提出しますか？",
+            desc: t.confirmSubmit || "本当に試験を提出しますか？この操作は取り消すことができません。",
+            progress: `${questions.length}問中 ${answeredCount}問 解答済み`,
+            cancel: t.cancel || "キャンセル",
+            submit: t.submitExam || "提出する",
+        },
+    };
+
+    const currentMeta = modalTranslations[lang as 'vi' | 'en' | 'ja'] || modalTranslations.en;
+
     return (
         <div className="min-h-screen bg-background">
 
 
             {/* ─── Sticky header ─────────────────────────────────────────── */}
-            <header className="sticky top-0 z-50 bg-[#fffcfb] border-b border-border/60">
+            <header className="sticky top-0 z-40 bg-background border-b border-border/60">
                 {/* Ultra-thin progress bar pinned to top of header */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-border/30">
                     <div
@@ -202,13 +230,9 @@ export function TakeExam({
                             </div>
                             <div className="w-px h-4 bg-border flex-shrink-0" />
                             <button
-                                onClick={() => {
-                                    if (window.confirm(t.confirmSubmit)) {
-                                        handleSubmit();
-                                    }
-                                }}
+                                onClick={() => setIsConfirmModalOpen(true)}
                                 disabled={isSubmitting}
-                                className="h-8 px-3.5 text-sm font-medium bg-primary text-white hover:bg-primary/90 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                className="h-8 px-3.5 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                             >
                                 {isSubmitting ? t.submitting : t.submitExam}
                             </button>
@@ -219,7 +243,7 @@ export function TakeExam({
 
             {/* ─── Body ──────────────────────────────────────────────────── */}
 
-            <main className="max-w-[1600px] bg-[#fefdfc] mx-auto px-4 sm:px-6 py-8 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+            <main className="max-w-[1600px] bg-background mx-auto px-4 sm:px-6 py-8 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
 
                 {/* ── Question area ── */}
                 <section ref={questionTopRef} className="space-y-5 scroll-mt-32">
@@ -382,7 +406,7 @@ export function TakeExam({
                                                 onClick={() => setCurrentQuestionIndex(index)}
                                                 className={`h-7 w-full text-[0.7rem] font-medium rounded-sm transition-colors ${
                                                     isCurrent
-                                                        ? 'bg-primary text-white'
+                                                        ? 'bg-primary text-primary-foreground'
                                                         : isAnswered
                                                         ? 'bg-secondary/90 dark:bg-secondary/70 text-white hover:bg-secondary dark:hover:bg-secondary/90'
                                                         : 'border border-border/60 text-foreground/50 hover:border-border hover:text-foreground hover:bg-muted/40'
@@ -415,6 +439,57 @@ export function TakeExam({
                 </aside>
 
             </main>
+
+            {isConfirmModalOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    <div
+                        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-200"
+                        onClick={() => !isSubmitting && setIsConfirmModalOpen(false)}
+                    />
+
+                    <div className="relative bg-white dark:bg-[#111827] border border-border rounded-xl p-6 shadow-xl max-w-md w-full space-y-5 transform transition-all duration-200 scale-100 opacity-100">
+                        <div className="flex items-start gap-4">
+                            <div className="p-2.5 bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 rounded-full flex-shrink-0">
+                                <AlertCircle className="w-6 h-6" />
+                            </div>
+                            <div className="space-y-1.5 flex-1">
+                                <h3 className="text-base font-bold text-foreground">
+                                    {currentMeta.title}
+                                </h3>
+                                <p className="text-sm text-muted-foreground leading-relaxed">
+                                    {currentMeta.desc}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="bg-muted/40 dark:bg-muted/20 rounded-lg px-4 py-2.5 text-xs text-muted-foreground flex justify-between items-center">
+                            <span>{t.status || (lang === 'ja' ? 'ステータス' : lang === 'vi' ? 'Trạng thái' : 'Status')}:</span>
+                            <span className="font-semibold text-foreground">
+                                {currentMeta.progress}
+                            </span>
+                        </div>
+
+                        <div className="flex items-center justify-end gap-3 pt-1">
+                            <button
+                                type="button"
+                                disabled={isSubmitting}
+                                onClick={() => setIsConfirmModalOpen(false)}
+                                className="h-9 px-4 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-muted/80 transition-colors disabled:opacity-40 cursor-pointer"
+                            >
+                                {currentMeta.cancel}
+                            </button>
+                            <button
+                                type="button"
+                                disabled={isSubmitting}
+                                onClick={handleSubmit}
+                                className="h-9 px-4 text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/90 rounded-md transition-colors disabled:opacity-40 cursor-pointer shadow-sm"
+                            >
+                                {isSubmitting ? t.submitting : currentMeta.submit}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

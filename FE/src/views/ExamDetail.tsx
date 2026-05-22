@@ -141,7 +141,7 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                         <div className="lg:hidden pt-2">
                             <Link
                                 href={`/${lang}/exams/${exam.id}/take`}
-                                className="flex items-center justify-center gap-2 w-full h-11 bg-primary text-white text-sm font-semibold rounded-md hover:bg-primary/90 transition-colors"
+                                className="flex items-center justify-center gap-2 w-full h-11 bg-primary text-primary-foreground text-sm font-semibold rounded-md hover:bg-primary/90 transition-colors"
                             >
                                 {t.startDoingExam}
                                 <ArrowRight className="w-4 h-4" />
@@ -188,7 +188,7 @@ export function ExamDetail({ examData, t, lang }: { examData: Exam | null; t: an
                                 <div className="px-5 py-5 border-t border-border/50 space-y-3">
                                     <Link
                                         href={`/${lang}/exams/${exam.id}/take`}
-                                        className="flex items-center justify-center gap-2 w-full h-10 bg-primary text-white text-sm font-semibold rounded-md hover:bg-primary/90 transition-colors"
+                                        className="flex items-center justify-center gap-2 w-full h-10 bg-primary text-primary-foreground text-sm font-semibold rounded-md hover:bg-primary/90 transition-colors"
                                     >
                                         {t.startDoingExam}
                                         <ArrowRight className="w-4 h-4" />

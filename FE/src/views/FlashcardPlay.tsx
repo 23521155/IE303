@@ -357,7 +357,7 @@ export function FlashcardPlay({ t, lang }: { t: any; lang: string }) {
                                 <div className="w-px h-5 bg-border/60 mx-0.5 flex-shrink-0" />
                                 <button
                                     onClick={toggleFlip}
-                                    className="h-10 px-6 rounded-full bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors cursor-pointer"
+                                    className="h-10 px-6 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors cursor-pointer"
                                 >
                                     {t.flipToSeeAnswer || 'Xem đáp án'}
                                 </button>
