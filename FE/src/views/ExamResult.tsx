@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { CheckCircle2, XCircle, Award, BarChart3, Clock, RotateCcw, Home, FileText } from 'lucide-react';
-import { BE_URL } from '@/src/utils/constans';
 import { ExamRatingStars } from '@/src/components/ExamRatingStars';
+import { attemptService } from '@/src/services/attemptService';
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -34,12 +34,7 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
             try {
                 setLoading(true);
 
-                const resultRes = await fetch(`${BE_URL}/api/attempts/${id}`, {
-                    credentials: 'include',
-                });
-
-                if (!resultRes.ok) throw new Error('Không tìm thấy kết quả thi');
-                const attemptData = await resultRes.json().then((result) => result.data);
+                const attemptData = await attemptService.getAttemptById(id);
 
                 const questionsData = attemptData.exam.questions;
 
