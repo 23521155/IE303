@@ -1,4 +1,5 @@
 import { BE_URL } from '@/src/utils/constans';
+import { refreshAccessTokenAction } from '@/src/actions/authActions';
 
 export type NextFetchOptions = {
     revalidate?: number | false;
@@ -33,6 +34,18 @@ export interface ApiResponse<T> {
     response: Response;
     data: T;
 }
+
+let isRefreshing = false;
+let refreshSubscribers: ((success: boolean) => void)[] = [];
+
+const onRefreshed = (success: boolean) => {
+    refreshSubscribers.forEach((callback) => callback(success));
+    refreshSubscribers = [];
+};
+
+const addRefreshSubscriber = (callback: (success: boolean) => void) => {
+    refreshSubscribers.push(callback);
+};
 
 const isPlainObject = (value: unknown): value is Record<string, unknown> =>
     typeof value === 'object' &&
@@ -94,7 +107,40 @@ const parseResponsePayload = async (response: Response) => {
     return response.text();
 };
 
-export async function apiRequest<T>(path: string, options: ServiceRequestOptions = {}): Promise<T> {
+const getErrorMessage = (payload: unknown, status: number) =>
+    typeof payload === 'object' &&
+    payload !== null &&
+    'message' in payload &&
+    typeof payload.message === 'string'
+        ? payload.message
+        : `Request failed with status ${status}`;
+
+const waitForRefreshResult = () =>
+    new Promise<boolean>((resolve) => {
+        addRefreshSubscriber(resolve);
+    });
+
+const refreshClientSession = async () => {
+    if (isRefreshing) {
+        return waitForRefreshResult();
+    }
+
+    isRefreshing = true;
+
+    try {
+        const result = await refreshAccessTokenAction();
+        const success = Boolean(result?.success);
+        onRefreshed(success);
+        return success;
+    } catch {
+        onRefreshed(false);
+        return false;
+    } finally {
+        isRefreshing = false;
+    }
+};
+
+const executeRequest = async (path: string, options: ServiceRequestOptions = {}) => {
     const { query, body: rawBody, headers, ...fetchOptions } = options;
     const { body, contentType } = normalizeBody(rawBody);
 
@@ -104,24 +150,33 @@ export async function apiRequest<T>(path: string, options: ServiceRequestOptions
         mergedHeaders.set('Content-Type', contentType);
     }
 
-    const response = await fetch(buildUrl(path, query), {
+    const requestUrl = buildUrl(path, query);
+    const requestInit: RequestInit & { next?: NextFetchOptions } = {
         ...fetchOptions,
         headers: mergedHeaders,
         body,
-    });
+    };
 
-    const payload = await parseResponsePayload(response);
+    let response = await fetch(requestUrl, requestInit);
+    let payload = await parseResponsePayload(response);
+
+    if (!response.ok && response.status === 401 && typeof window !== 'undefined') {
+        const refreshSucceeded = await refreshClientSession();
+
+        if (refreshSucceeded) {
+            response = await fetch(requestUrl, requestInit);
+            payload = await parseResponsePayload(response);
+        }
+    }
+
+    return { response, payload };
+};
+
+export async function apiRequest<T>(path: string, options: ServiceRequestOptions = {}): Promise<T> {
+    const { response, payload } = await executeRequest(path, options);
 
     if (!response.ok) {
-        const message =
-            typeof payload === 'object' &&
-            payload !== null &&
-            'message' in payload &&
-            typeof payload.message === 'string'
-                ? payload.message
-                : `Request failed with status ${response.status}`;
-
-        throw new ApiError(message, response.status, payload);
+        throw new ApiError(getErrorMessage(payload, response.status), response.status, payload);
     }
 
     return payload as T;
@@ -131,33 +186,10 @@ export async function apiRequestWithResponse<T>(
     path: string,
     options: ServiceRequestOptions = {},
 ): Promise<ApiResponse<T>> {
-    const { query, body: rawBody, headers, ...fetchOptions } = options;
-    const { body, contentType } = normalizeBody(rawBody);
-
-    const mergedHeaders = new Headers(headers);
-
-    if (contentType && !mergedHeaders.has('Content-Type')) {
-        mergedHeaders.set('Content-Type', contentType);
-    }
-
-    const response = await fetch(buildUrl(path, query), {
-        ...fetchOptions,
-        headers: mergedHeaders,
-        body,
-    });
-
-    const payload = await parseResponsePayload(response);
+    const { response, payload } = await executeRequest(path, options);
 
     if (!response.ok) {
-        const message =
-            typeof payload === 'object' &&
-            payload !== null &&
-            'message' in payload &&
-            typeof payload.message === 'string'
-                ? payload.message
-                : `Request failed with status ${response.status}`;
-
-        throw new ApiError(message, response.status, payload);
+        throw new ApiError(getErrorMessage(payload, response.status), response.status, payload);
     }
 
     return {
