@@ -87,7 +87,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
     };
 
     return (
-        <header className="bg-[#fef8f4] border-b border-border sticky top-0 z-50 transition-colors">
+        <header className="bg-[#fef8f4] dark:bg-[#0c0a09]  border-b border-border sticky top-0 z-50 transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center h-14">
                     {/* Logo */}
@@ -163,15 +163,15 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                             )}
                         </div>
 
-                        {/* Theme toggle */}
-                        {/*<button*/}
-                        {/*    type="button"*/}
-                        {/*    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}*/}
-                        {/*    className="h-8 w-8 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 rounded-md transition-colors"*/}
-                        {/*    aria-label="Toggle theme"*/}
-                        {/*>*/}
-                        {/*    {mounted && (theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />)}*/}
-                        {/*</button>*/}
+                         {/*Theme toggle*/}
+                        <button
+                            type="button"
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                            className="h-8 w-8 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 rounded-md transition-colors"
+                            aria-label="Toggle theme"
+                        >
+                            {mounted && (theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />)}
+                        </button>
 
                         <div className="w-px h-4 bg-border mx-1.5 flex-shrink-0" />
 
@@ -284,14 +284,14 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                 </div>
                             )}
                         </div>
-                        {/*<button*/}
-                        {/*    type="button"*/}
-                        {/*    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}*/}
-                        {/*    className="h-8 w-8 flex items-center justify-center text-muted-foreground hover:text-foreground rounded-md transition-colors"*/}
-                        {/*    aria-label="Toggle theme"*/}
-                        {/*>*/}
-                        {/*    {mounted && (theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />)}*/}
-                        {/*</button>*/}
+                        <button
+                            type="button"
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                            className="h-8 w-8 flex items-center justify-center text-muted-foreground hover:text-foreground rounded-md transition-colors"
+                            aria-label="Toggle theme"
+                        >
+                            {mounted && (theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />)}
+                        </button>
                         <button
                             type="button"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
