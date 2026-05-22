@@ -4,6 +4,23 @@ import { locales, defaultLocale } from '@/src/utils/i18n';
 
 const protectedRoutes = ['/profile', '/history', '/coach'];
 
+function decodeJwt(token: string) {
+    try {
+        const base64Url = token.split('.')[1];
+        if (!base64Url) return null;
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+            atob(base64)
+                .split('')
+                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                .join('')
+        );
+        return JSON.parse(jsonPayload);
+    } catch (error) {
+        return null;
+    }
+}
+
 export default function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
@@ -31,6 +48,21 @@ export default function proxy(request: NextRequest) {
         if (!token) {
             const loginUrl = new URL(`/${locale}/`, request.url);
             return NextResponse.redirect(loginUrl);
+        }
+
+        if (pathWithoutLocale.startsWith('/profile/')) {
+            const pathSegments = pathWithoutLocale.split('/').filter(Boolean);
+            const profileIdInUrl = pathSegments[1];
+
+            const payload = decodeJwt(token);
+            const loggedInUserId = payload?.userId || payload?.id || payload?.sub;
+
+            if (!loggedInUserId || String(loggedInUserId) !== String(profileIdInUrl)) {
+                if (loggedInUserId) {
+                    return NextResponse.redirect(new URL(`/${locale}/profile/${loggedInUserId}`, request.url));
+                }
+                return NextResponse.redirect(new URL(`/${locale}/`, request.url));
+            }
         }
     }
 
