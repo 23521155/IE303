@@ -1,0 +1,258 @@
+import { BE_URL } from '@/src/utils/constans';
+import { refreshAccessTokenAction } from '@/src/actions/authActions';
+
+export type NextFetchOptions = {
+    revalidate?: number | false;
+    tags?: string[];
+};
+
+export type ServiceRequestOptions = Omit<RequestInit, 'body'> & {
+    body?: BodyInit | Record<string, unknown> | unknown[] | null;
+    query?: Record<string, string | number | boolean | null | undefined>;
+    next?: NextFetchOptions;
+};
+
+export interface ApiEnvelope<T> {
+    success?: boolean;
+    message?: string;
+    statusCode?: number;
+    data: T;
+}
+
+export class ApiError extends Error {
+    constructor(
+        message: string,
+        public readonly status: number,
+        public readonly payload?: unknown,
+    ) {
+        super(message);
+        this.name = 'ApiError';
+    }
+}
+
+export interface ApiResponse<T> {
+    response: Response;
+    data: T;
+}
+
+let isRefreshing = false;
+let refreshSubscribers: ((success: boolean) => void)[] = [];
+
+const onRefreshed = (success: boolean) => {
+    refreshSubscribers.forEach((callback) => callback(success));
+    refreshSubscribers = [];
+};
+
+const addRefreshSubscriber = (callback: (success: boolean) => void) => {
+    refreshSubscribers.push(callback);
+};
+
+const isPlainObject = (value: unknown): value is Record<string, unknown> =>
+    typeof value === 'object' &&
+    value !== null &&
+    !(value instanceof FormData) &&
+    !(value instanceof URLSearchParams) &&
+    !(value instanceof Blob) &&
+    !(value instanceof ArrayBuffer);
+
+const buildUrl = (path: string, query?: ServiceRequestOptions['query']) => {
+    const baseUrlStr = (typeof BE_URL === 'string' && BE_URL !== 'undefined') ? BE_URL : '';
+    const urlString = path.startsWith('http') ? path : `${baseUrlStr}${path}`;
+
+    if (!query || Object.keys(query).length === 0) {
+        return urlString;
+    }
+
+    const searchParams = new URLSearchParams();
+    Object.entries(query).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+            searchParams.set(key, String(value));
+        }
+    });
+
+    const queryString = searchParams.toString();
+
+    return queryString ? `${urlString}${urlString.includes('?') ? '&' : '?'}${queryString}` : urlString;
+};
+
+const normalizeBody = (body: ServiceRequestOptions['body']) => {
+    if (body == null) {
+        return { body: undefined, contentType: undefined as string | undefined };
+    }
+
+    if (typeof body === 'string' || body instanceof FormData || body instanceof URLSearchParams || body instanceof Blob) {
+        return { body, contentType: undefined as string | undefined };
+    }
+
+    if (body instanceof ArrayBuffer) {
+        return { body, contentType: undefined as string | undefined };
+    }
+
+    if (Array.isArray(body) || isPlainObject(body)) {
+        return { body: JSON.stringify(body), contentType: 'application/json' };
+    }
+
+    return { body: body as BodyInit, contentType: undefined as string | undefined };
+};
+
+const parseResponsePayload = async (response: Response) => {
+    if (response.status === 204) return null;
+
+    const contentType = response.headers.get('content-type') ?? '';
+
+    if (contentType.includes('application/json')) {
+        return response.json();
+    }
+
+    return response.text();
+};
+
+const getErrorMessage = (payload: unknown, status: number) =>
+    typeof payload === 'object' &&
+    payload !== null &&
+    'message' in payload &&
+    typeof payload.message === 'string'
+        ? payload.message
+        : `Request failed with status ${status}`;
+
+const waitForRefreshResult = () =>
+    new Promise<boolean>((resolve) => {
+        addRefreshSubscriber(resolve);
+    });
+
+const refreshClientSession = async () => {
+    if (isRefreshing) {
+        return waitForRefreshResult();
+    }
+
+    isRefreshing = true;
+
+    try {
+        const result = await refreshAccessTokenAction();
+        const success = Boolean(result?.success);
+        onRefreshed(success);
+        return success;
+    } catch {
+        onRefreshed(false);
+        return false;
+    } finally {
+        isRefreshing = false;
+    }
+};
+
+const executeRequest = async (path: string, options: ServiceRequestOptions = {}) => {
+    const { query, body: rawBody, headers, ...fetchOptions } = options;
+    const { body, contentType } = normalizeBody(rawBody);
+
+    const mergedHeaders = new Headers(headers);
+
+    if (contentType && !mergedHeaders.has('Content-Type')) {
+        mergedHeaders.set('Content-Type', contentType);
+    }
+
+    const requestUrl = buildUrl(path, query);
+    const requestInit: RequestInit & { next?: NextFetchOptions } = {
+        ...fetchOptions,
+        headers: mergedHeaders,
+        body,
+    };
+
+    let response = await fetch(requestUrl, requestInit);
+    let payload = await parseResponsePayload(response);
+
+    if (!response.ok && response.status === 401 && typeof window !== 'undefined') {
+        const refreshSucceeded = await refreshClientSession();
+
+        if (refreshSucceeded) {
+            response = await fetch(requestUrl, requestInit);
+            payload = await parseResponsePayload(response);
+        }
+    }
+
+    return { response, payload };
+};
+
+export async function apiRequest<T>(path: string, options: ServiceRequestOptions = {}): Promise<T> {
+    const { response, payload } = await executeRequest(path, options);
+
+    if (!response.ok) {
+        throw new ApiError(getErrorMessage(payload, response.status), response.status, payload);
+    }
+
+    return payload as T;
+}
+
+export async function apiRequestWithResponse<T>(
+    path: string,
+    options: ServiceRequestOptions = {},
+): Promise<ApiResponse<T>> {
+    const { response, payload } = await executeRequest(path, options);
+
+    if (!response.ok) {
+        throw new ApiError(getErrorMessage(payload, response.status), response.status, payload);
+    }
+
+    return {
+        response,
+        data: payload as T,
+    };
+}
+
+export async function apiStream(path: string, options: ServiceRequestOptions = {}): Promise<Response> {
+    const { query, body: rawBody, headers, ...fetchOptions } = options;
+    const { body, contentType } = normalizeBody(rawBody);
+
+    const mergedHeaders = new Headers(headers);
+
+    if (contentType && !mergedHeaders.has('Content-Type')) {
+        mergedHeaders.set('Content-Type', contentType);
+    }
+
+    const response = await fetch(buildUrl(path, query), {
+        ...fetchOptions,
+        headers: mergedHeaders,
+        body,
+    });
+
+    if (!response.ok) {
+        const payload = await parseResponsePayload(response);
+        const message =
+            typeof payload === 'object' &&
+            payload !== null &&
+            'message' in payload &&
+            typeof payload.message === 'string'
+                ? payload.message
+                : `Request failed with status ${response.status}`;
+
+        throw new ApiError(message, response.status, payload);
+    }
+
+    return response;
+}
+
+export const apiClient = {
+    get<T>(path: string, options?: ServiceRequestOptions) {
+        return apiRequest<T>(path, { ...options, method: 'GET' });
+    },
+    getWithResponse<T>(path: string, options?: ServiceRequestOptions) {
+        return apiRequestWithResponse<T>(path, { ...options, method: 'GET' });
+    },
+    post<T>(path: string, body?: ServiceRequestOptions['body'], options?: ServiceRequestOptions) {
+        return apiRequest<T>(path, { ...options, method: 'POST', body });
+    },
+    postWithResponse<T>(path: string, body?: ServiceRequestOptions['body'], options?: ServiceRequestOptions) {
+        return apiRequestWithResponse<T>(path, { ...options, method: 'POST', body });
+    },
+    put<T>(path: string, body?: ServiceRequestOptions['body'], options?: ServiceRequestOptions) {
+        return apiRequest<T>(path, { ...options, method: 'PUT', body });
+    },
+    patch<T>(path: string, body?: ServiceRequestOptions['body'], options?: ServiceRequestOptions) {
+        return apiRequest<T>(path, { ...options, method: 'PATCH', body });
+    },
+    delete<T>(path: string, options?: ServiceRequestOptions) {
+        return apiRequest<T>(path, { ...options, method: 'DELETE' });
+    },
+    stream(path: string, options?: ServiceRequestOptions) {
+        return apiStream(path, options);
+    },
+};

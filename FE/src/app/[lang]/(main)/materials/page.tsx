@@ -2,21 +2,17 @@ import { getDictionary } from '@/src/utils/dictionaries';
 import type { Locale } from '@/src/utils/i18n';
 import { Materials } from '@/src/views/Materials';
 import type { Metadata } from 'next';
-import { BE_URL } from '@/src/utils/constans';
 import { cache } from 'react';
+import { materialService } from '@/src/services/materialService';
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://itshiken.io.vn';
 
 const getMaterialsCached = cache(async () => {
     try {
-        const res = await fetch(`${BE_URL}/api/materials?page=0&size=15`, { next: { revalidate: 3600 } });
-        const json = await res.json();
-        const data = json?.data;
-        return {
-            content: data?.content ?? [],
-            last: data?.last ?? true,
-            totalElements: data?.totalElements ?? 0,
-        };
+        return await materialService.getMaterials(
+            { page: 0, size: 15 },
+            { next: { revalidate: 3600 } },
+        );
     } catch {
         return { content: [], last: true, totalElements: 0 };
     }
@@ -116,7 +112,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
     };
 
     console.log(materials)
-    
+
     return (
         <>
             <script

@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation';
 import { Mail, Lock, BadgeCheck, BrainCircuit, MonitorCheck } from 'lucide-react';
 import { loginAction } from '@/src/actions/authActions';
 import { useAuthStore, usePathStore } from '@/src/store/authStore';
-import { BE_URL } from '@/src/utils/constans';
 import { Button } from '@/src/components/ui/button';
 import { toast } from 'sonner';
+import { userService } from '@/src/services/userService';
 
 export function Login({ t, lang }: { t: any; lang: string }) {
     const [email, setEmail] = useState('');
@@ -29,11 +29,7 @@ export function Login({ t, lang }: { t: any; lang: string }) {
                 throw new Error(res.message);
             }
 
-            const meRes = await fetch(`${BE_URL}/api/users/me`, {
-                credentials: 'include',
-            });
-
-            const user = await meRes.json().then((data) => data.data);
+            const user = await userService.getMe();
 
             setUser(user);
 

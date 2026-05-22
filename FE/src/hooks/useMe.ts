@@ -2,20 +2,20 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/src/store/authStore';
-import { BE_URL } from '@/src/utils/constans';
+import { userService } from '@/src/services/userService';
 
 export function useMe() {
     const { user, setUser } = useAuthStore();
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         console.log('userMe ', user);
-        if (user) return; // đã có rồi thì không gọi lại
+        if (user) {
+            setLoading(false);
+            return;
+        }
 
-        fetch(`${BE_URL}/api/users/me`, {
-            credentials: 'include', // ← quan trọng để gửi cookie!
-        })
-            .then((res) => res.json())
-            .then((data) => setUser(data.data))
+        userService.getMe()
+            .then((user) => setUser(user))
             .catch(() => setUser(null))
             .finally(() => setLoading(false));
     }, []);
