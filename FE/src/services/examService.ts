@@ -1,4 +1,4 @@
-import { BE_URL } from '@/src/utils/constans';
+import { ApiError, apiClient, type ApiEnvelope, type ServiceRequestOptions } from '@/src/services/client';
 
 export interface Exam {
     id: string;
@@ -44,95 +44,88 @@ export interface RatingSummary {
     userRating: number | null;
 }
 
-class ExamService {
-    private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
-        const url = `${BE_URL}${endpoint}`;
+export const examService = {
+    async getAllExams(options?: ServiceRequestOptions): Promise<Exam[]> {
+        const response = await apiClient.get<ApiEnvelope<Exam[]>>('/api/exams', options);
+        return response.data;
+    },
 
+    async getPopularExams(options?: ServiceRequestOptions): Promise<Exam[]> {
+        const response = await apiClient.get<ApiEnvelope<Exam[]>>('/api/exams/popular', {
+            next: { revalidate: 86400 },
+            credentials: 'include',
+            ...options,
+        });
+        return response.data;
+    },
+
+    async getAllCategories(options?: ServiceRequestOptions): Promise<Category[]> {
+        const response = await apiClient.get<ApiEnvelope<Category[]>>('/api/categories', options);
+        return response.data;
+    },
+
+    async getExamById(id: string, options?: ServiceRequestOptions): Promise<ExamDetail | null> {
         try {
-            const response = await fetch(url, {
+            const response = await apiClient.get<ApiEnvelope<ExamDetail>>(`/api/exams/${id}`, {
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...options?.headers,
-                },
                 ...options,
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            return response.data;
+        } catch (error) {
+            if (error instanceof ApiError && error.status === 404) {
+                return null;
             }
 
-            return await response.json();
-        } catch (error) {
-            console.error(`API request failed for ${endpoint}:`, error);
-            throw error;
-        }
-    }
-
-    async getAllExams(): Promise<Exam[]> {
-        const response = await fetch(`${BE_URL}/api/exams`);
-
-        if (!response.ok) {
-            throw new Error('Không thể tải danh sách đề thi');
-        }
-
-        const res = await response.json();
-
-        return res.data;
-    }
-
-    async getPopularExams(): Promise<Exam[]> {
-        const res = await this.request<{ data: Exam[] }>('/api/exams/popular', {
-            next: { revalidate: 86400 },
-        });
-        return res.data;
-    }
-
-    async getAllCategories(): Promise<Category[]> {
-        const response = await fetch(`${BE_URL}/api/categories`);
-
-        if (!response.ok) {
-            throw new Error('Không thể tải danh sách danh mục');
-        }
-
-        const res = await response.json();
-        return res.data;
-    }
-
-    async getExamById(id: string): Promise<ExamDetail | null> {
-        try {
-            const res = await this.request<{ data: ExamDetail }>(`/api/exams/${id}`);
-            return res.data;
-        } catch (error) {
             console.error(`Exam with id ${id} not found:`, error);
             return null;
         }
-    }
+    },
 
-    async getExamQuestions(examId: string): Promise<Question[]> {
-        return this.request<Question[]>(`/api/exams/${examId}/questions`);
-    }
-
-    async submitExam(examId: string, payload: any) {
-        const res = await this.request<{ data: { attemptId: string } }>(`/api/exams/${examId}/submit`, {
-            method: 'POST',
-            body: JSON.stringify(payload),
+    async getExamQuestions(examId: string, options?: ServiceRequestOptions): Promise<Question[]> {
+        const response = await apiClient.get<ApiEnvelope<Question[]>>(`/api/exams/${examId}/questions`, {
+            credentials: 'include',
+            ...options,
         });
-        return res.data;
-    }
+        return response.data;
+    },
 
-    async getRatingSummary(examId: string): Promise<RatingSummary> {
-        const res = await this.request<{ data: RatingSummary }>(`/api/exams/${examId}/rating`);
-        return res.data;
-    }
+    async submitExam(
+        examId: string,
+        payload: Record<string, unknown>,
+        options?: ServiceRequestOptions,
+    ): Promise<{ attemptId: string }> {
+        const response = await apiClient.post<ApiEnvelope<{ attemptId: string }>>(
+            `/api/exams/${examId}/submit`,
+            payload,
+            {
+                credentials: 'include',
+                ...options,
+            },
+        );
+        return response.data;
+    },
 
-    async submitRating(examId: string, rating: number): Promise<RatingSummary> {
-        const res = await this.request<{ data: RatingSummary }>(`/api/exams/${examId}/rating`, {
-            method: 'POST',
-            body: JSON.stringify({ rating }),
+    async getRatingSummary(examId: string, options?: ServiceRequestOptions): Promise<RatingSummary> {
+        const response = await apiClient.get<ApiEnvelope<RatingSummary>>(`/api/exams/${examId}/rating`, {
+            credentials: 'include',
+            ...options,
         });
-        return res.data;
-    }
-}
+        return response.data;
+    },
 
-export const examService = new ExamService();
+    async submitRating(
+        examId: string,
+        rating: number,
+        options?: ServiceRequestOptions,
+    ): Promise<RatingSummary> {
+        const response = await apiClient.post<ApiEnvelope<RatingSummary>>(
+            `/api/exams/${examId}/rating`,
+            { rating },
+            {
+                credentials: 'include',
+                ...options,
+            },
+        );
+        return response.data;
+    },
+};
