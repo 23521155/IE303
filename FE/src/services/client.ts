@@ -43,17 +43,23 @@ const isPlainObject = (value: unknown): value is Record<string, unknown> =>
     !(value instanceof ArrayBuffer);
 
 const buildUrl = (path: string, query?: ServiceRequestOptions['query']) => {
-    const url = new URL(path.startsWith('http') ? path : `${BE_URL}${path}`);
+    const baseUrlStr = (typeof BE_URL === 'string' && BE_URL !== 'undefined') ? BE_URL : '';
+    const urlString = path.startsWith('http') ? path : `${baseUrlStr}${path}`;
 
-    if (query) {
-        Object.entries(query).forEach(([key, value]) => {
-            if (value !== undefined && value !== null && value !== '') {
-                url.searchParams.set(key, String(value));
-            }
-        });
+    if (!query || Object.keys(query).length === 0) {
+        return urlString;
     }
 
-    return url.toString();
+    const searchParams = new URLSearchParams();
+    Object.entries(query).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+            searchParams.set(key, String(value));
+        }
+    });
+
+    const queryString = searchParams.toString();
+
+    return queryString ? `${urlString}${urlString.includes('?') ? '&' : '?'}${queryString}` : urlString;
 };
 
 const normalizeBody = (body: ServiceRequestOptions['body']) => {
