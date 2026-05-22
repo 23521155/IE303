@@ -6,11 +6,12 @@ import { Settings, LogOut, User, Home, Menu, ChevronRight, ChevronsUpDown, Panel
 import Link from 'next/link';
 import Image from 'next/image';
 import { useMe } from '@/src/hooks/useMe';
-import { BE_URL } from '../utils/constans';
 import { logoutAction } from '@/src/actions/authActions';
 import { ProfileTab } from './ProfileTab';
 import { HistoryTab } from './HistoryTab';
 import { AICoachGraphTab, AICoachPathTab, AICoachInsightTab } from './AICoachTab';
+import { ApiError, apiClient, type ApiEnvelope } from '@/src/services/client';
+import { userService, type ProfileApiUser } from '@/src/services/userService';
 import {
     SidebarProvider,
     Sidebar,
@@ -72,15 +73,6 @@ type ProfileSummary = {
     completedCount: number;
     totalPracticeSeconds: number;
     recentAttempts: AttemptListItem[];
-};
-
-type ProfileApiUser = {
-    id: number;
-    name: string;
-    phoneNumber?: string | null;
-    currentStatus?: string | null;
-    email?: string | null;
-    createdAt?: string | null;
 };
 
 type TabId = 'profile' | 'history' | 'coach/graph' | 'coach/path' | 'coach/insight';
@@ -347,32 +339,28 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
             setProfileLoading(true);
             setProfileError(null);
             try {
+                let user: ProfileApiUser | null = null;
+
                 if (isMyProfile) {
-                    const res = await fetch(`${BE_URL}/api/users/me`, { credentials: 'include' });
-                    const json = (await res.json().catch(() => ({}))) as { data?: ProfileApiUser };
-                    if (cancelled) return;
-                    if (res.status === 401) {
+                    user = await userService.getMe();
+                } else if (numericUserId === null) {
+                    setProfileUser(null);
+                    setProfileError('invalid-id');
+                    return;
+                } else {
+                    user = await userService.getUserById(numericUserId);
+                }
+
+                if (cancelled) return;
+                setProfileUser(user);
+                if (isMyProfile && user) setUser(user);
+            } catch (error) {
+                if (!cancelled) {
+                    if (error instanceof ApiError && error.status === 401) {
                         setProfileUser(null);
                         setProfileError('unauthorized');
                         return;
                     }
-                    if (!res.ok) throw new Error(String(res.status));
-                    setProfileUser(json.data ?? null);
-                    if (json.data) setUser(json.data);
-                    return;
-                }
-                if (numericUserId === null) {
-                    setProfileUser(null);
-                    setProfileError('invalid-id');
-                    return;
-                }
-                const res = await fetch(`${BE_URL}/api/users/${numericUserId}`, { credentials: 'include' });
-                const json = (await res.json().catch(() => ({}))) as { data?: ProfileApiUser };
-                if (cancelled) return;
-                if (!res.ok) throw new Error(String(res.status));
-                setProfileUser(json.data ?? null);
-            } catch {
-                if (!cancelled) {
                     setProfileError('failed');
                     setProfileUser(null);
                 }
@@ -396,17 +384,17 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
             setSummaryLoading(true);
             setSummaryError(null);
             try {
-                const res = await fetch(`${BE_URL}${path}`, { credentials: 'include' });
+                const res = await apiClient.get<ApiEnvelope<ProfileSummary>>(path, {
+                    credentials: 'include',
+                });
                 if (cancelled) return;
-                if (isMyProfile && res.status === 401) {
-                    setSummary({ completedCount: 0, totalPracticeSeconds: 0, recentAttempts: [] });
-                    return;
-                }
-                if (!res.ok) throw new Error(String(res.status));
-                const json = await res.json();
-                setSummary(json.data ?? json);
-            } catch {
+                setSummary(res.data);
+            } catch (error) {
                 if (!cancelled) {
+                    if (error instanceof ApiError && error.status === 401) {
+                        setSummary({ completedCount: 0, totalPracticeSeconds: 0, recentAttempts: [] });
+                        return;
+                    }
                     setSummaryError('failed');
                     setSummary({ completedCount: 0, totalPracticeSeconds: 0, recentAttempts: [] });
                 }
