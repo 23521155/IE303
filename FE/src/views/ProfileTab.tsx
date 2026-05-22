@@ -1,5 +1,7 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
+import { Settings } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 
 type ProfileApiUser = {
@@ -29,10 +31,8 @@ interface ProfileTabProps {
 
 function InfoRow({ label, value }: { label: string; value: string }) {
     return (
-        <div className="px-4 py-3">
-            <p className="font-mono text-[0.65rem] uppercase tracking-widest text-muted-foreground mb-0.5">
-                {label}
-            </p>
+        <div className="px-5 py-4">
+            <p className="font-mono text-[0.65rem] uppercase tracking-widest text-muted-foreground mb-1">{label}</p>
             <p className="text-sm text-foreground">{value}</p>
         </div>
     );
@@ -54,78 +54,66 @@ export function ProfileTab({
     avatarSrc,
 }: ProfileTabProps) {
     return (
-        <div className="max-w-2xl">
-            {/* ── Hero section — ambient glow + dot texture ── */}
-            <div className="relative -mx-8 lg:-mx-12 px-8 lg:px-12 pt-8 pb-8 mb-8 overflow-hidden">
-                {/* Ambient amber glow */}
-                <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                        background:
-                            'radial-gradient(ellipse 90% 70% at 50% -10%, rgba(232, 121, 33, 0.08) 0%, transparent 70%)',
-                    }}
-                />
-                {/* Dot-grid texture */}
-                <div
-                    className="absolute inset-0 pointer-events-none opacity-[0.025] dark:opacity-[0.04]"
-                    style={{
-                        backgroundImage:
-                            'radial-gradient(circle, var(--color-secondary) 1px, transparent 1px)',
-                        backgroundSize: '28px 28px',
-                    }}
-                />
-
-                {/* Identity block */}
-                <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-5">
-                    <div className="w-16 h-16 rounded-xl overflow-hidden border border-border/60 shrink-0">
-                        {profileLoading && !profileUser ? (
-                            <div className="w-full h-full bg-muted animate-pulse" />
-                        ) : (
-                            <ImageWithFallback
-                                src={avatarSrc}
-                                alt={displayName}
-                                className="w-full h-full object-cover"
-                            />
-                        )}
-                    </div>
-                    <div>
-                        <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide mb-2">
-                            {t.profileMember ?? 'Member'}
-                        </div>
-                        <h1 className="text-2xl font-bold tracking-tight text-secondary dark:text-foreground">
-                            {displayName}
-                        </h1>
-                        {displayEmail && displayEmail !== '—' && (
-                            <p className="text-sm text-muted-foreground mt-0.5">{displayEmail}</p>
-                        )}
-                    </div>
+        <div className="space-y-8">
+            {/* ── Identity ── */}
+            <div className="flex items-start gap-5">
+                <div className="w-[72px] h-[72px] rounded-xl overflow-hidden border border-border/60 ring-2 ring-primary/15 shrink-0">
+                    {profileLoading && !profileUser ? (
+                        <div className="w-full h-full bg-muted animate-pulse" />
+                    ) : (
+                        <ImageWithFallback
+                            src={avatarSrc}
+                            alt={displayName}
+                            className="w-full h-full object-cover"
+                        />
+                    )}
                 </div>
+                <div className="flex-1 min-w-0 pt-0.5">
+                    <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide mb-2">
+                        {t.profileMember ?? 'Member'}
+                    </div>
+                    <h2 className="text-xl font-bold tracking-tight text-secondary dark:text-foreground leading-tight truncate">
+                        {displayName}
+                    </h2>
+                    {displayEmail && displayEmail !== '—' && (
+                        <p className="text-sm text-muted-foreground mt-0.5 truncate">{displayEmail}</p>
+                    )}
+                </div>
+                {isMyProfile && (
+                    <Link
+                        href={`/${lang}/settings`}
+                        className="shrink-0 flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground border border-border/60 rounded-md px-2.5 py-1.5 hover:bg-muted/40 transition-colors mt-0.5"
+                    >
+                        <Settings className="w-3.5 h-3.5" />
+                        {t.settings ?? 'Settings'}
+                    </Link>
+                )}
+            </div>
 
-                {/* Stats strip */}
-                <div className="relative mt-7 flex items-center gap-6 flex-wrap">
-                    <div>
-                        <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-0.5">
+            {/* ── Stats ── */}
+            <div className="border border-[rgba(0,0,0,0.08)] dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-[#1a1a1a]">
+                <div className="grid grid-cols-3 divide-x divide-border/40">
+                    <div className="px-5 py-4">
+                        <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-2">
                             {t.completedExams ?? 'Exams'}
                         </p>
-                        <p className="text-xl font-semibold tabular-nums text-secondary dark:text-foreground">
+                        <p className="text-2xl font-bold tabular-nums text-secondary dark:text-foreground leading-none">
                             {completedCount}
                         </p>
                     </div>
-                    <div className="w-px h-8 bg-border/60" />
-                    <div>
-                        <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-0.5">
+                    <div className="px-5 py-4">
+                        <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-2">
                             {t.studyHours ?? 'Study'}
                         </p>
-                        <p className="text-xl font-semibold tabular-nums text-secondary dark:text-foreground">
+                        <p className="text-2xl font-bold tabular-nums text-secondary dark:text-foreground leading-none">
                             {hoursDisplay}
                         </p>
                     </div>
-                    <div className="w-px h-8 bg-border/60" />
-                    <div>
-                        <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-0.5">
+                    <div className="px-5 py-4">
+                        <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-2">
                             {t.joined ?? 'Joined'}
                         </p>
-                        <p className="text-xl font-semibold text-secondary dark:text-foreground">
+                        <p className="text-base font-semibold text-secondary dark:text-foreground leading-none">
                             {joinedStr}
                         </p>
                     </div>
@@ -134,28 +122,22 @@ export function ProfileTab({
 
             {/* Error states */}
             {profileError === 'invalid-id' && (
-                <p className="text-sm text-amber-600 dark:text-amber-500 mb-6">
-                    {t.profileInvalidIdHint}
-                </p>
+                <p className="text-sm text-amber-600 dark:text-amber-500">{t.profileInvalidIdHint}</p>
             )}
             {profileError === 'failed' && !profileLoading && (
-                <p className="text-sm text-destructive mb-6">{t.profileLoadFailed}</p>
+                <p className="text-sm text-destructive">{t.profileLoadFailed}</p>
             )}
 
-            {/* Account details */}
+            {/* ── Account details ── */}
             {isMyProfile && (
-                <div className="space-y-1">
+                <div>
                     <p className="font-mono text-[0.65rem] uppercase tracking-widest text-muted-foreground mb-3">
                         {t.accountDetails ?? 'Account details'}
                     </p>
-                    <div className="border border-border/60 rounded-lg overflow-hidden divide-y divide-border/40">
+                    <div className="border border-[rgba(0,0,0,0.08)] dark:border-white/10 rounded-xl overflow-hidden divide-y divide-border/40 bg-white dark:bg-[#1a1a1a]">
                         <InfoRow label="Email" value={displayEmail} />
-                        {displayPhone && displayPhone !== '—' && (
-                            <InfoRow label="Phone" value={displayPhone} />
-                        )}
-                        {profileUser?.currentStatus && (
-                            <InfoRow label="Status" value={profileUser.currentStatus} />
-                        )}
+                        {displayPhone && displayPhone !== '—' && <InfoRow label="Phone" value={displayPhone} />}
+                        {profileUser?.currentStatus && <InfoRow label="Status" value={profileUser.currentStatus} />}
                     </div>
                 </div>
             )}

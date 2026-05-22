@@ -1,11 +1,8 @@
 import Header from '@/src/components/ui/header';
-import Footer from '@/src/components/ui/footer';
-import { ScrollToTop } from '@/src/components/ui/ScrollToTop';
-import { AnnouncementBanner } from '@/src/components/ui/announcement-banner';
 import { getDictionary } from '@/src/utils/dictionaries';
 import type { Locale } from '@/src/utils/i18n';
 
-export default async function MainLayout({
+export default async function AuthLayout({
     children,
     params,
 }: Readonly<{
@@ -19,9 +16,6 @@ export default async function MainLayout({
         <>
             <Header t={t} lang={lang} />
             {children}
-            <Footer t={t} lang={lang} />
-            <ScrollToTop />
-            <AnnouncementBanner t={t} lang={lang} />
         </>
     );
 }

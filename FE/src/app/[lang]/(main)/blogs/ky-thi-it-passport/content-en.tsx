@@ -1,4 +1,4 @@
-import Image from 'next/image';
+﻿import Image from 'next/image';
 import { AlertTriangle, Bookmark, Calendar, CheckCircle2, Clock, Info, Link as LinkIcon, Share2, Eye, MessageSquare, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/src/components/ui/button';
@@ -48,30 +48,30 @@ const postDetail = {
 
 export default function ContentEn() {
     return (
-        <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+        <main className="min-h-screen bg-background transition-colors duration-300">
             {/* HERO SECTION */}
-            <header className="bg-white dark:bg-[#121212] pt-12 pb-8 border-b border-slate-200 dark:border-slate-800">
+            <header className="relative bg-background pt-12 pb-8 border-b border-border/50 overflow-hidden" style={{ backgroundImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(232, 121, 33, 0.09) 0%, transparent 65%)' }}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Breadcrumb */}
-                    <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-6">
-                        <a href="/" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Home</a>
+                    <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+                        <a href="/" className="hover:text-primary transition-colors">Home</a>
                         <ChevronRight className="w-4 h-4" />
-                        <a href="/category" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Blog</a>
+                        <a href="/category" className="hover:text-primary transition-colors">Blog</a>
                         <ChevronRight className="w-4 h-4" />
-                        <span className="text-slate-800 dark:text-slate-200 truncate">{postDetail.title}</span>
+                        <span className="text-foreground/80 truncate">{postDetail.title}</span>
                     </nav>
 
                     <div className="mb-6">
-                        <span className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        <span className="inline-block bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                             {postDetail.category}
                         </span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.2]">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6 leading-[1.2]">
                         {postDetail.title}
                     </h1>
 
-                    <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                    <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                         {postDetail.excerpt}
                     </p>
 
@@ -83,26 +83,26 @@ export default function ContentEn() {
                                 alt={postDetail.author.name}
                                 height={56}
                                 width={56}
-                                className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover"
+                                className="w-14 h-14 rounded-full border-2 border-border/60 object-cover"
                             />
                             <div>
-                                <div className="font-bold text-slate-900 dark:text-white text-base">{postDetail.author.name}</div>
-                                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                <div className="font-bold text-foreground text-base">{postDetail.author.name}</div>
+                                <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                                     <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
-                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-border/60"></span>
                                     <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
-                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
-                            <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Share">
+                        <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
+                            <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
+                            <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
+                            <div className="flex items-center gap-2 pl-4 border-l border-border/60">
+                                <button className="p-2 rounded-full hover:bg-muted/60 transition-colors" title="Share">
                                     <Share2 className="w-4 h-4" />
                                 </button>
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Save">
+                                <button className="p-2 rounded-full hover:bg-muted/60 transition-colors" title="Save">
                                     <Bookmark className="w-4 h-4" />
                                 </button>
                             </div>
@@ -113,10 +113,10 @@ export default function ContentEn() {
 
             {/* MAIN LAYOUT: 2 COLUMNS */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="lg:grid lg:grid-cols-12 lg:gap-10">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-12">
                     {/* LEFT COLUMN: MAIN CONTENT */}
-                    <article className="lg:col-span-9 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
-                        <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
+                    <article className="lg:col-span-8 rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden">
+                        <figure className="w-full bg-primary/[0.08] dark:bg-primary/[0.15] p-5">
                             <Image 
                                 src={postDetail.coverImage} 
                                 alt={postDetail.title} 
@@ -125,12 +125,12 @@ export default function ContentEn() {
                                 className="w-full h-auto object-cover rounded-lg max-h-[500px]"
                                 priority 
                             />
-                            <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
+                            <figcaption className="text-center text-sm text-muted-foreground mt-3 italic">
                                 What is the IT Passport certificate?
                             </figcaption>
                         </figure>
 
-                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-foreground/80">
                             <p className="mb-6 drop-cap">
                                 Are you learning about IT Passport and don't know where to start? Or are you wondering if this
                                 certificate is really necessary for you? Rest assured, this article will answer everything from A to
@@ -142,7 +142,7 @@ export default function ContentEn() {
                 {/* SECTION 1 */}
                 <h2
                     id="it-passport-la-gi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     1. What Is IT Passport?
                 </h2>
@@ -151,7 +151,7 @@ export default function ContentEn() {
                         href="https://btacademy.vn/it-comtor/it-passport-la-gi-loi-the-cua-chung-chi-it-passport"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-primary underline mr-1 dark:text-blue-900"
+                        className="font-bold text-primary underline mr-1"
                     >
                         IT Passport
                     </a>
@@ -167,9 +167,9 @@ export default function ContentEn() {
                 </p>
 
                 {/* INFO BOX */}
-                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border  dark:border-blue-800 rounded-md p-5 my-8">
+                <div className="flex gap-4 bg-primary/10 border rounded-md p-5 my-8">
                     <Info className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
-                    <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
+                    <p className="text-sm sm:text-base text-secondary m-0">
                         <strong>IT Passport is not a certificate exclusively for IT professionals.</strong> On the
                         contrary, this is the ideal exam for those who do not come from an IT background but want to
                         work in a tech environment or with Japanese partners.
@@ -184,7 +184,7 @@ export default function ContentEn() {
                         alt="IPA Logo - the organization issuing the Japanese IT Passport certificate"
                         className="w-full rounded-md shadow-sm"
                     />
-                    <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
+                    <figcaption className="text-center text-sm text-muted-foreground mt-3 italic">
                         The IT Passport certificate is issued by IPA (Japan) and recognized in 7 countries around the
                         world.
                     </figcaption>
@@ -193,7 +193,7 @@ export default function ContentEn() {
                 {/* SECTION 2 */}
                 <h2
                     id="ai-nen-thi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     2. Who Should Take IT Passport?
                 </h2>
@@ -209,30 +209,30 @@ export default function ContentEn() {
 
                 {/* BENEFITS GRID */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-8">
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">
+                    <div className="bg-muted/30 border border-border/60 rounded-md p-6 text-center hover:shadow-md transition-shadow">
+                        <h4 className="font-bold text-primary mb-2">
                             Sales & Marketing Professionals
                         </h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                        <p className="text-sm text-muted-foreground">
                             Working with tech clients, needing to understand IT products to consult better.
                         </p>
                     </div>
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">IT Comtors / IT Translators</h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <div className="bg-muted/30 border border-border/60 rounded-md p-6 text-center hover:shadow-md transition-shadow">
+                        <h4 className="font-bold text-primary mb-2">IT Comtors / IT Translators</h4>
+                        <p className="text-sm text-muted-foreground">
                             Needing vocabulary and foundational IT knowledge to translate accurately and professionally.
                         </p>
                     </div>
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">Back-office & HR</h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <div className="bg-muted/30 border border-border/60 rounded-md p-6 text-center hover:shadow-md transition-shadow">
+                        <h4 className="font-bold text-primary mb-2">Back-office & HR</h4>
+                        <p className="text-sm text-muted-foreground">
                             Working in an IT company but not an engineer, wanting to understand the "language" of
                             colleagues.
                         </p>
                     </div>
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">Career-switching Students</h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <div className="bg-muted/30 border border-border/60 rounded-md p-6 text-center hover:shadow-md transition-shadow">
+                        <h4 className="font-bold text-primary mb-2">Career-switching Students</h4>
+                        <p className="text-sm text-muted-foreground">
                             Wanting to switch to IT, needing a certificate to boost the CV and start the journey.
                         </p>
                     </div>
@@ -246,7 +246,7 @@ export default function ContentEn() {
                 {/* SECTION 3 */}
                 <h2
                     id="cau-truc-de-thi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     3. IT Passport Exam Structure
                 </h2>
@@ -255,14 +255,14 @@ export default function ContentEn() {
                     time more wisely.
                 </p>
 
-                <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 my-6 text-center font-medium">
+                <div className="bg-muted/30 border border-border/60 rounded-md p-5 my-6 text-center font-medium">
                     Overview: 100 multiple-choice questions <span className="mx-2 text-slate-300">|</span> Duration: 120
                     minutes <span className="mx-2 text-slate-300">|</span> Format: CBT / Paper-based
                 </div>
 
                 <div className="overflow-x-auto mb-6">
-                    <table className="w-full border border-slate-200 dark:border-slate-700 text-sm text-left rounded-md">
-                        <thead className="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white">
+                    <table className="w-full border border-border/60 text-sm text-left rounded-md">
+                        <thead className="bg-muted/50 text-foreground">
                             <tr>
                                 <th className="px-4 py-3 font-semibold">Section</th>
                                 <th className="px-4 py-3 font-semibold">Content</th>
@@ -270,30 +270,30 @@ export default function ContentEn() {
                                 <th className="px-4 py-3 font-semibold">Passing Score</th>
                             </tr>
                         </thead>
-                        <tbody className="text-slate-700 dark:text-slate-300">
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#121212]">
+                        <tbody className="text-foreground/80">
+                            <tr className="border-t border-border/40 bg-background">
                                 <td className="px-4 py-3 font-medium">Strategy</td>
                                 <td className="px-4 py-3">Corporate governance, law, business strategy</td>
                                 <td className="px-4 py-3">35 questions</td>
                                 <td className="px-4 py-3">300/1000</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="border-t border-border/40 bg-muted/30">
                                 <td className="px-4 py-3 font-medium">Management</td>
                                 <td className="px-4 py-3">Project management, IT services, software testing</td>
                                 <td className="px-4 py-3">20 questions</td>
                                 <td className="px-4 py-3">300/1000</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#121212]">
+                            <tr className="border-t border-border/40 bg-background">
                                 <td className="px-4 py-3 font-medium">Technology</td>
                                 <td className="px-4 py-3">Hardware, networking, DB, security, algorithms</td>
                                 <td className="px-4 py-3">45 questions</td>
                                 <td className="px-4 py-3">300/1000</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-blue-50 dark:bg-blue-900/20 font-bold">
+                            <tr className="border-t border-border/40 bg-blue-50 font-bold">
                                 <td className="px-4 py-3" colSpan={2}>
                                     Total score to pass
                                 </td>
-                                <td className="px-4 py-3 text-primary dark:text-blue-900" colSpan={2}>
+                                <td className="px-4 py-3 text-primary" colSpan={2}>
                                     ≥ 600/1000 (all 3 sections ≥ 300)
                                 </td>
                             </tr>
@@ -311,7 +311,7 @@ export default function ContentEn() {
                     </p>
                 </div>
 
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-8 mb-3">How difficult is it?</h3>
+                <h3 className="text-xl font-bold text-foreground mt-8 mb-3">How difficult is it?</h3>
                 <p className="mb-6">
                     According to feedback from many test-takers, the IT Passport exam is not technically difficult – the
                     hardest part is usually the amount of Japanese terminology (if taking the test in Japan) and the
@@ -322,13 +322,13 @@ export default function ContentEn() {
                 {/* INTERNAL LINK 1 */}
                 <Link
                     href="/en/exams"
-                    className="flex items-center gap-4 dark:bg-blue-900/10 border  dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md  dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4 border border-border/50 rounded-md p-4 my-8 hover:shadow-md transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Free Practice Exams
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
+                        <div className="font-semibold text-foreground group-hover:text-primary transition-colors">
                             Take the IT Passport mock exam online now – auto-grading, 100% free
                         </div>
                     </div>
@@ -337,14 +337,14 @@ export default function ContentEn() {
                 {/* SECTION 4 */}
                 <h2
                     id="loi-ich"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     4. Why Should You Get An IT Passport Certificate?
                 </h2>
                 <p className="mb-4">
                     Many people ask: "What is the use of studying for this?" – and here is the most practical answer.
                 </p>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-6 mb-3">
+                <h3 className="text-xl font-bold text-foreground mt-6 mb-3">
                     Advantages when applying for jobs & visas in Japan
                 </h3>
                 <p className="mb-4">
@@ -354,7 +354,7 @@ export default function ContentEn() {
                     point system.
                 </p>
 
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-6 mb-3">
+                <h3 className="text-xl font-bold text-foreground mt-6 mb-3">
                     Opens up many career opportunities
                 </h3>
                 <p className="mb-4">
@@ -392,7 +392,7 @@ export default function ContentEn() {
                 {/* SECTION 5 */}
                 <h2
                     id="dang-ky"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     5. How To Register For The Exam
                 </h2>
@@ -401,16 +401,16 @@ export default function ContentEn() {
                         Depending on where you want to take the test, the process will differ slightly. Below is the
                         combined information for both cases.
                     </p>
-                    <table className="w-full border border-slate-200 dark:border-slate-700 text-sm text-left">
-                        <thead className="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white">
+                    <table className="w-full border border-border/60 text-sm text-left">
+                        <thead className="bg-muted/50 text-foreground">
                             <tr>
                                 <th className="px-4 py-3 font-semibold">Criteria</th>
                                 <th className="px-4 py-3 font-semibold">🇻🇳 In Vietnam</th>
                                 <th className="px-4 py-3 font-semibold">🇯🇵 In Japan</th>
                             </tr>
                         </thead>
-                        <tbody className="text-slate-700 dark:text-slate-300">
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#121212]">
+                        <tbody className="text-foreground/80">
+                            <tr className="border-t border-border/40 bg-background">
                                 <td className="px-4 py-3 font-medium">Organizing body</td>
                                 <td className="px-4 py-3">
                                     <a
@@ -433,22 +433,22 @@ export default function ContentEn() {
                                     </a>
                                 </td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="border-t border-border/40 bg-muted/30">
                                 <td className="px-4 py-3 font-medium">Exam schedule</td>
                                 <td className="px-4 py-3">Twice a year (April & October)</td>
                                 <td className="px-4 py-3">5–6 times/year, monthly</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#121212]">
+                            <tr className="border-t border-border/40 bg-background">
                                 <td className="px-4 py-3 font-medium">Exam format</td>
                                 <td className="px-4 py-3">Paper-based</td>
                                 <td className="px-4 py-3">CBT (Computer-based)</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="border-t border-border/40 bg-muted/30">
                                 <td className="px-4 py-3 font-medium">Language</td>
                                 <td className="px-4 py-3">Vietnamese (Translation available)</td>
                                 <td className="px-4 py-3">Japanese (Needs ~N3)</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="border-t border-border/40 bg-muted/30">
                                 <td className="px-4 py-3 font-medium">Location</td>
                                 <td className="px-4 py-3">Hanoi, HCMC, Da Nang, Binh Duong</td>
                                 <td className="px-4 py-3">Across 47 prefectures in Japan</td>
@@ -460,7 +460,7 @@ export default function ContentEn() {
                 {/* SECTION 6 */}
                 <h2
                     id="lo-trinh-on-luyen"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     6. Effective Study Roadmap
                 </h2>
@@ -472,60 +472,60 @@ export default function ContentEn() {
 
                 {/* STEPS */}
                 <div className="flex flex-col gap-4 my-8">
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             1
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-foreground text-lg mb-1">
                                 Month 1 – Grasp foundational knowledge (Input)
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Read standard textbooks like "いちばんやさしいITパスポート" (The Easiest IT Passport).
                                 Don't try to memorize everything immediately, just read through to get familiar with the
                                 concepts. Completing 10–15 pages a day is fine.
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             2
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-foreground text-lg mb-1">
                                 Month 2 – Do many past papers (Output)
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Apply an Input:Output ratio of 3:7. Do a lot of past year papers, read the answer
                                 explanations carefully even for questions you got right. Note down keywords in Q&A
                                 format.
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             3
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-foreground text-lg mb-1">
                                 Month 3 – Realistic mock exams
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Focus on your weak areas, take simulated mock exams for exactly 120 minutes. Practice
                                 your speed: average 72 seconds per question, do easy questions first, leave hard ones
                                 for later.
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             4
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-foreground text-lg mb-1">
                                 Final Week – Overall review & maintain mentality
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Do not learn new knowledge. Just review easily forgotten points, stay healthy and keep a
                                 relaxed mind to enter the exam room in the best state.
                             </p>
@@ -533,7 +533,7 @@ export default function ContentEn() {
                     </div>
                 </div>
 
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-6 mb-3">
+                <h3 className="text-xl font-bold text-foreground mt-6 mb-3">
                     Careers after completion?
                 </h3>
                 <p className="mb-4">
@@ -559,13 +559,13 @@ export default function ContentEn() {
                 {/* INTERNAL LINK 2 */}
                 <Link
                     href="/en/materials"
-                    className="flex items-center gap-4  dark:bg-blue-900/10 border  dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md  dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4  border border-border/50 rounded-md p-4 my-8 hover:shadow-md transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Materials
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
+                        <div className="font-semibold text-foreground group-hover:text-primary transition-colors">
                             View the continuously updated repository of IT Passport study materials
                         </div>
                     </div>
@@ -574,18 +574,18 @@ export default function ContentEn() {
                 {/* SECTION 7 - FAQ */}
                 <h2
                     id="faq"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     7. Frequently Asked Questions (FAQ)
                 </h2>
 
                 <div className="space-y-4 mb-10">
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             How is IT Passport different from the FE certificate?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-background">
                             IT Passport is level 1 – the most basic level, for all audiences including non-IT, focusing
                             on general knowledge.
                             <br />
@@ -597,34 +597,34 @@ export default function ContentEn() {
                         </div>
                     </div>
 
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             How long is the IT Passport certificate valid for?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-background">
                             Lifetime. Unlike many other certificates that need renewing, IT Passport is valid forever
                             once passed. This is one of the reasons many choose to invest in this certificate.
                         </div>
                     </div>
 
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             Can someone who doesn't know Japanese take the exam?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-background">
                             Absolutely. In Vietnam, the exam comes with a Vietnamese translation, so Japanese is not
                             required.
                         </div>
                     </div>
 
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             What is the pass rate of the IT Passport exam?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-background">
                             According to data from IPA, the pass rate for the IT Passport exam in Japan is about 52% –
                             meaning 1 out of every 2 test-takers passes. This is not a very low number if you are fully
                             prepared.
@@ -633,30 +633,30 @@ export default function ContentEn() {
                 </div>
 
                 {/* CONCLUSION */}
-                <div className="bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700 rounded-md p-6 sm:p-8 my-10">
-                    <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Conclusion</h2>
-                    <p className="mb-4 text-slate-700 dark:text-slate-300">
+                <div className="bg-muted/30 border border-border/50 rounded-md p-6 sm:p-8 my-10">
+                    <h2 className="text-xl font-bold text-foreground mb-4">Conclusion</h2>
+                    <p className="mb-4 text-foreground/80">
                         IT Passport is not a certificate solely for technical folks – it's a ticket for anyone who wants
                         to step into the IT working environment, especially with Japanese companies. The knowledge is
                         broad but not too difficult, the study roadmap is clear, and the certificate has lifetime
                         validity – this is truly one of the most valuable investments you can make in yourself.
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300 font-medium mb-4">
+                    <p className="text-foreground/80 font-medium mb-4">
                         Whether you are a student, office worker, IT Comtor, or looking to switch to the tech industry –
                         the journey to conquer IT Passport is completely within your reach. The key is starting right
                         and sticking to the roadmap.
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300 font-medium">
+                    <p className="text-foreground/80 font-medium">
                         Wishing you effective studying and soon holding the IT passport in your hands!
                     </p>
                 </div>
 
                             {/* Tags Section */}
-                            <div className="mt-16 pt-8 border-t border-slate-100 dark:border-slate-800">
+                            <div className="mt-16 pt-8 border-t border-border/40">
                                 <div className="flex items-center gap-3 flex-wrap">
-                                    <span className="text-sm font-semibold text-slate-900 dark:text-white">Tags:</span>
+                                    <span className="text-sm font-semibold text-foreground">Tags:</span>
                                     {postDetail.tags.map((tag) => (
-                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
+                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-muted/50 border border-border/40 text-foreground/70 text-sm rounded-md hover:bg-muted hover:text-foreground transition-colors font-medium">
                                             #{tag}
                                         </a>
                                     ))}
@@ -666,51 +666,51 @@ export default function ContentEn() {
                     </article>
 
                     {/* RIGHT COLUMN: TABLE OF CONTENTS */}
-                    <aside className="hidden lg:block lg:col-span-3 space-y-8">
-                        <div className="sticky top-24 bg-white dark:bg-[#121212] p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                            <h3 className="font-bold text-base text-slate-900 dark:text-white mb-5 flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
-                                <Bookmark className="w-4 h-4 text-blue-500" /> Table of Contents
+                    <aside className="hidden lg:block lg:col-span-4 space-y-8">
+                        <div className="sticky top-24 bg-white dark:bg-[#1a1a1a] border border-[rgba(0,0,0,0.1)] dark:border-white/10 rounded-xl overflow-hidden">
+                            <h3 className="font-bold text-sm text-secondary dark:text-foreground px-5 pt-4 pb-3.5 flex items-center gap-2 bg-primary/[0.08] dark:bg-primary/[0.15] border-b border-[rgba(0,0,0,0.07)] dark:border-white/[0.07]">
+                                <Bookmark className="w-4 h-4 text-primary" /> Table of Contents
                             </h3>
-                            <ul className="space-y-3 text-sm">
+                            <ul className="space-y-3 text-sm px-5 pb-5 pt-3">
                                 <li>
-                                    <a href="#it-passport-la-gi" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>
+                                    <a href="#it-passport-la-gi" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">1</span>
                                         What is IT Passport?
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#ai-nen-thi" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>
+                                    <a href="#ai-nen-thi" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">2</span>
                                         Who should take it?
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#cau-truc-de-thi" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>
+                                    <a href="#cau-truc-de-thi" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">3</span>
                                         Exam structure
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#loi-ich" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>
+                                    <a href="#loi-ich" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">4</span>
                                         Benefits
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#dang-ky" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-pink-600 group-hover:text-white transition-colors">5</span>
+                                    <a href="#dang-ky" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">5</span>
                                         How to register
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#lo-trinh-on-luyen" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">6</span>
+                                    <a href="#lo-trinh-on-luyen" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">6</span>
                                         Study roadmap
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#faq" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">7</span>
+                                    <a href="#faq" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">7</span>
                                         FAQ
                                     </a>
                                 </li>
@@ -722,7 +722,7 @@ export default function ContentEn() {
 
             {/* CTA BOX */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div className="bg-gradient-to-br from-secondary/60 to-secondary dark:to-blue-800 rounded-xl p-8 sm:p-10 text-center shadow-lg">
+                <div className="bg-gradient-to-br from-secondary/60 to-secondary rounded-xl p-8 sm:p-10 text-center shadow-lg">
                     <h3 className="text-2xl font-bold text-white mb-4">Ready To Practice For IT Passport?</h3>
                     <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
                         IT Shiken provides free mock exams, close to real exams, with auto-grading and detailed result analysis. Start today – no registration required!
@@ -735,10 +735,10 @@ export default function ContentEn() {
 
             {/* RELATED POSTS */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 dark:border-slate-800">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">Related Articles</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-8">Related Articles</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {postDetail.relatedPosts.map((post) => (
-                        <a key={post.id} href={post.href} className="group block">
+                        <a key={post.id} href={post.href} className="group block rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden hover:border-primary/30 transition-colors">
                             <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-800">
                                 <Image
                                     src={post.image}
@@ -747,11 +747,11 @@ export default function ContentEn() {
                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 pt-3 px-4">
                                 <Calendar className="w-3.5 h-3.5" />
                                 {post.date}
                             </div>
-                            <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                            <h4 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-2 px-4 pb-4">
                                 {post.title}
                             </h4>
                         </a>

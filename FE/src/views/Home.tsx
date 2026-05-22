@@ -1,7 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, BrainCircuit, Globe, Code, BookOpen, Clock } from 'lucide-react';
+import {
+    ArrowRight,
+    CheckCircle2,
+    BrainCircuit,
+    Globe,
+    Code,
+    BookOpen,
+    Clock,
+    MonitorCheck,
+    LibraryBig,
+    BadgeCheck,
+} from 'lucide-react';
 import { Button } from '@/src/components/ui/button';
 import Image from 'next/image';
 import AnimateInView from '@/src/animation/AnimateInView';
@@ -10,6 +21,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { Exam } from '../services/examService';
 import RegularExamCard from '@/src/components/ui/regular-exam-card';
+import { AiIcon } from '@/src/components/svg-icon/ai';
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
@@ -265,9 +277,10 @@ export default function Home({ t, lang, popularExams }: { t: any; lang: string; 
 
                     <div className="divide-y divide-border/60">
                         {[
-                            { icon: BrainCircuit, title: t.feat1Title, desc: t.feat1Desc },
-                            { icon: Globe, title: t.feat2Title, desc: t.feat2Desc },
-                            { icon: Code, title: t.feat3Title, desc: t.feat3Desc },
+                            { icon: BadgeCheck, title: t.feat1Title, desc: t.feat1Desc },
+                            { icon: LibraryBig, title: t.feat2Title, desc: t.feat2Desc },
+                            { icon: MonitorCheck, title: t.feat3Title, desc: t.feat3Desc },
+                            { icon: AiIcon, title: t.feat4Title, desc: t.feat4Desc },
                         ].map((item, idx) => {
                             const Icon = item.icon;
                             return (

@@ -1,4 +1,4 @@
-/* eslint-disable */
+﻿/* eslint-disable */
 import Image from 'next/image';
 import { 
     Bookmark, Calendar, Clock, Share2, 
@@ -55,13 +55,13 @@ export default function ContentVi() {
     return (
         <main className="min-h-screen bg-background transition-colors duration-300">
             {/* HERO SECTION */}
-            <header className="bg-card pt-12 pb-8 border-b border-border/40">
+            <header className="relative bg-background pt-12 pb-8 border-b border-border/50 overflow-hidden" style={{ backgroundImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(232, 121, 33, 0.09) 0%, transparent 65%)' }}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Breadcrumb */}
                     <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-                        <a href="/" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Trang chủ</a>
+                        <a href="/" className="hover:text-primary transition-colors">Trang chủ</a>
                         <ChevronRight className="w-4 h-4" />
-                        <a href="/category" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Blog</a>
+                        <a href="/category" className="hover:text-primary transition-colors">Blog</a>
                         <ChevronRight className="w-4 h-4" />
                         <span className="text-foreground/90 truncate">{postDetail.title}</span>
                     </nav>
@@ -88,21 +88,21 @@ export default function ContentVi() {
                                 alt={postDetail.author.name}
                                 height={56}
                                 width={56}
-                                className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover"
+                                className="w-14 h-14 rounded-full border-2 border-border/60 object-cover"
                             />
                             <div>
                                 <div className="font-bold text-foreground text-base">{postDetail.author.name}</div>
                                 <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                                     <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
-                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-border/60"></span>
                                     <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime} đọc</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
-                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
-                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
+                            <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
+                            <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
                             <div className="flex items-center gap-2 pl-4 border-l border-border/60">
                                 <button className="p-2 rounded-full hover:bg-secondary/20 transition-colors" title="Chia sẻ">
                                     <Share2 className="w-4 h-4" />
@@ -118,12 +118,12 @@ export default function ContentVi() {
 
             {/* MAIN LAYOUT: 2 COLUMNS */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="lg:grid lg:grid-cols-12 lg:gap-10">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-12">
 
                     {/* CỘT TRÁI: NỘI DUNG CHÍNH */}
-                    <article className="lg:col-span-9 bg-card rounded-2xl shadow-sm border border-border/40 overflow-hidden">
+                    <article className="lg:col-span-8 rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden">
                         
-                        <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
+                        <figure className="w-full bg-primary/[0.08] dark:bg-primary/[0.15] p-5">
                             <Image 
                                 src={postDetail.coverImage} 
                                 alt={postDetail.title} 
@@ -143,7 +143,7 @@ export default function ContentVi() {
                             </p>
 
                             <h2 id="section-1" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
-                                <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 text-xl">1</span>
+                                <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:text-blue-300 text-xl">1</span>
                                 Tại sao lại là AP mà không phải chứng chỉ nào khác?
                             </h2>
                             <p className="mb-4">
@@ -198,7 +198,7 @@ export default function ContentVi() {
 
                             <h2 id="section-3" className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-border/40 scroll-mt-24 flex items-center gap-3">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 text-xl">3</span>
-                                "Phá đảo" môn Database và System Architecture
+                               "Phá đảo" môn Database và System Architecture
                             </h2>
                             <p className="mb-6">
                                 Đây là hai "mỏ vàng" điểm số nếu bạn đã có kinh nghiệm làm Web.
@@ -295,7 +295,7 @@ export default function ContentVi() {
                                 <div className="flex items-center gap-3 flex-wrap">
                                     <span className="text-sm font-semibold text-foreground">Tags:</span>
                                     {postDetail.tags.map((tag) => (
-                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-secondary/10 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
+                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-muted/50 border border-border/40 text-foreground/70 text-sm rounded-md hover:bg-muted hover:text-foreground transition-colors font-medium">
                                             #{tag}
                                         </a>
                                     ))}
@@ -305,40 +305,40 @@ export default function ContentVi() {
                     </article>
 
                     {/* CỘT PHẢI: TABLE OF CONTENTS */}
-                    <aside className="hidden lg:block lg:col-span-3 space-y-8">
+                    <aside className="hidden lg:block lg:col-span-4 space-y-8">
                         {/* Mục lục bài viết (Sticky) */}
-                        <div className="sticky top-24 bg-card p-6 rounded-2xl shadow-sm border border-border/40">
-                            <h3 className="font-bold text-base text-foreground mb-5 flex items-center gap-2 pb-3 border-b border-border/40">
-                                <Bookmark className="w-4 h-4 text-blue-500" /> Nội Dung Bài Viết
+                        <div className="sticky top-24 bg-white dark:bg-[#1a1a1a] border border-[rgba(0,0,0,0.1)] dark:border-white/10 rounded-xl overflow-hidden">
+                            <h3 className="font-bold text-sm text-secondary dark:text-foreground px-5 pt-4 pb-3.5 flex items-center gap-2 bg-primary/[0.08] dark:bg-primary/[0.15] border-b border-[rgba(0,0,0,0.07)] dark:border-white/[0.07]">
+                                <Bookmark className="w-4 h-4 text-primary" /> Nội Dung Bài Viết
                             </h3>
-                            <ul className="space-y-3 text-sm">
+                            <ul className="space-y-3 text-sm px-5 pb-5 pt-3">
                                 <li>
-                                    <a href="#section-1" className="flex items-center gap-2.5 text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>
+                                    <a href="#section-1" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">1</span>
                                         Tại sao lại là AP?
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-2" className="flex items-center gap-2.5 text-muted-foreground hover:text-green-600 dark:hover:text-green-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>
+                                    <a href="#section-2" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">2</span>
                                         Thể lệ cuộc chơi
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-3" className="flex items-center gap-2.5 text-muted-foreground hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>
+                                    <a href="#section-3" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">3</span>
                                         Giải mã Case Study
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-4" className="flex items-center gap-2.5 text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>
+                                    <a href="#section-4" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">4</span>
                                         Tiếng Nhật chuyên ngành
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#section-5" className="flex items-center gap-2.5 text-muted-foreground hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-pink-600 group-hover:text-white transition-colors">5</span>
+                                    <a href="#section-5" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">5</span>
                                         Lộ trình ôn tập
                                     </a>
                                 </li>
@@ -350,7 +350,7 @@ export default function ContentVi() {
 
             {/* CTA BOX */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div className="bg-gradient-to-br from-secondary/60 to-secondary dark:to-blue-800 rounded-xl p-8 sm:p-10 text-center shadow-lg">
+                <div className="bg-gradient-to-br from-secondary/60 to-secondary rounded-xl p-8 sm:p-10 text-center shadow-lg">
                     <h3 className="text-2xl font-bold text-white mb-4">Sẵn Sàng Luyện Thi Chứng Chỉ IT Chưa?</h3>
                     <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
                         IT Shiken cung cấp đề thi thử miễn phí, sát đề thật, chấm điểm tự động và phân tích kết quả chi tiết. Bắt đầu ngay hôm nay – không cần đăng ký!
@@ -366,8 +366,8 @@ export default function ContentVi() {
                 <h3 className="text-2xl font-bold text-foreground mb-8">Bài viết liên quan</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {postDetail.relatedPosts.map((post) => (
-                        <a key={post.id} href={post.href} className="group block">
-                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-secondary/10">
+                        <a key={post.id} href={post.href} className="group block rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden hover:border-primary/30 transition-colors">
+                            <div className="relative w-full aspect-[16/9] overflow-hidden bg-muted/[0.15]">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
@@ -375,11 +375,11 @@ export default function ContentVi() {
                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 pt-3 px-4">
                                 <Calendar className="w-3.5 h-3.5" />
                                 {post.date}
                             </div>
-                            <h4 className="font-bold text-lg text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                            <h4 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-2 px-4 pb-4">
                                 {post.title}
                             </h4>
                         </a>

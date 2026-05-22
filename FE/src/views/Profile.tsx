@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Settings, LogOut, User, Home, PanelLeft, ChevronRight, ChevronsUpDown } from 'lucide-react';
+import { Settings, LogOut, User, Home, Menu, ChevronRight, ChevronsUpDown } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useMe } from '@/src/hooks/useMe';
@@ -27,6 +27,13 @@ import {
     SidebarInset,
     useSidebar,
 } from '@/components/animate-ui/components/radix/sidebar';
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/components/animate-ui/components/radix/sheet';
 import {
     Collapsible,
     CollapsibleContent,
@@ -171,6 +178,155 @@ function LogoTrigger() {
     );
 }
 
+function MobileNavSheet({
+    activeTab,
+    setActiveTab,
+    lang,
+    t,
+}: {
+    activeTab: TabId;
+    setActiveTab: (tab: TabId) => void;
+    lang: string;
+    t: any;
+}) {
+    const [open, setOpen] = useState(false);
+
+    const handleSelect = (tabId: TabId) => {
+        setActiveTab(tabId);
+        setOpen(false);
+    };
+
+    return (
+        <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+                <button
+                    type="button"
+                    className="h-8 w-8 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 rounded-md transition-colors cursor-pointer shrink-0"
+                    aria-label="Open navigation"
+                >
+                    <Menu className="w-5 h-5" />
+                </button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-64 p-0 bg-[#fef8f4] dark:bg-[oklch(0.17_0.005_256)]">
+                <SheetHeader className="px-4 h-14 flex-row items-center border-b border-border shrink-0">
+                    <SheetTitle className="text-sm font-semibold text-secondary dark:text-foreground">
+                        ITShiken
+                    </SheetTitle>
+                </SheetHeader>
+                <nav className="px-2 py-3 space-y-0.5">
+                    {NAV_ITEMS.map(({ id: navId, icon: Icon, label }) => (
+                        <button
+                            key={navId}
+                            type="button"
+                            onClick={() => handleSelect(navId)}
+                            className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+                                activeTab === navId
+                                    ? 'bg-primary/10 text-primary'
+                                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                            }`}
+                        >
+                            <Icon className="w-4 h-4 shrink-0" />
+                            {label}
+                        </button>
+                    ))}
+
+                    <div className="pt-3">
+                        <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground px-3 mb-1.5">
+                            AI Coach
+                        </p>
+                        {COACH_SUB.map(({ id: subId, icon: Icon, label }) => (
+                            <button
+                                key={subId}
+                                type="button"
+                                onClick={() => handleSelect(subId)}
+                                className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+                                    activeTab === subId
+                                        ? 'bg-primary/10 text-primary'
+                                        : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                                }`}
+                            >
+                                <Icon className="w-4 h-4 shrink-0" />
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                </nav>
+
+                <div className="absolute bottom-0 left-0 right-0 px-4 py-3 border-t border-border">
+                    <Link
+                        href={`/${lang}/`}
+                        onClick={() => setOpen(false)}
+                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                        <Home className="w-4 h-4 shrink-0" />
+                        {t.home ?? 'Home'}
+                    </Link>
+                </div>
+            </SheetContent>
+        </Sheet>
+    );
+}
+
+function SidebarNav({
+    activeTab,
+    setActiveTab,
+}: {
+    activeTab: TabId;
+    setActiveTab: (tab: TabId) => void;
+}) {
+    return (
+        <SidebarMenu>
+            {NAV_ITEMS.map(({ id: navId, icon: Icon, label }) => (
+                <SidebarMenuItem key={navId}>
+                    <SidebarMenuButton
+                        isActive={activeTab === navId}
+                        tooltip={label}
+                        onClick={() => setActiveTab(navId)}
+                        className="cursor-pointer"
+                    >
+                        <Icon className="shrink-0" />
+                        <span>{label}</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            ))}
+
+            <Collapsible asChild className="group/collapsible">
+                <SidebarMenuItem>
+                    <CollapsibleTrigger asChild>
+                        <SidebarMenuButton
+                            isActive={activeTab.startsWith('coach/')}
+                            tooltip="AI Coach"
+                            className="cursor-pointer"
+                        >
+                            <AiIcon className="shrink-0 w-5.5 h-5.5" />
+                            <span>AI Coach</span>
+                            <ChevronRight className="ml-auto shrink-0 transition-transform duration-300 [[data-state=open]_&]:rotate-90" />
+                        </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                        <SidebarMenuSub>
+                            {COACH_SUB.map(({ id: subId, icon: Icon, label }) => (
+                                <SidebarMenuSubItem key={subId}>
+                                    <SidebarMenuSubButton asChild isActive={activeTab === subId}>
+                                        <button
+                                            type="button"
+                                            onClick={() => setActiveTab(subId)}
+                                            className="cursor-pointer w-full"
+                                        >
+                                            <Icon className="w-4 h-4 shrink-0" />
+                                            <span>{label}</span>
+                                        </button>
+                                    </SidebarMenuSubButton>
+                                </SidebarMenuSubItem>
+                            ))}
+                        </SidebarMenuSub>
+                    </CollapsibleContent>
+                </SidebarMenuItem>
+            </Collapsible>
+        </SidebarMenu>
+    );
+}
+
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 export function Profile({ t, lang }: { t: any; lang: string }) {
@@ -285,14 +441,20 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
     const hoursDisplay = formatPracticeHours(summary?.totalPracticeSeconds ?? 0);
 
     const isCoach = activeTab.startsWith('coach/');
-    const badge: string =
-        ({
-            'coach/graph': 'Graph',
-            'coach/path': 'Path',
-            'coach/insight': 'Insight',
-            history: 'History',
-            profile: 'Profile',
-        } as Record<TabId, string>)[activeTab] ?? 'Profile';
+    const TAB_TITLES: Record<TabId, string> = {
+        profile: t.profileTabTitle ?? 'Profile',
+        history: t.historyTabTitle ?? 'History',
+        'coach/graph': t.coachGraphTitle ?? 'AI Coach — Graph',
+        'coach/path': t.coachPathTitle ?? 'AI Coach — Path',
+        'coach/insight': t.coachInsightTitle ?? 'AI Coach — Insight',
+    };
+    const TAB_DESCS: Record<TabId, string> = {
+        profile: t.profileTabDesc ?? '',
+        history: t.historyTabDesc ?? '',
+        'coach/graph': t.coachGraphDesc ?? '',
+        'coach/path': t.coachPathDesc ?? '',
+        'coach/insight': t.coachInsightDesc ?? '',
+    };
 
     const handleLogout = async () => {
         await logoutAction();
@@ -362,57 +524,7 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
                 </SidebarHeader>
 
                 <SidebarContent className="pt-3 px-2">
-                    <SidebarMenu>
-                        {/* Flat nav items */}
-                        {NAV_ITEMS.map(({ id: navId, icon: Icon, label }) => (
-                            <SidebarMenuItem key={navId}>
-                                <SidebarMenuButton
-                                    isActive={activeTab === navId}
-                                    tooltip={label}
-                                    onClick={() => setActiveTab(navId)}
-                                    className="cursor-pointer"
-                                >
-                                    <Icon className="shrink-0" />
-                                    <span>{label}</span>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        ))}
-
-                        {/* AI Coach collapsible */}
-                        <Collapsible asChild className="group/collapsible">
-                            <SidebarMenuItem>
-                                <CollapsibleTrigger asChild>
-                                    <SidebarMenuButton
-                                        isActive={activeTab.startsWith('coach/')}
-                                        tooltip="AI Coach"
-                                        className="cursor-pointer"
-                                    >
-                                        <AiIcon className="shrink-0 w-5.5 h-5.5" />
-                                        <span>AI Coach</span>
-                                        <ChevronRight className="ml-auto shrink-0 transition-transform duration-300 [[data-state=open]_&]:rotate-90" />
-                                    </SidebarMenuButton>
-                                </CollapsibleTrigger>
-                                <CollapsibleContent>
-                                    <SidebarMenuSub>
-                                        {COACH_SUB.map(({ id: subId, icon: Icon, label }) => (
-                                            <SidebarMenuSubItem key={subId}>
-                                                <SidebarMenuSubButton asChild isActive={activeTab === subId}>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setActiveTab(subId)}
-                                                        className="cursor-pointer w-full"
-                                                    >
-                                                        <Icon className="w-4 h-4 shrink-0" />
-                                                        <span>{label}</span>
-                                                    </button>
-                                                </SidebarMenuSubButton>
-                                            </SidebarMenuSubItem>
-                                        ))}
-                                    </SidebarMenuSub>
-                                </CollapsibleContent>
-                            </SidebarMenuItem>
-                        </Collapsible>
-                    </SidebarMenu>
+                    <SidebarNav activeTab={activeTab} setActiveTab={setActiveTab} />
                 </SidebarContent>
 
                 <SidebarFooter className="border-t border-sidebar-border">
@@ -483,6 +595,14 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
             </Sidebar>
 
             <SidebarInset className="dark:bg-background overflow-y-auto">
+                {/* ── Mobile nav strip (hidden on lg+) ── */}
+                <div className="lg:hidden flex items-center gap-2 px-3 h-12 border-b border-border bg-[#fef8f4] dark:bg-muted/[0.08] shrink-0">
+                    <MobileNavSheet activeTab={activeTab} setActiveTab={setActiveTab} lang={lang} t={t} />
+                    <span className="flex-1 text-sm font-semibold text-secondary dark:text-foreground truncate">
+                        {TAB_TITLES[activeTab]}
+                    </span>
+                </div>
+
                 {/* ── Gradient page header ── */}
                 <div className="relative px-8 lg:px-12 pb-0 overflow-hidden">
                     <div
@@ -526,18 +646,39 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
                                         DashBoard
                                     </div>
                                     <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-secondary dark:text-foreground mb-3">
-                                        {isCoach ? 'AI Coach' : badge}
+                                        {TAB_TITLES[activeTab]}
                                     </h1>
 
-                                    {/*Thêm desc cho 5 loại tab*/}
                                     <p className="text-muted-foreground text-base leading-relaxed max-w-xl">
-                                        {t.examLibDesc}
+                                        {TAB_DESCS[activeTab]}
                                     </p>
                                 </AnimateInView>
                             </div>
                         </section>
                     </div>
                 </div>
+
+                {/* ── AI Coach sub-tabs ── */}
+                {isCoach && (
+                    <div className="sticky top-14 z-30 border-b border-border bg-[#fef8f4]/90 dark:bg-background/90 backdrop-blur-sm">
+                        <div className="px-8 lg:px-12 flex items-center h-11 gap-0.5">
+                            {COACH_SUB.map(({ id: tabId, icon: Icon, label }) => (
+                                <button
+                                    key={tabId}
+                                    type="button"
+                                    onClick={() => setActiveTab(tabId)}
+                                    className={`relative flex items-center gap-1.5 px-3 h-full text-sm font-medium transition-colors cursor-pointer ${activeTab === tabId ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                                >
+                                    <Icon className="w-3.5 h-3.5 shrink-0" />
+                                    {label}
+                                    {activeTab === tabId && (
+                                        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-t-full" />
+                                    )}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* ── Content ── */}
                 <AnimatePresence mode="wait">

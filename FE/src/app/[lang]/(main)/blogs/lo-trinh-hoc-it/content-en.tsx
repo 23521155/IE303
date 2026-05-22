@@ -1,4 +1,4 @@
-import Image from 'next/image';
+﻿import Image from 'next/image';
 import { Bookmark, Calendar, Clock, Share2, Eye, MessageSquare, ChevronRight, Link as LinkIcon, Mail, CheckCircle2, Target, Lightbulb } from 'lucide-react';
 import React from 'react';
 import Link from 'next/link';
@@ -29,7 +29,7 @@ const postDetail = {
 export default function ContentEn() {
     return (
         <main className="min-h-screen bg-background transition-colors duration-300">
-            <header className="bg-background pt-12 pb-8 border-b border-border/50">
+            <header className="relative bg-background pt-12 pb-8 border-b border-border/50 overflow-hidden" style={{ backgroundImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(232, 121, 33, 0.09) 0%, transparent 65%)' }}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
                         <a href="/" className="hover:text-primary transition-colors">Home</a>
@@ -67,8 +67,8 @@ export default function ContentEn() {
             </header>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="lg:grid lg:grid-cols-12 lg:gap-10">
-                    <article className="lg:col-span-9 bg-background rounded-2xl border border-border/60 overflow-hidden">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-12">
+                    <article className="lg:col-span-8 rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden">
                         <figure className="w-full bg-muted/[0.2] p-4">
                             <Image src={postDetail.coverImage} alt="Japan IT Certification Roadmap (IPA)" width={1200} height={800} className="w-full h-auto object-contain rounded-lg" priority />
                             <figcaption className="text-center text-sm text-muted-foreground/60 mt-3 italic">
@@ -82,7 +82,7 @@ export default function ContentEn() {
                             </p>
 
                             <h2 id="level-1" className="text-2xl sm:text-3xl font-bold text-secondary dark:text-foreground mt-12 mb-6 scroll-mt-24 flex items-center gap-3">
-                                <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 text-xl">1</span>
+                                <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:text-blue-300 text-xl">1</span>
                                 IT Passport (IP) – General Knowledge
                             </h2>
                             <p className="mb-4">
@@ -135,7 +135,7 @@ export default function ContentEn() {
                                 </div>
                             </div>
                             <blockquote className="border-l-4 border-border/60 bg-muted/[0.25] p-5 italic text-foreground/70 rounded-r-xl text-base">
-                                "Since 2023, the FE exam dropped all specific programming languages (C, Java, Python...) in Section B, switching entirely to pseudo-code. This demands pure algorithmic thinking rather than memorizing syntax."
+                               "Since 2023, the FE exam dropped all specific programming languages (C, Java, Python...) in Section B, switching entirely to pseudo-code. This demands pure algorithmic thinking rather than memorizing syntax."
                             </blockquote>
 
                             <h2 id="level-3" className="text-2xl sm:text-3xl font-bold text-secondary dark:text-foreground mt-16 mb-6 scroll-mt-24 flex items-center gap-3">
@@ -183,16 +183,16 @@ export default function ContentEn() {
                         </div>
                     </article>
 
-                    <aside className="hidden lg:block lg:col-span-3 space-y-8">
-                        <div className="sticky top-24 bg-background/60 p-6 rounded-2xl border border-border/50">
+                    <aside className="hidden lg:block lg:col-span-4 space-y-8">
+                        <div className="sticky top-24 bg-white dark:bg-[#1a1a1a] border border-[rgba(0,0,0,0.1)] dark:border-white/10 rounded-xl overflow-hidden">
                             <h3 className="font-bold text-base text-secondary dark:text-foreground mb-5 flex items-center gap-2 pb-3 border-b border-border/50">
                                 <Bookmark className="w-4 h-4 text-primary" /> Table of Contents
                             </h3>
-                            <ul className="space-y-3 text-sm">
-                                <li><a href="#level-1" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>IT Passport (IP)</a></li>
-                                <li><a href="#level-2" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>FE / SG</a></li>
-                                <li><a href="#level-3" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>AP</a></li>
-                                <li><a href="#level-4" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>Specialist</a></li>
+                            <ul className="space-y-3 text-sm px-5 pb-5 pt-3">
+                                <li><a href="#level-1" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">1</span>IT Passport (IP)</a></li>
+                                <li><a href="#level-2" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">2</span>FE / SG</a></li>
+                                <li><a href="#level-3" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">3</span>AP</a></li>
+                                <li><a href="#level-4" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group"><span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">4</span>Specialist</a></li>
                             </ul>
                         </div>
                     </aside>
@@ -211,14 +211,14 @@ export default function ContentEn() {
                 <h3 className="text-2xl font-bold text-secondary dark:text-foreground mb-8">Related Posts</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {postDetail.relatedPosts.map((post) => (
-                        <a key={post.id} href={post.href} className="group block">
-                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-muted/50">
+                        <a key={post.id} href={post.href} className="group block rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden hover:border-primary/30 transition-colors">
+                            <div className="relative w-full aspect-[16/9] overflow-hidden bg-muted/[0.15]">
                                 <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 pt-3 px-4">
                                 <Calendar className="w-3.5 h-3.5" />{post.date}
                             </div>
-                            <h4 className="font-bold text-lg text-secondary dark:text-foreground group-hover:text-primary transition-colors line-clamp-2">{post.title}</h4>
+                            <h4 className="font-bold text-lg text-secondary dark:text-foreground group-hover:text-primary transition-colors line-clamp-2 px-4 pb-4">{post.title}</h4>
                         </a>
                     ))}
                 </div>

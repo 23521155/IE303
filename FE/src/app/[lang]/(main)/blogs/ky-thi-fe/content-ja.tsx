@@ -1,4 +1,4 @@
-/* eslint-disable */
+﻿/* eslint-disable */
 import Image from 'next/image';
 import { Bookmark, Calendar, Clock, Link as LinkIcon, Share2, Eye, MessageSquare, ChevronRight, Info, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
@@ -55,15 +55,15 @@ const compareStyles = {
 
     // .compare-card.fe & .compare-card.ip
     cardVariants: {
-        fe: 'border-primary bg-primary/10 dark:border-blue-700 dark:bg-blue-900/20',
-        ip: 'border-secondary bg-gray-50 dark:border-blue-900 dark:bg-blue-900/10',
+        fe: 'border-primary bg-primary/10 dark:border-primary/40 dark:bg-primary/5',
+        ip: 'border-secondary bg-muted/30 dark:border-border/60 dark:bg-muted/5',
     },
 
     // .compare-card h4
     titleBase: 'text-[15px] font-bold mb-2.5',
     titleVariants: {
-        fe: 'text-primary dark:text-blue-900',
-        ip: 'text-secondary dark:text-blue-900',
+        fe: 'text-primary',
+        ip: 'text-secondary',
     },
 
     // .compare-card ul & li
@@ -74,29 +74,29 @@ const sessionStyles = {
     container: 'grid grid-cols-1 sm:grid-cols-2 gap-4 my-6',
     cardBase: 'rounded-md p-5 border-2 transition-colors',
     cardVariants: {
-        morning: 'border-primary bg-primary/10 dark:border-blue-700 dark:bg-blue-900/20',
-        afternoon: 'border-secondary bg-gray-50 dark:border-blue-900 dark:bg-blue-900/10',
+        morning: 'border-primary bg-primary/10 dark:border-primary/40 dark:bg-primary/5',
+        afternoon: 'border-secondary bg-muted/30 dark:border-border/60 dark:bg-muted/5',
     },
     titleBase: 'text-[15px] font-bold mb-2.5',
     titleVariants: {
-        morning: 'text-primary dark:text-blue-900',
-        afternoon: 'text-secondary dark:text-blue-900',
+        morning: 'text-primary',
+        afternoon: 'text-secondary',
     },
     text: 'text-sm mb-1.5 text-muted-foreground',
-    strong: 'font-semibold text-slate-900 dark:text-slate-200',
+    strong: 'font-semibold text-foreground',
 };
 
 export default function ContentJa() {
     return (
         <main className="min-h-screen bg-background transition-colors duration-300">
             {/* HERO SECTION */}
-            <header className="bg-card pt-12 pb-8 border-b border-border/40">
+            <header className="relative bg-background pt-12 pb-8 border-b border-border/50 overflow-hidden" style={{ backgroundImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(232, 121, 33, 0.09) 0%, transparent 65%)' }}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Breadcrumb */}
                     <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-                        <Link href="/" className="hover:text-primary dark:hover:text-blue-400 transition-colors">ホーム</Link>
+                        <Link href="/" className="hover:text-primary transition-colors">ホーム</Link>
                         <ChevronRight className="w-4 h-4" />
-                        <Link href="//category" className="hover:text-primary dark:hover:text-blue-400 transition-colors">ブログ</Link>
+                        <Link href="//category" className="hover:text-primary transition-colors">ブログ</Link>
                         <ChevronRight className="w-4 h-4" />
                         <span className="text-foreground/90 truncate">{postDetail.title}</span>
                     </nav>
@@ -123,21 +123,21 @@ export default function ContentJa() {
                                 alt={postDetail.author.name}
                                 height={56}
                                 width={56}
-                                className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover"
+                                className="w-14 h-14 rounded-full border-2 border-border/60 object-cover"
                             />
                             <div>
                                 <div className="font-bold text-foreground text-base">{postDetail.author.name}</div>
                                 <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                                     <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
-                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-border/60"></span>
                                     <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
-                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
-                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
+                            <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
+                            <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
                             <div className="flex items-center gap-2 pl-4 border-l border-border/60">
                                 <button className="p-2 rounded-full hover:bg-secondary/20 transition-colors" title="共有">
                                     <Share2 className="w-4 h-4" />
@@ -153,10 +153,10 @@ export default function ContentJa() {
 
             {/* MAIN LAYOUT: 2 COLUMNS */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="lg:grid lg:grid-cols-12 lg:gap-10">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-12">
                     {/* LEFT COLUMN: MAIN CONTENT */}
-                    <article className="lg:col-span-9 bg-card rounded-2xl shadow-sm border border-border/40 overflow-hidden">
-                        <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
+                    <article className="lg:col-span-8 rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden">
+                        <figure className="w-full bg-primary/[0.08] dark:bg-primary/[0.15] p-5">
                             <Image 
                                 src={postDetail.coverImage} 
                                 alt={postDetail.title} 
@@ -193,7 +193,7 @@ export default function ContentJa() {
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://viblo.asia/p/thi-do-chung-chi-ki-su-cntt-chuan-nhat-ban-fe-fundamental-information-technology-engineers-examination-tu-con-so-0-eW65GGO65DO"
-                        className="font-medium text-primary underline mr-1 dark:text-blue-900"
+                        className="font-medium text-primary underline mr-1"
                     >
                         FE
                     </a>
@@ -207,7 +207,7 @@ export default function ContentJa() {
                 </p>
 
                 {/* INFO BOX */}
-                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border  dark:border-blue-800 rounded-md p-5 my-8">
+                <div className="flex gap-4 bg-primary/10 border rounded-md p-5 my-8">
                     <Info className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                     <p className="text-sm sm:text-base text-secondary  m-0">
                         FEは、日本のITスキル標準（ITSS）の<strong>レベル2</strong>
@@ -270,7 +270,7 @@ export default function ContentJa() {
                     これは最もよく尋ねられる部分です。試験の構成を明確に知ることで、学習時間をより賢く割り当てることができます。
                 </p>
 
-                <div className="bg-slate-50 dark:bg-slate-800/50 border border-border/60 rounded-md p-5 my-6 text-center font-medium">
+                <div className="bg-muted/30 border border-border/60 rounded-md p-5 my-6 text-center font-medium">
                     これは、学習を始める前に把握しておくべき最も重要な部分です。FE試験は
                     <strong>2つの別々のセクション</strong>
                     で構成されており、それぞれ「午前試験」と「午後試験」と呼ばれ、同日にそれぞれ150分間行われます。
@@ -353,7 +353,7 @@ export default function ContentJa() {
                             </tr>
                         </thead>
                         <tbody className="text-foreground/80">
-                            <tr className="bg-card">
+                            <tr className="bg-background">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     基礎情報科学
                                 </td>
@@ -361,7 +361,7 @@ export default function ContentJa() {
                                     2進数、基数変換、論理演算、データ構造（スタック、キュー、ツリー、ハッシュ）
                                 </td>
                             </tr>
-                            <tr className="bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="bg-muted/30">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     コンピュータアーキテクチャ
                                 </td>
@@ -369,7 +369,7 @@ export default function ContentJa() {
                                     RAM、CPU、スケジューリングアルゴリズム（FIFO、LRU）、キャッシュメモリ
                                 </td>
                             </tr>
-                            <tr className="bg-card">
+                            <tr className="bg-background">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     コンピュータネットワーク
                                 </td>
@@ -377,7 +377,7 @@ export default function ContentJa() {
                                     TCP/IP、DNS、DHCP、NAT、一般的なプロトコル
                                 </td>
                             </tr>
-                            <tr className="bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="bg-muted/30">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     データベース
                                 </td>
@@ -385,7 +385,7 @@ export default function ContentJa() {
                                     SQL、DB設計、リレーション、正規化
                                 </td>
                             </tr>
-                            <tr className="bg-card">
+                            <tr className="bg-background">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     セキュリティ
                                 </td>
@@ -393,7 +393,7 @@ export default function ContentJa() {
                                     SQLインジェクション、フィッシング、暗号化、セキュリティポリシー
                                 </td>
                             </tr>
-                            <tr className="bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="bg-muted/30">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     ソフトウェア開発
                                 </td>
@@ -401,7 +401,7 @@ export default function ContentJa() {
                                     開発ライフサイクル、テスト（単体テスト、結合テスト）、オブジェクト指向設計
                                 </td>
                             </tr>
-                            <tr className="bg-card">
+                            <tr className="bg-background">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     マネジメントと戦略
                                 </td>
@@ -409,7 +409,7 @@ export default function ContentJa() {
                                     プロジェクト管理、損益分岐点、ビジネス戦略、IT監査
                                 </td>
                             </tr>
-                            <tr className="bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="bg-muted/30">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     プログラミング（午後試験）
                                 </td>
@@ -447,7 +447,7 @@ export default function ContentJa() {
                     他の国際的なIT資格よりもFEを選ぶ理由は何でしょうか？日本で働く多くのベトナム人エンジニアが共有する理由は以下の通りです：
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">
+                <h3 className="text-xl font-bold text-primary mt-6 mb-3">
                     日本での就労ビザの申請 – 大学の学位は不要
                 </h3>
                 <p className="mb-4">
@@ -456,7 +456,7 @@ export default function ContentJa() {
                     。大学の学位は持っていないが、技術的なスキルが本当に高い人にとって、これは非常に価値のある道です。
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">
+                <h3 className="text-xl font-bold text-primary mt-6 mb-3">
                     高度専門職ビザと永住権の加点
                 </h3>
                 <p className="mb-4">
@@ -465,7 +465,7 @@ export default function ContentJa() {
                     Worker）ビザ、そしてその後の永住権ビザを申請するためのポイントをより早く蓄積することができます。
                 </p>
 
-                <h3 className="text-xl font-bold text-primary dark:text-blue-900 mt-6 mb-3">12カ国で認定</h3>
+                <h3 className="text-xl font-bold text-primary mt-6 mb-3">12カ国で認定</h3>
                 <p className="mb-6">
                     FEは日本だけで価値があるわけではありません。<strong>ITPEC</strong>
                     （アジア情報処理試験協議会）の枠組みに基づくFE試験は、インド、シンガポール、韓国、中国、フィリピン、タイ、ベトナム、ミャンマー、台湾、マレーシア、モンゴル、バングラデシュを含むアジアの12か国で同等に認定されています。
@@ -474,7 +474,7 @@ export default function ContentJa() {
                 {/* SUCCESS BOX */}
                 <div className="flex gap-4 bg-primary/10 dark:bg-green-900/20 border-l-4 border-primary dark:border-green-500 rounded-r-md p-5 my-8">
                     <CheckCircle2 className="w-6 h-6 text-primary dark:text-green-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm sm:text-base text-slate-800 dark:text-green-100 m-0">
+                    <p className="text-sm sm:text-base text-secondary m-0">
                         <strong>永久有効 + より高いレベルへの足がかり:</strong>{' '}
                         ITパスポートと同様に、FE資格には有効期限がありません。そしてFEの後は、AP（応用情報技術者）を制覇し、その後はキャリアパスに応じてPM（プロジェクトマネージャ）、SC（情報処理安全確保支援士）、DB（データベーススペシャリスト）などの専門資格へ進むための確固たる基盤となります。
                     </p>
@@ -503,7 +503,7 @@ export default function ContentJa() {
                             </tr>
                         </thead>
                         <tbody className="text-foreground/80">
-                            <tr className="bg-card">
+                            <tr className="bg-background">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     主催機関
                                 </td>
@@ -512,7 +512,7 @@ export default function ContentJa() {
                                 </td>
                                 <td className="px-4 py-3 border border-border/60">IPA直接</td>
                             </tr>
-                            <tr className="bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="bg-muted/30">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     試験日程
                                 </td>
@@ -523,7 +523,7 @@ export default function ContentJa() {
                                     年2回 (4月と10月)
                                 </td>
                             </tr>
-                            <tr className="bg-card">
+                            <tr className="bg-background">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     試験言語
                                 </td>
@@ -534,7 +534,7 @@ export default function ContentJa() {
                                     日本語 (N2〜N3程度必要)
                                 </td>
                             </tr>
-                            <tr className="bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="bg-muted/30">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     試験形式
                                 </td>
@@ -545,7 +545,7 @@ export default function ContentJa() {
                                     CBT（コンピュータベーステスト）
                                 </td>
                             </tr>
-                            <tr className="bg-card">
+                            <tr className="bg-background">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     受験料
                                 </td>
@@ -554,7 +554,7 @@ export default function ContentJa() {
                                 </td>
                                 <td className="px-4 py-3 border border-border/60">~7,500 円</td>
                             </tr>
-                            <tr className="bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="bg-muted/30">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     受験地
                                 </td>
@@ -565,7 +565,7 @@ export default function ContentJa() {
                                     日本全国47都道府県
                                 </td>
                             </tr>
-                            <tr className="bg-card">
+                            <tr className="bg-background">
                                 <td className="px-4 py-3 font-medium border border-border/60">
                                     結果発表
                                 </td>
@@ -581,8 +581,8 @@ export default function ContentJa() {
                 </div>
 
                 {/* TIP BOX */}
-                <div className="flex gap-4 bg-gray-50 dark:bg-blue-900/20 border-l-4 border-secondary dark:border-blue-900 rounded-r-md p-5 my-8">
-                    <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
+                <div className="flex gap-4 bg-muted/30 border-l-4 border-secondary rounded-r-md p-5 my-8">
+                    <p className="text-sm sm:text-base text-secondary m-0">
                         <strong>ヒント:</strong>{' '}
                         ベトナムで受験する場合、試験にはベトナム語の翻訳が付属しているため、英語についてあまり心配する必要はありません。より重要なのは、IT用語を理解することです。ただし可能であれば、
                         <strong>主となる情報源として英語版を読んでください</strong>
@@ -618,12 +618,12 @@ export default function ContentJa() {
 
                 {/* STEPS */}
                 <div className="flex flex-col gap-4 my-8">
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-border/60 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             1
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 text-lg mb-1">
                                 1ヶ月目 – 基礎テキストを読む（午前試験）
                             </h4>
                             <p className="text-sm text-muted-foreground m-0">
@@ -632,8 +632,8 @@ export default function ContentJa() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-border/60 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             2
                         </div>
                         <div>
@@ -645,12 +645,12 @@ export default function ContentJa() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-border/60 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             3
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 text-lg mb-1">
                                 3ヶ月目 – 午後試験への取り組みと総合模擬試験
                             </h4>
                             <p className="text-sm text-muted-foreground m-0">
@@ -658,12 +658,12 @@ export default function ContentJa() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-border/60 rounded-md p-5 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg dark:bg-blue-900">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             4
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-blue-900 text-lg mb-1">
+                            <h4 className="font-bold text-slate-900 text-lg mb-1">
                                 最終週 – 弱点の迅速な復習、メンタルの維持
                             </h4>
                             <p className="text-sm text-muted-foreground m-0">
@@ -679,7 +679,7 @@ export default function ContentJa() {
                         <strong>公式テキスト:</strong>
                         <a
                             href={'https://pdfcoffee.com/new-fe-textbook-vol2-pdf-free.html'}
-                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
+                            className="ml-1 font-bold underline text-primary"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -690,7 +690,7 @@ export default function ContentJa() {
                         <strong>過去問:</strong>
                         <a
                             href="https://itpec.org/"
-                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
+                            className="ml-1 font-bold underline text-primary"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -701,7 +701,7 @@ export default function ContentJa() {
                         <strong>日本の学習サイト:</strong>
                         <a
                             href="https://www.fe-siken.com/"
-                            className="ml-1 font-bold underline text-primary dark:text-blue-900"
+                            className="ml-1 font-bold underline text-primary"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -710,7 +710,7 @@ export default function ContentJa() {
                     </li>
                     <li>
                         <strong>オンライン模擬試験:</strong>
-                        <Link href="/ja/" className="ml-1 font-bold underline text-primary dark:text-blue-900">
+                        <Link href="/ja/" className="ml-1 font-bold underline text-primary">
                             IT Shiken – 実際の試験をシミュレートしたインターフェース、自動採点、無料
                         </Link>
                     </li>
@@ -719,13 +719,13 @@ export default function ContentJa() {
                 {/* INTERNAL LINK 2 */}
                 <Link
                     href="/ja/exams"
-                    className="flex items-center gap-4 bg-primary/10 dark:bg-blue-900/10 border border-green-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-primary dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4 bg-primary/10 border border-green-200/50 rounded-md p-4 my-8 hover:shadow-md hover:border-primary transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – FE試験の無料練習
                         </div>
-                        <div className="font-semibold text-foreground group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
+                        <div className="font-semibold text-foreground group-hover:text-primary transition-colors">
                             オンラインでFE模擬試験を受ける – 実際の試験を99%シミュレートし、完了直後に自動採点します
                         </div>
                     </div>
@@ -741,51 +741,51 @@ export default function ContentJa() {
 
                 <div className="space-y-4 mb-10">
                     <div className="border border-border/60 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-foreground">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             FEは難しいですか？合格率はどのくらいですか？
                         </div>
-                        <div className="p-4 border-t border-border/60 text-foreground/80 text-sm md:text-base bg-card">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-muted/30">
                             ベトナムでのFEの平均合格率は25%未満であり、かなり低いです。これは合格不可能という意味ではなく、多くの人が間違った勉強法をしているか、午後試験を軽視しているということです。適切なロードマップに従って丸3ヶ月勉強すれば、合格の可能性は十分に現実的です。
                         </div>
                     </div>
 
                     <div className="border border-border/60 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-foreground">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             大学の学位を持っていなくてもFE試験を受けるべきですか？
                         </div>
-                        <div className="p-4 border-t border-border/60 text-foreground/80 text-sm md:text-base bg-card">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-muted/30">
                             これが、多くの人がFEを選ぶ理由の1つです。FE資格は、ITエンジニアの就労ビザを申請する際に、大学の学位の代わりとして日本政府に認められています。したがって、ITの学位を持たずに日本で働きたい場合、FEは最短かつ最も現実的な道です。
                         </div>
                     </div>
 
                     <div className="border border-border/60 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-foreground">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             午後試験ではどのプログラミング言語を選ぶべきですか？
                         </div>
-                        <div className="p-4 border-t border-border/60 text-foreground/80 text-sm md:text-base bg-card">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-muted/30">
                             午後試験では、C、Java、Python、アセンブラ、表計算の5つの言語から1つを選択できます。コミュニティからの最も一般的なアドバイスは、毎日使用している言語を選択することです。PythonとJavaは構文が明確であり、試験の条件下でも読みやすいため、最も人気のある2つの選択肢です。
                         </div>
                     </div>
 
                     <div className="border border-border/60 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-foreground">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             1つのセクションに合格した場合、両方を再受験する必要がありますか？
                         </div>
-                        <div className="p-4 border-t border-border/60 text-foreground/80 text-sm md:text-base bg-card">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-muted/30">
                             いいえ。1つのセクション（午前または午後）に合格した場合、その結果は直後の試験に免除（保留）されます。合格していないセクションのみを再受験する必要があります。これにより、初めて受験する人のプレッシャーが大幅に軽減されます。
                         </div>
                     </div>
 
                     <div className="border border-border/60 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-foreground">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             私は非IT分野の人間ですが、FE試験を受けるべきですか？
                         </div>
-                        <div className="p-4 border-t border-border/60 text-foreground/80 text-sm md:text-base bg-card">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-muted/30">
                             正直に言うと、プログラミングとアルゴリズムのセクションがあるため、ITの背景が全くない人にとってFEはかなり困難です。あなたが非IT分野の人であれば、まずITパスポートから始めて基礎を構築し、それからFEにステップアップするかどうかを決定する必要があります。多くのコミュニケーター、BA、テスターがITパスポートからステップアップしてFEに合格しています。十分な学習時間があれば、それは完全に可能です。
                         </div>
                     </div>
@@ -794,20 +794,20 @@ export default function ContentJa() {
                 {/* INTERNAL LINK 3 */}
                 <Link
                     href="/ja/flashcards"
-                    className="flex items-center gap-4 bg-primary/10 dark:bg-blue-900/10 border border-green-200 dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md hover:border-primary dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4 bg-primary/10 border border-green-200/50 rounded-md p-4 my-8 hover:shadow-md hover:border-primary transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – フラッシュカード
                         </div>
-                        <div className="font-semibold text-foreground group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
+                        <div className="font-semibold text-foreground group-hover:text-primary transition-colors">
                             フラッシュカードを使用してITの語彙と概念を復習します – 早く学び、長く記憶に残します
                         </div>
                     </div>
                 </Link>
 
                 {/* CONCLUSION */}
-                <div className="bg-slate-50 dark:bg-slate-800/30 border border-border/60 rounded-md p-6 sm:p-8 my-10">
+                <div className="bg-muted/30 border border-border/50 rounded-md p-6 sm:p-8 my-10">
                     <h2 className="text-xl font-bold text-foreground mb-4">まとめ</h2>
                     <p className="mb-4 text-foreground/80">
                         FE資格は簡単ではありませんが、あなたが費やすすべての努力に見合う価値があります。履歴書の単なる一行にとどまらず、FEはあなたが日本で働き、大学の学位なしでビザを取得し、より高いレベルへステップアップするための確固たる基盤を持つための真の扉でもあります。
@@ -826,7 +826,7 @@ export default function ContentJa() {
                                 <div className="flex items-center gap-3 flex-wrap">
                                     <span className="text-sm font-semibold text-foreground">タグ:</span>
                                     {postDetail.tags.map((tag) => (
-                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-secondary/10 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
+                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-muted/50 border border-border/40 text-foreground/70 text-sm rounded-md hover:bg-muted hover:text-foreground transition-colors font-medium">
                                             #{tag}
                                         </a>
                                     ))}
@@ -836,51 +836,51 @@ export default function ContentJa() {
                     </article>
 
                     {/* RIGHT COLUMN: TABLE OF CONTENTS */}
-                    <aside className="hidden lg:block lg:col-span-3 space-y-8">
-                        <div className="sticky top-24 bg-card p-6 rounded-2xl shadow-sm border border-border/40">
-                            <h3 className="font-bold text-base text-foreground mb-5 flex items-center gap-2 pb-3 border-b border-border/40">
-                                <Bookmark className="w-4 h-4 text-blue-500" /> 目次
+                    <aside className="hidden lg:block lg:col-span-4 space-y-8">
+                        <div className="sticky top-24 bg-white dark:bg-[#1a1a1a] border border-[rgba(0,0,0,0.1)] dark:border-white/10 rounded-xl overflow-hidden">
+                            <h3 className="font-bold text-sm text-secondary dark:text-foreground px-5 pt-4 pb-3.5 flex items-center gap-2 bg-primary/[0.08] dark:bg-primary/[0.15] border-b border-[rgba(0,0,0,0.07)] dark:border-white/[0.07]">
+                                <Bookmark className="w-4 h-4 text-primary" /> 目次
                             </h3>
-                            <ul className="space-y-3 text-sm">
+                            <ul className="space-y-3 text-sm px-5 pb-5 pt-3">
                                 <li>
-                                    <a href="#it-fe-la-gi" className="flex items-center gap-2.5 text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>
+                                    <a href="#it-fe-la-gi" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">1</span>
                                         FE資格とは？
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#fe-khac-it-passport" className="flex items-center gap-2.5 text-muted-foreground hover:text-green-600 dark:hover:text-green-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>
+                                    <a href="#fe-khac-it-passport" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">2</span>
                                         ITパスポートとの違い
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#cau-truc-de-thi" className="flex items-center gap-2.5 text-muted-foreground hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>
+                                    <a href="#cau-truc-de-thi" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">3</span>
                                         試験構成の詳細
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#loi-ich" className="flex items-center gap-2.5 text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>
+                                    <a href="#loi-ich" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">4</span>
                                         メリット
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#dang-ky" className="flex items-center gap-2.5 text-muted-foreground hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-pink-600 group-hover:text-white transition-colors">5</span>
+                                    <a href="#dang-ky" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">5</span>
                                         申込方法
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#lo-trinh-on-luyen" className="flex items-center gap-2.5 text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">6</span>
+                                    <a href="#lo-trinh-on-luyen" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">6</span>
                                         学習ロードマップ
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#faq" className="flex items-center gap-2.5 text-muted-foreground hover:text-green-600 dark:hover:text-green-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">7</span>
+                                    <a href="#faq" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">7</span>
                                         FAQ
                                     </a>
                                 </li>
@@ -892,7 +892,7 @@ export default function ContentJa() {
 
             {/* CTA BOX */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div className="bg-gradient-to-br from-[#053825] to-primary dark:to-blue-800 rounded-xl p-8 sm:p-10 text-center shadow-lg">
+                <div className="bg-gradient-to-br from-[#053825] to-primary rounded-xl p-8 sm:p-10 text-center shadow-lg">
                     <h3 className="text-2xl font-bold text-white mb-4">今日からFEの練習を始めませんか？</h3>
                     <p className="text-green-100 mb-8 max-w-2xl mx-auto">
                         IT Shikenは、無料のFE模擬試験、実際の試験をシミュレートしたインターフェース、自動採点、詳細な結果分析を提供し、自分の弱点を明確に把握するのに役立ちます。
@@ -908,8 +908,8 @@ export default function ContentJa() {
                 <h3 className="text-2xl font-bold text-foreground mb-8">関連記事</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {postDetail.relatedPosts.map((post) => (
-                        <Link key={post.id} href={post.href} className="group block">
-                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-secondary/10">
+                        <Link key={post.id} href={post.href} className="group block rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden hover:border-primary/30 transition-colors">
+                            <div className="relative w-full aspect-[16/9] overflow-hidden bg-muted/[0.15]">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
@@ -917,11 +917,11 @@ export default function ContentJa() {
                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 pt-3 px-4">
                                 <Calendar className="w-3.5 h-3.5" />
                                 {post.date}
                             </div>
-                            <h4 className="font-bold text-lg text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                            <h4 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-2 px-4 pb-4">
                                 {post.title}
                             </h4>
                         </Link>
