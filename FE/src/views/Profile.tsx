@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Settings, LogOut, User, Home, Menu, ChevronRight, ChevronsUpDown } from 'lucide-react';
+import { Settings, LogOut, User, Home, Menu, ChevronRight, ChevronsUpDown, PanelLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useMe } from '@/src/hooks/useMe';
@@ -267,13 +267,7 @@ function MobileNavSheet({
     );
 }
 
-function SidebarNav({
-    activeTab,
-    setActiveTab,
-}: {
-    activeTab: TabId;
-    setActiveTab: (tab: TabId) => void;
-}) {
+function SidebarNav({ activeTab, setActiveTab }: { activeTab: TabId; setActiveTab: (tab: TabId) => void }) {
     return (
         <SidebarMenu>
             {NAV_ITEMS.map(({ id: navId, icon: Icon, label }) => (
@@ -667,7 +661,11 @@ export function Profile({ t, lang }: { t: any; lang: string }) {
                                     key={tabId}
                                     type="button"
                                     onClick={() => setActiveTab(tabId)}
-                                    className={`relative flex items-center gap-1.5 px-3 h-full text-sm font-medium transition-colors cursor-pointer ${activeTab === tabId ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                                    className={`relative flex items-center gap-1.5 px-3 h-full text-sm font-medium transition-colors cursor-pointer ${
+                                        activeTab === tabId
+                                            ? 'text-primary'
+                                            : 'text-muted-foreground hover:text-foreground'
+                                    }`}
                                 >
                                     <Icon className="w-3.5 h-3.5 shrink-0" />
                                     {label}
