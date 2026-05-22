@@ -1,4 +1,4 @@
-import Image from 'next/image';
+﻿import Image from 'next/image';
 import { AlertTriangle, Bookmark, Calendar, CheckCircle2, Clock, Info, Link as LinkIcon, Share2, Eye, MessageSquare, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/src/components/ui/button';
@@ -48,30 +48,30 @@ const postDetail = {
 
 export default function ContentVi() {
     return (
-        <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+        <main className="min-h-screen bg-background transition-colors duration-300">
             {/* HERO SECTION */}
-            <header className="bg-white dark:bg-[#121212] pt-12 pb-8 border-b border-slate-200 dark:border-slate-800">
+            <header className="relative bg-background pt-12 pb-8 border-b border-border/50 overflow-hidden" style={{ backgroundImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(232, 121, 33, 0.09) 0%, transparent 65%)' }}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Breadcrumb */}
-                    <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-6">
-                        <a href="/" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Trang chủ</a>
+                    <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+                        <a href="/" className="hover:text-primary transition-colors">Trang chủ</a>
                         <ChevronRight className="w-4 h-4" />
-                        <a href="/category" className="hover:text-primary dark:hover:text-blue-400 transition-colors">Blog</a>
+                        <a href="/category" className="hover:text-primary transition-colors">Blog</a>
                         <ChevronRight className="w-4 h-4" />
-                        <span className="text-slate-800 dark:text-slate-200 truncate">{postDetail.title}</span>
+                        <span className="text-foreground/80 truncate">{postDetail.title}</span>
                     </nav>
 
                     <div className="mb-6">
-                        <span className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        <span className="inline-block bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                             {postDetail.category}
                         </span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.2]">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6 leading-[1.2]">
                         {postDetail.title}
                     </h1>
 
-                    <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                    <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                         {postDetail.excerpt}
                     </p>
 
@@ -83,26 +83,26 @@ export default function ContentVi() {
                                 alt={postDetail.author.name}
                                 height={56}
                                 width={56}
-                                className="w-14 h-14 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover"
+                                className="w-14 h-14 rounded-full border-2 border-border/60 object-cover"
                             />
                             <div>
-                                <div className="font-bold text-slate-900 dark:text-white text-base">{postDetail.author.name}</div>
-                                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                <div className="font-bold text-foreground text-base">{postDetail.author.name}</div>
+                                <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                                     <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {postDetail.date}</span>
-                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                                    <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-border/60"></span>
                                     <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {postDetail.readTime} đọc</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
-                            <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
-                            <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Chia sẻ">
+                        <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
+                            <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"><Eye className="w-5 h-5" /> {postDetail.views}</span>
+                            <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /> {postDetail.comments}</span>
+                            <div className="flex items-center gap-2 pl-4 border-l border-border/60">
+                                <button className="p-2 rounded-full hover:bg-muted/60 transition-colors" title="Chia sẻ">
                                     <Share2 className="w-4 h-4" />
                                 </button>
-                                <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Lưu bài">
+                                <button className="p-2 rounded-full hover:bg-muted/60 transition-colors" title="Lưu bài">
                                     <Bookmark className="w-4 h-4" />
                                 </button>
                             </div>
@@ -113,10 +113,10 @@ export default function ContentVi() {
 
             {/* MAIN LAYOUT: 2 COLUMNS */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="lg:grid lg:grid-cols-12 lg:gap-10">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-12">
                     {/* CỘT TRÁI: NỘI DUNG CHÍNH */}
-                    <article className="lg:col-span-9 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
-                        <figure className="w-full bg-slate-50 dark:bg-slate-800/50 p-4">
+                    <article className="lg:col-span-8 rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden">
+                        <figure className="w-full bg-primary/[0.08] dark:bg-primary/[0.15] p-5">
                             <Image 
                                 src={postDetail.coverImage} 
                                 alt={postDetail.title} 
@@ -125,12 +125,12 @@ export default function ContentVi() {
                                 className="w-full h-auto object-cover rounded-lg max-h-[500px]"
                                 priority 
                             />
-                            <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
+                            <figcaption className="text-center text-sm text-muted-foreground mt-3 italic">
                                 Chứng chỉ IT Passport là gì?
                             </figcaption>
                         </figure>
 
-                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                        <div className="p-6 sm:p-10 text-lg leading-relaxed text-foreground/80">
                             <p className="mb-6 drop-cap">
                                 Bạn đang tìm hiểu về IT Passport và không biết nên bắt đầu từ đâu? Hay bạn đang phân vân không biết
                                 chứng chỉ này có thực sự cần thiết với mình không? Yên tâm, bài viết này sẽ giải đáp tất tần tật từ
@@ -142,7 +142,7 @@ export default function ContentVi() {
                 {/* SECTION 1 */}
                 <h2
                     id="it-passport-la-gi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     1. IT Passport Là Gì?
                 </h2>
@@ -151,7 +151,7 @@ export default function ContentVi() {
                         href="https://btacademy.vn/it-comtor/it-passport-la-gi-loi-the-cua-chung-chi-it-passport"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-primary underline mr-1 dark:text-blue-900"
+                        className="font-bold text-primary underline mr-1"
                     >
                         IT Passport
                     </a>
@@ -167,9 +167,9 @@ export default function ContentVi() {
                 </p>
 
                 {/* INFO BOX */}
-                <div className="flex gap-4 bg-primary/10 dark:bg-blue-900/20 border dark:border-blue-800 rounded-md p-5 my-8">
+                <div className="flex gap-4 bg-primary/10 border rounded-md p-5 my-8">
                     <Info className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
-                    <p className="text-sm sm:text-base text-secondary dark:text-blue-100 m-0">
+                    <p className="text-sm sm:text-base text-secondary m-0">
                         <strong>IT Passport không phải chứng chỉ dành riêng cho dân IT.</strong> Ngược lại, đây chính là
                         kỳ thi lý tưởng cho những ai <em>không xuất thân từ chuyên ngành CNTT</em> nhưng muốn làm việc
                         trong môi trường công nghệ hoặc với đối tác Nhật Bản.
@@ -184,7 +184,7 @@ export default function ContentVi() {
                         alt="Logo IPA - tổ chức cấp chứng chỉ IT Passport Nhật Bản"
                         className="w-full rounded-md shadow-sm"
                     />
-                    <figcaption className="text-center text-sm text-slate-500 dark:text-slate-400 mt-3 italic">
+                    <figcaption className="text-center text-sm text-muted-foreground mt-3 italic">
                         Chứng chỉ IT Passport do tổ chức IPA (Nhật Bản) cấp, được công nhận tại 7 quốc gia trên thế
                         giới.
                     </figcaption>
@@ -193,7 +193,7 @@ export default function ContentVi() {
                 {/* SECTION 2 */}
                 <h2
                     id="ai-nen-thi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     2. Ai Nên Thi IT Passport?
                 </h2>
@@ -209,27 +209,27 @@ export default function ContentVi() {
 
                 {/* BENEFITS GRID */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-8">
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">Dân Sales & Marketing</h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <div className="bg-muted/30 border border-border/60 rounded-md p-6 text-center hover:shadow-md transition-shadow">
+                        <h4 className="font-bold text-primary mb-2">Dân Sales & Marketing</h4>
+                        <p className="text-sm text-muted-foreground">
                             Làm việc với khách hàng công nghệ, cần hiểu sản phẩm IT để tư vấn tốt hơn.
                         </p>
                     </div>
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">IT Comtor / Biên dịch IT</h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <div className="bg-muted/30 border border-border/60 rounded-md p-6 text-center hover:shadow-md transition-shadow">
+                        <h4 className="font-bold text-primary mb-2">IT Comtor / Biên dịch IT</h4>
+                        <p className="text-sm text-muted-foreground">
                             Cần vốn từ vựng và kiến thức nền tảng IT để dịch thuật chính xác, chuyên nghiệp.
                         </p>
                     </div>
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">Back-office & HR</h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <div className="bg-muted/30 border border-border/60 rounded-md p-6 text-center hover:shadow-md transition-shadow">
+                        <h4 className="font-bold text-primary mb-2">Back-office & HR</h4>
+                        <p className="text-sm text-muted-foreground">
                             Làm việc trong công ty IT nhưng không phải kỹ sư, muốn hiểu "ngôn ngữ" của đồng nghiệp.
                         </p>
                     </div>
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-6 text-center hover:shadow-md transition-shadow">
-                        <h4 className="font-bold text-primary dark:text-blue-900 mb-2">Sinh viên chuyển ngành</h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <div className="bg-muted/30 border border-border/60 rounded-md p-6 text-center hover:shadow-md transition-shadow">
+                        <h4 className="font-bold text-primary mb-2">Sinh viên chuyển ngành</h4>
+                        <p className="text-sm text-muted-foreground">
                             Muốn chuyển sang IT, cần có chứng chỉ để bổ sung CV và bắt đầu hành trình.
                         </p>
                     </div>
@@ -243,7 +243,7 @@ export default function ContentVi() {
                 {/* SECTION 3 */}
                 <h2
                     id="cau-truc-de-thi"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     3. Cấu Trúc Đề Thi IT Passport
                 </h2>
@@ -252,14 +252,14 @@ export default function ContentVi() {
                     cách khôn ngoan hơn.
                 </p>
 
-                <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 my-6 text-center font-medium">
+                <div className="bg-muted/30 border border-border/60 rounded-md p-5 my-6 text-center font-medium">
                     Tổng quan: 100 câu trắc nghiệm <span className="mx-2 text-slate-300">|</span> Thời gian: 120 phút{' '}
                     <span className="mx-2 text-slate-300">|</span> Hình thức: CBT / Giấy
                 </div>
 
                 <div className="overflow-x-auto mb-6">
-                    <table className="w-full border border-slate-200 dark:border-slate-700 text-sm text-left rounded-md">
-                        <thead className="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white">
+                    <table className="w-full border border-border/60 text-sm text-left rounded-md">
+                        <thead className="bg-muted/50 text-foreground">
                             <tr>
                                 <th className="px-4 py-3 font-semibold">Phần Thi</th>
                                 <th className="px-4 py-3 font-semibold">Nội Dung</th>
@@ -267,30 +267,30 @@ export default function ContentVi() {
                                 <th className="px-4 py-3 font-semibold">Điểm Đậu</th>
                             </tr>
                         </thead>
-                        <tbody className="text-slate-700 dark:text-slate-300">
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#121212]">
+                        <tbody className="text-foreground/80">
+                            <tr className="border-t border-border/40 bg-background">
                                 <td className="px-4 py-3 font-medium">Chiến lược (Strategy)</td>
                                 <td className="px-4 py-3">Quản trị doanh nghiệp, pháp lý, chiến lược kinh doanh</td>
                                 <td className="px-4 py-3">35 câu</td>
                                 <td className="px-4 py-3">300/1000</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="border-t border-border/40 bg-muted/30">
                                 <td className="px-4 py-3 font-medium">Quản lý (Management)</td>
                                 <td className="px-4 py-3">Quản lý dự án, dịch vụ IT, kiểm thử phần mềm</td>
                                 <td className="px-4 py-3">20 câu</td>
                                 <td className="px-4 py-3">300/1000</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#121212]">
+                            <tr className="border-t border-border/40 bg-background">
                                 <td className="px-4 py-3 font-medium">Kỹ thuật (Technology)</td>
                                 <td className="px-4 py-3">Phần cứng, mạng, DB, bảo mật, thuật toán</td>
                                 <td className="px-4 py-3">45 câu</td>
                                 <td className="px-4 py-3">300/1000</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-blue-50 dark:bg-blue-900/20 font-bold">
+                            <tr className="border-t border-border/40 bg-blue-50 font-bold">
                                 <td className="px-4 py-3" colSpan={2}>
                                     Tổng điểm để đậu
                                 </td>
-                                <td className="px-4 py-3 text-primary dark:text-blue-900" colSpan={2}>
+                                <td className="px-4 py-3 text-primary" colSpan={2}>
                                     ≥ 600/1000 (cả 3 phần ≥ 300)
                                 </td>
                             </tr>
@@ -308,7 +308,7 @@ export default function ContentVi() {
                     </p>
                 </div>
 
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-8 mb-3">Mức độ khó như thế nào?</h3>
+                <h3 className="text-xl font-bold text-foreground mt-8 mb-3">Mức độ khó như thế nào?</h3>
                 <p className="mb-6">
                     Theo phản hồi từ nhiều người đã thi, kỳ thi IT Passport không khó về mặt kỹ thuật – phần khó nhất
                     thường là lượng thuật ngữ tiếng Nhật (nếu thi ở Nhật) và khối lượng kiến thức trải rộng. Với người
@@ -319,13 +319,13 @@ export default function ContentVi() {
                 {/* INTERNAL LINK 1 */}
                 <Link
                     href="/vi/exams"
-                    className="flex items-center gap-4 dark:bg-blue-900/10 border  dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md  dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4 border border-border/50 rounded-md p-4 my-8 hover:shadow-md transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Luyện Đề Miễn Phí
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
+                        <div className="font-semibold text-foreground group-hover:text-primary transition-colors">
                             Thi thử IT Passport online ngay – chấm điểm tự động, miễn phí 100%
                         </div>
                     </div>
@@ -334,12 +334,12 @@ export default function ContentVi() {
                 {/* SECTION 4 */}
                 <h2
                     id="loi-ich"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     4. Tại Sao Nên Có Chứng Chỉ IT Passport?
                 </h2>
                 <p className="mb-4">Nhiều người hỏi: "Học xong rồi để làm gì?" – và đây là câu trả lời thực tế nhất.</p>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-6 mb-3">
+                <h3 className="text-xl font-bold text-foreground mt-6 mb-3">
                     Lợi thế khi xin việc & xét visa tại Nhật
                 </h3>
                 <p className="mb-4">
@@ -348,7 +348,7 @@ export default function ContentVi() {
                     này được tính vào bảng điểm "Điểm số nhân tài" (高度人材ポイント制度) của Nhật Bản.
                 </p>
 
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-6 mb-3">
+                <h3 className="text-xl font-bold text-foreground mt-6 mb-3">
                     Mở ra nhiều cơ hội nghề nghiệp
                 </h3>
                 <p className="mb-4">
@@ -386,7 +386,7 @@ export default function ContentVi() {
                 {/* SECTION 5 */}
                 <h2
                     id="dang-ky"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     5. Cách Đăng Ký Thi IT Passport
                 </h2>
@@ -395,16 +395,16 @@ export default function ContentVi() {
                         Tùy bạn muốn thi ở đâu, quy trình sẽ có khác nhau một chút. Dưới đây là thông tin tổng hợp cho
                         cả hai trường hợp.
                     </p>
-                    <table className="w-full border border-slate-200 dark:border-slate-700 text-sm text-left">
-                        <thead className="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white">
+                    <table className="w-full border border-border/60 text-sm text-left">
+                        <thead className="bg-muted/50 text-foreground">
                             <tr>
                                 <th className="px-4 py-3 font-semibold">Tiêu chí</th>
                                 <th className="px-4 py-3 font-semibold">🇻🇳 Tại Việt Nam</th>
                                 <th className="px-4 py-3 font-semibold">🇯🇵 Tại Nhật Bản</th>
                             </tr>
                         </thead>
-                        <tbody className="text-slate-700 dark:text-slate-300">
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#121212]">
+                        <tbody className="text-foreground/80">
+                            <tr className="border-t border-border/40 bg-background">
                                 <td className="px-4 py-3 font-medium">Đơn vị tổ chức</td>
                                 <td className="px-4 py-3">
                                     <a
@@ -427,22 +427,22 @@ export default function ContentVi() {
                                     </a>
                                 </td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="border-t border-border/40 bg-muted/30">
                                 <td className="px-4 py-3 font-medium">Lịch thi</td>
                                 <td className="px-4 py-3">2 lần/năm (Tháng 4 & 10)</td>
                                 <td className="px-4 py-3">5–6 lần/năm, hàng tháng</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#121212]">
+                            <tr className="border-t border-border/40 bg-background">
                                 <td className="px-4 py-3 font-medium">Hình thức</td>
                                 <td className="px-4 py-3">Thi trên giấy</td>
                                 <td className="px-4 py-3">CBT (Trên máy tính)</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="border-t border-border/40 bg-muted/30">
                                 <td className="px-4 py-3 font-medium">Ngôn ngữ</td>
                                 <td className="px-4 py-3">Tiếng Việt (Có bản dịch)</td>
                                 <td className="px-4 py-3">Tiếng Nhật (Cần ~N3)</td>
                             </tr>
-                            <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30">
+                            <tr className="border-t border-border/40 bg-muted/30">
                                 <td className="px-4 py-3 font-medium">Địa điểm</td>
                                 <td className="px-4 py-3">Hà Nội, TP.HCM, Đà Nẵng, Bình Dương</td>
                                 <td className="px-4 py-3">Khắp 47 tỉnh thành Nhật Bản</td>
@@ -454,7 +454,7 @@ export default function ContentVi() {
                 {/* SECTION 6 */}
                 <h2
                     id="lo-trinh-on-luyen"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     6. Lộ Trình Ôn Luyện Hiệu Quả
                 </h2>
@@ -466,57 +466,57 @@ export default function ContentVi() {
 
                 {/* STEPS */}
                 <div className="flex flex-col gap-4 my-8">
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             1
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-foreground text-lg mb-1">
                                 Tháng 1 – Nắm kiến thức nền (Input)
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Đọc giáo trình chuẩn như "いちばんやさしいITパスポート". Đừng cố nhớ hết ngay, cứ đọc
                                 qua để quen với các khái niệm. Mỗi ngày hoàn thành 10–15 trang là ổn.
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             2
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-foreground text-lg mb-1">
                                 Tháng 2 – Làm đề cũ nhiều (Output)
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Áp dụng tỷ lệ Input:Output = 3:7. Làm thật nhiều đề năm cũ, đọc kỹ giải thích đáp án kể
                                 cả những câu làm đúng. Ghi chú keyword theo dạng Q&A.
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             3
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-foreground text-lg mb-1">
                                 Tháng 3 – Luyện đề thực chiến
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Tập trung vào phần còn yếu, luyện thi thử mô phỏng đúng 120 phút. Rèn tốc độ: mỗi câu
                                 trung bình 72 giây, làm câu dễ trước, câu khó để lại.
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-md p-5 items-start">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-muted/30 border border-border/60 rounded-md p-5 items-start">
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
                             4
                         </div>
                         <div>
-                            <h4 className="font-bold text-slate-900 dark:text-white text-lg mb-1">
+                            <h4 className="font-bold text-foreground text-lg mb-1">
                                 Tuần cuối – Ôn tổng thể & giữ tinh thần
                             </h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 m-0">
+                            <p className="text-sm text-muted-foreground m-0">
                                 Không học thêm kiến thức mới. Chỉ ôn lại các điểm dễ quên, giữ sức khỏe và tinh thần
                                 thoải mái để vào phòng thi với trạng thái tốt nhất.
                             </p>
@@ -524,7 +524,7 @@ export default function ContentVi() {
                     </div>
                 </div>
 
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-6 mb-3">
+                <h3 className="text-xl font-bold text-foreground mt-6 mb-3">
                     Nghề nghiệp sau khi học xong?
                 </h3>
                 <p className="mb-4">
@@ -550,13 +550,13 @@ export default function ContentVi() {
                 {/* INTERNAL LINK 2 */}
                 <Link
                     href="/vi/materials"
-                    className="flex items-center gap-4  dark:bg-blue-900/10 border  dark:border-blue-800/50 rounded-md p-4 my-8 hover:shadow-md  dark:hover:border-blue-700 transition-all duration-200 group"
+                    className="flex items-center gap-4  border border-border/50 rounded-md p-4 my-8 hover:shadow-md transition-all duration-200 group"
                 >
                     <div>
-                        <div className="text-xs text-primary dark:text-blue-900 font-bold mb-1 uppercase tracking-wider">
+                        <div className="text-xs text-primary font-bold mb-1 uppercase tracking-wider">
                             IT Shiken – Tài Liệu
                         </div>
-                        <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-900 transition-colors">
+                        <div className="font-semibold text-foreground group-hover:text-primary transition-colors">
                             Xem kho tài liệu luyện thi IT Passport được cập nhật liên tục
                         </div>
                     </div>
@@ -565,18 +565,18 @@ export default function ContentVi() {
                 {/* SECTION 7 - FAQ */}
                 <h2
                     id="faq"
-                    className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
+                    className="text-2xl sm:text-3xl font-bold text-foreground mt-12 mb-6 pb-2 border-b border-slate-200 dark:border-slate-800 scroll-mt-24"
                 >
                     7. Câu Hỏi Thường Gặp
                 </h2>
 
                 <div className="space-y-4 mb-10">
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             IT Passport khác gì so với chứng chỉ FE?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-background">
                             IT Passport là level 1 – level cơ bản nhất, dành cho mọi đối tượng kể cả non-IT, tập trung
                             vào kiến thức tổng quát.
                             <br />
@@ -588,34 +588,34 @@ export default function ContentVi() {
                         </div>
                     </div>
 
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             Chứng chỉ IT Passport có giá trị được bao lâu?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-background">
                             Vĩnh viễn. Không như nhiều chứng chỉ khác cần gia hạn, IT Passport một khi đã đậu là có giá
                             trị mãi mãi. Đây là một trong những lý do nhiều người chọn đầu tư vào chứng chỉ này.
                         </div>
                     </div>
 
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             Người không biết tiếng Nhật có thi được không?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-background">
                             Hoàn toàn được. Tại Việt Nam, đề thi có bản dịch tiếng Việt đi kèm nên không yêu cầu tiếng
                             Nhật.
                         </div>
                     </div>
 
-                    <div className="border border-slate-200 dark:border-slate-700 rounded-md overflow-hidden">
-                        <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-900 dark:text-white">
-                            <span className="text-primary dark:text-blue-900 font-extrabold">Q</span>
+                    <div className="border border-border/60 rounded-md overflow-hidden">
+                        <div className="flex items-start gap-3 p-4 bg-muted/30 font-bold text-foreground">
+                            <span className="text-primary font-extrabold">Q</span>
                             Tỷ lệ đậu của kỳ thi IT Passport là bao nhiêu?
                         </div>
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base bg-white dark:bg-[#121212]">
+                        <div className="p-4 border-t border-border/40 text-foreground/80 text-sm md:text-base bg-background">
                             Theo số liệu từ IPA, tỷ lệ đậu của kỳ thi IT Passport ở Nhật vào khoảng 52% – tức là cứ 2
                             người thi thì có 1 người đậu. Đây không phải con số quá thấp nếu bạn có sự chuẩn bị đầy đủ.
                         </div>
@@ -623,30 +623,30 @@ export default function ContentVi() {
                 </div>
 
                 {/* CONCLUSION */}
-                <div className="bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700 rounded-md p-6 sm:p-8 my-10">
-                    <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Tóm Lại</h2>
-                    <p className="mb-4 text-slate-700 dark:text-slate-300">
+                <div className="bg-muted/30 border border-border/50 rounded-md p-6 sm:p-8 my-10">
+                    <h2 className="text-xl font-bold text-foreground mb-4">Tóm Lại</h2>
+                    <p className="mb-4 text-foreground/80">
                         IT Passport không phải là chứng chỉ chỉ dành cho dân kỹ thuật – đây là tấm vé dành cho bất kỳ ai
                         muốn bước vào môi trường làm việc IT, đặc biệt là với các công ty Nhật Bản. Kiến thức rộng nhưng
                         không quá khó, lộ trình ôn luyện rõ ràng và chứng chỉ có giá trị vĩnh viễn – đây thực sự là một
                         trong những khoản đầu tư cho bản thân có giá trị nhất bạn có thể làm.
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300 font-medium mb-4">
+                    <p className="text-foreground/80 font-medium mb-4">
                         Dù bạn đang là sinh viên, dân văn phòng, IT Comtor hay đang muốn chuyển sang ngành công nghệ –
                         hành trình chinh phục IT Passport hoàn toàn nằm trong tầm tay bạn. Quan trọng là bắt đầu đúng
                         cách và kiên trì theo lộ trình.
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300 font-medium">
+                    <p className="text-foreground/80 font-medium">
                         Chúc bạn ôn thi hiệu quả và sớm cầm tấm hộ chiếu IT trên tay!
                     </p>
                 </div>
 
                             {/* Tags Section */}
-                            <div className="mt-16 pt-8 border-t border-slate-100 dark:border-slate-800">
+                            <div className="mt-16 pt-8 border-t border-border/40">
                                 <div className="flex items-center gap-3 flex-wrap">
-                                    <span className="text-sm font-semibold text-slate-900 dark:text-white">Tags:</span>
+                                    <span className="text-sm font-semibold text-foreground">Tags:</span>
                                     {postDetail.tags.map((tag) => (
-                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors font-medium">
+                                        <a key={tag} href={`/tag/${tag}`} className="px-3 py-1.5 bg-muted/50 border border-border/40 text-foreground/70 text-sm rounded-md hover:bg-muted hover:text-foreground transition-colors font-medium">
                                             #{tag}
                                         </a>
                                     ))}
@@ -656,51 +656,51 @@ export default function ContentVi() {
                     </article>
 
                     {/* CỘT PHẢI: TABLE OF CONTENTS */}
-                    <aside className="hidden lg:block lg:col-span-3 space-y-8">
-                        <div className="sticky top-24 bg-white dark:bg-[#121212] p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                            <h3 className="font-bold text-base text-slate-900 dark:text-white mb-5 flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
-                                <Bookmark className="w-4 h-4 text-blue-500" /> Nội Dung Bài Viết
+                    <aside className="hidden lg:block lg:col-span-4 space-y-8">
+                        <div className="sticky top-24 bg-white dark:bg-[#1a1a1a] border border-[rgba(0,0,0,0.1)] dark:border-white/10 rounded-xl overflow-hidden">
+                            <h3 className="font-bold text-sm text-secondary dark:text-foreground px-5 pt-4 pb-3.5 flex items-center gap-2 bg-primary/[0.08] dark:bg-primary/[0.15] border-b border-[rgba(0,0,0,0.07)] dark:border-white/[0.07]">
+                                <Bookmark className="w-4 h-4 text-primary" /> Nội Dung Bài Viết
                             </h3>
-                            <ul className="space-y-3 text-sm">
+                            <ul className="space-y-3 text-sm px-5 pb-5 pt-3">
                                 <li>
-                                    <a href="#it-passport-la-gi" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">1</span>
+                                    <a href="#it-passport-la-gi" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">1</span>
                                         IT Passport là gì?
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#ai-nen-thi" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">2</span>
+                                    <a href="#ai-nen-thi" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">2</span>
                                         Ai nên thi?
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#cau-truc-de-thi" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-orange-600 group-hover:text-white transition-colors">3</span>
+                                    <a href="#cau-truc-de-thi" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">3</span>
                                         Cấu trúc đề thi
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#loi-ich" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors">4</span>
+                                    <a href="#loi-ich" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">4</span>
                                         Lợi ích
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#dang-ky" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-pink-600 group-hover:text-white transition-colors">5</span>
+                                    <a href="#dang-ky" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">5</span>
                                         Cách đăng ký
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#lo-trinh-on-luyen" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">6</span>
+                                    <a href="#lo-trinh-on-luyen" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">6</span>
                                         Lộ trình ôn luyện
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#faq" className="flex items-center gap-2.5 text-slate-600 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">7</span>
+                                    <a href="#faq" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">7</span>
                                         FAQ
                                     </a>
                                 </li>
@@ -712,7 +712,7 @@ export default function ContentVi() {
 
             {/* CTA BOX */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div className="bg-gradient-to-br from-secondary/60 to-secondary dark:to-blue-800 rounded-xl p-8 sm:p-10 text-center shadow-lg">
+                <div className="bg-gradient-to-br from-secondary/60 to-secondary rounded-xl p-8 sm:p-10 text-center shadow-lg">
                     <h3 className="text-2xl font-bold text-white mb-4">Sẵn Sàng Luyện Thi IT Passport Chưa?</h3>
                     <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
                         IT Shiken cung cấp đề thi thử miễn phí, sát đề thật, chấm điểm tự động và phân tích kết quả chi tiết. Bắt đầu ngay hôm nay – không cần đăng ký!
@@ -725,10 +725,10 @@ export default function ContentVi() {
 
             {/* BÀI VIẾT LIÊN QUAN */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 dark:border-slate-800">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">Bài viết liên quan</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-8">Bài viết liên quan</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {postDetail.relatedPosts.map((post) => (
-                        <a key={post.id} href={post.href} className="group block">
+                        <a key={post.id} href={post.href} className="group block rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden hover:border-primary/30 transition-colors">
                             <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-800">
                                 <Image
                                     src={post.image}
@@ -737,11 +737,11 @@ export default function ContentVi() {
                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 pt-3 px-4">
                                 <Calendar className="w-3.5 h-3.5" />
                                 {post.date}
                             </div>
-                            <h4 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                            <h4 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-2 px-4 pb-4">
                                 {post.title}
                             </h4>
                         </a>

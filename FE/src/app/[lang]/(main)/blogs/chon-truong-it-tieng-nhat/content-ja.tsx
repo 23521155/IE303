@@ -1,4 +1,4 @@
-import Image from 'next/image';
+﻿import Image from 'next/image';
 import {
     Bookmark, Calendar, Clock, Share2,
     Eye, MessageSquare, ChevronRight,
@@ -122,10 +122,10 @@ export default function DetailedPostJa() {
 
             {/* MAIN LAYOUT: 2 COLUMNS */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="lg:grid lg:grid-cols-12 lg:gap-10">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-12">
 
                     {/* LEFT COLUMN: MAIN CONTENT */}
-                    <article className="lg:col-span-9 bg-background rounded-2xl border border-border/60 overflow-hidden">
+                    <article className="lg:col-span-8 rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden">
                         <figure className="w-full bg-muted/[0.2] p-4">
                             <Image
                                 src={postDetail.coverImage}
@@ -153,7 +153,7 @@ export default function DetailedPostJa() {
 
                             {/* SECTION 1 */}
                             <h2 id="part-1" className="text-2xl sm:text-3xl font-bold text-secondary dark:text-foreground mt-12 mb-6 scroll-mt-24 flex items-center gap-3">
-                                <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 text-xl">1</span>
+                                <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 dark:text-blue-300 text-xl">1</span>
                                 Uni2Insightとは？なぜ学生の味方なのか？
                             </h2>
                             <p className="mb-6">
@@ -269,15 +269,15 @@ export default function DetailedPostJa() {
                     </article>
 
                     {/* RIGHT COLUMN: TABLE OF CONTENTS */}
-                    <aside className="hidden lg:block lg:col-span-3 space-y-8">
-                        <div className="sticky top-24 bg-background/60 border border-border/50 p-6 rounded-2xl">
-                            <h3 className="font-bold text-base text-secondary dark:text-foreground mb-5 flex items-center gap-2 pb-3 border-b border-border/40">
+                    <aside className="hidden lg:block lg:col-span-4 space-y-8">
+                        <div className="sticky top-24 bg-white dark:bg-[#1a1a1a] border border-[rgba(0,0,0,0.1)] dark:border-white/10 rounded-xl overflow-hidden">
+                            <h3 className="font-bold text-sm text-secondary dark:text-foreground px-5 pt-4 pb-3.5 flex items-center gap-2 bg-primary/[0.08] dark:bg-primary/[0.15] border-b border-[rgba(0,0,0,0.07)] dark:border-white/[0.07]">
                                 <Bookmark className="w-4 h-4 text-primary" /> 目次
                             </h3>
-                            <ul className="space-y-3 text-sm">
+                            <ul className="space-y-3 text-sm px-5 pb-5 pt-3">
                                 <li>
                                     <a href="#part-1" className="flex items-center gap-2.5 text-muted-foreground hover:text-primary transition-colors group">
-                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">1</span>
+                                        <span className="flex-shrink-0 w-6 h-6 rounded-md bg-blue-100 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">1</span>
                                         Uni2Insightとは？
                                     </a>
                                 </li>
@@ -334,8 +334,8 @@ export default function DetailedPostJa() {
                 <h3 className="text-2xl font-bold text-secondary dark:text-foreground mb-8">関連する記事</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {postDetail.relatedPosts.map((post) => (
-                        <Link key={post.id} href={post.href} className="group block">
-                            <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 bg-muted/50">
+                        <Link key={post.id} href={post.href} className="group block rounded-xl border border-[rgba(0,0,0,0.1)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden hover:border-primary/30 transition-colors">
+                            <div className="relative w-full aspect-[16/9] overflow-hidden bg-muted/[0.15]">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
@@ -343,11 +343,11 @@ export default function DetailedPostJa() {
                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 pt-3 px-4">
                                 <Calendar className="w-3.5 h-3.5" />
                                 {post.date}
                             </div>
-                            <h4 className="font-bold text-lg text-secondary dark:text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                            <h4 className="font-bold text-lg text-secondary dark:text-foreground group-hover:text-primary transition-colors line-clamp-2 px-4 pb-4">
                                 {post.title}
                             </h4>
                         </Link>

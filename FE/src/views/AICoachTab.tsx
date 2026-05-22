@@ -32,6 +32,9 @@ import {
 import Link from 'next/link';
 import { BE_URL } from '../utils/constans';
 import {AnalysisIcon} from "@/src/components/svg-icon/analysis";
+import { CreateIcon } from '@/src/components/svg-icon/create';
+import { PathIcon } from '@hugeicons/core-free-icons';
+import { PathLearnIcon } from '@/src/components/svg-icon/path';
 
 // ─── Shared types ──────────────────────────────────────────────────────────────
 
@@ -99,8 +102,42 @@ function getMasteryColor(score: number, attempts: number): string {
 const NODE_W = 84;
 const NODE_H = 88;
 const LAYOUT_STORAGE_KEY = 'aicoach-graph-layout-v1';
+const LEARNING_PATH_STORAGE_KEY = 'aicoach-path-v1';
 
 type SavedPositions = Record<string, { x: number; y: number }>;
+
+interface CachedPath {
+    pathData: LearningPathResponse;
+    daysRemaining: number;
+    generatedAt: string; // ISO timestamp
+}
+
+function loadCachedPath(userId: string): CachedPath | null {
+    if (typeof window === 'undefined') return null;
+    try {
+        const raw = localStorage.getItem(`${LEARNING_PATH_STORAGE_KEY}-${userId}`);
+        return raw ? (JSON.parse(raw) as CachedPath) : null;
+    } catch {
+        return null;
+    }
+}
+
+function saveCachedPath(userId: string, data: LearningPathResponse, days: number): void {
+    try {
+        const entry: CachedPath = {
+            pathData: data,
+            daysRemaining: days,
+            generatedAt: new Date().toISOString(),
+        };
+        localStorage.setItem(`${LEARNING_PATH_STORAGE_KEY}-${userId}`, JSON.stringify(entry));
+    } catch {
+        // quota exceeded — ignore
+    }
+}
+
+function clearCachedPath(userId: string): void {
+    try { localStorage.removeItem(`${LEARNING_PATH_STORAGE_KEY}-${userId}`); } catch {}
+}
 
 function loadSavedPositions(userId: string | null): SavedPositions | null {
     if (typeof window === 'undefined' || !userId) return null;
@@ -237,28 +274,30 @@ function LoadingState({ t }: { t: any }) {
 
 function EmptyState({ lang, t }: { lang: string; t: any }) {
     return (
-        <div className="border border-border/60 rounded-lg p-8 flex flex-col items-center text-center">
-            <BrainCircuit className="w-10 h-10 text-muted-foreground mb-3" />
-            <p className="text-sm font-medium text-foreground mb-1">
-                {lang === 'ja'
-                    ? '受験履歴がありません'
-                    : lang === 'en'
-                    ? 'No exam history yet'
-                    : 'Chưa có lịch sử thi'}
-            </p>
-            <p className="text-sm text-muted-foreground max-w-xs">
-                {lang === 'en'
-                    ? 'Complete your first exam to unlock your AI Coach analysis.'
-                    : lang === 'ja'
-                    ? '最初の試験を受けてAIコーチの分析を解放しましょう。'
-                    : 'Hoàn thành bài thi đầu tiên để mở khóa phân tích AI Coach.'}
-            </p>
-            <Link
-                href={`/${lang}/exams`}
-                className="inline-flex items-center gap-1 mt-5 text-sm font-medium text-primary hover:underline"
-            >
-                {t.exploreExams ?? 'Khám phá đề thi'} <ChevronRight className="w-4 h-4" />
-            </Link>
+        <div className="rounded-xl border border-[rgba(0,0,0,0.08)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden">
+            <div className="px-5 py-4 bg-primary/[0.06] dark:bg-primary/[0.1] border-b border-primary/10 dark:border-primary/[0.12] flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-primary/15 dark:bg-primary/20 flex items-center justify-center shrink-0">
+                    <BrainCircuit className="w-4 h-4 text-primary" />
+                </div>
+                <p className="text-sm font-semibold text-secondary dark:text-foreground">
+                    {lang === 'ja' ? '受験履歴がありません' : lang === 'en' ? 'No exam history yet' : 'Chưa có lịch sử thi'}
+                </p>
+            </div>
+            <div className="px-5 py-4">
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                    {lang === 'en'
+                        ? 'Complete your first exam to unlock your AI Coach analysis.'
+                        : lang === 'ja'
+                        ? '最初の試験を受けてAIコーチの分析を解放しましょう。'
+                        : 'Hoàn thành bài thi đầu tiên để mở khóa phân tích AI Coach.'}
+                </p>
+                <Link
+                    href={`/${lang}/exams`}
+                    className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                >
+                    {t.exploreExams ?? 'Khám phá đề thi'} <ChevronRight className="w-4 h-4" />
+                </Link>
+            </div>
         </div>
     );
 }
@@ -318,7 +357,7 @@ function NodeDetailPanel({ node, explainText, explainLoading, explainStreaming, 
     const isTyping = displayText.length < explainText.length;
 
     return (
-        <div className="w-72 border border-border/60 rounded-lg p-4 shrink-0 space-y-4 overflow-y-auto max-h-[600px]">
+        <div className="w-72 border border-[rgba(0,0,0,0.08)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] rounded-xl p-4 shrink-0 space-y-4 overflow-y-auto max-h-[600px]">
             {/* Header */}
             <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
@@ -562,12 +601,17 @@ export function AICoachGraphTab({
     // First-time visit: don't auto-render. Show "Draw Graph" button.
     if (!hasInitialized && !analysis) {
         return (
-            <div className="border border-border/60 rounded-lg p-10 flex flex-col items-center text-center">
-                    <BarChart2 className="w-10 h-10 text-muted-foreground mb-3" />
-                    <p className="text-sm font-medium text-foreground mb-1.5">
+            <div className="rounded-xl border border-[rgba(0,0,0,0.08)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden">
+                <div className="px-5 py-4 bg-primary/[0.06] dark:bg-primary/[0.1] border-b border-primary/10 dark:border-primary/[0.12] flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-primary/15 dark:bg-primary/20 flex items-center justify-center shrink-0">
+                        <BarChart2 className="w-4 h-4 text-primary" />
+                    </div>
+                    <p className="text-sm font-semibold text-secondary dark:text-foreground">
                         {lang === 'en' ? 'Generate your knowledge graph' : 'Tạo Knowledge Graph của bạn'}
                     </p>
-                    <p className="text-sm text-muted-foreground max-w-md mb-5">
+                </div>
+                <div className="px-5 py-5 flex flex-col items-center text-center">
+                    <p className="text-sm text-muted-foreground max-w-md mb-5 leading-relaxed">
                         {lang === 'en'
                             ? 'Analyze your exam history to visualize mastery across topics. The graph builds once — afterwards it loads automatically.'
                             : 'Phân tích lịch sử làm bài để vẽ bản đồ mastery theo chủ đề. Sau lần đầu, graph sẽ tự load mỗi lần truy cập.'}
@@ -580,6 +624,7 @@ export function AICoachGraphTab({
                         <BrainCircuit className="w-4 h-4" />
                         {lang === 'en' ? 'Draw Graph' : 'Vẽ Graph'}
                     </button>
+                </div>
             </div>
         );
     }
@@ -594,71 +639,70 @@ export function AICoachGraphTab({
     return (
         <div>
             {/* ── Toolbar ── */}
-            <div className="sticky top-14 z-20 pl-6 pr-2 bg-[#fef8f4] dark:bg-muted/[0.08] border-b border-border flex justify-between">
-
-                <div className=''>
-                    {/* Action buttons — push to right */}
-                    <div className="flex items-center gap-1.5 ml-auto">
-                        {savedToast && (
-                            <span className="text-xs text-emerald-600 font-medium">{savedToast}</span>
-                        )}
-                        <span className="text-xs text-muted-foreground font-medium">
-                        {analysis?.nodes.length ?? 0} topics · {analysis?.edges.length ?? 0} edges
-                    </span>
-                        <div className="flex items-center gap-1.5 px-2.5 py-1 ">
-                            <svg width="20" height="8" viewBox="0 0 26 10">
-                                <line x1="0" y1="5" x2="18" y2="5" stroke="#6366f1" strokeWidth="1.5" />
-                                <polygon points="18,2 26,5 18,8" fill="#6366f1" />
-                            </svg>
-                            <span className="text-xs text-muted-foreground font-medium">{lang === 'en' ? 'Prerequisite' : 'Tiên quyết'}</span>
+            <div className="sticky top-[100px] z-20 px-4 lg:px-6 py-2 bg-[#fef8f4] dark:bg-muted/[0.08] border-b border-border">
+                <div className="flex items-center justify-between gap-3">
+                    {/* Left: legend — wraps on small screens */}
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 min-w-0">
+                        <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-1.5">
+                                <svg width="20" height="8" viewBox="0 0 26 10">
+                                    <line x1="0" y1="5" x2="18" y2="5" stroke="#6366f1" strokeWidth="1.5" />
+                                    <polygon points="18,2 26,5 18,8" fill="#6366f1" />
+                                </svg>
+                                <span className="text-xs text-muted-foreground">{lang === 'en' ? 'Prerequisite' : 'Tiên quyết'}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <svg width="18" height="8" viewBox="0 0 24 10">
+                                    <line x1="0" y1="5" x2="24" y2="5" stroke="#94a3b8" strokeWidth="1" strokeDasharray="4 3" />
+                                </svg>
+                                <span className="text-xs text-muted-foreground">{lang === 'en' ? 'Related' : 'Liên quan'}</span>
+                            </div>
                         </div>
-                        <div className="flex items-center gap-1.5 px-2.5 py-1 ">
-                            <svg width="18" height="8" viewBox="0 0 24 10">
-                                <line x1="0" y1="5" x2="24" y2="5" stroke="#94a3b8" strokeWidth="1" strokeDasharray="4 3" />
-                            </svg>
-                            <span className="text-xs text-muted-foreground font-medium">{lang === 'en' ? 'Related' : 'Liên quan'}</span>
+                        <div className="flex flex-wrap items-center gap-3">
+                            {NODE_LEGEND.map(({ color, label }) => (
+                                <div key={color} className="flex items-center gap-1.5">
+                                    <div className="w-2 h-2 rounded-full shrink-0" style={{ background: color }} />
+                                    <span className="text-xs text-muted-foreground">{label}</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
-
-                    {/* Legend chips */}
-                    <div className="flex items-center gap-x-3 gap-y-1.5 flex-wrap">
-                        {NODE_LEGEND.map(({ color, label }) => (
-                            <div key={color} className="flex items-center gap-1.5 py-1">
-                                <div className="w-2 h-2 rounded-full shrink-0" style={{ background: color }} />
-                                <span className="text-xs text-muted-foreground font-medium">{label}</span>
-                            </div>
-                        ))}
+                    {/* Right: stats + actions */}
+                    <div className="flex items-center gap-2 shrink-0">
+                        {savedToast && (
+                            <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">{savedToast}</span>
+                        )}
+                        <span className="hidden sm:block font-mono text-[0.65rem] text-muted-foreground tabular-nums">
+                            {analysis?.nodes.length ?? 0} · {analysis?.edges.length ?? 0}
+                        </span>
+                        <div className="flex items-center gap-1">
+                            <button
+                                type="button"
+                                onClick={fetchAnalysis}
+                                className="cursor-pointer flex items-center gap-1 h-7 px-2 text-xs font-medium text-muted-foreground hover:text-foreground border border-border/60 rounded-md bg-background/70 hover:bg-background transition-colors focus:outline-none focus:ring-1 focus:ring-primary/30 whitespace-nowrap"
+                            >
+                                <AnalysisIcon className="w-3 h-3" />
+                                <span className="hidden md:inline">{lang === 'en' ? 'Re-analyze' : 'Phân tích lại'}</span>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleSaveLayout}
+                                className="cursor-pointer flex items-center gap-1 h-7 px-2 text-xs font-medium text-muted-foreground hover:text-foreground border border-border/60 rounded-md bg-background/70 hover:bg-background transition-colors focus:outline-none focus:ring-1 focus:ring-primary/30 whitespace-nowrap"
+                            >
+                                <Save className="w-3 h-3" />
+                                <span className="hidden md:inline">{lang === 'en' ? 'Save' : 'Lưu'}</span>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleResetLayout}
+                                className="cursor-pointer flex items-center gap-1 h-7 px-2 text-xs font-medium text-muted-foreground hover:text-foreground border border-border/60 rounded-md bg-background/70 hover:bg-background transition-colors focus:outline-none focus:ring-1 focus:ring-primary/30 whitespace-nowrap"
+                            >
+                                <RotateCcw className="w-3 h-3" />
+                                <span className="hidden md:inline">Reset</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-              <div className='hidden md:flex items-center gap-2 flex-shrink-0'>
-                  <button
-                      type="button"
-                      onClick={fetchAnalysis}
-                      className="cursor-pointer flex items-center gap-1 h-8 px-2.5 text-xs font-medium text-muted-foreground hover:text-foreground border border-border/60 rounded-md bg-background/70 hover:bg-background transition-colors focus:outline-none focus:ring-1 focus:ring-primary/30 whitespace-nowrap"
-                  >
-                      <AnalysisIcon className={'w-3 h-3'}/>
-                      {lang === 'en' ? 'Re-analyze' : 'Phân tích lại'}
-                  </button>
-                  <button
-                      type="button"
-                      onClick={handleSaveLayout}
-                      className="cursor-pointer flex items-center gap-1 h-8 px-2.5 text-xs font-medium text-muted-foreground hover:text-foreground border border-border/60 rounded-md bg-background/70 hover:bg-background transition-colors focus:outline-none focus:ring-1 focus:ring-primary/30 whitespace-nowrap"
-                  >
-                      <Save  className={'w-3 h-3'}/>
-                      {lang === 'en' ? 'Save Layout' : 'Lưu Layout'}
-                  </button>
-                  <button
-                      type="button"
-                      onClick={handleResetLayout}
-                      className="cursor-pointer flex items-center gap-1 h-8 px-2.5 text-xs font-medium text-muted-foreground hover:text-foreground border border-border/60 rounded-md bg-background/70 hover:bg-background transition-colors focus:outline-none focus:ring-1 focus:ring-primary/30 whitespace-nowrap"
-                  >
-                      <RotateCcw className='w-3 h-3' />
-                      {lang === 'en' ? 'Reset' : 'Reset'}
-                  </button>
-              </div>
-
-
             </div>
             <div className="space-y-4 px-4 lg:px-6 py-4">
 
@@ -711,8 +755,22 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
     const [pathData, setPathData] = useState<LearningPathResponse | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [generatedAt, setGeneratedAt] = useState<string | null>(null);
+    const [fromCache, setFromCache] = useState(false);
 
-    // Typewriter
+    // Load from localStorage on mount
+    useEffect(() => {
+        if (!userId) return;
+        const cached = loadCachedPath(userId);
+        if (cached) {
+            setPathData(cached.pathData);
+            setDaysRemaining(cached.daysRemaining);
+            setGeneratedAt(cached.generatedAt);
+            setFromCache(true);
+        }
+    }, [userId]);
+
+    // Typewriter — skip animation when loading from cache
     const [displayText, setDisplayText] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const targetRef = useRef('');
@@ -723,9 +781,15 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
         const text = pathData?.learningPath ?? '';
         targetRef.current = text;
         cursorRef.current = 0;
-        setDisplayText('');
         if (animRef.current) { clearTimeout(animRef.current); animRef.current = null; }
-        if (!text) { setIsTyping(false); return; }
+        if (!text) { setDisplayText(''); setIsTyping(false); return; }
+        // Skip typewriter for cached data — show immediately
+        if (fromCache) {
+            setDisplayText(text);
+            setIsTyping(false);
+            return;
+        }
+        setDisplayText('');
         setIsTyping(true);
         const tick = () => {
             if (cursorRef.current >= targetRef.current.length) {
@@ -739,13 +803,14 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
         };
         tick();
         return () => { if (animRef.current) { clearTimeout(animRef.current); animRef.current = null; } };
-    }, [pathData?.learningPath]);
+    }, [pathData?.learningPath, fromCache]);
 
     const generate = useCallback(async () => {
         if (!userId) return;
         setLoading(true);
         setError(null);
         setPathData(null);
+        setFromCache(false);
         try {
             const res = await fetch(
                 `${BE_URL}/api/coach/${userId}/learning-path?daysRemaining=${daysRemaining}`,
@@ -753,7 +818,10 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
             );
             if (!res.ok) throw new Error(String(res.status));
             const json = await res.json();
-            setPathData((json?.data ?? json) as LearningPathResponse);
+            const data = (json?.data ?? json) as LearningPathResponse;
+            setPathData(data);
+            setGeneratedAt(new Date().toISOString());
+            saveCachedPath(userId, data, daysRemaining);
         } catch {
             setError('failed');
         } finally {
@@ -766,39 +834,72 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
     const lbl = (vi: string, en: string, ja: string) =>
         lang === 'en' ? en : lang === 'ja' ? ja : vi;
 
+    const localeTag = { vi: 'vi-VN', ja: 'ja-JP' }[lang] ?? 'en-US';
     const weakTopics = pathData?.weakTopics ?? [];
     const prerequisites = pathData?.prerequisitesToReview ?? [];
 
+    const cacheLabel = generatedAt
+        ? new Date(generatedAt).toLocaleString(localeTag, {
+              day: '2-digit', month: '2-digit', year: 'numeric',
+              hour: '2-digit', minute: '2-digit',
+          })
+        : null;
+
     return (
-        <div className="space-y-6 max-w-2xl">
+        <div className="space-y-6">
             {/* ── Controls ── */}
-            <div className="flex items-center gap-3 flex-wrap">
-                <label className="text-sm text-muted-foreground shrink-0">
-                    {lbl('Ngày còn lại:', 'Days remaining:', '残り日数:')}
-                </label>
-                <input
-                    type="number"
-                    min={1}
-                    max={365}
-                    value={daysRemaining}
-                    onChange={(e) =>
-                        setDaysRemaining(Math.max(1, Math.min(365, Number(e.target.value))))
-                    }
-                    className="w-20 h-8 px-2 text-sm border border-border/60 rounded-md bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary/40"
-                />
+            <div className="flex items-center gap-4 flex-wrap border border-border/60 rounded-xl px-5 py-3.5 bg-muted/[0.2] dark:bg-muted/[0.06]">
+                <div className="flex items-center gap-3">
+                    <label className="font-mono text-[0.65rem] uppercase tracking-widest text-muted-foreground shrink-0 whitespace-nowrap">
+                        {lbl('Ngày còn lại', 'Days Remaining', '残り日数')}
+                    </label>
+                    <input
+                        type="number"
+                        min={1}
+                        max={365}
+                        value={daysRemaining}
+                        onChange={(e) =>
+                            setDaysRemaining(Math.max(1, Math.min(365, Number(e.target.value))))
+                        }
+                        className="w-20 h-8 px-2 text-sm border border-border/60 rounded-md bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary/40 tabular-nums"
+                    />
+                </div>
                 <button
                     type="button"
                     onClick={generate}
                     disabled={loading}
-                    className="flex items-center gap-2 h-8 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
+                    className="flex cursor-pointer items-center gap-1 h-8 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                     {loading ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     ) : (
-                        <BrainCircuit className="w-3.5 h-3.5" />
+                        <CreateIcon className="w-3.5 h-3.5" />
                     )}
-                    {lbl('Tạo lộ trình', 'Generate Path', 'パスを生成')}
+                    {fromCache
+                        ? lbl('Tạo lại', 'Regenerate', '再生成')
+                        : lbl('Tạo lộ trình', 'Generate', 'パスを生成')}
                 </button>
+                {fromCache && pathData && (
+                    <button
+                        type="button"
+                        onClick={() => {
+                            clearCachedPath(userId);
+                            setPathData(null);
+                            setGeneratedAt(null);
+                            setFromCache(false);
+                            setDisplayText('');
+                        }}
+                        className="flex items-center gap-1.5 h-8 px-3 rounded-md text-sm text-muted-foreground border border-border/60 hover:text-destructive hover:border-destructive/40 transition-colors"
+                    >
+                        <X className="w-3.5 h-3.5" />
+                        {lbl('Xoá cache', 'Clear', 'キャッシュ削除')}
+                    </button>
+                )}
+                {cacheLabel && (
+                    <span className="font-mono text-[0.65rem] text-muted-foreground/70 tabular-nums">
+                        {lbl('Cập nhật', 'Updated', '更新')} {cacheLabel}
+                    </span>
+                )}
             </div>
 
             {/* ── Error ── */}
@@ -880,7 +981,7 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
                                         — {pathData.daysRemaining} {lbl('ngày', 'days', '日')}
                                     </span>
                                 </p>
-                                <div className="border border-border/60 rounded-lg p-4">
+                                <div className="rounded-xl p-5 bg-primary/[0.04] dark:bg-primary/[0.07] border border-primary/15 dark:border-primary/20">
                                     <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
                                         {displayText}
                                         {isTyping && (
@@ -896,22 +997,24 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
 
             {/* ── Initial CTA ── */}
             {!loading && !pathData && !error && (
-                <div className="border border-border/60 rounded-lg p-10 flex flex-col items-center text-center">
-                    <BrainCircuit className="w-10 h-10 text-muted-foreground mb-3" />
-                    <p className="text-sm font-medium text-foreground mb-1.5">
-                        {lbl(
-                            'Tạo lộ trình học cá nhân hóa',
-                            'Generate your personalized learning path',
-                            '個人学習パスを生成する',
-                        )}
-                    </p>
-                    <p className="text-sm text-muted-foreground max-w-sm">
-                        {lbl(
-                            'AI phân tích điểm yếu và đề xuất lộ trình phù hợp với số ngày còn lại của bạn.',
-                            'AI analyzes your weak topics and builds a study plan tailored to your remaining days.',
-                            'AIが弱点を分析し、残り日数に合わせた学習プランを作成します。',
-                        )}
-                    </p>
+                <div className="rounded-xl border border-[rgba(0,0,0,0.08)] dark:border-white/10 bg-white dark:bg-[#1a1a1a] overflow-hidden">
+                    <div className="px-5 py-4 bg-primary/[0.06] dark:bg-primary/[0.1] border-b border-primary/10 dark:border-primary/[0.12] flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-primary/15 dark:bg-primary/20 flex items-center justify-center shrink-0">
+                            <PathLearnIcon className="w-4 h-4 text-primary" />
+                        </div>
+                        <p className="text-sm font-semibold text-secondary dark:text-foreground">
+                            {lbl('Lộ trình học cá nhân hóa', 'Personalized Study Plan', '個人学習プラン')}
+                        </p>
+                    </div>
+                    <div className="px-5 py-4">
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                            {lbl(
+                                'AI phân tích điểm yếu và đề xuất lộ trình phù hợp với số ngày còn lại của bạn.',
+                                'AI analyzes your weak topics and builds a study plan tailored to your remaining days.',
+                                'AIが弱点を分析し、残り日数に合わせた学習プランを作成します。',
+                            )}
+                        </p>
+                    </div>
                 </div>
             )}
         </div>
@@ -962,98 +1065,99 @@ export function AICoachInsightTab({
     const totalHours = Math.round((totalPracticeSeconds / 3600) * 10) / 10;
 
     return (
-        <div className="space-y-8 max-w-2xl">
+        <div className="space-y-8">
             {!hasData ? (
                 <EmptyState lang={lang} t={t} />
             ) : (
                 <>
+                    {/* ── Performance ── */}
                     <section>
                         <p className="font-mono text-[0.65rem] uppercase tracking-widest text-muted-foreground mb-3">
-                            {lang === 'en' ? 'Overview' : lang === 'ja' ? '概要' : 'Tổng quan'}
+                            {lang === 'en' ? 'Performance' : lang === 'ja' ? 'パフォーマンス' : 'Hiệu suất'}
                         </p>
-                        <div className="border border-border/60 rounded-lg overflow-hidden divide-y divide-border/40">
-                            <div className="px-4 py-3">
-                                <div className="flex items-center justify-between mb-2">
+                        <div className="border border-[rgba(0,0,0,0.08)] dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-[#1a1a1a]">
+                            {/* Accuracy + trend */}
+                            <div className="px-5 py-4 border-b border-border/40">
+                                <div className="flex items-center justify-between mb-2.5">
                                     <span className="text-sm text-foreground">
-                                        {lang === 'en'
-                                            ? 'Average accuracy'
-                                            : lang === 'ja'
-                                            ? '平均正答率'
-                                            : 'Độ chính xác trung bình'}
+                                        {lang === 'en' ? 'Average accuracy' : lang === 'ja' ? '平均正答率' : 'Độ chính xác'}
                                     </span>
-                                    <span className="font-mono text-sm font-medium text-foreground">
-                                        {avgAccuracy}%
-                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-mono text-sm font-semibold text-foreground tabular-nums">
+                                            {avgAccuracy}%
+                                        </span>
+                                        {trendDelta !== null && (
+                                            <span className={`inline-flex items-center gap-0.5 text-xs font-medium px-1.5 py-0.5 rounded-md ${
+                                                trendDelta >= 0
+                                                    ? 'text-emerald-700 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-950/40'
+                                                    : 'text-destructive bg-destructive/10'
+                                            }`}>
+                                                {trendDelta >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                                                {trendDelta >= 0 ? '+' : ''}{trendDelta}%
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                                 <ProgressBar value={avgAccuracy} />
                             </div>
-
-                            {trendDelta !== null && (
-                                <div className="px-4 py-3 flex items-center justify-between">
-                                    <span className="text-sm text-foreground">
-                                        {lang === 'en'
-                                            ? 'Trend vs. first attempt'
-                                            : lang === 'ja'
-                                            ? 'トレンド（初回比）'
-                                            : 'Xu hướng so với lần đầu'}
-                                    </span>
-                                    <span
-                                        className={`font-mono text-sm font-medium flex items-center gap-1 ${
-                                            trendDelta >= 0
-                                                ? 'text-emerald-600 dark:text-emerald-400'
-                                                : 'text-destructive'
-                                        }`}
-                                    >
-                                        {trendDelta >= 0 ? '+' : ''}
-                                        {trendDelta}%
-                                        {trendDelta >= 0 ? (
-                                            <TrendingUp className="w-3.5 h-3.5" />
-                                        ) : (
-                                            <TrendingDown className="w-3.5 h-3.5" />
-                                        )}
-                                    </span>
+                            {/* Stats grid */}
+                            <div className="grid grid-cols-2 divide-x divide-border/40">
+                                <div className="px-5 py-4">
+                                    <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-2">
+                                        {t.completedExams ?? 'Completed'}
+                                    </p>
+                                    <p className="text-2xl font-bold tabular-nums text-secondary dark:text-foreground leading-none">
+                                        {completedCount}
+                                    </p>
                                 </div>
-                            )}
-
-                            <div className="px-4 py-3 flex items-center justify-between">
-                                <span className="text-sm text-foreground">
-                                    {t.completedExams ?? 'Completed Exams'}
-                                </span>
-                                <span className="font-mono text-sm font-medium text-foreground">
-                                    {completedCount}
-                                </span>
-                            </div>
-
-                            <div className="px-4 py-3 flex items-center justify-between">
-                                <span className="text-sm text-foreground">
-                                    {lang === 'en'
-                                        ? 'Total study time'
-                                        : lang === 'ja'
-                                        ? '総学習時間'
-                                        : 'Tổng thời gian học'}
-                                </span>
-                                <span className="font-mono text-sm font-medium text-foreground">
-                                    {totalHours}h
-                                </span>
+                                <div className="px-5 py-4">
+                                    <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-2">
+                                        {lang === 'en' ? 'Study Time' : lang === 'ja' ? '学習時間' : 'Thời gian học'}
+                                    </p>
+                                    <p className="text-2xl font-bold tabular-nums text-secondary dark:text-foreground leading-none">
+                                        {totalHours}h
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </section>
 
+                    {/* ── Recent attempts ── */}
+                    {recentAttempts.length > 0 && (
                     <section>
                         <p className="font-mono text-[0.65rem] uppercase tracking-widest text-muted-foreground mb-3">
-                            {lang === 'en' ? 'Editorial' : lang === 'ja' ? '編集後記' : 'Nhận xét'}
+                            {lang === 'en' ? 'Recent Attempts' : lang === 'ja' ? '最近の受験' : 'Lần thi gần đây'}
                         </p>
-                        <div className="border border-border/60 rounded-lg p-4 flex items-start gap-3">
-                            <BrainCircuit className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
-                            <p className="text-sm text-muted-foreground">
-                                {lang === 'en'
-                                    ? 'Full Knowledge Graph with mastery scores is available in the Graph tab.'
-                                    : lang === 'ja'
-                                    ? '習熟度スコア付きのナレッジグラフはグラフタブで確認できます。'
-                                    : 'Knowledge Graph đầy đủ với điểm thành thạo có trong tab Graph.'}
-                            </p>
+                        <div className="border border-[rgba(0,0,0,0.08)] dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-[#1a1a1a] divide-y divide-border/40">
+                            {recentAttempts.slice(0, 5).map((attempt) => {
+                                const acc = attempt.questionCount > 0
+                                    ? Math.round((attempt.totalCorrect / attempt.questionCount) * 100)
+                                    : 0;
+                                const title = attempt.examTitle?.[lang] ?? attempt.examTitle?.vi ?? attempt.examTitle?.en ?? 'Exam';
+                                const dateStr = new Date(attempt.createdAt).toLocaleDateString(
+                                    lang === 'vi' ? 'vi-VN' : lang === 'ja' ? 'ja-JP' : 'en-US',
+                                    { month: 'short', day: 'numeric' },
+                                );
+                                return (
+                                    <div key={attempt.id} className="px-5 py-3.5 flex items-center justify-between gap-4">
+                                        <p className="text-sm text-foreground truncate min-w-0">{title}</p>
+                                        <div className="flex items-center gap-3 shrink-0">
+                                            <span className={`font-mono text-sm font-semibold tabular-nums ${
+                                                acc >= 70
+                                                    ? 'text-emerald-600 dark:text-emerald-400'
+                                                    : acc >= 40
+                                                    ? 'text-amber-600 dark:text-amber-400'
+                                                    : 'text-destructive'
+                                            }`}>{acc}%</span>
+                                            <span className="text-xs text-muted-foreground tabular-nums">{dateStr}</span>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </section>
+                    )}
+
                 </>
             )}
         </div>
