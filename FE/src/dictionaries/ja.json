@@ -192,6 +192,7 @@
   "alreadyHaveAccount": "すでにアカウントをお持ちですか？",
   "backToLogin": "ログインに戻る",
   "passwordMismatch": "パスワードが一致しません！",
+  "passwordTooShort": "パスワードは8文字以上必要です！",
   "language": "言語",
   "vi": "ベトナム語",
   "en": "英語",
