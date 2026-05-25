@@ -192,6 +192,7 @@
   "alreadyHaveAccount": "Already have an account?",
   "backToLogin": "Back to login",
   "passwordMismatch": "Passwords do not match!",
+  "passwordTooShort": "Password must be at least 8 characters!",
   "language": "Language",
   "vi": "Vietnamese",
   "en": "English",

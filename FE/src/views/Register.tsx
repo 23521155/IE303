@@ -20,6 +20,11 @@ export function Register({ t, lang }: { t: any; lang: string }) {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (password.length < 8) {
+            toast.error(t.passwordTooShort);
+            return;
+        }
+
         if (password !== confirmPassword) {
             toast.error(t.passwordMismatch);
             return;
