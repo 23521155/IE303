@@ -33,7 +33,6 @@ import Link from 'next/link';
 import { BE_URL } from '../utils/constans';
 import {AnalysisIcon} from "@/src/components/svg-icon/analysis";
 import { CreateIcon } from '@/src/components/svg-icon/create';
-import { PathIcon } from '@hugeicons/core-free-icons';
 import { PathLearnIcon } from '@/src/components/svg-icon/path';
 
 // ─── Shared types ──────────────────────────────────────────────────────────────
@@ -91,10 +90,10 @@ interface LearningPathResponse {
 // D4 structured output types
 interface ExplainTopicOutput {
     whyDifficult: { summary: string; points: string[] };
-    improvementPlan: {
+    improvementPlan?: {
         summary: string;
         steps: { order: number; action: string; estimatedMinutes: number }[];
-    };
+    } | null;
     prerequisiteOrder: { topicName: string; reason: string }[];
     citedSources: { sourceType: string; sourceId: string; snippet: string }[];
     confidence: 'HIGH' | 'MEDIUM' | 'LOW';
@@ -102,13 +101,13 @@ interface ExplainTopicOutput {
 
 interface LearningPathOutput {
     totalDays: number;
-    dailyPlan: {
+    dailyPlan?: {
         day: number;
         focusTopic: string;
         goal: string;
         tasks: { type: string; ref: string; minutes: number }[];
         totalMinutes: number;
-    }[];
+    }[] | null;
     weeklyMilestones: { week: number; milestone: string }[];
     citedSources: { sourceType: string; sourceId: string; snippet: string }[];
     confidence: 'HIGH' | 'MEDIUM' | 'LOW';
