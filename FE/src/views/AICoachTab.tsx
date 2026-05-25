@@ -33,7 +33,6 @@ import Link from 'next/link';
 import { BE_URL } from '../utils/constans';
 import {AnalysisIcon} from "@/src/components/svg-icon/analysis";
 import { CreateIcon } from '@/src/components/svg-icon/create';
-import { PathIcon } from '@hugeicons/core-free-icons';
 import { PathLearnIcon } from '@/src/components/svg-icon/path';
 
 // ─── Shared types ──────────────────────────────────────────────────────────────
@@ -88,6 +87,32 @@ interface LearningPathResponse {
     daysRemaining: number;
 }
 
+// D4 structured output types
+interface ExplainTopicOutput {
+    whyDifficult: { summary: string; points: string[] };
+    improvementPlan?: {
+        summary: string;
+        steps: { order: number; action: string; estimatedMinutes: number }[];
+    } | null;
+    prerequisiteOrder: { topicName: string; reason: string }[];
+    citedSources: { sourceType: string; sourceId: string; snippet: string }[];
+    confidence: 'HIGH' | 'MEDIUM' | 'LOW';
+}
+
+interface LearningPathOutput {
+    totalDays: number;
+    dailyPlan?: {
+        day: number;
+        focusTopic: string;
+        goal: string;
+        tasks: { type: string; ref: string; minutes: number }[];
+        totalMinutes: number;
+    }[] | null;
+    weeklyMilestones: { week: number; milestone: string }[];
+    citedSources: { sourceType: string; sourceId: string; snippet: string }[];
+    confidence: 'HIGH' | 'MEDIUM' | 'LOW';
+}
+
 // ─── Graph helpers ────────────────────────────────────────────────────────────
 
 function getMasteryColor(score: number, attempts: number): string {
@@ -137,6 +162,44 @@ function saveCachedPath(userId: string, data: LearningPathResponse, days: number
 
 function clearCachedPath(userId: string): void {
     try { localStorage.removeItem(`${LEARNING_PATH_STORAGE_KEY}-${userId}`); } catch {}
+}
+
+function formatExplainText(output: ExplainTopicOutput): string {
+    if (!output) return '';
+    const lines: string[] = [];
+    const why = output.whyDifficult;
+    if (why?.summary) lines.push(why.summary);
+    why?.points?.forEach(p => lines.push(`• ${p}`));
+    const plan = output.improvementPlan;
+    if (plan?.summary) { lines.push(''); lines.push(plan.summary); }
+    plan?.steps?.forEach(s => lines.push(`${s.order}. ${s.action} (${s.estimatedMinutes} phút)`));
+    const prereqs = output.prerequisiteOrder;
+    if (prereqs?.length) {
+        lines.push('');
+        prereqs.forEach(p => lines.push(`→ ${p.topicName}: ${p.reason}`));
+    }
+    return lines.join('\n');
+}
+
+function formatLearningPathText(output: LearningPathOutput): string {
+    if (!output) return '';
+    const lines: string[] = [];
+    lines.push(`Lộ trình ${output.totalDays} ngày\n`);
+    for (const day of output.dailyPlan ?? []) {
+        lines.push(`Ngày ${day.day} — ${day.focusTopic}`);
+        lines.push(`Mục tiêu: ${day.goal}`);
+        for (const task of day.tasks ?? []) {
+            lines.push(`  • [${task.type}] ${task.ref} — ${task.minutes} phút`);
+        }
+        lines.push(`Tổng: ${day.totalMinutes} phút\n`);
+    }
+    if ((output.weeklyMilestones ?? []).length > 0) {
+        lines.push('Mốc tuần:');
+        for (const m of output.weeklyMilestones) {
+            lines.push(`  Tuần ${m.week}: ${m.milestone}`);
+        }
+    }
+    return lines.join('\n');
 }
 
 function loadSavedPositions(userId: string | null): SavedPositions | null {
@@ -309,21 +372,26 @@ interface NodeDetailPanelProps {
     explainText: string;
     explainLoading: boolean;
     explainStreaming: boolean;
+    explainOutput: ExplainTopicOutput | null;
     onExplain: () => void;
     onClose: () => void;
     lang: string;
 }
 
-function NodeDetailPanel({ node, explainText, explainLoading, explainStreaming, onExplain, onClose, lang }: NodeDetailPanelProps) {
+const CONFIDENCE_STYLE: Record<string, string> = {
+    HIGH: 'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50',
+    MEDIUM: 'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800/50',
+    LOW: 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800/50',
+};
+
+function NodeDetailPanel({ node, explainText, explainLoading, explainStreaming, explainOutput, onExplain, onClose, lang }: NodeDetailPanelProps) {
     const color = getMasteryColor(node.masteryScore, node.totalAttempts);
-    const busy = explainLoading || explainStreaming;
 
     const [displayText, setDisplayText] = useState('');
     const targetRef = useRef('');
     const cursorRef = useRef(0);
     const animRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Reset typewriter when switching nodes
     useEffect(() => {
         cursorRef.current = 0;
         targetRef.current = '';
@@ -331,27 +399,17 @@ function NodeDetailPanel({ node, explainText, explainLoading, explainStreaming, 
         if (animRef.current) { clearTimeout(animRef.current); animRef.current = null; }
     }, [node.id]);
 
-    // Typewriter effect — reveals text at ~300 chars/s
     useEffect(() => {
         targetRef.current = explainText;
-        if (!explainText) {
-            cursorRef.current = 0;
-            setDisplayText('');
-            return;
-        }
+        if (!explainText) { cursorRef.current = 0; setDisplayText(''); return; }
         const tick = () => {
-            if (cursorRef.current >= targetRef.current.length) {
-                animRef.current = null;
-                return;
-            }
+            if (cursorRef.current >= targetRef.current.length) { animRef.current = null; return; }
             cursorRef.current = Math.min(cursorRef.current + 5, targetRef.current.length);
             setDisplayText(targetRef.current.slice(0, cursorRef.current));
             animRef.current = setTimeout(tick, 16);
         };
         tick();
-        return () => {
-            if (animRef.current) { clearTimeout(animRef.current); animRef.current = null; }
-        };
+        return () => { if (animRef.current) { clearTimeout(animRef.current); animRef.current = null; } };
     }, [explainText]);
 
     const isTyping = displayText.length < explainText.length;
@@ -396,9 +454,7 @@ function NodeDetailPanel({ node, explainText, explainLoading, explainStreaming, 
                 </div>
                 <p className="text-xs text-muted-foreground mt-1.5">
                     {node.totalAttempts === 0
-                        ? lang === 'en'
-                            ? 'No attempts yet'
-                            : 'Chưa làm bài'
+                        ? lang === 'en' ? 'No attempts yet' : 'Chưa làm bài'
                         : `${node.totalAttempts} ${lang === 'en' ? 'attempts' : 'lần thử'} · ${Math.round(node.errorRate)}% ${lang === 'en' ? 'error rate' : 'tỷ lệ sai'}`}
                 </p>
             </div>
@@ -407,10 +463,10 @@ function NodeDetailPanel({ node, explainText, explainLoading, explainStreaming, 
             <button
                 type="button"
                 onClick={onExplain}
-                disabled={busy}
+                disabled={explainLoading}
                 className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition-colors text-sm font-medium disabled:opacity-50"
             >
-                {busy ? (
+                {explainLoading ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                 ) : (
                     <BrainCircuit className="w-3.5 h-3.5" />
@@ -418,24 +474,98 @@ function NodeDetailPanel({ node, explainText, explainLoading, explainStreaming, 
                 {lang === 'en' ? 'AI Explain' : 'AI Giải thích'}
             </button>
 
-            {/* Streaming explanation */}
-            {(explainText || explainLoading) && (
+            {/* Loading */}
+            {explainLoading && !explainText && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Loader2 className="w-3 h-3 animate-spin shrink-0" />
+                    <span>{lang === 'en' ? 'Analyzing…' : 'Đang phân tích…'}</span>
+                </div>
+            )}
+
+            {/* Typewriter phase — plays while text is animating */}
+            {explainText && isTyping && (
                 <div>
                     <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-1.5">
                         {lang === 'en' ? 'Analysis' : 'Phân tích'}
                     </p>
-                    {explainLoading && !explainText ? (
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Loader2 className="w-3 h-3 animate-spin shrink-0" />
-                            <span>{lang === 'en' ? 'Analyzing…' : 'Đang phân tích…'}</span>
-                        </div>
-                    ) : (
-                        <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
-                            {displayText}
-                            {(explainStreaming || isTyping) && (
-                                <span className="inline-block w-0.5 h-3.5 bg-primary animate-pulse ml-0.5 align-middle" />
-                            )}
+                    <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
+                        {displayText}
+                        {(explainStreaming || isTyping) && (
+                            <span className="inline-block w-0.5 h-3.5 bg-primary animate-pulse ml-0.5 align-middle" />
+                        )}
+                    </p>
+                </div>
+            )}
+
+            {/* Structured output — shown after typewriter finishes */}
+            {explainOutput && !isTyping && (
+                <div className="space-y-3">
+                    {/* Confidence badge */}
+                    <div className="flex items-center justify-between">
+                        <p className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground">
+                            {lang === 'en' ? 'Analysis' : 'Phân tích'}
                         </p>
+                        <span className={`text-[0.6rem] font-semibold px-2 py-0.5 rounded-full border ${CONFIDENCE_STYLE[explainOutput.confidence] ?? CONFIDENCE_STYLE.MEDIUM}`}>
+                            {explainOutput.confidence}
+                        </span>
+                    </div>
+
+                    {/* Why difficult */}
+                    {explainOutput.whyDifficult && (
+                        <div className="rounded-lg bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 p-3 space-y-1.5">
+                            <p className="font-mono text-[0.6rem] uppercase tracking-widest text-red-600 dark:text-red-400">
+                                {lang === 'en' ? 'Why difficult' : 'Tại sao khó'}
+                            </p>
+                            <p className="text-xs text-foreground leading-relaxed">{explainOutput.whyDifficult.summary}</p>
+                            {(explainOutput.whyDifficult.points?.length ?? 0) > 0 && (
+                                <ul className="space-y-0.5">
+                                    {explainOutput.whyDifficult.points.map((pt, i) => (
+                                        <li key={i} className="text-xs text-muted-foreground flex gap-1.5">
+                                            <span className="shrink-0 text-red-400">·</span>
+                                            <span>{pt}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Improvement plan */}
+                    {explainOutput.improvementPlan && (
+                        <div className="rounded-lg bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30 p-3 space-y-1.5">
+                            <p className="font-mono text-[0.6rem] uppercase tracking-widest text-blue-600 dark:text-blue-400">
+                                {lang === 'en' ? 'Improvement plan' : 'Kế hoạch cải thiện'}
+                            </p>
+                            <p className="text-xs text-foreground leading-relaxed">{explainOutput.improvementPlan.summary}</p>
+                            {(explainOutput.improvementPlan.steps?.length ?? 0) > 0 && (
+                                <ol className="space-y-1">
+                                    {explainOutput.improvementPlan.steps.map((step) => (
+                                        <li key={step.order} className="text-xs text-muted-foreground flex gap-2">
+                                            <span className="shrink-0 font-mono text-blue-500">{step.order}.</span>
+                                            <span className="flex-1">{step.action}</span>
+                                            <span className="shrink-0 font-mono text-[0.6rem] text-muted-foreground/60">{step.estimatedMinutes}m</span>
+                                        </li>
+                                    ))}
+                                </ol>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Prerequisite order */}
+                    {(explainOutput.prerequisiteOrder?.length ?? 0) > 0 && (
+                        <div className="rounded-lg bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 p-3 space-y-1.5">
+                            <p className="font-mono text-[0.6rem] uppercase tracking-widest text-amber-600 dark:text-amber-400">
+                                {lang === 'en' ? 'Prerequisites' : 'Kiến thức tiên quyết'}
+                            </p>
+                            <ul className="space-y-1">
+                                {explainOutput.prerequisiteOrder.map((item, i) => (
+                                    <li key={i} className="text-xs text-muted-foreground flex gap-1.5">
+                                        <span className="shrink-0 text-amber-400">·</span>
+                                        <span><span className="font-medium text-foreground">{item.topicName}</span> — {item.reason}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     )}
                 </div>
             )}
@@ -458,6 +588,7 @@ export function AICoachGraphTab({
     const [explainText, setExplainText] = useState('');
     const [explainLoading, setExplainLoading] = useState(false);
     const [explainStreaming, setExplainStreaming] = useState(false);
+    const [explainOutput, setExplainOutput] = useState<ExplainTopicOutput | null>(null);
     const explainAbortRef = useRef<AbortController | null>(null);
 
     const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
@@ -528,6 +659,7 @@ export function AICoachGraphTab({
             const dto = (node.data as { dto: NodeDTO }).dto;
             setSelectedNode(dto);
             setExplainText('');
+            setExplainOutput(null);
             setExplainLoading(false);
             setExplainStreaming(false);
         },
@@ -538,53 +670,112 @@ export function AICoachGraphTab({
         if (!selectedNode || !userId) return;
 
         explainAbortRef.current?.abort();
+
         const controller = new AbortController();
         explainAbortRef.current = controller;
 
         setExplainText('');
+        setExplainOutput(null);
         setExplainLoading(true);
-        setExplainStreaming(true);
+        setExplainStreaming(false);
 
         try {
             const res = await fetch(
-                `${BE_URL}/api/coach/node/${selectedNode.id}/explain/stream?userId=${userId}`,
-                { credentials: 'include', signal: controller.signal },
+                `${BE_URL}/api/coach/node/${selectedNode.id}/explain?userId=${userId}`,
+                {
+                    credentials: 'include',
+                    signal: controller.signal,
+                },
             );
 
-            if (!res.ok || !res.body) throw new Error(String(res.status));
-
-            const reader = res.body.getReader();
-            const decoder = new TextDecoder();
-            let buffer = '';
-
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-
-                buffer += decoder.decode(value, { stream: true });
-
-                // Parse SSE lines: split on newline, handle multi-line data events
-                while (true) {
-                    const idx = buffer.indexOf('\n');
-                    if (idx === -1) break;
-                    const line = buffer.slice(0, idx);
-                    buffer = buffer.slice(idx + 1);
-                    if (line.startsWith('data: ')) {
-                        const chunk = line.slice(6);
-                        setExplainLoading(false);
-                        setExplainText((prev) => prev + chunk);
-                    }
-                }
+            if (!res.ok) {
+                throw new Error(String(res.status));
             }
+
+            // ─────────────────────────────────────────────
+            // API RESPONSE TYPE
+            // ─────────────────────────────────────────────
+            interface ExplainApiResponse {
+                success: boolean;
+                statusCode: number;
+                message: string;
+                data: {
+                    topicId: string;
+                    output: ExplainTopicOutput;
+                    prerequisites: string[];
+                    relatedTopics: string[];
+                };
+                path: string;
+                timestamp: string;
+                responseTime: string;
+            }
+
+            const resJson: ExplainApiResponse = await res.json();
+
+            console.log('Explain API response:', resJson);
+
+            // IMPORTANT:
+            // actual payload nằm trong resJson.data
+            const payload = resJson.data;
+
+            // fallback defensive
+            const safeOutput: ExplainTopicOutput = {
+                whyDifficult: {
+                    summary:
+                        payload.output?.whyDifficult?.summary ??
+                        '',
+                    points:
+                        payload.output?.whyDifficult?.points ?? [],
+                },
+
+                improvementPlan:
+                    payload.output?.improvementPlan ?? null,
+
+                prerequisiteOrder:
+                    payload.output?.prerequisiteOrder ?? [],
+
+                citedSources:
+                    payload.output?.citedSources ?? [],
+
+                confidence:
+                    payload.output?.confidence ?? 'MEDIUM',
+            };
+
+            // sanitize weird chars
+            if (safeOutput.whyDifficult?.summary) {
+                safeOutput.whyDifficult.summary =
+                    safeOutput.whyDifficult.summary.replace(
+                        /[^\p{L}\p{N}\p{P}\p{Z}]/gu,
+                        '',
+                    );
+            }
+
+            setExplainText(formatExplainText(safeOutput));
+            setExplainOutput(safeOutput);
+
         } catch (err) {
+            console.error('Explain failed:', err);
+
             if ((err as Error).name !== 'AbortError') {
-                // silently fail — user can retry
+                setExplainOutput({
+                    whyDifficult: {
+                        summary:
+                            lang === 'en'
+                                ? 'Failed to analyze this topic.'
+                                : 'Không thể phân tích chủ đề này.',
+                        points: [],
+                    },
+                    improvementPlan: null,
+                    prerequisiteOrder: [],
+                    citedSources: [],
+                    confidence: 'LOW',
+                });
             }
         } finally {
             setExplainLoading(false);
             setExplainStreaming(false);
         }
-    }, [selectedNode, userId]);
+    }, [selectedNode, userId, lang]);
 
     if (!userId || summaryLoading || graphLoading) {
         return <LoadingState t={t} />;
@@ -729,12 +920,14 @@ export function AICoachGraphTab({
                             explainText={explainText}
                             explainLoading={explainLoading}
                             explainStreaming={explainStreaming}
+                            explainOutput={explainOutput}
                             onExplain={handleExplain}
                             onClose={() => {
                                 explainAbortRef.current?.abort();
                                 explainAbortRef.current = null;
                                 setSelectedNode(null);
                                 setExplainText('');
+                                setExplainOutput(null);
                                 setExplainLoading(false);
                                 setExplainStreaming(false);
                             }}
@@ -754,9 +947,13 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
     const [daysRemaining, setDaysRemaining] = useState(14);
     const [pathData, setPathData] = useState<LearningPathResponse | null>(null);
     const [loading, setLoading] = useState(false);
+    const [isStreaming, setIsStreaming] = useState(false);
+    const [streamingText, setStreamingText] = useState('');
+    const [streamMeta, setStreamMeta] = useState<{ weakTopics: string[]; prerequisites: string[]; daysRemaining: number } | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [generatedAt, setGeneratedAt] = useState<string | null>(null);
     const [fromCache, setFromCache] = useState(false);
+    const generateAbortRef = useRef<AbortController | null>(null);
 
     // Load from localStorage on mount
     useEffect(() => {
@@ -807,23 +1004,44 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
 
     const generate = useCallback(async () => {
         if (!userId) return;
+
+        generateAbortRef.current?.abort();
+        const controller = new AbortController();
+        generateAbortRef.current = controller;
+
         setLoading(true);
         setError(null);
         setPathData(null);
+        setStreamMeta(null);
+        setStreamingText('');
+        setIsStreaming(false);
         setFromCache(false);
+
         try {
             const res = await fetch(
                 `${BE_URL}/api/coach/${userId}/learning-path?daysRemaining=${daysRemaining}`,
-                { credentials: 'include' },
+                { credentials: 'include', signal: controller.signal },
             );
             if (!res.ok) throw new Error(String(res.status));
             const json = await res.json();
-            const data = (json?.data ?? json) as LearningPathResponse;
-            setPathData(data);
+            const data = (json.data ?? json) as {
+                output: LearningPathOutput;
+                weakTopics: string[];
+                prerequisitesToReview: string[];
+                daysRemaining: number;
+            };
+
+            const finalData: LearningPathResponse = {
+                learningPath: formatLearningPathText(data.output),
+                weakTopics: data.weakTopics ?? [],
+                prerequisitesToReview: data.prerequisitesToReview ?? [],
+                daysRemaining: data.daysRemaining,
+            };
+            setPathData(finalData);
             setGeneratedAt(new Date().toISOString());
-            saveCachedPath(userId, data, daysRemaining);
-        } catch {
-            setError('failed');
+            saveCachedPath(userId, finalData, data.daysRemaining);
+        } catch (err) {
+            if ((err as Error).name !== 'AbortError') setError('failed');
         } finally {
             setLoading(false);
         }
@@ -835,8 +1053,8 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
         lang === 'en' ? en : lang === 'ja' ? ja : vi;
 
     const localeTag = { vi: 'vi-VN', ja: 'ja-JP' }[lang] ?? 'en-US';
-    const weakTopics = pathData?.weakTopics ?? [];
-    const prerequisites = pathData?.prerequisitesToReview ?? [];
+    const weakTopics = pathData?.weakTopics ?? streamMeta?.weakTopics ?? [];
+    const prerequisites = pathData?.prerequisitesToReview ?? streamMeta?.prerequisites ?? [];
 
     const cacheLabel = generatedAt
         ? new Date(generatedAt).toLocaleString(localeTag, {
@@ -922,7 +1140,7 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
             )}
 
             {/* ── Results ── */}
-            {!loading && pathData && (
+            {!loading && (pathData || isStreaming) && (
                 <>
                     {weakTopics.length === 0 ? (
                         <div className="border border-border/60 rounded-lg p-6 flex items-start gap-3">
@@ -978,13 +1196,13 @@ export function AICoachPathTab({ t, lang, userId, summaryLoading }: AICoachTabPr
                                 <p className="font-mono text-[0.65rem] uppercase tracking-widest text-muted-foreground mb-3">
                                     {lbl('Lộ trình học AI', 'AI Study Plan', 'AI学習プラン')}
                                     <span className="ml-1.5 normal-case font-normal text-muted-foreground/60">
-                                        — {pathData.daysRemaining} {lbl('ngày', 'days', '日')}
+                                        — {pathData?.daysRemaining ?? streamMeta?.daysRemaining ?? daysRemaining} {lbl('ngày', 'days', '日')}
                                     </span>
                                 </p>
                                 <div className="rounded-xl p-5 bg-primary/[0.04] dark:bg-primary/[0.07] border border-primary/15 dark:border-primary/20">
                                     <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
-                                        {displayText}
-                                        {isTyping && (
+                                        {isStreaming ? streamingText : displayText}
+                                        {(isStreaming || isTyping) && (
                                             <span className="inline-block w-0.5 h-3.5 bg-primary animate-pulse ml-0.5 align-middle" />
                                         )}
                                     </p>

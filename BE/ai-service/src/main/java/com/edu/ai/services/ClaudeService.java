@@ -1,5 +1,9 @@
 package com.edu.ai.services;
 
+import com.edu.ai.dtos.ExplainTopicOutput;
+import com.edu.ai.dtos.LearningPathOutput;
+import com.edu.ai.services.prompt.PromptBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,9 +18,14 @@ import java.util.Map;
 @Slf4j
 public class ClaudeService implements LLMService {
 
-    private final RestClient restClient;
+    private static final String MODEL = "claude-sonnet-4-6";
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    public ClaudeService(@Value("${anthropic.api-key}") String apiKey) {
+    private final RestClient restClient;
+    private final PromptBuilder promptBuilder;
+
+    public ClaudeService(@Value("${anthropic.api-key}") String apiKey, PromptBuilder promptBuilder) {
+        this.promptBuilder = promptBuilder;
         this.restClient = RestClient.builder()
             .baseUrl("https://api.anthropic.com")
             .defaultHeader("x-api-key", apiKey)
@@ -26,25 +35,50 @@ public class ClaudeService implements LLMService {
     }
 
     @Override
-    public String generateLearningPath(List<String> weakTopics, List<String> prerequisites, Integer daysRemaining) {
-        log.info("Generating learning path via Claude for {} days", daysRemaining);
-        String prompt = buildLearningPathPrompt(weakTopics, prerequisites, daysRemaining);
-        return call(prompt);
+    public ExplainTopicOutput explainTopic(String topicName, Double masteryScore,
+                                           List<String> prerequisites, String contextBlock) {
+        log.info("Explaining topic '{}' via Claude structured, mastery={}%", topicName, masteryScore);
+        String userPrompt = promptBuilder.buildExplainUserPrompt(topicName, masteryScore, prerequisites, contextBlock);
+        return callStructured(
+            promptBuilder.getExplainSystemPrompt(),
+            userPrompt,
+            "emit_explanation",
+            promptBuilder.getExplainSchemaClaud(),
+            2000,
+            ExplainTopicOutput.class
+        );
     }
 
     @Override
-    public String explainTopic(String topicName, Double masteryScore, List<String> prerequisites) {
-        log.info("Explaining topic '{}' via Claude, mastery={}%", topicName, masteryScore);
-        String prompt = buildExplainPrompt(topicName, masteryScore, prerequisites);
-        return call(prompt);
+    public LearningPathOutput generateLearningPath(List<String> weakTopics, List<String> prerequisites,
+                                                   Integer daysRemaining, String contextBlock) {
+        log.info("Generating learning path via Claude structured for {} days", daysRemaining);
+        String userPrompt = promptBuilder.buildLearningPathUserPrompt(weakTopics, prerequisites, daysRemaining, contextBlock);
+        return callStructured(
+            promptBuilder.getLearningPathSystemPrompt(),
+            userPrompt,
+            "emit_learning_path",
+            promptBuilder.getLearningPathSchemaClaud(),
+            3000,
+            LearningPathOutput.class
+        );
     }
 
     @SuppressWarnings("unchecked")
-    private String call(String prompt) {
+    private <T> T callStructured(String systemPrompt, String userPrompt,
+                                 String toolName, Map<String, Object> inputSchema,
+                                 int maxTokens, Class<T> responseType) {
         Map<String, Object> body = Map.of(
-            "model", "claude-3-5-sonnet-20241022",
-            "max_tokens", 1500,
-            "messages", List.of(Map.of("role", "user", "content", prompt))
+            "model", MODEL,
+            "max_tokens", maxTokens,
+            "system", systemPrompt,
+            "tools", List.of(Map.of(
+                "name", toolName,
+                "description", "Emit structured response",
+                "input_schema", inputSchema
+            )),
+            "tool_choice", Map.of("type", "tool", "name", toolName),
+            "messages", List.of(Map.of("role", "user", "content", userPrompt))
         );
         try {
             Map<?, ?> response = restClient.post()
@@ -54,47 +88,16 @@ public class ClaudeService implements LLMService {
                 .body(Map.class);
 
             List<Map<?, ?>> content = (List<Map<?, ?>>) response.get("content");
-            return (String) content.get(0).get("text");
+            Map<?, ?> toolUse = content.stream()
+                .filter(c -> "tool_use".equals(c.get("type")))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No tool_use in Claude response"));
+
+            String inputJson = OBJECT_MAPPER.writeValueAsString(toolUse.get("input"));
+            return OBJECT_MAPPER.readValue(inputJson, responseType);
         } catch (Exception e) {
-            log.error("Claude API error", e);
-            throw new RuntimeException("Failed to call Claude API", e);
+            log.error("Claude structured call failed for {}", responseType.getSimpleName(), e);
+            throw new RuntimeException("Failed to get structured response from Claude", e);
         }
-    }
-
-    private String buildLearningPathPrompt(List<String> weakTopics, List<String> prerequisites, Integer days) {
-        return """
-            Bạn là giáo viên ôn thi IT Passport. Hãy tạo lộ trình ôn tập %d ngày.
-
-            Chủ đề yếu (dưới 70%%):
-            - %s
-
-            Chủ đề tiên quyết cần ôn lại:
-            - %s
-
-            Yêu cầu:
-            1. Kế hoạch cụ thể từng ngày (mục tiêu + thời gian + phương pháp)
-            2. Ưu tiên chủ đề tiên quyết trước
-            3. Ngày cuối: ôn tổng hợp
-            Trả lời bằng tiếng Việt, thực tế, ngắn gọn.
-            """.formatted(days,
-                String.join("\n- ", weakTopics),
-                prerequisites.isEmpty() ? "Không có" : String.join("\n- ", prerequisites));
-    }
-
-    private String buildExplainPrompt(String topicName, Double masteryScore, List<String> prerequisites) {
-        return """
-            Học viên đang gặp khó khăn với chủ đề: %s (thành thạo: %.0f%%)
-
-            Chủ đề tiên quyết cần ôn lại:
-            - %s
-
-            Hãy:
-            1. Giải thích tại sao học viên khó khăn với chủ đề này
-            2. Cách tiếp cận hiệu quả để cải thiện
-            3. Gợi ý ôn chủ đề tiên quyết nào trước
-            4. Một ví dụ thực tế đơn giản
-            Trả lời bằng tiếng Việt, thân thiện, khuyến khích.
-            """.formatted(topicName, masteryScore,
-                prerequisites.isEmpty() ? "Không có" : String.join("\n- ", prerequisites));
     }
 }

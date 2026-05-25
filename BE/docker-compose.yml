@@ -111,11 +111,17 @@ services:
         condition: service_healthy
     networks:
       - be-network
+    volumes:
+      - ./material_service/Material_Data:/app/material-data:ro
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
       - LLM_PROVIDER=${LLM_PROVIDER:-gemini}
+      - AI_DB_URL=${AI_DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - RAG_SOURCE_PATH=/app/material-data
 
   # 7. Material Service
   material_service:

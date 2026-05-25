@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class NodeExplanationResponse {
     private String topicId;
-    private String explanation;
-    private List<String> recommendations;
+    private ExplainTopicOutput output;
+    private List<String> prerequisites;
     private List<String> relatedTopics;
 }

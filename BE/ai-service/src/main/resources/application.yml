@@ -1,6 +1,30 @@
 spring:
   application:
     name: ai-service
+  datasource:
+    url: ${AI_DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      keepalive-time: 30000       # ping Neon every 30s to prevent suspension
+      connection-timeout: 30000
+      idle-timeout: 120000
+      max-lifetime: 300000
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  mvc:
+    async:
+      request-timeout: 90000
 
 server:
   port: 8085
@@ -14,10 +38,24 @@ anthropic:
 gemini:
   api-key: ${GEMINI_API_KEY:}
 
+rag:
+  ingest:
+    source-path: ${RAG_SOURCE_PATH:}
+    min-chunk-words: 30
+  chunk:
+    book-size: 300        # words per chunk for book PDFs
+    book-overlap: 60
+    question-size: 230    # words per chunk for exam question PDFs
+    question-overlap: 45
+  embedding:
+    batch-size: 32
+  retrieval:
+    top-k: 6
+
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
