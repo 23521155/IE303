@@ -258,12 +258,12 @@ export function Register({ t, lang }: { t: any; lang: string }) {
                                         <option value="" disabled hidden>
                                             {t.chooseStatus}
                                         </option>
-                                        <option value="thcs">{t.statusMS}</option>
-                                        <option value="thpt">{t.statusHS}</option>
-                                        <option value="daihoc">{t.statusUni}</option>
-                                        <option value="caohoc">{t.statusGrad}</option>
-                                        <option value="dilam">{t.statusWorking}</option>
-                                        <option value="khac">{t.statusOther}</option>
+                                        <option value="thcs" className='dark:text-black'>{t.statusMS}</option>
+                                        <option value="thpt" className='dark:text-black'>{t.statusHS}</option>
+                                        <option value="daihoc" className='dark:text-black'>{t.statusUni}</option>
+                                        <option value="caohoc" className='dark:text-black'>{t.statusGrad}</option>
+                                        <option value="dilam" className='dark:text-black'>{t.statusWorking}</option>
+                                        <option value="khac" className='dark:text-black'>{t.statusOther}</option>
                                     </select>
                                     <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/50 pointer-events-none" />
                                 </div>

@@ -186,7 +186,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                 </Link>
                                 <Link
                                     href={`/${lang}/register`}
-                                    className="h-8 px-3.5 text-sm font-medium bg-primary text-white hover:bg-primary/90 rounded-md inline-flex items-center transition-colors ml-0.5"
+                                    className="h-8 px-3.5 text-sm font-medium bg-primary text-white dark:text-black hover:bg-primary/90 rounded-md inline-flex items-center transition-colors ml-0.5"
                                 >
                                     {t.register}
                                 </Link>
@@ -340,7 +340,7 @@ export default function Header({ t, lang }: { t: any; lang: string }) {
                                 <Link
                                     href={`/${lang}/register`}
                                     onClick={() => setIsMenuOpen(false)}
-                                    className="block w-full py-2.5 px-3 text-sm font-medium bg-primary text-white hover:bg-primary/90 rounded-md transition-colors text-center"
+                                    className="block w-full py-2.5 px-3 text-sm font-medium bg-primary text-white dark:text-black hover:bg-primary/90 rounded-md transition-colors text-center"
                                 >
                                     {t.register}
                                 </Link>
