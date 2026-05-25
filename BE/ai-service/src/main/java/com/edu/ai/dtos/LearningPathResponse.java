@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LearningPathResponse {
-    private String learningPath;
+    private LearningPathOutput output;
     private List<String> weakTopics;
     private List<String> prerequisitesToReview;
     private Integer daysRemaining;

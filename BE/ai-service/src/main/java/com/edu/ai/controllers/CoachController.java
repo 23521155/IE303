@@ -44,12 +44,26 @@ public class CoachController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping(value = "/{userId}/learning-path/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter streamGenerateLearningPath(
+            @PathVariable String userId,
+            @RequestParam(required = false, defaultValue = "14") Integer daysRemaining) {
+        log.info("SSE stream learning path for userId: {}, days: {}", userId, daysRemaining);
+        SseEmitter emitter = new SseEmitter(120_000L);
+
+        CompletableFuture.runAsync(() ->
+            coachService.streamGenerateLearningPath(userId, daysRemaining, emitter)
+        );
+
+        return emitter;
+    }
+
     @GetMapping(value = "/node/{topicId}/explain/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamExplainTopic(
             @PathVariable String topicId,
             @RequestParam String userId) {
         log.info("SSE stream explain topic {} for userId: {}", topicId, userId);
-        SseEmitter emitter = new SseEmitter(60_000L);
+        SseEmitter emitter = new SseEmitter(90_000L);
 
         CompletableFuture.runAsync(() -> {
             try {
