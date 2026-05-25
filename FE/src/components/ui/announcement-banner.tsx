@@ -32,7 +32,7 @@ export function AnnouncementBanner({ t, lang }: { t: any; lang: string }) {
                 <div className="flex items-center gap-2 shrink-0">
                     <Link
                         href={`/${lang}/register`}
-                        className="text-xs font-semibold bg-primary text-white px-3 py-1.5 rounded-md hover:bg-primary/85 transition-colors whitespace-nowrap"
+                        className="text-xs font-semibold bg-primary text-white dark:text-black px-3 py-1.5 rounded-md hover:bg-primary/85 transition-colors whitespace-nowrap"
                     >
                         {t.registerNow}
                     </Link>
