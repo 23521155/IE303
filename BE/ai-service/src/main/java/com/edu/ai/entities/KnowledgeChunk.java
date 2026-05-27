@@ -41,6 +41,10 @@ public class KnowledgeChunk {
     @Column(name = "chunk_index", nullable = false)
     private int chunkIndex;
 
+    /** WORD_WINDOW | SEMANTIC — see ChunkingStrategy. */
+    @Column(name = "chunk_strategy", nullable = false, length = 32)
+    private String chunkStrategy;
+
     @Column(name = "chunk_text", nullable = false, columnDefinition = "TEXT")
     private String chunkText;
 

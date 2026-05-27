@@ -56,6 +56,7 @@ rag:
     batch-size: 32
   retrieval:
     top-k: 6
+    chunk-strategy: ${RAG_RETRIEVAL_STRATEGY:WORD_WINDOW}  # WORD_WINDOW | SEMANTIC | ANY
 
 eureka:
   client:
