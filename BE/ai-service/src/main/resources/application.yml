@@ -43,10 +43,15 @@ rag:
     source-path: ${RAG_SOURCE_PATH:}
     min-chunk-words: 30
   chunk:
-    book-size: 300        # words per chunk for book PDFs
+    book-size: 300        # words per chunk for book PDFs (WORD_WINDOW)
     book-overlap: 60
-    question-size: 230    # words per chunk for exam question PDFs
+    question-size: 230    # words per chunk for exam question PDFs (WORD_WINDOW)
     question-overlap: 45
+    semantic:
+      buffer-size: 1            # sentences of context to add on each side when embedding
+      breakpoint-percentile: 90 # higher = fewer, larger semantic chunks
+      min-words: 30             # discard semantic chunks smaller than this
+      max-words: 400            # oversized semantic chunks fall back to a word-window split
   embedding:
     batch-size: 32
   retrieval:
