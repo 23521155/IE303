@@ -113,6 +113,18 @@ public class IngestService {
         String sourceType = type.name();
         String strategyName = strategy.name();
 
+        // SEMANTIC chunking has to embed every sentence before it knows the
+        // chunk boundaries, so re-chunking an already-ingested file burns
+        // minutes of API time only to discover nothing needs saving. Skip at
+        // the file level before paying that cost. WORD_WINDOW chunking is
+        // free, so we keep its per-chunk dedup below to let partial ingests
+        // resume cleanly.
+        if (strategy == ChunkingStrategy.SEMANTIC
+                && repository.existsBySourceTypeAndSourceIdAndChunkStrategy(sourceType, sourceId, strategyName)) {
+            log.info("Skipping {} — already ingested for strategy={}", filename, strategyName);
+            return 0;
+        }
+
         String text = extractText(pdfPath);
         if (text == null || text.isBlank()) {
             log.warn("No text extracted from {}", filename);

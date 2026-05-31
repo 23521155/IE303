@@ -38,6 +38,10 @@ public interface KnowledgeChunkRepository extends JpaRepository<KnowledgeChunk, 
     boolean existsBySourceTypeAndSourceIdAndChunkIndexAndChunkStrategy(
             String sourceType, String sourceId, int chunkIndex, String chunkStrategy);
 
+    /** Cheap file-level dedup: did this strategy already ingest anything for this source? */
+    boolean existsBySourceTypeAndSourceIdAndChunkStrategy(
+            String sourceType, String sourceId, String chunkStrategy);
+
     void deleteBySourceTypeAndSourceIdAndChunkStrategy(
             String sourceType, String sourceId, String chunkStrategy);
 
