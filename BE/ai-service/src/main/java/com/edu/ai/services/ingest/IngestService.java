@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +22,7 @@ public class IngestService {
 
     private final EmbeddingClient embeddingClient;
     private final KnowledgeChunkRepository repository;
+    private final SemanticChunker semanticChunker;
 
     @Value("${rag.ingest.source-path:}")
     private String sourcePath;
@@ -45,13 +45,21 @@ public class IngestService {
     @Value("${rag.ingest.min-chunk-words:30}")
     private int minChunkWords;
 
-    public IngestService(EmbeddingClient embeddingClient, KnowledgeChunkRepository repository) {
+    public IngestService(EmbeddingClient embeddingClient,
+                         KnowledgeChunkRepository repository,
+                         SemanticChunker semanticChunker) {
         this.embeddingClient = embeddingClient;
         this.repository = repository;
+        this.semanticChunker = semanticChunker;
     }
 
-    /** Scans the configured source path and ingests all eligible PDFs. */
+    /** Legacy entry point — kept so existing callers default to word-window. */
     public IngestResult ingestAll() {
+        return ingestAll(ChunkingStrategy.WORD_WINDOW);
+    }
+
+    /** Scans the configured source path and ingests all eligible PDFs with the given strategy. */
+    public IngestResult ingestAll(ChunkingStrategy strategy) {
         if (sourcePath == null || sourcePath.isBlank()) {
             return new IngestResult(0, 0, 0, 0, 0, List.of("RAG_SOURCE_PATH is not configured"));
         }
@@ -66,7 +74,7 @@ public class IngestService {
             return new IngestResult(0, 0, 0, 0, 0, List.of("Cannot scan path: " + e.getMessage()));
         }
 
-        log.info("Found {} PDF files under {}", pdfFiles.size(), sourcePath);
+        log.info("Found {} PDF files under {} (strategy={})", pdfFiles.size(), sourcePath, strategy);
 
         int processed = 0, skipped = 0, newChunks = 0;
         List<String> errors = new ArrayList<>();
@@ -81,7 +89,7 @@ public class IngestService {
             }
 
             try {
-                int added = ingestFile(pdf, type);
+                int added = ingestFile(pdf, type, strategy);
                 newChunks += added;
                 processed++;
                 log.info("[{}/{}] {} → {} new chunks", processed, pdfFiles.size(), filename, added);
@@ -93,16 +101,29 @@ public class IngestService {
         }
 
         long total = repository.countAll();
-        log.info("Ingest complete. processed={}, skipped={}, newChunks={}, totalInDb={}",
-                processed, skipped, newChunks, total);
+        log.info("Ingest complete. strategy={}, processed={}, skipped={}, newChunks={}, totalInDb={}",
+                strategy, processed, skipped, newChunks, total);
         return new IngestResult(pdfFiles.size(), processed, skipped, newChunks, total, errors);
     }
 
-    /** Ingests a single PDF file. Returns number of new chunks added. */
-    public int ingestFile(Path pdfPath, PdfSourceClassifier.PdfType type) throws IOException {
+    /** Ingests a single PDF file using the given chunking strategy. Returns number of new chunks added. */
+    public int ingestFile(Path pdfPath, PdfSourceClassifier.PdfType type, ChunkingStrategy strategy) throws IOException {
         String filename = pdfPath.getFileName().toString();
         String sourceId = PdfSourceClassifier.sourceId(filename);
         String sourceType = type.name();
+        String strategyName = strategy.name();
+
+        // SEMANTIC chunking has to embed every sentence before it knows the
+        // chunk boundaries, so re-chunking an already-ingested file burns
+        // minutes of API time only to discover nothing needs saving. Skip at
+        // the file level before paying that cost. WORD_WINDOW chunking is
+        // free, so we keep its per-chunk dedup below to let partial ingests
+        // resume cleanly.
+        if (strategy == ChunkingStrategy.SEMANTIC
+                && repository.existsBySourceTypeAndSourceIdAndChunkStrategy(sourceType, sourceId, strategyName)) {
+            log.info("Skipping {} — already ingested for strategy={}", filename, strategyName);
+            return 0;
+        }
 
         String text = extractText(pdfPath);
         if (text == null || text.isBlank()) {
@@ -110,29 +131,36 @@ public class IngestService {
             return 0;
         }
 
-        int chunkSize = (type == PdfSourceClassifier.PdfType.BOOK) ? bookChunkSize : questionChunkSize;
-        int overlap   = (type == PdfSourceClassifier.PdfType.BOOK) ? bookOverlap   : questionOverlap;
-        List<String> chunks = TextChunker.chunk(text, chunkSize, overlap, minChunkWords);
+        List<String> chunks = switch (strategy) {
+            case WORD_WINDOW -> {
+                int size    = (type == PdfSourceClassifier.PdfType.BOOK) ? bookChunkSize : questionChunkSize;
+                int overlap = (type == PdfSourceClassifier.PdfType.BOOK) ? bookOverlap   : questionOverlap;
+                yield TextChunker.chunk(text, size, overlap, minChunkWords);
+            }
+            case SEMANTIC -> semanticChunker.chunk(text);
+        };
 
         if (chunks.isEmpty()) {
-            log.warn("Zero usable chunks from {}", filename);
+            log.warn("Zero usable chunks from {} (strategy={})", filename, strategy);
             return 0;
         }
 
         String examCode = PdfSourceClassifier.examCode(pdfPath);
-        String metadata = String.format("{\"exam_code\":\"%s\",\"filename\":\"%s\"}", examCode, filename);
+        String metadata = String.format("{\"exam_code\":\"%s\",\"filename\":\"%s\",\"strategy\":\"%s\"}",
+                examCode, filename, strategyName);
 
         int newCount = 0;
         for (int i = 0; i < chunks.size(); i += embBatchSize) {
             int end = Math.min(i + embBatchSize, chunks.size());
             List<String> batch = chunks.subList(i, end);
 
-            // Check DB first — only embed chunks that don't exist yet
+            // Dedup is now strategy-aware so the two strategies can coexist for the same file.
             List<Integer> newLocalIndices = new ArrayList<>();
             List<String> chunksToEmbed = new ArrayList<>();
             for (int j = 0; j < batch.size(); j++) {
                 int chunkIdx = i + j;
-                if (!repository.existsBySourceTypeAndSourceIdAndChunkIndex(sourceType, sourceId, chunkIdx)) {
+                if (!repository.existsBySourceTypeAndSourceIdAndChunkIndexAndChunkStrategy(
+                        sourceType, sourceId, chunkIdx, strategyName)) {
                     newLocalIndices.add(j);
                     chunksToEmbed.add(batch.get(j));
                 }
@@ -150,6 +178,7 @@ public class IngestService {
                         .sourceId(sourceId)
                         .lang("en")
                         .chunkIndex(chunkIdx)
+                        .chunkStrategy(strategyName)
                         .chunkText(chunksToEmbed.get(k))
                         .tokenCount(chunksToEmbed.get(k).split("\\s+").length)
                         .embedding(EmbeddingClient.toVectorString(embeddings.get(k)))

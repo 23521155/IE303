@@ -80,9 +80,9 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Score Card */}
                 <div className="bg-white dark:bg-[#1a1a1a] rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden mb-10 transition-colors duration-300">
-                    <div className="bg-blue-600 p-8 text-center relative overflow-hidden">
-                        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-500 rounded-full opacity-50 blur-2xl"></div>
-                        <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-blue-700 rounded-full opacity-50 blur-2xl"></div>
+                    <div className="bg-[#e87921] dark:bg-black p-8 text-center relative overflow-hidden">
+                        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-[#e87921] dark:bg-black rounded-full opacity-50 blur-2xl"></div>
+                        <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-[#e87921] dark:bg-black rounded-full opacity-50 blur-2xl"></div>
 
                         <Award className="h-20 w-20 text-yellow-300 mx-auto mb-4 relative z-10 drop-shadow-md" />
                         <h1 className="text-3xl font-bold text-white mb-2 relative z-10">{t.examCompleted}</h1>
@@ -174,7 +174,7 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
                                 onClick={() => {
                                     document.getElementById('review-section')?.scrollIntoView({ behavior: 'smooth' });
                                 }}
-                                className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold transition-colors shadow-lg shadow-blue-200 dark:shadow-none"
+                                className="flex items-center justify-center gap-2 bg-[#e87921] hover:bg-[#D96B1A] dark:bg-black dark:hover:bg-[#111] text-white px-8 py-4 rounded-xl font-bold transition-colors shadow-lg shadow-blue-200 dark:shadow-none"
                             >
                                 <FileText className="h-5 w-5" /> {t.viewDetailsBtn}
                             </button>
@@ -199,7 +199,7 @@ export function ExamResult({ t, lang, id }: { t: any; lang: string; id: string }
                 >
                     <div className="p-6 sm:p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-[#222] transition-colors duration-300">
                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
-                            <BarChart3 className="h-7 w-7 text-blue-600 dark:text-blue-500" /> {t.reviewAnswers}
+                            <BarChart3 className="h-7 w-7 text-[#e87921] dark:text-black" /> {t.reviewAnswers}
                         </h2>
                     </div>
 

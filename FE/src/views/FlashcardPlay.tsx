@@ -402,7 +402,7 @@ export function FlashcardPlay({ t, lang }: { t: any; lang: string }) {
                             <div className="w-px h-5 bg-border/60 mx-0.5 flex-shrink-0" />
                             <Link
                                 href={`/${lang}/flashcards`}
-                                className="h-10 px-5 rounded-full flex items-center gap-2 text-sm font-semibold bg-primary text-white hover:bg-primary/90 transition-colors cursor-pointer"
+                                className="h-10 px-5 rounded-full flex items-center gap-2 text-sm font-semibold bg-primary text-white dark:text-black hover:bg-primary/90 transition-colors cursor-pointer"
                             >
                                 {t.backToLibrary || 'Về thư viện'}
                             </Link>

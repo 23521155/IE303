@@ -3,6 +3,7 @@ package com.edu.ai.services;
 import com.edu.ai.entities.KnowledgeChunk;
 import com.edu.ai.repositories.KnowledgeChunkRepository;
 import com.edu.ai.services.embedding.EmbeddingClient;
+import com.edu.ai.services.ingest.ChunkingStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,14 @@ public class RagService {
     @Value("${rag.retrieval.top-k:6}")
     private int topK;
 
+    /**
+     * Which chunking strategy to retrieve from. Set to {@code SEMANTIC} once
+     * semantic ingest has been run and looks good; leave as {@code WORD_WINDOW}
+     * (or blank for "any strategy") for the original behaviour.
+     */
+    @Value("${rag.retrieval.chunk-strategy:WORD_WINDOW}")
+    private String retrievalStrategy;
+
     // Cache: query string → vector string "[0.1,0.2,...]"
     private final Map<String, String> vectorCache = new ConcurrentHashMap<>();
 
@@ -30,14 +39,23 @@ public class RagService {
     }
 
     /**
-     * Retrieves top-K relevant chunks for a query.
+     * Retrieves top-K relevant chunks for a query using the configured strategy.
      * Caches the query embedding to avoid repeated Gemini API calls for the same topic.
      * Returns null (graceful degradation) if embedding fails.
      */
     public String retrieveContext(String query) {
+        return retrieveContext(query, resolvedStrategy());
+    }
+
+    /**
+     * Retrieves top-K relevant chunks restricted to the given chunking strategy.
+     * Pass {@code null} to search across all strategies.
+     */
+    public String retrieveContext(String query, ChunkingStrategy strategy) {
         try {
             String queryVec = vectorCache.computeIfAbsent(query, this::embedQuery);
-            List<KnowledgeChunk> chunks = chunkRepository.findTopKSimilar(queryVec, null, topK);
+            String strategyName = strategy != null ? strategy.name() : null;
+            List<KnowledgeChunk> chunks = chunkRepository.findTopKSimilar(queryVec, null, strategyName, topK);
             return buildContextBlock(chunks);
         } catch (Exception e) {
             log.warn("RAG retrieval failed for query '{}', proceeding without context: {}", query, e.getMessage());
@@ -48,6 +66,13 @@ public class RagService {
     /** Evict a cached vector (call if topic name changes). */
     public void evict(String query) {
         vectorCache.remove(query);
+    }
+
+    private ChunkingStrategy resolvedStrategy() {
+        if (retrievalStrategy == null || retrievalStrategy.isBlank() || "ANY".equalsIgnoreCase(retrievalStrategy)) {
+            return null;
+        }
+        return ChunkingStrategy.fromString(retrievalStrategy);
     }
 
     private String embedQuery(String query) {
